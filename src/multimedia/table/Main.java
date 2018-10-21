@@ -1,14 +1,20 @@
 package table;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import table.model.IconPane;
+import table.model.ImagePane;
+import table.model.SectionKey;
 
 import java.util.ArrayList;
+
+import static table.model.Mail.*;
+import static table.model.SectionKey.*;
 
 public class Main extends Application {
 
@@ -26,14 +32,24 @@ public class Main extends Application {
     static final Double TABLE_LEFT_SECTION_WIDTH = 400d;
     static final Double TABLE_LEFT_SECTION_HEIGHT = TABLE_HEIGHT - TABLE_TOP_SECTION_HEIGHT;
 
+    //размеры центральной области стола с основным содержимым
+    static final Double TABLE_CENTER_SECTION_WIDTH = TABLE_WIDTH - TABLE_LEFT_SECTION_WIDTH;
+    static final Double TABLE_CENTER_SECTION_HEIGHT = TABLE_HEIGHT - TABLE_TOP_SECTION_HEIGHT;
+
+    public static Pane sectionPanel = new Pane();
+
     //лист ключевых слов разделов
     // из которых будет формироваться интерактивный стол
-    static ArrayList<String> section = new ArrayList<>();
+    static ArrayList<SectionKey> section = new ArrayList<>();
     static {
-        section.add("map");
-        section.add("case");
-        section.add("mail");
-        section.add("medal");
+        section.add(MAP);
+        section.add(CASE);
+        section.add(MAIL);
+        section.add(MEDAL);
+
+        //сделать определение пути к ресурсам на основании того,
+        // существует ли папка по пути RESOURCES_PATH
+        // если нет, то выдать ошибку
     }
 
     @Override
@@ -56,6 +72,13 @@ public class Main extends Application {
         topEmpty.setMaxHeight(topEmpty.getPrefHeight());
         root.setTop(topEmpty);
 
+        //создание центральной панели для отображения содержания раздела
+//        StackPane sectionPanel = new StackPane();
+        sectionPanel.setPrefWidth(TABLE_CENTER_SECTION_WIDTH);
+        sectionPanel.setPrefHeight(TABLE_CENTER_SECTION_HEIGHT);
+//        sectionPanel.setAlignment(Pos.CENTER);
+        root.setCenter(sectionPanel);
+
 
         //задание левой вертикальной области стола
         // в которой будут размещены иконки для выбора нужной секции:
@@ -63,8 +86,8 @@ public class Main extends Application {
 
         //лист панелей иконок секций
         ArrayList<Pane> iconsPaneList = new ArrayList<>();
-        for (String sectionKeyWord: section) {
-            iconsPaneList.add(new IconPane(sectionKeyWord));
+        for (SectionKey sectionKey: section) {
+            iconsPaneList.add(new ImagePane(sectionKey));
         }
 
         //вычисление вертикального расстояния между иконками разделов
@@ -72,12 +95,48 @@ public class Main extends Application {
         icon.setPrefWidth(TABLE_LEFT_SECTION_WIDTH);
         icon.setPrefHeight(TABLE_LEFT_SECTION_HEIGHT);
         icon.setAlignment(Pos.CENTER);
+        root.setLeft(icon);
 
         for (Pane pane: iconsPaneList) {
             icon.getChildren().add(pane);
         }
 
-        root.setLeft(icon);
+        for (int i = 0; i < iconsPaneList.size(); i++) {
+
+            SectionKey keyWord = section.get(i);
+
+            EventHandler<MouseEvent> mouseEventHandler = event -> {
+
+                    switch (keyWord) {
+                        case MAP:
+                            System.out.println("0");
+                            setPanelSection(MAP);
+                            break;
+                        case CASE:
+                            System.out.println("1");
+                        {
+                            sectionPanel.getChildren().clear();
+                        }
+                            break;
+                        case MAIL:
+                            System.out.println("2");
+                        {
+                            setMailsScene();
+                        }
+                            break;
+                        case MEDAL:
+                            System.out.println("3");
+                            break;
+                    }
+            };
+
+            icon.getChildren().get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEventHandler);
+        }
+
+
+
+
+
 
 
         //создание сцены для родительской панели и отображение
@@ -99,6 +158,14 @@ public class Main extends Application {
         }
 
         return (int) ((fieldSize - sumIconPaneHeight) /iconsPaneList.size());
+    }
+
+    private static void setPanelSection(final SectionKey key) {
+
+        if (key.equals(MAP)) {
+            sectionPanel.getChildren().clear();
+            sectionPanel.getChildren().add(new ImagePane(MAP));
+        }
     }
 
 
