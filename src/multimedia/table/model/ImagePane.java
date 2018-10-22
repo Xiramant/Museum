@@ -51,6 +51,10 @@ public class ImagePane extends Pane {
         BackgroundSize size = new BackgroundSize(image.getWidth(), image.getHeight(), false, false, false, false);
         BackgroundImage background = new BackgroundImage(image, NO_REPEAT, NO_REPEAT, CENTER, size);
         this.setBackground(new Background(background));
+
+        this.setStyle(
+                "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
+        );
     }
 
 }
