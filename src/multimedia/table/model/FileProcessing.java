@@ -2,6 +2,7 @@ package table.model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import static table.Main.RESOURCES_PATH;
 
@@ -34,13 +35,13 @@ public class FileProcessing {
     }
 
     //Получение списка списков файлов изображений или текстовых
-    public static ArrayList<ArrayList<File>> getFiles(final ArrayList<File> fileDirs, final FileFormat format) {
+    public static ArrayList<LinkedList<File>> getFiles(final ArrayList<File> fileDirs, final FileFormat format) {
 
-        ArrayList<ArrayList<File>> files = new ArrayList<>();
+        ArrayList<LinkedList<File>> files = new ArrayList<>();
 
         for (File dir: fileDirs) {
 
-            ArrayList<File> formatFiles = new ArrayList<>();
+            LinkedList<File> formatFiles = new LinkedList<>();
 
             File allDirFiles[] = dir.listFiles();
 
