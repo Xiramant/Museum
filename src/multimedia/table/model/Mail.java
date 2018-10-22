@@ -4,11 +4,14 @@ import javafx.event.EventHandler;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 import static table.Main.RESOURCES_PATH;
 import static table.Main.sectionPanel;
 import static table.model.FileProcessing.*;
 
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
@@ -22,15 +25,22 @@ public class Mail {
 
         ArrayList<File> fileMailDirs = new ArrayList<>(getDir(mailKey));
 
-        ArrayList<ArrayList<File>> mailsFiles = new ArrayList<>(getFiles(fileMailDirs, FileFormat.IMAGE));
+        ArrayList<LinkedList<File>> mailsFiles = new ArrayList<>(getFiles(fileMailDirs, FileFormat.IMAGE));
 
 //        sectionPanel.setMargin(sectionPanel, new Insets(50, 50, 50, 50));
 
-        sectionPanel.getChildren().clear();
-        for (ArrayList<File> mailsList : mailsFiles) {
-            System.out.println(mailsList.get(0));
+        ArrayList<ListIterator<File>> mailListIterators = new ArrayList<>();
 
-            sectionPanel.getChildren().add(new ImagePane(mailsList.get(0)));
+        for (LinkedList<File> mails: mailsFiles) {
+            mailListIterators.add(mails.listIterator());
+        }
+
+        sectionPanel.getChildren().clear();
+        for (ListIterator<File> mailsIterator: mailListIterators) {
+
+//            System.out.println(mailsIterator.next());
+
+            sectionPanel.getChildren().add(new ImagePane(mailsIterator.next()));
         }
         
         
@@ -77,20 +87,23 @@ public class Mail {
         }
 
 
-        EventHandler<MouseEvent> mouseEventHandler = event -> {
-            System.out.println("Письмо 1 нажато");
-//            ((Pane)sectionPanel.getChildren().get(0)).setBackground(setImageBackground(mailsFiles.get(0).get(1)));
-            ((ImagePane)sectionPanel.getChildren().get(0)).setImageBackground(mailsFiles.get(0).get(1));
-        };
+        for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
 
-        sectionPanel.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEventHandler);
+            int children = i;
 
+            EventHandler<MouseEvent> mouseEventHandler = event -> {
 
+                if (event.getButton() == MouseButton.PRIMARY && mailListIterators.get(children).hasNext()) {
+                    ((ImagePane) sectionPanel.getChildren().get(children)).setImageBackground(mailListIterators.get(children).next());
+                }
 
+                if (event.getButton() == MouseButton.SECONDARY && mailListIterators.get(children).hasPrevious()) {
+                    ((ImagePane) sectionPanel.getChildren().get(children)).setImageBackground(mailListIterators.get(children).previous());
+                }
+            };
 
-
-
-
+            sectionPanel.getChildren().get(children).addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEventHandler);
+        }
     }
 
 
