@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -13,13 +14,15 @@ import table.model.SectionKey;
 
 import java.util.ArrayList;
 
+import static javafx.scene.layout.BackgroundPosition.CENTER;
+import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
 import static table.model.Mail.*;
 import static table.model.SectionKey.*;
 
 public class Main extends Application {
 
     //путь к внешней папке с ресурсами проекта для музея по мультимедиа столу
-    public static final String RESOURCES_PATH = "/home/xiramant/museumResources/table/";
+    public static final String RESOURCES_PATH;
 
     //Размеры интерактивного стола
     static final Double TABLE_WIDTH = 1920d;
@@ -36,20 +39,27 @@ public class Main extends Application {
     static final Double TABLE_CENTER_SECTION_WIDTH = TABLE_WIDTH - TABLE_LEFT_SECTION_WIDTH;
     static final Double TABLE_CENTER_SECTION_HEIGHT = TABLE_HEIGHT - TABLE_TOP_SECTION_HEIGHT;
 
+    //Панель для отображения содержания раздела (секции)
     public static Pane sectionPanel = new Pane();
 
     //лист ключевых слов разделов
     // из которых будет формироваться интерактивный стол
     static ArrayList<SectionKey> section = new ArrayList<>();
+
     static {
         section.add(MAP);
         section.add(CASE);
         section.add(MAIL);
         section.add(MEDAL);
 
-        //сделать определение пути к ресурсам на основании того,
-        // существует ли папка по пути RESOURCES_PATH
-        // если нет, то выдать ошибку
+        System.out.println(System.getProperty("os.name"));
+
+        //Задание пути к ресурсам на основании ОС
+        if (isWin()) {
+            RESOURCES_PATH = "C://museumResources/";
+        } else {
+            RESOURCES_PATH = "/home/xiramant/museumResources/table/";
+        }
     }
 
     @Override
@@ -140,8 +150,10 @@ public class Main extends Application {
 
 
         //создание сцены для родительской панели и отображение
+        root.setBackground(new Background(new BackgroundImage(
+                new Image("file:" + RESOURCES_PATH + "table.jpg"), NO_REPEAT, NO_REPEAT, CENTER,
+                new BackgroundSize(1920, 1080, false, false, false, false))));
         Scene scene = new Scene(root);
-        scene.getStylesheets().add("file:" + RESOURCES_PATH + "css/sceneStyle.css");
         primaryStage.setScene(scene);
         primaryStage.show();
         primaryStage.setFullScreen(true);
@@ -166,6 +178,12 @@ public class Main extends Application {
             sectionPanel.getChildren().clear();
             sectionPanel.getChildren().add(new ImagePane(MAP));
         }
+    }
+
+    //метод определения запущена ли программа в ОС Windows
+    public static Boolean isWin() {
+
+        return System.getProperty("os.name").startsWith("Win");
     }
 
 
