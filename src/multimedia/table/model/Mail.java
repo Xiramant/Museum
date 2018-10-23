@@ -77,33 +77,6 @@ public class Mail {
         }
 
 
-//        //обработка событий нажатия на кнопку мыши
-//        for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
-//
-//            int children = i;
-//
-//            EventHandler<MouseEvent> mouseEventHandler = event -> {
-//
-//                if (event.getButton() == MouseButton.PRIMARY &&
-//                        mailIndex.get(children) < mailFiles.get(children).size() - 1) {
-//                    mailIndex.set(children, mailIndex.get(children) + 1);
-//                }
-//
-//                if (event.getButton() == MouseButton.SECONDARY &&
-//                        mailIndex.get(children) > 0) {
-//                    mailIndex.set(children, mailIndex.get(children) - 1);
-//                }
-//
-//                if (event.getClickCount() == 2) {
-//                        mailIndex.set(children, 0);
-//                }
-//
-//                ((ImagePane) sectionPanel.getChildren().get(children)).setImageBackground(mailFiles.get(children).get(mailIndex.get(children)));
-//            };
-//
-//            sectionPanel.getChildren().get(children).addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEventHandler);
-//        }
-
         //обработка событий нажатия на кнопку мыши
         for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
 
