@@ -131,7 +131,7 @@ public class Mail {
             sectionPanel.getChildren().get(children).setOnMousePressed(mouseEvent -> {
                 pointList.get(children).set(0, sectionPanel.getChildren().get(children).getTranslateX() - mouseEvent.getSceneX());
                 pointList.get(children).set(1, sectionPanel.getChildren().get(children).getTranslateY() - mouseEvent.getSceneY());
-                sectionPanel.getChildren().get(0).setCursor(Cursor.MOVE);
+                sectionPanel.getChildren().get(children).setCursor(Cursor.MOVE);
             });
         }
 
@@ -155,7 +155,6 @@ public class Mail {
             int children = i;
 
             sectionPanel.getChildren().get(children).setOnMouseReleased(mouseEvent -> {
-                sectionPanel.getChildren().get(children).setCursor(Cursor.HAND);
                 if (Math.abs(pointList.get(children).get(2)) + Math.abs(pointList.get(children).get(3)) > 2d) {
                     isDragAndDrop = true;
                 }
