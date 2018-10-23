@@ -135,6 +135,9 @@ public class Mail {
             pointList.get(0).set(3, pointList.get(0).get(1) + mouseEvent.getSceneY());
             sectionPanel.getChildren().get(0).setTranslateX(pointList.get(0).get(2));
             sectionPanel.getChildren().get(0).setTranslateY(pointList.get(0).get(3));
+            sectionPanel.getChildren().get(0).setStyle(
+                    "-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);"
+            );
         });
 
         sectionPanel.getChildren().get(0).setOnMouseReleased( mouseEvent -> {
@@ -142,6 +145,9 @@ public class Mail {
             if (Math.abs(pointList.get(0).get(2)) + Math.abs(pointList.get(0).get(3)) > 2d) {
                 isDragAndDrop = true;
             }
+            sectionPanel.getChildren().get(0).setStyle(
+                    "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
+            );
             pointList.get(0).set(0, 0d);
             pointList.get(0).set(1, 0d);
             pointList.get(0).set(2, 0d);
