@@ -10,19 +10,19 @@ import static table.Main.sectionPanel;
 import static table.model.FileProcessing.*;
 
 import javafx.scene.Cursor;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+
 
 public class Mail {
 
     static final SectionKey mailKey = SectionKey.MAIL;
 
     static final String mailPath = RESOURCES_PATH + mailKey.getKeyWord() + "/";
+
+    static ArrayList<ArrayList<Double>> pointList = new ArrayList<>();
+
+    static Boolean isDragAndDrop = false;
 
     public static void setMailsScene() {
 
@@ -111,21 +111,27 @@ public class Mail {
 
             EventHandler<MouseEvent> mouseEventHandler = event -> {
 
-                if (event.getButton() == MouseButton.PRIMARY &&
-                        mailIndex.get(children) < mailFiles.get(children).size() - 1) {
-                    mailIndex.set(children, mailIndex.get(children) + 1);
+                if (!isDragAndDrop) {
+
+                    if (event.getButton() == MouseButton.PRIMARY &&
+                            mailIndex.get(children) < mailFiles.get(children).size() - 1) {
+                        mailIndex.set(children, mailIndex.get(children) + 1);
+                    }
+
+                    if (event.getButton() == MouseButton.SECONDARY &&
+                            mailIndex.get(children) > 0) {
+                        mailIndex.set(children, mailIndex.get(children) - 1);
+                    }
+
+                    if (event.getClickCount() == 2) {
+                        mailIndex.set(children, 0);
+                    }
+
+                    ((ImagePane) sectionPanel.getChildren().get(children)).setImageBackground(mailFiles.get(children).get(mailIndex.get(children)));
+
                 }
 
-                if (event.getButton() == MouseButton.SECONDARY &&
-                        mailIndex.get(children) > 0) {
-                    mailIndex.set(children, mailIndex.get(children) - 1);
-                }
-
-                if (event.getClickCount() == 2) {
-                    mailIndex.set(children, 0);
-                }
-
-                ((ImagePane) sectionPanel.getChildren().get(children)).setImageBackground(mailFiles.get(children).get(mailIndex.get(children)));
+                isDragAndDrop = false;
             };
 
             sectionPanel.getChildren().get(children).setOnMouseClicked(mouseEventHandler);
@@ -133,57 +139,41 @@ public class Mail {
 
 
 
+        for (int i = 0; i < mailFiles.size(); i++) {
+
+            ArrayList<Double> point = new ArrayList<>();
+
+            for (int j = 0; j < 4; j++) {
+                point.add(0d);
+            }
+
+            pointList.add(point);
+        }
 
 
         sectionPanel.getChildren().get(0).setOnMousePressed( mouseEvent -> {
-            Drag.xDragMeasure = mouseEvent.getScreenX() - Drag.xPosition;
-            Drag.yDragMeasure = mouseEvent.getScreenY() - Drag.yPosition;
+            pointList.get(0).set(0, sectionPanel.getChildren().get(0).getTranslateX() - mouseEvent.getSceneX());
+            pointList.get(0).set(1, sectionPanel.getChildren().get(0).getTranslateY() - mouseEvent.getSceneY());
             sectionPanel.getChildren().get(0).setCursor(Cursor.MOVE);
         });
 
         sectionPanel.getChildren().get(0).setOnMouseDragged( mouseEvent -> {
-            Drag.xPosition = mouseEvent.getScreenX() - Drag.xDragMeasure;
-            Drag.yPosition = mouseEvent.getScreenY() - Drag.yDragMeasure;
-            sectionPanel.getChildren().get(0).setTranslateX(Drag.xPosition);
-            sectionPanel.getChildren().get(0).setTranslateY(Drag.yPosition);
-
+            pointList.get(0).set(2, pointList.get(0).get(0) +  mouseEvent.getSceneX());
+            pointList.get(0).set(3, pointList.get(0).get(1) + mouseEvent.getSceneY());
+            sectionPanel.getChildren().get(0).setTranslateX(pointList.get(0).get(2));
+            sectionPanel.getChildren().get(0).setTranslateY(pointList.get(0).get(3));
         });
 
         sectionPanel.getChildren().get(0).setOnMouseReleased( mouseEvent -> {
             sectionPanel.getChildren().get(0).setCursor(Cursor.HAND);
+            if (Math.abs(pointList.get(0).get(2)) + Math.abs(pointList.get(0).get(3)) > 2d) {
+                isDragAndDrop = true;
+            }
+            pointList.get(0).set(0, 0d);
+            pointList.get(0).set(1, 0d);
+            pointList.get(0).set(2, 0d);
+            pointList.get(0).set(3, 0d);
         });
-
-//        sectionPanel.getChildren().get(0).setOnMouseEntered( mouseEvent -> {
-//            sectionPanel.getChildren().get(0).setCursor(Cursor.HAND);
-//        });
-
-
-
-
-//        sectionPanel.getChildren().get(0).setOnDragDetected(event -> {
-//
-//            Dragboard db = sectionPanel.startDragAndDrop(TransferMode.MOVE);
-//
-//            // Visual during drag
-//            SnapshotParameters snapshotParameters = new SnapshotParameters();
-//            snapshotParameters.setFill(Color.TRANSPARENT);
-//            db.setDragView(sectionPanel.snapshot(snapshotParameters, null));
-//
-//            event.consume();
-//        });
-
-
-
-        EventHandler<MouseEvent> mousePressedEventHandler = event -> {
-
-
-        };
-
-
-        sectionPanel.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedEventHandler);
-
-
-
 
     }
 
