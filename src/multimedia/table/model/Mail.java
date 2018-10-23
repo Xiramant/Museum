@@ -124,35 +124,50 @@ public class Mail {
         }
 
 
-        sectionPanel.getChildren().get(0).setOnMousePressed( mouseEvent -> {
-            pointList.get(0).set(0, sectionPanel.getChildren().get(0).getTranslateX() - mouseEvent.getSceneX());
-            pointList.get(0).set(1, sectionPanel.getChildren().get(0).getTranslateY() - mouseEvent.getSceneY());
-            sectionPanel.getChildren().get(0).setCursor(Cursor.MOVE);
-        });
+        for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
 
-        sectionPanel.getChildren().get(0).setOnMouseDragged( mouseEvent -> {
-            pointList.get(0).set(2, pointList.get(0).get(0) +  mouseEvent.getSceneX());
-            pointList.get(0).set(3, pointList.get(0).get(1) + mouseEvent.getSceneY());
-            sectionPanel.getChildren().get(0).setTranslateX(pointList.get(0).get(2));
-            sectionPanel.getChildren().get(0).setTranslateY(pointList.get(0).get(3));
-            sectionPanel.getChildren().get(0).setStyle(
-                    "-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);"
-            );
-        });
+            int children = i;
 
-        sectionPanel.getChildren().get(0).setOnMouseReleased( mouseEvent -> {
-            sectionPanel.getChildren().get(0).setCursor(Cursor.HAND);
-            if (Math.abs(pointList.get(0).get(2)) + Math.abs(pointList.get(0).get(3)) > 2d) {
-                isDragAndDrop = true;
-            }
-            sectionPanel.getChildren().get(0).setStyle(
-                    "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
-            );
-            pointList.get(0).set(0, 0d);
-            pointList.get(0).set(1, 0d);
-            pointList.get(0).set(2, 0d);
-            pointList.get(0).set(3, 0d);
-        });
+            sectionPanel.getChildren().get(children).setOnMousePressed(mouseEvent -> {
+                pointList.get(children).set(0, sectionPanel.getChildren().get(children).getTranslateX() - mouseEvent.getSceneX());
+                pointList.get(children).set(1, sectionPanel.getChildren().get(children).getTranslateY() - mouseEvent.getSceneY());
+                sectionPanel.getChildren().get(0).setCursor(Cursor.MOVE);
+            });
+        }
+
+        for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
+
+            int children = i;
+
+            sectionPanel.getChildren().get(children).setOnMouseDragged(mouseEvent -> {
+                pointList.get(children).set(2, pointList.get(children).get(0) + mouseEvent.getSceneX());
+                pointList.get(children).set(3, pointList.get(children).get(1) + mouseEvent.getSceneY());
+                sectionPanel.getChildren().get(children).setTranslateX(pointList.get(children).get(2));
+                sectionPanel.getChildren().get(children).setTranslateY(pointList.get(children).get(3));
+                sectionPanel.getChildren().get(children).setStyle(
+                        "-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);"
+                );
+            });
+        }
+
+        for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
+
+            int children = i;
+
+            sectionPanel.getChildren().get(children).setOnMouseReleased(mouseEvent -> {
+                sectionPanel.getChildren().get(children).setCursor(Cursor.HAND);
+                if (Math.abs(pointList.get(children).get(2)) + Math.abs(pointList.get(children).get(3)) > 2d) {
+                    isDragAndDrop = true;
+                }
+                sectionPanel.getChildren().get(children).setStyle(
+                        "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
+                );
+                pointList.get(children).set(0, 0d);
+                pointList.get(children).set(1, 0d);
+                pointList.get(children).set(2, 0d);
+                pointList.get(children).set(3, 0d);
+            });
+        }
 
     }
 
