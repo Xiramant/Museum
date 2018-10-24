@@ -18,10 +18,6 @@ public class Mail {
 
     static final SectionKey mailKey = SectionKey.MAIL;
 
-    static final String mailPath = RESOURCES_PATH + mailKey.getKeyWord() + "/";
-
-    static ArrayList<ArrayList<Double>> pointList = new ArrayList<>();
-
     static Boolean isDragAndDrop = false;
 
     public static void setMailsScene() {
@@ -49,7 +45,7 @@ public class Mail {
         sectionPanel.getChildren().clear();
 
         for (int i = 0; i < mailFiles.size(); i++) {
-            sectionPanel.getChildren().add(new ImagePane(mailFiles.get(i).get(mailIndex.get(i))));
+            sectionPanel.getChildren().add(new ImagePane(mailFiles.get(i).get(0)));
         }
 
 
@@ -80,71 +76,61 @@ public class Mail {
         //обработка событий нажатия на кнопку мыши
         for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
 
-            int children = i;
+            int childrenCurrent = i;
 
             EventHandler<MouseEvent> mouseEventHandler = event -> {
 
                 if (!isDragAndDrop) {
 
                     if (event.getButton() == MouseButton.PRIMARY &&
-                            mailIndex.get(children) < mailFiles.get(children).size() - 1) {
-                        mailIndex.set(children, mailIndex.get(children) + 1);
+                            mailIndex.get(childrenCurrent) < mailFiles.get(childrenCurrent).size() - 1) {
+                        mailIndex.set(childrenCurrent, mailIndex.get(childrenCurrent) + 1);
                     }
 
                     if (event.getButton() == MouseButton.SECONDARY &&
-                            mailIndex.get(children) > 0) {
-                        mailIndex.set(children, mailIndex.get(children) - 1);
+                            mailIndex.get(childrenCurrent) > 0) {
+                        mailIndex.set(childrenCurrent, mailIndex.get(childrenCurrent) - 1);
                     }
 
                     if (event.getClickCount() == 2) {
-                        mailIndex.set(children, 0);
+                        mailIndex.set(childrenCurrent, 0);
                     }
 
-                    ((ImagePane) sectionPanel.getChildren().get(children)).setImageBackground(mailFiles.get(children).get(mailIndex.get(children)));
-
+                    ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).setImageBackground(mailFiles.get(childrenCurrent).get(mailIndex.get(childrenCurrent)));
                 }
 
                 isDragAndDrop = false;
             };
 
-            sectionPanel.getChildren().get(children).setOnMouseClicked(mouseEventHandler);
+            sectionPanel.getChildren().get(childrenCurrent).setOnMouseClicked(mouseEventHandler);
         }
 
-
-
+        ArrayList<TwoPoint> pointList = new ArrayList<>();
         for (int i = 0; i < mailFiles.size(); i++) {
-
-            ArrayList<Double> point = new ArrayList<>();
-
-            for (int j = 0; j < 4; j++) {
-                point.add(0d);
-            }
-
-            pointList.add(point);
+            pointList.add(new TwoPoint());
         }
-
 
         for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
 
-            int children = i;
+            int childrenCurrent = i;
 
-            sectionPanel.getChildren().get(children).setOnMousePressed(mouseEvent -> {
-                pointList.get(children).set(0, sectionPanel.getChildren().get(children).getTranslateX() - mouseEvent.getSceneX());
-                pointList.get(children).set(1, sectionPanel.getChildren().get(children).getTranslateY() - mouseEvent.getSceneY());
-                sectionPanel.getChildren().get(children).setCursor(Cursor.MOVE);
+            sectionPanel.getChildren().get(childrenCurrent).setOnMousePressed(mouseEvent -> {
+                pointList.get(childrenCurrent).setXBegin(sectionPanel.getChildren().get(childrenCurrent).getTranslateX() - mouseEvent.getSceneX());
+                pointList.get(childrenCurrent).setYBegin(sectionPanel.getChildren().get(childrenCurrent).getTranslateY() - mouseEvent.getSceneY());
+                sectionPanel.getChildren().get(childrenCurrent).setCursor(Cursor.MOVE);
             });
         }
 
         for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
 
-            int children = i;
+            int childrenCurrent = i;
 
-            sectionPanel.getChildren().get(children).setOnMouseDragged(mouseEvent -> {
-                pointList.get(children).set(2, pointList.get(children).get(0) + mouseEvent.getSceneX());
-                pointList.get(children).set(3, pointList.get(children).get(1) + mouseEvent.getSceneY());
-                sectionPanel.getChildren().get(children).setTranslateX(pointList.get(children).get(2));
-                sectionPanel.getChildren().get(children).setTranslateY(pointList.get(children).get(3));
-                sectionPanel.getChildren().get(children).setStyle(
+            sectionPanel.getChildren().get(childrenCurrent).setOnMouseDragged(mouseEvent -> {
+                pointList.get(childrenCurrent).setXCurrent(pointList.get(childrenCurrent).getXBegin() + mouseEvent.getSceneX());
+                pointList.get(childrenCurrent).setYCurrent(pointList.get(childrenCurrent).getYBegin() + mouseEvent.getSceneY());
+                sectionPanel.getChildren().get(childrenCurrent).setTranslateX(pointList.get(childrenCurrent).getXCurrent());
+                sectionPanel.getChildren().get(childrenCurrent).setTranslateY(pointList.get(childrenCurrent).getYCurrent());
+                sectionPanel.getChildren().get(childrenCurrent).setStyle(
                         "-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);"
                 );
             });
@@ -152,19 +138,19 @@ public class Mail {
 
         for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
 
-            int children = i;
+            int childrenCurrent = i;
 
-            sectionPanel.getChildren().get(children).setOnMouseReleased(mouseEvent -> {
-                if (Math.abs(pointList.get(children).get(2)) + Math.abs(pointList.get(children).get(3)) > 2d) {
+            sectionPanel.getChildren().get(childrenCurrent).setOnMouseReleased(mouseEvent -> {
+                if (Math.abs(pointList.get(childrenCurrent).getXCurrent()) + Math.abs(pointList.get(childrenCurrent).getYCurrent()) > 2d) {
                     isDragAndDrop = true;
                 }
-                sectionPanel.getChildren().get(children).setStyle(
+                sectionPanel.getChildren().get(childrenCurrent).setStyle(
                         "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
                 );
-                pointList.get(children).set(0, 0d);
-                pointList.get(children).set(1, 0d);
-                pointList.get(children).set(2, 0d);
-                pointList.get(children).set(3, 0d);
+                pointList.get(childrenCurrent).setXBegin(0d);
+                pointList.get(childrenCurrent).setYBegin(0d);
+                pointList.get(childrenCurrent).setXCurrent(0d);
+                pointList.get(childrenCurrent).setYCurrent(0d);
             });
         }
 
