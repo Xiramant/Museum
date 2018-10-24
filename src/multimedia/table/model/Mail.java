@@ -31,17 +31,16 @@ public class Mail {
         // Внутренний ArrayListIndex - страницы письма
         ArrayList<ArrayListIndex<File>> mailFiles = new ArrayList<>(getFiles(fileMailDirs, FileFormat.IMAGE));
 
-//        sectionPanel.setMargin(sectionPanel, new Insets(50, 50, 50, 50));
-
-
         //инициализация первоначального состояния раздела Mail
         sectionPanel.getChildren().clear();
 
         for (int i = 0; i < mailFiles.size(); i++) {
-            sectionPanel.getChildren().add(new ImagePane(mailFiles.get(i)));
+            sectionPanel.getChildren().add(new ImagePaneSection(mailFiles.get(i)));
         }
 
         //расположение писем на основной сцене
+//        sectionPanel.setMargin(sectionPanel, new Insets(50, 50, 50, 50));
+
         //по ширине
         int childsWidth = 0;
 
@@ -67,75 +66,71 @@ public class Mail {
 
         //обработка действий с письмами
         for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
-
-            TwoPoint point = new TwoPoint();
-            int childrenBegin = i;
-            int childrenCurrent = sectionPanel.getChildren().size() - 1;
-
-            //перемещение письма
-            sectionPanel.getChildren().get(childrenBegin).setOnMousePressed(mouseEvent -> {
-                System.out.println("перед перетаскиванием");
-//                System.out.println(Arrays.deepToString(mailFiles.toArray()));
-                sectionPanel.getChildren().get(childrenBegin).toFront();
-
-                ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().setXBegin(sectionPanel.getChildren().get(childrenCurrent).getTranslateX() - mouseEvent.getSceneX());
-                ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().setYBegin(sectionPanel.getChildren().get(childrenCurrent).getTranslateY() - mouseEvent.getSceneY());
-                sectionPanel.getChildren().get(childrenCurrent).setCursor(Cursor.MOVE);
-            });
-
-            sectionPanel.getChildren().get(childrenBegin).setOnMouseDragged(mouseEvent -> {
-
-                ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().setXCurrent(((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().getXBegin() + mouseEvent.getSceneX());
-                ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().setYCurrent(((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().getYBegin() + mouseEvent.getSceneY());
-                sectionPanel.getChildren().get(childrenCurrent).setTranslateX(((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().getXCurrent());
-                sectionPanel.getChildren().get(childrenCurrent).setTranslateY(((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().getYCurrent());
-                sectionPanel.getChildren().get(childrenCurrent).setStyle(
-                        "-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);"
-                );
-            });
-
-            sectionPanel.getChildren().get(childrenBegin).setOnMouseReleased(mouseEvent -> {
-                if (Math.abs(((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().getXCurrent()) +
-                        Math.abs(((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().getYCurrent()) > 2d) {
-                    isDragAndDrop = true;
-                }
-                sectionPanel.getChildren().get(childrenCurrent).setStyle(
-                        "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
-                );
-                ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).clearTwoPoint();
-            });
-
-
-            //перелистывание страниц письма
-            sectionPanel.getChildren().get(childrenBegin).setOnMouseClicked(event -> {
-
-                if (!isDragAndDrop) {
-
-//                    sectionPanel.getChildren().get(childrenBegin).toFront();
-//                    mailFiles.add(mailFiles.get(childrenBegin));
-//                    mailFiles.remove(childrenBegin);
-
-                    //нажатие левой кнопки приводит к листанию страниц письма вперед
-                    if (event.getButton() == MouseButton.PRIMARY) {
-                        ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).setNextImageBackground();
-                    }
-
-                    //нажатие правой кнопки приводит к листанию страниц письма назад
-                    if (event.getButton() == MouseButton.SECONDARY) {
-                        ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).setPrevImageBackground();
-                    }
-
-//                    //Двойной щелчок приводит к возвращению письма на первую страницу
-//                    if (event.getClickCount() == 2) {
-//                        ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).setImageBackground(((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getImageFiles().getFirstElement());
-//                    }
-                }
-
-                isDragAndDrop = false;
-            });
+            actionProcessing((ImagePaneSection)sectionPanel.getChildren().get(i));
         }
 
     }
 
+    //Метод обработки действий пользователя
+    // (сейчас реализовано перетаскивание и перелистывание страниц письма с помощью мыши)
+    public static void actionProcessing(final ImagePaneSection currentPanel) {
+
+        //перемещение письма
+        currentPanel.setOnMousePressed(mouseEvent -> {
+            currentPanel.toFront();
+            currentPanel.setCursor(Cursor.MOVE);
+
+            currentPanel.getTwoPoint().setXBegin(currentPanel.getTranslateX() - mouseEvent.getSceneX());
+            currentPanel.getTwoPoint().setYBegin(currentPanel.getTranslateY() - mouseEvent.getSceneY());
+        });
+
+        currentPanel.setOnMouseDragged(mouseEvent -> {
+
+            currentPanel.getTwoPoint().setXCurrent(currentPanel.getTwoPoint().getXBegin() + mouseEvent.getSceneX());
+            currentPanel.getTwoPoint().setYCurrent(currentPanel.getTwoPoint().getYBegin() + mouseEvent.getSceneY());
+            currentPanel.setTranslateX(currentPanel.getTwoPoint().getXCurrent());
+            currentPanel.setTranslateY(currentPanel.getTwoPoint().getYCurrent());
+            currentPanel.setStyle(
+                    "-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);"
+            );
+        });
+
+        currentPanel.setOnMouseReleased(mouseEvent -> {
+
+            if (Math.abs(currentPanel.getTwoPoint().getXCurrent()) +
+                    Math.abs(currentPanel.getTwoPoint().getYCurrent()) > 2d) {
+                isDragAndDrop = true;
+            }
+            currentPanel.setStyle(
+                    "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
+            );
+            currentPanel.clearTwoPoint();
+        });
+
+
+        //перелистывание страниц письма
+        currentPanel.setOnMouseClicked(event -> {
+
+            if (!isDragAndDrop) {
+
+                //нажатие левой кнопки приводит к листанию страниц письма вперед
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    currentPanel.setNextImageBackground();
+                }
+
+                //нажатие правой кнопки приводит к листанию страниц письма назад
+                if (event.getButton() == MouseButton.SECONDARY) {
+                    currentPanel.setPrevImageBackground();
+                }
+
+                //Двойной щелчок приводит к возвращению письма на первую страницу
+                if (event.getClickCount() == 2) {
+                    currentPanel.setFirstImageBackground();
+                }
+            }
+
+            isDragAndDrop = false;
+        });
+    }
 
 }
