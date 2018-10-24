@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static table.Main.RESOURCES_PATH;
 import static table.Main.sectionPanel;
@@ -37,7 +38,7 @@ public class Mail {
         sectionPanel.getChildren().clear();
 
         for (int i = 0; i < mailFiles.size(); i++) {
-            sectionPanel.getChildren().add(new ImagePane(mailFiles.get(i).getNextElement()));
+            sectionPanel.getChildren().add(new ImagePane(mailFiles.get(i)));
         }
 
         //расположение писем на основной сцене
@@ -64,85 +65,73 @@ public class Mail {
         }
 
 
-        //обработка событий нажатия на кнопку мыши
+        //обработка действий с письмами
         for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
 
-            int childrenCurrent = i;
+            TwoPoint point = new TwoPoint();
+            int childrenBegin = i;
+            int childrenCurrent = sectionPanel.getChildren().size() - 1;
 
-            EventHandler<MouseEvent> mouseEventHandler = event -> {
+            //перемещение письма
+            sectionPanel.getChildren().get(childrenBegin).setOnMousePressed(mouseEvent -> {
+                System.out.println("перед перетаскиванием");
+//                System.out.println(Arrays.deepToString(mailFiles.toArray()));
+                sectionPanel.getChildren().get(childrenBegin).toFront();
 
-                if (!isDragAndDrop) {
-
-                    //нажатие левой кнопки приводит к листанию страниц письма вперед
-                    if (event.getButton() == MouseButton.PRIMARY &&
-                            mailFiles.get(childrenCurrent).hasNextElement()) {
-                        ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).setImageBackground(mailFiles.get(childrenCurrent).getNextElement());
-                    }
-
-                    //нажатие правой кнопки приводит к листанию страниц письма назад
-                    if (event.getButton() == MouseButton.SECONDARY &&
-                            mailFiles.get(childrenCurrent).hasPrevElement()) {
-                        ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).setImageBackground(mailFiles.get(childrenCurrent).getPrevElement());
-                    }
-
-                    //Двойной щелчок приводит к возвращению письма на 1 страницу
-                    if (event.getClickCount() == 2) {
-                        ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).setImageBackground(mailFiles.get(childrenCurrent).getFirstElement());
-                    }
-                }
-
-                isDragAndDrop = false;
-            };
-
-            sectionPanel.getChildren().get(childrenCurrent).setOnMouseClicked(mouseEventHandler);
-        }
-
-        ArrayList<TwoPoint> pointList = new ArrayList<>();
-        for (int i = 0; i < mailFiles.size(); i++) {
-            pointList.add(new TwoPoint());
-        }
-
-        for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
-
-            int childrenCurrent = i;
-
-            sectionPanel.getChildren().get(childrenCurrent).setOnMousePressed(mouseEvent -> {
-                pointList.get(childrenCurrent).setXBegin(sectionPanel.getChildren().get(childrenCurrent).getTranslateX() - mouseEvent.getSceneX());
-                pointList.get(childrenCurrent).setYBegin(sectionPanel.getChildren().get(childrenCurrent).getTranslateY() - mouseEvent.getSceneY());
+                ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().setXBegin(sectionPanel.getChildren().get(childrenCurrent).getTranslateX() - mouseEvent.getSceneX());
+                ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().setYBegin(sectionPanel.getChildren().get(childrenCurrent).getTranslateY() - mouseEvent.getSceneY());
                 sectionPanel.getChildren().get(childrenCurrent).setCursor(Cursor.MOVE);
             });
-        }
 
-        for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
+            sectionPanel.getChildren().get(childrenBegin).setOnMouseDragged(mouseEvent -> {
 
-            int childrenCurrent = i;
-
-            sectionPanel.getChildren().get(childrenCurrent).setOnMouseDragged(mouseEvent -> {
-                pointList.get(childrenCurrent).setXCurrent(pointList.get(childrenCurrent).getXBegin() + mouseEvent.getSceneX());
-                pointList.get(childrenCurrent).setYCurrent(pointList.get(childrenCurrent).getYBegin() + mouseEvent.getSceneY());
-                sectionPanel.getChildren().get(childrenCurrent).setTranslateX(pointList.get(childrenCurrent).getXCurrent());
-                sectionPanel.getChildren().get(childrenCurrent).setTranslateY(pointList.get(childrenCurrent).getYCurrent());
+                ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().setXCurrent(((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().getXBegin() + mouseEvent.getSceneX());
+                ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().setYCurrent(((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().getYBegin() + mouseEvent.getSceneY());
+                sectionPanel.getChildren().get(childrenCurrent).setTranslateX(((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().getXCurrent());
+                sectionPanel.getChildren().get(childrenCurrent).setTranslateY(((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().getYCurrent());
                 sectionPanel.getChildren().get(childrenCurrent).setStyle(
                         "-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);"
                 );
             });
-        }
 
-        for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
-
-            int childrenCurrent = i;
-
-            sectionPanel.getChildren().get(childrenCurrent).setOnMouseReleased(mouseEvent -> {
-                if (Math.abs(pointList.get(childrenCurrent).getXCurrent()) + Math.abs(pointList.get(childrenCurrent).getYCurrent()) > 2d) {
+            sectionPanel.getChildren().get(childrenBegin).setOnMouseReleased(mouseEvent -> {
+                if (Math.abs(((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().getXCurrent()) +
+                        Math.abs(((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getTwoPoint().getYCurrent()) > 2d) {
                     isDragAndDrop = true;
                 }
                 sectionPanel.getChildren().get(childrenCurrent).setStyle(
                         "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
                 );
-                pointList.get(childrenCurrent).setXBegin(0d);
-                pointList.get(childrenCurrent).setYBegin(0d);
-                pointList.get(childrenCurrent).setXCurrent(0d);
-                pointList.get(childrenCurrent).setYCurrent(0d);
+                ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).clearTwoPoint();
+            });
+
+
+            //перелистывание страниц письма
+            sectionPanel.getChildren().get(childrenBegin).setOnMouseClicked(event -> {
+
+                if (!isDragAndDrop) {
+
+//                    sectionPanel.getChildren().get(childrenBegin).toFront();
+//                    mailFiles.add(mailFiles.get(childrenBegin));
+//                    mailFiles.remove(childrenBegin);
+
+                    //нажатие левой кнопки приводит к листанию страниц письма вперед
+                    if (event.getButton() == MouseButton.PRIMARY) {
+                        ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).setNextImageBackground();
+                    }
+
+                    //нажатие правой кнопки приводит к листанию страниц письма назад
+                    if (event.getButton() == MouseButton.SECONDARY) {
+                        ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).setPrevImageBackground();
+                    }
+
+//                    //Двойной щелчок приводит к возвращению письма на первую страницу
+//                    if (event.getClickCount() == 2) {
+//                        ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).setImageBackground(((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).getImageFiles().getFirstElement());
+//                    }
+                }
+
+                isDragAndDrop = false;
             });
         }
 
