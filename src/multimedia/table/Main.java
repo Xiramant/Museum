@@ -52,8 +52,6 @@ public class Main extends Application {
         section.add(MAIL);
         section.add(MEDAL);
 
-        System.out.println(System.getProperty("os.name"));
-
         //Задание пути к ресурсам на основании ОС
         if (isWin()) {
             RESOURCES_PATH = "C://museumResources/";
@@ -119,23 +117,23 @@ public class Main extends Application {
 
                     switch (keyWord) {
                         case MAP:
-                            System.out.println("0");
+                            System.out.println("Выбран раздел Карты");
                             setPanelSection(MAP);
                             break;
                         case CASE:
-                            System.out.println("1");
+                            System.out.println("Выбран раздел Личные дела");
                         {
                             sectionPanel.getChildren().clear();
                         }
                             break;
                         case MAIL:
-                            System.out.println("2");
+                            System.out.println("Выбран раздел Письма");
                         {
                             setMailsScene();
                         }
                             break;
                         case MEDAL:
-                            System.out.println("3");
+                            System.out.println("Выбран раздел Медали");
                             break;
                     }
             };
