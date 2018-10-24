@@ -27,27 +27,18 @@ public class Mail {
 
         //файлы для отображения на основной сцене
         // Внешний ArrayList - отдельное письмо
-        // Внутренний ArrayList - страницы письма
-        ArrayList<ArrayList<File>> mailFiles = new ArrayList<>(getFiles(fileMailDirs, FileFormat.IMAGE));
+        // Внутренний ArrayListIndex - страницы письма
+        ArrayList<ArrayListIndex<File>> mailFiles = new ArrayList<>(getFiles(fileMailDirs, FileFormat.IMAGE));
 
 //        sectionPanel.setMargin(sectionPanel, new Insets(50, 50, 50, 50));
 
-        //Лист указателей на текущую страницу письма,
-        // отображаемую на основной сцене
-        // ListIterator для данных целей не подошел,
-        // т.к. при последовательности: next, previous, next, previous - отображается одна и таже страница
-        ArrayList<Integer> mailIndex = new ArrayList<>();
 
-        for (int i = 0; i < mailFiles.size(); i++) {
-            mailIndex.add(0);
-        }
-
+        //инициализация первоначального состояния раздела Mail
         sectionPanel.getChildren().clear();
 
         for (int i = 0; i < mailFiles.size(); i++) {
-            sectionPanel.getChildren().add(new ImagePane(mailFiles.get(i).get(0)));
+            sectionPanel.getChildren().add(new ImagePane(mailFiles.get(i).getNextElement()));
         }
-
 
         //расположение писем на основной сцене
         //по ширине
@@ -82,21 +73,22 @@ public class Mail {
 
                 if (!isDragAndDrop) {
 
+                    //нажатие левой кнопки приводит к листанию страниц письма вперед
                     if (event.getButton() == MouseButton.PRIMARY &&
-                            mailIndex.get(childrenCurrent) < mailFiles.get(childrenCurrent).size() - 1) {
-                        mailIndex.set(childrenCurrent, mailIndex.get(childrenCurrent) + 1);
+                            mailFiles.get(childrenCurrent).hasNextElement()) {
+                        ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).setImageBackground(mailFiles.get(childrenCurrent).getNextElement());
                     }
 
+                    //нажатие правой кнопки приводит к листанию страниц письма назад
                     if (event.getButton() == MouseButton.SECONDARY &&
-                            mailIndex.get(childrenCurrent) > 0) {
-                        mailIndex.set(childrenCurrent, mailIndex.get(childrenCurrent) - 1);
+                            mailFiles.get(childrenCurrent).hasPrevElement()) {
+                        ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).setImageBackground(mailFiles.get(childrenCurrent).getPrevElement());
                     }
 
+                    //Двойной щелчок приводит к возвращению письма на 1 страницу
                     if (event.getClickCount() == 2) {
-                        mailIndex.set(childrenCurrent, 0);
+                        ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).setImageBackground(mailFiles.get(childrenCurrent).getFirstElement());
                     }
-
-                    ((ImagePane) sectionPanel.getChildren().get(childrenCurrent)).setImageBackground(mailFiles.get(childrenCurrent).get(mailIndex.get(childrenCurrent)));
                 }
 
                 isDragAndDrop = false;
