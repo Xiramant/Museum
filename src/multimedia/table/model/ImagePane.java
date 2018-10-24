@@ -14,62 +14,32 @@ import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
 
 public class ImagePane extends Pane {
 
-    private ArrayListIndex<File> imageFiles = new ArrayListIndex<>();
-
-    private TwoPoint twoPoint= new TwoPoint();
-
-    public TwoPoint getTwoPoint() {
-        return twoPoint;
+    //Дефолтный конструктор
+    // (нужен, чтобы не ругалась реализация расширяющего класса - ImagePaneSection)
+    public ImagePane() {
+        super();
     }
 
-    public void setTwoPoint(final TwoPoint twoPoint) {
-        this.twoPoint = twoPoint;
-    }
-
-    public void clearTwoPoint() {
-        setTwoPoint(new TwoPoint());
-    }
-
-
-    public ArrayListIndex<File> getImageFiles() {
-        return imageFiles;
-    }
-
-    public void setImageFiles(final ArrayListIndex<File> imageFiles) {
-        this.imageFiles.addAll(imageFiles);
-    }
-
-    public ImagePane(final ArrayListIndex<File> imageFiles) {
-
-        setImageFiles(imageFiles);
-
-        this.setNextImageBackground();
-    }
-
+    //Основной используемый конструктор по передаваемому изображению
     public ImagePane(final Image image) {
-
-        Image iconImage = image;
 
         setImageBackground(image);
     }
 
+    //Конструктор на основе передаваемого ключевого слова
     public ImagePane(final SectionKey sectionKey) {
 
         this(new Image("file:" + RESOURCES_PATH + sectionKey.getKeyWord() + "/" + sectionKey.getKeyWord() + "_icon.png"));
     }
 
+    //Конструктор на основе передаваемого файла изображения для фона
     public ImagePane(final File imageFile) {
 
         this(new Image("file:" + imageFile.toString()));
     }
 
-    
-    public void setImageBackground(final File imageFile) {
-
-        setImageBackground(new Image("file:" + imageFile.toString()));
-    }
-
-    private void setImageBackground(final Image image) {
+    //установка фона с определенными параметрами по передаваемому изображению
+    public void setImageBackground(final Image image) {
 
         this.setPrefWidth(image.getWidth());
         this.setWidth(this.getPrefWidth());
@@ -89,19 +59,10 @@ public class ImagePane extends Pane {
         );
     }
 
-    public void setNextImageBackground() {
+    //установка фона по передаваемому файлу изображении фона
+    public void setImageBackground(final File imageFile) {
 
-        if (imageFiles.hasNextElement()) {
-            setImageBackground(new Image("file:" + imageFiles.getNextElement().toString()));
-        }
+        setImageBackground(new Image("file:" + imageFile.toString()));
     }
-
-    public void setPrevImageBackground() {
-
-        if (imageFiles.hasPrevElement()) {
-            setImageBackground(new Image("file:" + imageFiles.getPrevElement().toString()));
-        }
-    }
-
 
 }
