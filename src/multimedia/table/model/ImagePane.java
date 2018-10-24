@@ -14,6 +14,38 @@ import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
 
 public class ImagePane extends Pane {
 
+    private ArrayListIndex<File> imageFiles = new ArrayListIndex<>();
+
+    private TwoPoint twoPoint= new TwoPoint();
+
+    public TwoPoint getTwoPoint() {
+        return twoPoint;
+    }
+
+    public void setTwoPoint(final TwoPoint twoPoint) {
+        this.twoPoint = twoPoint;
+    }
+
+    public void clearTwoPoint() {
+        setTwoPoint(new TwoPoint());
+    }
+
+
+    public ArrayListIndex<File> getImageFiles() {
+        return imageFiles;
+    }
+
+    public void setImageFiles(final ArrayListIndex<File> imageFiles) {
+        this.imageFiles.addAll(imageFiles);
+    }
+
+    public ImagePane(final ArrayListIndex<File> imageFiles) {
+
+        setImageFiles(imageFiles);
+
+        this.setNextImageBackground();
+    }
+
     public ImagePane(final Image image) {
 
         Image iconImage = image;
@@ -56,5 +88,20 @@ public class ImagePane extends Pane {
                 "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
         );
     }
+
+    public void setNextImageBackground() {
+
+        if (imageFiles.hasNextElement()) {
+            setImageBackground(new Image("file:" + imageFiles.getNextElement().toString()));
+        }
+    }
+
+    public void setPrevImageBackground() {
+
+        if (imageFiles.hasPrevElement()) {
+            setImageBackground(new Image("file:" + imageFiles.getPrevElement().toString()));
+        }
+    }
+
 
 }
