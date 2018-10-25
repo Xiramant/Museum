@@ -11,46 +11,70 @@ import java.io.File;
 import static table.Main.RESOURCES_PATH;
 import static javafx.scene.layout.BackgroundPosition.CENTER;
 import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
+import static table.Main.*;
 
 public class ImagePane extends Pane {
 
-    //Дефолтный конструктор
-    // (нужен, чтобы не ругалась реализация расширяющего класса - ImagePaneSection)
-    public ImagePane() {
-        super();
-    }
-
     //Основной используемый конструктор по передаваемому изображению
-    public ImagePane(final Image image) {
+    // и ограничениями на максимальный размер
+    public ImagePane(final Image image, final double wMax, final double hMax) {
+
+        this.setMaxWidth((wMax == 0d)? TABLE_WIDTH: wMax);
+        this.setMaxHeight((hMax == 0d)? TABLE_HEIGHT: hMax);
 
         setImageBackground(image);
     }
 
+    //Конструктор по передаваемому изображению
+    // без задания ограничений на максимальный размер
+    public ImagePane(final Image image) {
+        this(image, 0d, 0d);
+    }
+
     //Конструктор на основе передаваемого ключевого слова
-    public ImagePane(final SectionKey sectionKey) {
-
-        this(new Image("file:" + RESOURCES_PATH + sectionKey.getKeyWord() + "/" + sectionKey.getKeyWord() + "_icon.png"));
+    // и ограничениями на максимальный размер
+    public ImagePane(final SectionKey sectionKey, final double widthMax, final double heightMax) {
+        this(new Image("file:" + RESOURCES_PATH + sectionKey.getKeyWord() + "/" + sectionKey.getKeyWord() + "_icon.png"), widthMax, heightMax);
     }
 
-    //Конструктор на основе передаваемого файла изображения для фона
+    //Конструктор на основе передаваемого файла изображения
+    // и ограничениями на максимальный размер
+    public ImagePane(final File imageFile, final double wMax, final double hMax) {
+        this(new Image("file:" + imageFile.toString()), wMax, hMax);
+    }
+
+    //Конструктор на основе передаваемого файла изображения
+    // без задания ограничений на максимальный размер
     public ImagePane(final File imageFile) {
-
-        this(new Image("file:" + imageFile.toString()));
+        this(imageFile, 0d, 0d);
     }
 
-    //установка фона с определенными параметрами по передаваемому изображению
+    //установка фона с определением размера панели
+    // на основании размера изображения фона и ограничений на максимальный размер
     public void setImageBackground(final Image image) {
 
-        this.setPrefWidth(image.getWidth());
-        this.setWidth(this.getPrefWidth());
-        this.setMinWidth(this.getPrefWidth());
-        this.setMaxWidth(this.getPrefWidth());
-        this.setPrefHeight(image.getHeight());
-        this.setHeight(this.getPrefHeight());
-        this.setMinHeight(this.getPrefHeight());
-        this.setMaxHeight(this.getPrefHeight());
+        this.setPrefWidth((this.getMaxWidth() < image.getWidth())? this.getMaxWidth(): image.getWidth());
+        this.setPrefHeight((this.getMaxHeight() < image.getHeight())? this.getMaxHeight(): image.getHeight());
 
-        BackgroundSize size = new BackgroundSize(image.getWidth(), image.getHeight(), false, false, false, false);
+        System.out.println("Width = " + this.getMaxWidth() + "; " + image.getWidth());
+        System.out.println("Height = " + this.getMaxHeight() + "; " + image.getHeight());
+
+        double widthRatio = this.getMaxWidth() / image.getWidth();
+        double heightRatio = this.getMaxHeight() / image.getHeight();
+
+        System.out.println("Ration = " + widthRatio + "; " + heightRatio);
+
+        if (widthRatio < 1 && widthRatio < heightRatio) {
+            this.setPrefHeight(image.getHeight() * widthRatio);
+        }
+
+        if (heightRatio < 1 && heightRatio < widthRatio) {
+            this.setPrefWidth(image.getWidth() * heightRatio);
+        }
+
+        System.out.println("Pref = " + this.getPrefWidth() + "; " + this.getPrefHeight());
+
+        BackgroundSize size = new BackgroundSize(1, 1, true, true, true, false);
         BackgroundImage background = new BackgroundImage(image, NO_REPEAT, NO_REPEAT, CENTER, size);
         this.setBackground(new Background(background));
 
@@ -61,7 +85,6 @@ public class ImagePane extends Pane {
 
     //установка фона по передаваемому файлу изображении фона
     public void setImageBackground(final File imageFile) {
-
         setImageBackground(new Image("file:" + imageFile.toString()));
     }
 

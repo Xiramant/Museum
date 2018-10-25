@@ -25,19 +25,28 @@ public class Main extends Application {
     public static final String RESOURCES_PATH;
 
     //Размеры интерактивного стола
-    static final Double TABLE_WIDTH = 1920d;
-    static final Double TABLE_HEIGHT = 1080d;
+    public static final double TABLE_WIDTH = 1920;
+    public static final double TABLE_HEIGHT = 1080;
 
     //высота верхней пустой области стола
-    static final Double TABLE_TOP_SECTION_HEIGHT = 80d;
+    static final double TABLE_TOP_SECTION_HEIGHT = 80;
 
     //размеры левой области стола с иконками секций
-    static final Double TABLE_LEFT_SECTION_WIDTH = 400d;
-    static final Double TABLE_LEFT_SECTION_HEIGHT = TABLE_HEIGHT - TABLE_TOP_SECTION_HEIGHT;
+    static final double TABLE_LEFT_SECTION_WIDTH = 400;
+    static final double TABLE_LEFT_SECTION_HEIGHT = TABLE_HEIGHT - TABLE_TOP_SECTION_HEIGHT;
+
+    //максимальный размер иконок секций
+    public static final double SECTION_ICON_WIDTH_MAX = 330;
+    public static final double SECTION_ICON_HEIGHT_MAX = 300;
+
+    //максимальная ширина писем в секции
+    public static final double SECTION_MAIL_WIDTH_MAX = 300;
+    public static final double SECTION_MAIL_WIDTH_SPACING_MIN = 50;
+
 
     //размеры центральной области стола с основным содержимым
-    static final Double TABLE_CENTER_SECTION_WIDTH = TABLE_WIDTH - TABLE_LEFT_SECTION_WIDTH;
-    static final Double TABLE_CENTER_SECTION_HEIGHT = TABLE_HEIGHT - TABLE_TOP_SECTION_HEIGHT;
+    public static final double TABLE_CENTER_SECTION_WIDTH = TABLE_WIDTH - TABLE_LEFT_SECTION_WIDTH;
+    public static final double TABLE_CENTER_SECTION_HEIGHT = TABLE_HEIGHT - TABLE_TOP_SECTION_HEIGHT;
 
     //Панель для отображения содержания раздела (секции)
     public static Pane sectionPanel = new Pane();
@@ -58,6 +67,10 @@ public class Main extends Application {
         } else {
             RESOURCES_PATH = "/home/xiramant/museumResources/table/";
         }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 
     @Override
@@ -95,7 +108,7 @@ public class Main extends Application {
         //лист панелей иконок секций
         ArrayList<Pane> iconsPaneList = new ArrayList<>();
         for (SectionKey sectionKey: section) {
-            iconsPaneList.add(new ImagePane(sectionKey));
+            iconsPaneList.add(new ImagePane(sectionKey, SECTION_ICON_WIDTH_MAX, SECTION_ICON_HEIGHT_MAX));
         }
 
         //вычисление вертикального расстояния между иконками разделов
@@ -103,49 +116,43 @@ public class Main extends Application {
         icon.setPrefWidth(TABLE_LEFT_SECTION_WIDTH);
         icon.setPrefHeight(TABLE_LEFT_SECTION_HEIGHT);
         icon.setAlignment(Pos.CENTER);
+        icon.setFillWidth(false);
         root.setLeft(icon);
 
         for (Pane pane: iconsPaneList) {
             icon.getChildren().add(pane);
         }
 
+        //обработка клика мышью на иконке раздела
         for (int i = 0; i < iconsPaneList.size(); i++) {
 
             SectionKey keyWord = section.get(i);
 
-            EventHandler<MouseEvent> mouseEventHandler = event -> {
+            icon.getChildren().get(i).setOnMouseClicked(event -> {
 
-                    switch (keyWord) {
-                        case MAP:
-                            System.out.println("Выбран раздел Карты");
-                            setPanelSection(MAP);
-                            break;
-                        case CASE:
-                            System.out.println("Выбран раздел Личные дела");
-                        {
-                            sectionPanel.getChildren().clear();
-                        }
-                            break;
-                        case MAIL:
-                            System.out.println("Выбран раздел Письма");
-                        {
-                            setMailsScene();
-                        }
-                            break;
-                        case MEDAL:
-                            System.out.println("Выбран раздел Медали");
-                            break;
+                switch (keyWord) {
+                    case MAP:
+                        System.out.println("Выбран раздел Карты");
+                        setPanelSection(MAP);
+                        break;
+                    case CASE:
+                        System.out.println("Выбран раздел Личные дела");
+                    {
+                        sectionPanel.getChildren().clear();
                     }
-            };
-
-            icon.getChildren().get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEventHandler);
+                    break;
+                    case MAIL:
+                        System.out.println("Выбран раздел Письма");
+                    {
+                        setMailsScene();
+                    }
+                    break;
+                    case MEDAL:
+                        System.out.println("Выбран раздел Медали");
+                        break;
+                }
+            });
         }
-
-
-
-
-
-
 
         //создание сцены для родительской панели и отображение
         root.setBackground(new Background(new BackgroundImage(
@@ -172,10 +179,10 @@ public class Main extends Application {
 
     private static void setPanelSection(final SectionKey key) {
 
-        if (key.equals(MAP)) {
-            sectionPanel.getChildren().clear();
-            sectionPanel.getChildren().add(new ImagePane(MAP));
-        }
+//        if (key.equals(MAP)) {
+//            sectionPanel.getChildren().clear();
+//            sectionPanel.getChildren().add(new ImagePane(MAP));
+//        }
     }
 
     //метод определения запущена ли программа в ОС Windows
@@ -185,7 +192,5 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+
 }

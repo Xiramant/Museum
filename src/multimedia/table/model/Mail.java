@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static table.Main.RESOURCES_PATH;
-import static table.Main.sectionPanel;
+import static table.Main.*;
 import static table.model.FileProcessing.*;
 
 import javafx.scene.Cursor;
@@ -35,12 +35,10 @@ public class Mail {
         sectionPanel.getChildren().clear();
 
         for (int i = 0; i < mailFiles.size(); i++) {
-            sectionPanel.getChildren().add(new ImagePaneSection(mailFiles.get(i)));
+            sectionPanel.getChildren().add(new ImagePaneSection(mailFiles.get(i), SECTION_MAIL_WIDTH_MAX, 0));
         }
 
         //расположение писем на основной сцене
-//        sectionPanel.setMargin(sectionPanel, new Insets(50, 50, 50, 50));
-
         //по ширине
         int childsWidth = 0;
 

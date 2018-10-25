@@ -33,15 +33,21 @@ public class ImagePaneSection extends ImagePane {
     }
 
     //конструктор с передаваемым списком файлов фоновых изображений
-    public ImagePaneSection(final ArrayListIndex<File> imageFiles) {
-
+    // и ограничениями на максимальный размер
+    public ImagePaneSection(final ArrayListIndex<File> imageFiles, final double wMax, final double hMax) {
+        super(imageFiles.get(0), wMax, hMax);
         setImageFiles(imageFiles);
-        this.setFirstImageBackground();
+        this.imageFiles.setIndex(0);
+    }
+
+    //конструктор с передаваемым списком файлов фоновых изображений
+    // без задания ограничений на максимальный размер
+    public ImagePaneSection(final ArrayListIndex<File> imageFiles) {
+        this(imageFiles, 0, 0);
     }
 
     //установка следующего фонового изображения из списка imageFiles
     public void setNextImageBackground() {
-
         if (imageFiles.hasNextElement()) {
             this.setImageBackground(imageFiles.getNextElement());
         }
@@ -49,7 +55,6 @@ public class ImagePaneSection extends ImagePane {
 
     //установка предыдущего фонового изображения из списка imageFiles
     public void setPrevImageBackground() {
-
         if (imageFiles.hasPrevElement()) {
             setImageBackground(imageFiles.getPrevElement());
         }
@@ -57,7 +62,6 @@ public class ImagePaneSection extends ImagePane {
 
     //установка первого фонового изображения из списка imageFiles
     public void setFirstImageBackground() {
-
         if (imageFiles.size() != 0) {
             setImageBackground(imageFiles.getFirstElement());
         }
@@ -65,7 +69,6 @@ public class ImagePaneSection extends ImagePane {
 
     //установка последнего фонового изображения из списка imageFiles
     public void setLastImageBackground() {
-
         if (imageFiles.size() != 0) {
             setImageBackground(imageFiles.getLastElement());
         }
