@@ -1,6 +1,6 @@
 package table.model;
 
-public class TwoPoint {
+public class RelocationCoordinates {
 
     private double xBegin;
 
@@ -42,10 +42,10 @@ public class TwoPoint {
         this.yCurrent = yCurrent;
     }
 
-    public TwoPoint() {
-        this.xBegin = 0d;
-        this.yBegin = 0d;
-        this.xCurrent = 0d;
-        this.yCurrent = 0d;
+    public RelocationCoordinates() {
+        this.xBegin = 0;
+        this.yBegin = 0;
+        this.xCurrent = 0;
+        this.yCurrent = 0;
     }
 }

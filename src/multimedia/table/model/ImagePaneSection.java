@@ -1,7 +1,5 @@
 package table.model;
 
-import javafx.scene.image.Image;
-
 import java.io.File;
 
 public class ImagePaneSection extends ImagePane {
@@ -10,10 +8,13 @@ public class ImagePaneSection extends ImagePane {
     // для данного экземпляра панели
     private ArrayListIndex<File> imageFiles = new ArrayListIndex<>();
 
-    //Поле с классом TwoPoint,
-    // использующееся для хранения параметров расположения панели
+    //Поле с индексами расположения в группе
+    // при формировании упорядоченного расположения элементов
+//    private PositionInGroup positionInGroup = new PositionInGroup();
+
+    //Поле для хранения параметров расположения панели
     // при ее перемещении методом drag and drop
-    private TwoPoint twoPoint= new TwoPoint();
+    private RelocationCoordinates relocationCoordinates = new RelocationCoordinates();
 
     //геттеры и сеттеры полей
     public ArrayListIndex<File> getImageFiles() {
@@ -24,13 +25,22 @@ public class ImagePaneSection extends ImagePane {
         this.imageFiles.addAll(imageFiles);
     }
 
-    public TwoPoint getTwoPoint() {
-        return twoPoint;
+//    public PositionInGroup getPositionInGroup() {
+//        return positionInGroup;
+//    }
+//
+//    public void setPositionInGroup(final PositionInGroup positionInGroup) {
+//        this.positionInGroup = positionInGroup;
+//    }
+
+    public RelocationCoordinates getRelocationCoordinates() {
+        return relocationCoordinates;
     }
 
-    public void setTwoPoint(final TwoPoint twoPoint) {
-        this.twoPoint = twoPoint;
+    public void setRelocationCoordinates(final RelocationCoordinates relocationCoordinates) {
+        this.relocationCoordinates = relocationCoordinates;
     }
+
 
     //конструктор с передаваемым списком файлов фоновых изображений
     // и ограничениями на максимальный размер
@@ -74,9 +84,9 @@ public class ImagePaneSection extends ImagePane {
         }
     }
 
-    //Метод по очистке данных в поле twoPoint
+    //Метод по очистке данных в поле relocationCoordinates
     public void clearTwoPoint() {
-        setTwoPoint(new TwoPoint());
+        setRelocationCoordinates(new RelocationCoordinates());
     }
 
 }

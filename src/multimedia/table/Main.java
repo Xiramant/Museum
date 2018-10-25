@@ -42,7 +42,7 @@ public class Main extends Application {
     //максимальная ширина писем в секции
     public static final double SECTION_MAIL_WIDTH_MAX = 300;
     public static final double SECTION_MAIL_WIDTH_SPACING_MIN = 50;
-
+    public static final double SECTION_MAIL_HEIGHT_SPACING_MIN = 20;
 
     //размеры центральной области стола с основным содержимым
     public static final double TABLE_CENTER_SECTION_WIDTH = TABLE_WIDTH - TABLE_LEFT_SECTION_WIDTH;

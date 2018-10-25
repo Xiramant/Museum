@@ -1,12 +1,9 @@
 package table.model;
 
-import javafx.event.EventHandler;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Map;
 
-import static table.Main.RESOURCES_PATH;
 import static table.Main.*;
 import static table.model.FileProcessing.*;
 
@@ -40,6 +37,69 @@ public class Mail {
 
         //расположение писем на основной сцене
         //по ширине
+        //максимальное количество элементов в ряду
+        int maxElementsInFirstRow = (int) (TABLE_CENTER_SECTION_WIDTH / (SECTION_MAIL_WIDTH_MAX + SECTION_MAIL_WIDTH_SPACING_MIN));
+
+        //количество рядов
+        int elementsInRow = 0;
+        int rowCount = 0;
+        int maxElementsInRow;
+        int currentElementInRow = 0;
+        ArrayList<Integer> countElementsInRow = new ArrayList<>();
+
+        ArrayList<Integer> maxWidthInRow = new ArrayList<>();
+        maxWidthInRow.add(0);
+        ArrayList<Integer> maxHeightInRow = new ArrayList<>();
+        maxHeightInRow.add(0);
+
+//        ArrayList<Map<Integer, PositionInGroup>> map = new ArrayList<>();
+
+        for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
+
+            maxElementsInRow = (rowCount % 2 == 0)? maxElementsInFirstRow: maxElementsInFirstRow - 1;
+
+            if (currentElementInRow == maxElementsInRow) {
+                countElementsInRow.add(currentElementInRow);
+                currentElementInRow = 0;
+                rowCount++;
+                maxWidthInRow.add(0);
+                maxHeightInRow.add(0);
+            }
+
+            ImagePaneSection currentChildren = (ImagePaneSection) sectionPanel.getChildren().get(i);
+
+//            currentChildren.getPositionInGroup().setNumberIndex(elementsInRow);
+//            currentChildren.getPositionInGroup().setRowIndex(rowCount);
+
+            if (maxWidthInRow.get(rowCount) < currentChildren.getPrefWidth()) {
+                maxWidthInRow.set(rowCount, (int)currentChildren.getPrefWidth());
+            }
+
+            if (maxHeightInRow.get(rowCount) < currentChildren.getPrefHeight()) {
+                maxHeightInRow.set(rowCount, (int)currentChildren.getPrefHeight());
+            }
+
+            elementsInRow++;
+        }
+
+        countElementsInRow.add(currentElementInRow);
+
+        ArrayList<Integer> xSpacing = new ArrayList<>();
+
+        for (int i = 0; i < rowCount; i++) {
+            xSpacing.add((int) ((TABLE_CENTER_SECTION_WIDTH - (countElementsInRow.get(i) * maxWidthInRow.get(i))) / (countElementsInRow.get(i) + 1)));
+        }
+
+        ArrayList<Integer> ySpacing = new ArrayList<>();
+
+        for (int i = 0; i < rowCount; i++) {
+            ySpacing.add((int) ((TABLE_CENTER_SECTION_HEIGHT - (rowCount * countElementsInRow.get(i))) / (countElementsInRow.get(i) + 1)));
+        }
+
+
+
+
+
         int childsWidth = 0;
 
         for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
@@ -78,16 +138,16 @@ public class Mail {
             currentPanel.toFront();
             currentPanel.setCursor(Cursor.MOVE);
 
-            currentPanel.getTwoPoint().setXBegin(currentPanel.getTranslateX() - mouseEvent.getSceneX());
-            currentPanel.getTwoPoint().setYBegin(currentPanel.getTranslateY() - mouseEvent.getSceneY());
+            currentPanel.getRelocationCoordinates().setXBegin(currentPanel.getTranslateX() - mouseEvent.getSceneX());
+            currentPanel.getRelocationCoordinates().setYBegin(currentPanel.getTranslateY() - mouseEvent.getSceneY());
         });
 
         currentPanel.setOnMouseDragged(mouseEvent -> {
 
-            currentPanel.getTwoPoint().setXCurrent(currentPanel.getTwoPoint().getXBegin() + mouseEvent.getSceneX());
-            currentPanel.getTwoPoint().setYCurrent(currentPanel.getTwoPoint().getYBegin() + mouseEvent.getSceneY());
-            currentPanel.setTranslateX(currentPanel.getTwoPoint().getXCurrent());
-            currentPanel.setTranslateY(currentPanel.getTwoPoint().getYCurrent());
+            currentPanel.getRelocationCoordinates().setXCurrent(currentPanel.getRelocationCoordinates().getXBegin() + mouseEvent.getSceneX());
+            currentPanel.getRelocationCoordinates().setYCurrent(currentPanel.getRelocationCoordinates().getYBegin() + mouseEvent.getSceneY());
+            currentPanel.setTranslateX(currentPanel.getRelocationCoordinates().getXCurrent());
+            currentPanel.setTranslateY(currentPanel.getRelocationCoordinates().getYCurrent());
             currentPanel.setStyle(
                     "-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);"
             );
@@ -95,8 +155,8 @@ public class Mail {
 
         currentPanel.setOnMouseReleased(mouseEvent -> {
 
-            if (Math.abs(currentPanel.getTwoPoint().getXCurrent()) +
-                    Math.abs(currentPanel.getTwoPoint().getYCurrent()) > 2d) {
+            if (Math.abs(currentPanel.getRelocationCoordinates().getXCurrent()) +
+                    Math.abs(currentPanel.getRelocationCoordinates().getYCurrent()) > 2d) {
                 isDragAndDrop = true;
             }
             currentPanel.setStyle(
