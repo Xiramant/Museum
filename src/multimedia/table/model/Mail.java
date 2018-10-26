@@ -188,10 +188,24 @@ public class Mail {
 
         currentPanel.setOnMouseDragged(mouseEvent -> {
 
-            currentPanel.getRelocationCoordinates().setXCurrent(currentPanel.getRelocationCoordinates().getXBegin() + mouseEvent.getSceneX());
-            currentPanel.getRelocationCoordinates().setYCurrent(currentPanel.getRelocationCoordinates().getYBegin() + mouseEvent.getSceneY());
-            currentPanel.setTranslateX(currentPanel.getRelocationCoordinates().getXCurrent());
-            currentPanel.setTranslateY(currentPanel.getRelocationCoordinates().getYCurrent());
+            System.out.println("");
+            System.out.println("getLayoutX = " + currentPanel.getLayoutX() + "; getLayoutY = " + currentPanel.getLayoutY());
+            System.out.println("getTranslateX = " + currentPanel.getTranslateX() + "; getTranslateY = " + currentPanel.getTranslateY());
+
+            if ((currentPanel.getLayoutX() + currentPanel.getTranslateX()) >= 0 &&
+                    (currentPanel.getLayoutX() +  currentPanel.getTranslateX() + currentPanel.getPrefWidth() <= sectionPanel.getPrefWidth())) {
+                currentPanel.getRelocationCoordinates().setXCurrent(currentPanel.getRelocationCoordinates().getXBegin() + mouseEvent.getSceneX());
+                currentPanel.setTranslateX(currentPanel.getRelocationCoordinates().getXCurrent());
+
+            }
+
+            if ((currentPanel.getLayoutY() + currentPanel.getTranslateY()) >= 0 &&
+                    (currentPanel.getLayoutY() + + currentPanel.getTranslateY() + currentPanel.getPrefHeight() <= sectionPanel.getPrefHeight())) {
+                currentPanel.getRelocationCoordinates().setYCurrent(currentPanel.getRelocationCoordinates().getYBegin() + mouseEvent.getSceneY());
+                currentPanel.setTranslateY(currentPanel.getRelocationCoordinates().getYCurrent());
+            }
+
+
             currentPanel.setStyle(
                     "-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);"
             );
