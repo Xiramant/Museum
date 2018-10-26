@@ -8,10 +8,6 @@ public class ImagePaneSection extends ImagePane {
     // для данного экземпляра панели
     private ArrayListIndex<File> imageFiles = new ArrayListIndex<>();
 
-    //Поле с индексами расположения в группе
-    // при формировании упорядоченного расположения элементов
-//    private PositionInGroup positionInGroup = new PositionInGroup();
-
     //Поле для хранения параметров расположения панели
     // при ее перемещении методом drag and drop
     private RelocationCoordinates relocationCoordinates = new RelocationCoordinates();
@@ -24,14 +20,6 @@ public class ImagePaneSection extends ImagePane {
     public void setImageFiles(final ArrayListIndex<File> imageFiles) {
         this.imageFiles.addAll(imageFiles);
     }
-
-//    public PositionInGroup getPositionInGroup() {
-//        return positionInGroup;
-//    }
-//
-//    public void setPositionInGroup(final PositionInGroup positionInGroup) {
-//        this.positionInGroup = positionInGroup;
-//    }
 
     public RelocationCoordinates getRelocationCoordinates() {
         return relocationCoordinates;
