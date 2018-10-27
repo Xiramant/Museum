@@ -6,46 +6,46 @@ public class RelocationCoordinates {
 
     private double yBegin;
 
-    private double xCurrent;
+    private double xDelta;
 
-    private double yCurrent;
+    private double yDelta;
 
     public double getXBegin() {
         return xBegin;
     }
 
-    public void setXBegin(double xBegin) {
+    public void setXBegin(final double xBegin) {
         this.xBegin = xBegin;
     }
 
-    public double getXCurrent() {
-        return xCurrent;
+    public double getXDelta() {
+        return xDelta;
     }
 
-    public void setXCurrent(double xCurrent) {
-        this.xCurrent = xCurrent;
+    public void setXDelta(final double xDelta) {
+        this.xDelta = xDelta;
     }
 
     public double getYBegin() {
         return yBegin;
     }
 
-    public void setYBegin(double yBegin) {
+    public void setYBegin(final double yBegin) {
         this.yBegin = yBegin;
     }
 
-    public double getYCurrent() {
-        return yCurrent;
+    public double getYDelta() {
+        return yDelta;
     }
 
-    public void setYCurrent(double yCurrent) {
-        this.yCurrent = yCurrent;
+    public void setYDelta(final double yDelta) {
+        this.yDelta = yDelta;
     }
 
     public RelocationCoordinates() {
         this.xBegin = 0;
         this.yBegin = 0;
-        this.xCurrent = 0;
-        this.yCurrent = 0;
+        this.xDelta = 0;
+        this.yDelta = 0;
     }
 }

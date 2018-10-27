@@ -2,9 +2,7 @@ package table.model;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static table.Main.*;
 import static table.model.FileProcessing.*;
@@ -173,6 +171,8 @@ public class Mail {
         }
     }
 
+
+
     //Метод обработки действий пользователя
     // (сейчас реализовано перетаскивание и перелистывание страниц письма с помощью мыши)
     public static void actionProcessing(final ImagePaneSection currentPanel) {
@@ -182,8 +182,8 @@ public class Mail {
             currentPanel.toFront();
             currentPanel.setCursor(Cursor.MOVE);
 
-            currentPanel.getRelocationCoordinates().setXBegin(currentPanel.getTranslateX() - mouseEvent.getSceneX());
-            currentPanel.getRelocationCoordinates().setYBegin(currentPanel.getTranslateY() - mouseEvent.getSceneY());
+            currentPanel.getRelocationCoordinates().setXBegin(mouseEvent.getSceneX());
+            currentPanel.getRelocationCoordinates().setYBegin(mouseEvent.getSceneY());
         });
 
         currentPanel.setOnMouseDragged(mouseEvent -> {
@@ -192,19 +192,11 @@ public class Mail {
             System.out.println("getLayoutX = " + currentPanel.getLayoutX() + "; getLayoutY = " + currentPanel.getLayoutY());
             System.out.println("getTranslateX = " + currentPanel.getTranslateX() + "; getTranslateY = " + currentPanel.getTranslateY());
 
-            if ((currentPanel.getLayoutX() + currentPanel.getTranslateX()) >= 0 &&
-                    (currentPanel.getLayoutX() +  currentPanel.getTranslateX() + currentPanel.getPrefWidth() <= sectionPanel.getPrefWidth())) {
-                currentPanel.getRelocationCoordinates().setXCurrent(currentPanel.getRelocationCoordinates().getXBegin() + mouseEvent.getSceneX());
-                currentPanel.setTranslateX(currentPanel.getRelocationCoordinates().getXCurrent());
+                currentPanel.getRelocationCoordinates().setXDelta(mouseEvent.getSceneX() - currentPanel.getRelocationCoordinates().getXBegin());
+                currentPanel.setTranslateX(currentPanel.getRelocationCoordinates().getXDelta());
 
-            }
-
-            if ((currentPanel.getLayoutY() + currentPanel.getTranslateY()) >= 0 &&
-                    (currentPanel.getLayoutY() + + currentPanel.getTranslateY() + currentPanel.getPrefHeight() <= sectionPanel.getPrefHeight())) {
-                currentPanel.getRelocationCoordinates().setYCurrent(currentPanel.getRelocationCoordinates().getYBegin() + mouseEvent.getSceneY());
-                currentPanel.setTranslateY(currentPanel.getRelocationCoordinates().getYCurrent());
-            }
-
+                currentPanel.getRelocationCoordinates().setYDelta(mouseEvent.getSceneY() - currentPanel.getRelocationCoordinates().getYBegin());
+                currentPanel.setTranslateY(currentPanel.getRelocationCoordinates().getYDelta());
 
             currentPanel.setStyle(
                     "-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);"
@@ -213,10 +205,18 @@ public class Mail {
 
         currentPanel.setOnMouseReleased(mouseEvent -> {
 
-            if (Math.abs(currentPanel.getRelocationCoordinates().getXCurrent()) +
-                    Math.abs(currentPanel.getRelocationCoordinates().getYCurrent()) > 2d) {
+            if (Math.abs(currentPanel.getRelocationCoordinates().getXDelta()) +
+                    Math.abs(currentPanel.getRelocationCoordinates().getYDelta()) > 2d) {
                 isDragAndDrop = true;
             }
+
+            currentPanel.setLayoutX(currentPanel.getLayoutX() + currentPanel.getTranslateX());
+            currentPanel.setLayoutY(currentPanel.getLayoutY() + currentPanel.getTranslateY());
+            currentPanel.setTranslateX(0);
+            currentPanel.setTranslateY(0);
+
+            locationWithinSectionPanel(currentPanel);
+
             currentPanel.setStyle(
                     "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
             );
@@ -243,10 +243,31 @@ public class Mail {
                 if (event.getClickCount() == 2) {
                     currentPanel.setFirstImageBackground();
                 }
+
+                locationWithinSectionPanel(currentPanel);
             }
 
             isDragAndDrop = false;
         });
+    }
+
+    public static void locationWithinSectionPanel(final ImagePaneSection currentPanel) {
+
+        if (currentPanel.getLayoutX() < 0) {
+            currentPanel.setLayoutX(2);
+        }
+
+        if (currentPanel.getLayoutY() < 0) {
+            currentPanel.setLayoutY(2);
+        }
+
+        if (currentPanel.getLayoutX() + currentPanel.getPrefWidth() > TABLE_CENTER_SECTION_WIDTH) {
+            currentPanel.setLayoutX(TABLE_CENTER_SECTION_WIDTH - currentPanel.getPrefWidth() - 2);
+        }
+
+        if (currentPanel.getLayoutY() + currentPanel.getPrefHeight() > TABLE_CENTER_SECTION_HEIGHT) {
+            currentPanel.setLayoutY(TABLE_CENTER_SECTION_HEIGHT - currentPanel.getPrefHeight() - 2);
+        }
     }
 
 }
