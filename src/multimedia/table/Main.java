@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import static javafx.scene.layout.BackgroundPosition.CENTER;
 import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
 import static table.model.Mail.*;
+import static table.model.Map.setMapScene;
 import static table.model.SectionKey.*;
 
 public class Main extends Application {
@@ -39,13 +40,17 @@ public class Main extends Application {
     public static final double SECTION_ICON_WIDTH_MAX = 330;
     public static final double SECTION_ICON_HEIGHT_MAX = 300;
 
+    //размеры центральной области стола с основным содержимым
+    public static final double TABLE_CENTER_SECTION_WIDTH = TABLE_WIDTH - TABLE_LEFT_SECTION_WIDTH;
+    public static final double TABLE_CENTER_SECTION_HEIGHT = TABLE_HEIGHT - TABLE_TOP_SECTION_HEIGHT;
+
     //максимальная ширина писем в секции
     public static final double SECTION_MAIL_WIDTH_MAX = 300;
     public static final double SECTION_MAIL_WIDTH_SPACING_MIN = 50;
 
-    //размеры центральной области стола с основным содержимым
-    public static final double TABLE_CENTER_SECTION_WIDTH = TABLE_WIDTH - TABLE_LEFT_SECTION_WIDTH;
-    public static final double TABLE_CENTER_SECTION_HEIGHT = TABLE_HEIGHT - TABLE_TOP_SECTION_HEIGHT;
+    //максимальная ширина иконок при инициализации раздела Карты
+//    public static final double SECTION_MAP_WIDTH_MAX = 300;
+//    public static final double SECTION_MAP_HEIGHT_MAX = 300;
 
     //Панель для отображения содержания раздела (секции)
     public static Pane sectionPanel = new Pane();
@@ -132,7 +137,7 @@ public class Main extends Application {
                 switch (keyWord) {
                     case MAP:
                         System.out.println("Выбран раздел Карты");
-                        setPanelSection(MAP);
+                        setMapScene();
                         break;
                     case CASE:
                         System.out.println("Выбран раздел Личные дела");

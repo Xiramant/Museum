@@ -72,6 +72,10 @@ public class ImagePaneSection extends ImagePane {
         }
     }
 
+    public int getBackgroundIndex() {
+        return imageFiles.getCurrentIndex();
+    }
+
     //Метод по очистке данных в поле relocationCoordinates
     public void clearTwoPoint() {
         setRelocationCoordinates(new RelocationCoordinates());
