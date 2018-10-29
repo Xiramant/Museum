@@ -42,10 +42,16 @@ public class RelocationCoordinates {
         this.yDelta = yDelta;
     }
 
-    public RelocationCoordinates() {
-        this.xBegin = 0;
-        this.yBegin = 0;
+    public RelocationCoordinates(final double xBegin, final double yBegin) {
+        this.xBegin = xBegin;
+        this.yBegin = yBegin;
         this.xDelta = 0;
         this.yDelta = 0;
     }
+
+    public RelocationCoordinates() {
+        this(0,0);
+    }
+
+
 }

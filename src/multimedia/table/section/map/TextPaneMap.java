@@ -6,6 +6,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import table.model.ArrayListIndex;
 import table.model.ImagePane;
+import table.model.RelocationCoordinates;
 import table.model.TextPane;
 
 import static table.section.map.Map.TEXT_BACKGROUND_FILE;
@@ -35,6 +36,18 @@ public class TextPaneMap extends ImagePane {
 
     //лист стрингов с текстом, подходящим по размеру под заданный текстовый блок
     private ArrayListIndex<String> textPaneList = new ArrayListIndex<>();
+
+    //Поле для хранения параметров расположения панели
+    // при ее перемещении методом drag and drop
+    private RelocationCoordinates relocationCoordinates = new RelocationCoordinates();
+
+    public RelocationCoordinates getRelocationCoordinates() {
+        return relocationCoordinates;
+    }
+
+    public void setRelocationCoordinates(final RelocationCoordinates relocationCoordinates) {
+        this.relocationCoordinates = relocationCoordinates;
+    }
 
 
     public TextPaneMap(final String text) {
@@ -92,5 +105,10 @@ public class TextPaneMap extends ImagePane {
 
     private void setCountPageText() {
         countPageText.setText("страница: " + (textPaneList.getCurrentIndex() + 1) + " / " + textPaneList.size());
+    }
+
+    //Метод по очистке данных в поле relocationCoordinates
+    public void clearRelocationCoordinates() {
+        setRelocationCoordinates(new RelocationCoordinates());
     }
 }

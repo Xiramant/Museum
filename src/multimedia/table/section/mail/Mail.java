@@ -99,7 +99,7 @@ public class Mail {
             currentPanel.setStyle(
                     "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
             );
-            currentPanel.clearTwoPoint();
+            currentPanel.clearRelocationCoordinates();
         });
 
 

@@ -82,7 +82,7 @@ public class ImagePaneSection extends ImagePane {
     }
 
     //Метод по очистке данных в поле relocationCoordinates
-    public void clearTwoPoint() {
+    public void clearRelocationCoordinates() {
         setRelocationCoordinates(new RelocationCoordinates());
     }
 
