@@ -1,17 +1,18 @@
-package table.model;
+package table.section.mail;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import static table.Main.*;
 import static table.model.FileProcessing.*;
 import static table.model.InitialLocation.initialPositionElements;
 
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.input.*;
-import javafx.scene.layout.Pane;
+import table.model.ArrayListIndex;
+import table.model.FileFormat;
+import table.model.ImagePaneSection;
+import table.model.SectionKey;
 
 
 public class Mail {
@@ -31,18 +32,18 @@ public class Mail {
         ArrayList<ArrayListIndex<File>> mailFiles = new ArrayList<>(getFiles(fileMailDirs, FileFormat.IMAGE));
 
         //инициализация первоначального состояния раздела Mail
-        sectionPanel.getChildren().clear();
+        sectionPane.getChildren().clear();
 
         for (int i = 0; i < mailFiles.size(); i++) {
-            sectionPanel.getChildren().add(new ImagePaneSection(mailFiles.get(i), SECTION_MAIL_WIDTH_MAX, 0));
+            sectionPane.getChildren().add(new ImagePaneSection(mailFiles.get(i), SECTION_MAIL_WIDTH_MAX, 0));
         }
 
         //первоначальное расположение писем на основной сцене
-        initialPositionElements(sectionPanel.getChildren(), SECTION_MAIL_WIDTH_MAX + SECTION_MAIL_WIDTH_SPACING_MIN);
+        initialPositionElements(sectionPane.getChildren(), SECTION_MAIL_WIDTH_MAX + SECTION_MAIL_WIDTH_SPACING_MIN);
 
         //обработка действий с письмами
-        for (int i = 0; i < sectionPanel.getChildren().size(); i++) {
-            actionProcessing((ImagePaneSection)sectionPanel.getChildren().get(i));
+        for (int i = 0; i < sectionPane.getChildren().size(); i++) {
+            actionProcessing((ImagePaneSection) sectionPane.getChildren().get(i));
         }
 
     }

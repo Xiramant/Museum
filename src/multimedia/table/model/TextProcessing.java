@@ -16,7 +16,7 @@ public class TextProcessing {
 
     //Метод копирования текста из файла в лист стрингов
     //каждый стринг представляет собой строчку из файла с текстом
-    static String readingFileIntoString(final File file) {
+    public static String readingFileIntoString(final File file) {
 
         //временная строка, куда записываются символы из одной строки
         StringBuilder builderTemp = new StringBuilder();
@@ -51,7 +51,7 @@ public class TextProcessing {
     }
 
     //Метод копирования первой строчки из файла в String
-    static String readingFirstStokeFromFile(final File file) {
+    public static String readingFirstStokeFromFile(final File file) {
 
         //временная строка, куда записываются символы из одной строки
         StringBuilder builderTemp = new StringBuilder();

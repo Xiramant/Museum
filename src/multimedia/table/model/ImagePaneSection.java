@@ -1,6 +1,7 @@
 package table.model;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class ImagePaneSection extends ImagePane {
 
@@ -32,15 +33,15 @@ public class ImagePaneSection extends ImagePane {
 
     //конструктор с передаваемым списком файлов фоновых изображений
     // и ограничениями на максимальный размер
-    public ImagePaneSection(final ArrayListIndex<File> imageFiles, final double wMax, final double hMax) {
-        super(imageFiles.get(0), wMax, hMax);
-        setImageFiles(imageFiles);
+    public ImagePaneSection(final ArrayList<File> imageFilesEnter, final double wMax, final double hMax) {
+        super(imageFilesEnter.get(0), wMax, hMax);
+        this.imageFiles.addAll(imageFilesEnter);
         this.imageFiles.setIndex(0);
     }
 
     //конструктор с передаваемым списком файлов фоновых изображений
     // без задания ограничений на максимальный размер
-    public ImagePaneSection(final ArrayListIndex<File> imageFiles) {
+    public ImagePaneSection(final ArrayList<File> imageFiles) {
         this(imageFiles, 0, 0);
     }
 

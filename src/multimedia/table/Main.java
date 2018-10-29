@@ -1,11 +1,9 @@
 package table;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -16,8 +14,8 @@ import java.util.ArrayList;
 
 import static javafx.scene.layout.BackgroundPosition.CENTER;
 import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
-import static table.model.Mail.*;
-import static table.model.Map.setMapScene;
+import static table.section.mail.Mail.*;
+import static table.section.map.Map.setMapScene;
 import static table.model.SectionKey.*;
 
 public class Main extends Application {
@@ -53,7 +51,7 @@ public class Main extends Application {
 //    public static final double SECTION_MAP_HEIGHT_MAX = 300;
 
     //Панель для отображения содержания раздела (секции)
-    public static Pane sectionPanel = new Pane();
+    public static Pane sectionPane = new Pane();
 
     //лист ключевых слов разделов
     // из которых будет формироваться интерактивный стол
@@ -98,11 +96,11 @@ public class Main extends Application {
         root.setTop(topEmpty);
 
         //создание центральной панели для отображения содержания раздела
-//        StackPane sectionPanel = new StackPane();
-        sectionPanel.setPrefWidth(TABLE_CENTER_SECTION_WIDTH);
-        sectionPanel.setPrefHeight(TABLE_CENTER_SECTION_HEIGHT);
-//        sectionPanel.setAlignment(Pos.CENTER);
-        root.setCenter(sectionPanel);
+//        StackPane sectionPane = new StackPane();
+        sectionPane.setPrefWidth(TABLE_CENTER_SECTION_WIDTH);
+        sectionPane.setPrefHeight(TABLE_CENTER_SECTION_HEIGHT);
+//        sectionPane.setAlignment(Pos.CENTER);
+        root.setCenter(sectionPane);
 
 
         //задание левой вертикальной области стола
@@ -142,7 +140,7 @@ public class Main extends Application {
                     case CASE:
                         System.out.println("Выбран раздел Личные дела");
                     {
-                        sectionPanel.getChildren().clear();
+                        sectionPane.getChildren().clear();
                     }
                     break;
                     case MAIL:
@@ -184,8 +182,8 @@ public class Main extends Application {
     private static void setPanelSection(final SectionKey key) {
 
 //        if (key.equals(MAP)) {
-//            sectionPanel.getChildren().clear();
-//            sectionPanel.getChildren().add(new ImagePane(MAP));
+//            sectionPane.getChildren().clear();
+//            sectionPane.getChildren().add(new ImagePane(MAP));
 //        }
     }
 

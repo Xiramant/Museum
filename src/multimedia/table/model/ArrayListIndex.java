@@ -10,20 +10,22 @@ public class ArrayListIndex<E> extends ArrayList<E> {
 
     private int index = -1;
 
-    public int getIndex() {
-        return index;
-    }
-
     public void setIndex(final int index) {
         this.index = index;
     }
 
     public E getNextElement() {
-        return super.get(++index);
+        if (hasNextElement()) {
+            return super.get(++index);
+        }
+        return getLastElement();
     }
 
     public E getPrevElement() {
-        return super.get(--index);
+        if (hasPrevElement()) {
+            return super.get(--index);
+        }
+        return getFirstElement();
     }
 
     public E getCurrentElement() {
