@@ -12,20 +12,29 @@ import static table.section.map.Map.TEXT_BACKGROUND_FILE;
 
 public class TextPaneMap extends ImagePane {
 
+    //отображаемый текстовый блок
+    private Text displayText = new Text();
+
     //высота текстового блока
-    private final double TEXT_BLOCK_HEIGHT = 330;
+    private final double TEXT_BLOCK_HEIGHT = 310;
 
     //отступ сверху для текстового блока
-    private final double TEXT_TOP_PADDING = 82;
+    private final double TEXT_TOP_PADDING = 80;
 
     //шрифт текстового блока
     private final Font TEXT_BLOCK_FONT = new Font("Book Antiqua Bold Italic", 14);
 
+    //отображение текста количества страниц
+    private Text countPageText = new Text();
+
+    //отступ сверху для блока количество страниц
+    private final double TEXT_BOTTOM_PADDING = 400;
+
+    //шрифт блока количество страниц
+    private final Font COUNT_PAGE_FONT = new Font("Book Antiqua Bold Italic", 10);
+
     //лист стрингов с текстом, подходящим по размеру под заданный текстовый блок
     private ArrayListIndex<String> textPaneList = new ArrayListIndex<>();
-
-    //отображаемый текстовый блок
-    private Text displayText = new Text();
 
 
     public TextPaneMap(final String text) {
@@ -48,23 +57,40 @@ public class TextPaneMap extends ImagePane {
 
         displayText.setText(textPaneList.getFirstElement());
 
-        this.getChildren().add(displayText);
+        countPageText.setWrappingWidth(this.getPrefWidth() * 0.8);
+        countPageText.setFont(COUNT_PAGE_FONT);
+        countPageText.setX(this.getPrefWidth() * 0.1);
+        countPageText.setTextAlignment(TextAlignment.RIGHT);
+        countPageText.setY(TEXT_BOTTOM_PADDING);
+        countPageText.setTextOrigin(VPos.BOTTOM);
+
+        setCountPageText();
+
+        this.getChildren().addAll(displayText, countPageText);
     }
 
     //методы смены текста в текстовом блоке
     public void setNextTextBlock() {
         displayText.setText(textPaneList.getNextElement());
+        setCountPageText();
     }
 
     public void setPrevTextBlock() {
         displayText.setText(textPaneList.getPrevElement());
+        setCountPageText();
     }
 
     public void setFirstTextBlock() {
         displayText.setText(textPaneList.getFirstElement());
+        setCountPageText();
     }
 
     public void setLastTextBlock() {
         displayText.setText(textPaneList.getLastElement());
+        setCountPageText();
+    }
+
+    private void setCountPageText() {
+        countPageText.setText("страница: " + (textPaneList.getCurrentIndex() + 1) + " / " + textPaneList.size());
     }
 }

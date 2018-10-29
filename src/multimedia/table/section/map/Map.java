@@ -30,6 +30,12 @@ public class Map {
     //внутренний лист - текстовые файлы для сражения.
     static ArrayList<ArrayList<File>> mapTextFiles;
 
+    //лист стрингов, в которые преобразуется содержание текстовых файлов
+    static ArrayListIndex<String> mapTextString = new ArrayListIndex<>();
+
+    //минимальное расстояние по горизонтали между блоками изначальной сцены
+    private static final double MIN_WIDTH_SPACING = 30;
+
     //метод установки элементов раздела Map в sectionPane
     public static void setMapScene() {
 
@@ -55,7 +61,7 @@ public class Map {
             sectionPane.getChildren().add(new InitialMapPane(operationNameList.get(i)));
         }
 
-        initialPositionElements(sectionPane.getChildren(), ((Pane) sectionPane.getChildren().get(0)).getPrefWidth());
+        initialPositionElements(sectionPane.getChildren(), ((Pane) sectionPane.getChildren().get(0)).getPrefWidth() + MIN_WIDTH_SPACING);
 
         //Обработка действий при нажатии на панель с названием операции
         for (int i = 0; i < sectionPane.getChildren().size(); i++) {
@@ -64,7 +70,6 @@ public class Map {
     }
 
     //Метод обработки действий пользователя на начальной сцене
-    // (сейчас реализовано перетаскивание и перелистывание страниц письма с помощью мыши)
     public static void actionProcessingInitialMap(final int currentPanelIndex) {
 
         ImagePane currentPanel = (ImagePane) sectionPane.getChildren().get(currentPanelIndex);
@@ -77,23 +82,22 @@ public class Map {
             ArrayList<File> imageList = new ArrayList<>(mapImageFiles.get(currentPanelIndex));
             ArrayList<File> textList = new ArrayList<>(mapTextFiles.get(currentPanelIndex));
 
-            //лист стрингов, в которые преобразуется содержание текстовых файлов
-            ArrayListIndex<String> mapTextString = new ArrayListIndex<>();
-
+            mapTextString.clear();
             for (int i = 0; i < textList.size(); i++) {
                 mapTextString.add(readingFileIntoString(textList.get(i)));
             }
 
-            ImagePaneSection maps = new ImagePaneSection(imageList);
+            ImagePaneMap maps = new ImagePaneMap(imageList);
             maps.setLayoutX((TABLE_CENTER_SECTION_WIDTH - maps.getPrefWidth()) / 2);
             maps.setLayoutY((TABLE_CENTER_SECTION_HEIGHT - maps.getPrefHeight()) / 2);
 
-            TextPaneMap text = new TextPaneMap(mapTextString.get(maps.getBackgroundIndex()));
+            TextPaneMap text = new TextPaneMap(mapTextString.get(maps.getCurrentBackgroundIndex()));
             text.setLayoutX(TABLE_CENTER_SECTION_WIDTH - text.getPrefWidth());
             text.setLayoutY(TABLE_CENTER_SECTION_HEIGHT - text.getPrefHeight());
 
             sectionPane.getChildren().addAll(maps, text);
 
+            //Обработка действий при нажатии на элементы в основном разделе
             for (int i = 0; i < sectionPane.getChildren().size(); i++) {
                 actionProcessingMainMap(i);
             }
@@ -103,14 +107,51 @@ public class Map {
     }
 
     //Метод обработки действий пользователя на основной сцене
-    // (сейчас реализовано перетаскивание и перелистывание страниц письма с помощью мыши)
     public static void actionProcessingMainMap(final int currentPanelIndex) {
 
         System.out.println("переход к основной сцене");
 
         if (currentPanelIndex == 0) {
-            
 
+            ImagePaneMap ips = (ImagePaneMap)sectionPane.getChildren().get(currentPanelIndex);
+
+            ips.setOnMouseClicked(event -> {
+
+                int prevBackgroundIndex = ips.getCurrentBackgroundIndex();
+
+                //нажатие левой кнопки приводит к листанию текста вперед
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    ips.setNextImageBackground();
+                }
+
+                //нажатие правой кнопки приводит к листанию текста назад
+                if (event.getButton() == MouseButton.SECONDARY) {
+                    ips.setPrevImageBackground();
+                }
+
+                //Двойной щелчок левой кнопкой приводит к переносу текста на последнюю страницу
+                if (event.getClickCount() == 2) {
+                    ips.setLastImageBackground();
+                }
+
+                //Двойной щелчок правой кнопкой приводит к возвращению текста на первую страницу
+                if (event.getButton() == MouseButton.SECONDARY && event.getClickCount() == 2) {
+                    ips.setFirstImageBackground();
+                }
+
+                int currentBackgroundIndex = ips.getCurrentBackgroundIndex();
+
+                if (currentBackgroundIndex != prevBackgroundIndex) {
+                    TextPaneMap tpmNew = new TextPaneMap(mapTextString.get(ips.getCurrentBackgroundIndex()));
+                    tpmNew.setLayoutX(TABLE_CENTER_SECTION_WIDTH - tpmNew.getPrefWidth());
+                    tpmNew.setLayoutY(TABLE_CENTER_SECTION_HEIGHT - tpmNew.getPrefHeight());
+                    sectionPane.getChildren().set(1, tpmNew);
+
+                    for (int i = 0; i < sectionPane.getChildren().size(); i++) {
+                        actionProcessingMainMap(i);
+                    }
+                }
+            });
         }
 
         if (currentPanelIndex == 1) {
@@ -122,7 +163,6 @@ public class Map {
                 //нажатие левой кнопки приводит к листанию текста вперед
                 if (event.getButton() == MouseButton.PRIMARY) {
                     tpm.setNextTextBlock();
-                    System.out.println("щелчок левой");
                 }
 
                 //нажатие правой кнопки приводит к листанию текста назад

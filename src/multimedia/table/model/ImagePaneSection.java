@@ -73,8 +73,12 @@ public class ImagePaneSection extends ImagePane {
         }
     }
 
-    public int getBackgroundIndex() {
+    public int getCurrentBackgroundIndex() {
         return imageFiles.getCurrentIndex();
+    }
+
+    public int getLastBackgroundIndex() {
+        return imageFiles.size() - 1;
     }
 
     //Метод по очистке данных в поле relocationCoordinates
