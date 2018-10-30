@@ -19,38 +19,38 @@ public class Map {
     public static final File TEXT_BACKGROUND_FILE = new File(RESOURCES_PATH + "map/text_case_0_1.png");
 
     //Ключевое слово раздела Map
-    static final SectionKey mapKey = SectionKey.MAP;
-
-    //Карты:
-    //внешний лист - лист сражений;
-    //внутренний лист - карты для сражения.
-    static ArrayList<ArrayList<File>> mapImageFiles;
-
-    //Текстовые файлы:
-    //внешний лист - лист сражений;
-    //внутренний лист - текстовые файлы для сражения.
-    static ArrayList<ArrayList<File>> mapTextFiles;
-
-    //лист стрингов, в которые преобразуется содержание текстовых файлов
-    static ArrayListIndex<String> mapTextString = new ArrayListIndex<>();
+    private static final SectionKey MAP_KEY = SectionKey.MAP;
 
     //минимальное расстояние по горизонтали между блоками изначальной сцены
     private static final double MIN_WIDTH_SPACING = 30;
 
-    static Boolean isDragAndDrop = false;
+    //Карты:
+    //внешний лист - лист сражений;
+    //внутренний лист - карты для сражения.
+    private static ArrayList<ArrayList<File>> mapImageFiles;
+
+    //Текстовые файлы:
+    //внешний лист - лист сражений;
+    //внутренний лист - текстовые файлы для сражения.
+    private static ArrayList<ArrayList<File>> mapTextFiles;
+
+    //лист стрингов, в которые преобразуется содержание текстовых файлов
+    private static ArrayListIndex<String> mapTextString = new ArrayListIndex<>();
+
+    //флаг осуществления перемещения текстового блока
+    private static Boolean isDragAndDropMapText = false;
 
     //метод установки элементов раздела Map в sectionPane
     public static void setMapScene() {
 
         //лист директорий, в которых содержатся файлы для отображения на основной сцене
-        ArrayList<File> fileMapDirs = new ArrayList<>(getDir(mapKey));
+        ArrayList<File> fileMapDirs = new ArrayList<>(getDir(MAP_KEY));
 
         mapImageFiles = new ArrayList<>(getFiles(fileMapDirs, FileFormat.IMAGE));
         mapTextFiles = new ArrayList<>(getFiles(fileMapDirs, FileFormat.TEXT));
 
         //Список названий сражений
         ArrayList<String> operationNameList = new ArrayList<>();
-
         for (int i = 0; i < mapTextFiles.size(); i++) {
             System.out.println("i = " + i + "; file = " + mapTextFiles.get(i).get(0));
             operationNameList.add(readingFirstStokeFromFile(mapTextFiles.get(i).get(0)));
@@ -59,11 +59,9 @@ public class Map {
         //Инициализация первоначального состояния раздела Карты
         // с расположением списка сражений
         sectionPane.getChildren().clear();
-
         for (int i = 0; i < operationNameList.size(); i++) {
             sectionPane.getChildren().add(new InitialMapPane(operationNameList.get(i)));
         }
-
         initialPositionElements(sectionPane.getChildren(), ((Pane) sectionPane.getChildren().get(0)).getPrefWidth() + MIN_WIDTH_SPACING);
 
         //Обработка действий при нажатии на панель с названием операции
@@ -105,15 +103,12 @@ public class Map {
                 actionProcessingMainMap(i);
             }
         });
-
-
     }
 
     //Метод обработки действий пользователя на основной сцене
     public static void actionProcessingMainMap(final int currentPanelIndex) {
 
-        System.out.println("переход к основной сцене");
-
+        //при нажатии на карту
         if (currentPanelIndex == 0) {
 
             ImagePaneMap ips = (ImagePaneMap)sectionPane.getChildren().get(currentPanelIndex);
@@ -144,6 +139,8 @@ public class Map {
 
                 int currentBackgroundIndex = ips.getCurrentBackgroundIndex();
 
+                //действия, если произошла смена карты:
+                //меняется текстовый блок, но его положение сохраняется
                 if (currentBackgroundIndex != prevBackgroundIndex) {
 
                     ips.setLayoutX((TABLE_CENTER_SECTION_WIDTH - ips.getPrefWidth()) / 2);
@@ -154,6 +151,8 @@ public class Map {
                     tpmNew.setLayoutY( sectionPane.getChildren().get(1).getLayoutY());
                     sectionPane.getChildren().set(1, tpmNew);
 
+                    //действия по нажатию объектов на основной сцене
+                    //получается рекурсия, работа которой до конца не понятна
                     for (int i = 0; i < sectionPane.getChildren().size(); i++) {
                         actionProcessingMainMap(i);
                     }
@@ -161,6 +160,7 @@ public class Map {
             });
         }
 
+        //при нажатии на текстовый блок
         if (currentPanelIndex == 1) {
 
             TextPaneMap tpm = (TextPaneMap)sectionPane.getChildren().get(currentPanelIndex);
@@ -169,8 +169,8 @@ public class Map {
             tpm.setOnMousePressed(mouseEvent -> {
                 tpm.setCursor(Cursor.MOVE);
 
-                tpm.getRelocationCoordinates().setXBegin(mouseEvent.getSceneX());
-                tpm.getRelocationCoordinates().setYBegin(mouseEvent.getSceneY());
+                tpm.getRelocCoord().setXBegin(mouseEvent.getSceneX());
+                tpm.getRelocCoord().setYBegin(mouseEvent.getSceneY());
             });
 
             tpm.setOnMouseDragged(mouseEvent -> {
@@ -179,11 +179,11 @@ public class Map {
                 System.out.println("getLayoutX = " + tpm.getLayoutX() + "; getLayoutY = " + tpm.getLayoutY());
                 System.out.println("getTranslateX = " + tpm.getTranslateX() + "; getTranslateY = " + tpm.getTranslateY());
 
-                tpm.getRelocationCoordinates().setXDelta(mouseEvent.getSceneX() - tpm.getRelocationCoordinates().getXBegin());
-                tpm.setTranslateX(tpm.getRelocationCoordinates().getXDelta());
+                tpm.getRelocCoord().setXDelta(mouseEvent.getSceneX() - tpm.getRelocCoord().getXBegin());
+                tpm.setTranslateX(tpm.getRelocCoord().getXDelta());
 
-                tpm.getRelocationCoordinates().setYDelta(mouseEvent.getSceneY() - tpm.getRelocationCoordinates().getYBegin());
-                tpm.setTranslateY(tpm.getRelocationCoordinates().getYDelta());
+                tpm.getRelocCoord().setYDelta(mouseEvent.getSceneY() - tpm.getRelocCoord().getYBegin());
+                tpm.setTranslateY(tpm.getRelocCoord().getYDelta());
 
                 tpm.setStyle(
                         "-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);"
@@ -192,9 +192,9 @@ public class Map {
 
             tpm.setOnMouseReleased(mouseEvent -> {
 
-                if (Math.abs(tpm.getRelocationCoordinates().getXDelta()) +
-                        Math.abs(tpm.getRelocationCoordinates().getYDelta()) > 2d) {
-                    isDragAndDrop = true;
+                if (Math.abs(tpm.getRelocCoord().getXDelta()) +
+                        Math.abs(tpm.getRelocCoord().getYDelta()) > 2d) {
+                    isDragAndDropMapText = true;
                 }
 
                 tpm.setLayoutX(tpm.getLayoutX() + tpm.getTranslateX());
@@ -207,13 +207,13 @@ public class Map {
                 tpm.setStyle(
                         "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
                 );
-                tpm.clearRelocationCoordinates();
+                tpm.clearRelocCoord();
             });
 
             //действия при клике мышкой
             tpm.setOnMouseClicked(event -> {
 
-                if (!isDragAndDrop) {
+                if (!isDragAndDropMapText) {
 
                     //нажатие левой кнопки приводит к листанию текста вперед
                     if (event.getButton() == MouseButton.PRIMARY) {
@@ -236,7 +236,7 @@ public class Map {
                     }
                 }
 
-                isDragAndDrop = false;
+                isDragAndDropMapText = false;
             });
         }
     }
@@ -250,14 +250,6 @@ public class Map {
 
         if (currentPanel.getLayoutY() < 0) {
             currentPanel.setLayoutY(2);
-        }
-
-        if (currentPanel.getLayoutX() + currentPanel.getPrefWidth() > TABLE_CENTER_SECTION_WIDTH) {
-            currentPanel.setLayoutX(TABLE_CENTER_SECTION_WIDTH - currentPanel.getPrefWidth() - 2);
-        }
-
-        if (currentPanel.getLayoutY() + currentPanel.getPrefHeight() > TABLE_CENTER_SECTION_HEIGHT) {
-            currentPanel.setLayoutY(TABLE_CENTER_SECTION_HEIGHT - currentPanel.getPrefHeight() - 2);
         }
     }
 

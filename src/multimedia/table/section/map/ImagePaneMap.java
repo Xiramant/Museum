@@ -13,22 +13,23 @@ import java.util.ArrayList;
 
 public class ImagePaneMap extends ImagePaneSection{
 
-    //отображение текста количества карт
-    private Text countPageText = new Text();
-
     //отступ сверху для блока количество карт
-    private final double TEXT_TOP_PADDING = 7;
+    private static final double TEXT_TOP_PADDING = 7;
 
-    //отступ сверху для блока количество карт
-    private final double TEXT_LEFT_PADDING = 12;
+    //отступ слева для блока количество карт
+    private static final double TEXT_LEFT_PADDING = 12;
 
     //шрифт блока количество карт
-    private final Font COUNT_PAGE_FONT = new Font("Book Antiqua Bold Italic", 10);
+    private static final Font COUNT_PAGE_FONT = new Font("Book Antiqua Bold Italic", 10);
+
+    //отображение текста - количество карт
+    private Text countPageText = new Text();
+
 
     public ImagePaneMap(final ArrayList<File> imageFiles) {
+
         super(imageFiles);
 
-//        countPageText.setWrappingWidth(this.getPrefWidth() * 0.5);
         countPageText.setFont(COUNT_PAGE_FONT);
         countPageText.setX(TEXT_LEFT_PADDING);
         countPageText.setTextAlignment(TextAlignment.LEFT);

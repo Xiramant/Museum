@@ -14,6 +14,9 @@ public class InitialMapPane extends ImagePane {
     //отступ текстового блока от верха
     private static final double TEXT_TOP_PADDING = 200;
 
+    //шрифт текстового блока
+    private static final Font TEXT_FONT = new Font("Book Antiqua Bold Italic", 30);
+
 
     public InitialMapPane(final String operationName) {
 
@@ -21,7 +24,7 @@ public class InitialMapPane extends ImagePane {
 
         Text textOperationName = new Text(operationName);
 
-        textOperationName.setFont(new Font("Book Antiqua Bold Italic", 30));
+        textOperationName.setFont(TEXT_FONT);
         textOperationName.setWrappingWidth(this.getPrefWidth() * 0.8);
         textOperationName.setX(this.getPrefWidth() * 0.1);
         textOperationName.setTextAlignment(TextAlignment.CENTER);
