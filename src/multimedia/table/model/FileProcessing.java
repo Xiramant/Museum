@@ -35,13 +35,13 @@ public class FileProcessing {
     }
 
     //Получение списка списков файлов изображений или текстовых
-    public static ArrayList<ArrayListIndex<File>> getFiles(final ArrayList<File> fileDirs, final FileFormat format) {
+    public static ArrayList<ArrayList<File>> getFiles(final ArrayList<File> fileDirs, final FileFormat format) {
 
-        ArrayList<ArrayListIndex<File>> files = new ArrayList<>();
+        ArrayList<ArrayList<File>> files = new ArrayList<>();
 
         for (File dir: fileDirs) {
 
-            ArrayListIndex<File> formatFiles = new ArrayListIndex<>();
+            ArrayList<File> formatFiles = new ArrayList<>();
 
             File allDirFiles[] = dir.listFiles();
 

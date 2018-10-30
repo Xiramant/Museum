@@ -56,13 +56,8 @@ public class ImagePane extends Pane {
         this.setPrefWidth((this.getMaxWidth() < image.getWidth())? this.getMaxWidth(): image.getWidth());
         this.setPrefHeight((this.getMaxHeight() < image.getHeight())? this.getMaxHeight(): image.getHeight());
 
-        System.out.println("Width = " + this.getMaxWidth() + "; " + image.getWidth());
-        System.out.println("Height = " + this.getMaxHeight() + "; " + image.getHeight());
-
         double widthRatio = this.getMaxWidth() / image.getWidth();
         double heightRatio = this.getMaxHeight() / image.getHeight();
-
-        System.out.println("Ration = " + widthRatio + "; " + heightRatio);
 
         if (widthRatio < 1 && widthRatio < heightRatio) {
             this.setPrefHeight(image.getHeight() * widthRatio);
@@ -71,8 +66,6 @@ public class ImagePane extends Pane {
         if (heightRatio < 1 && heightRatio < widthRatio) {
             this.setPrefWidth(image.getWidth() * heightRatio);
         }
-
-        System.out.println("Pref = " + this.getPrefWidth() + "; " + this.getPrefHeight());
 
         BackgroundSize size = new BackgroundSize(1, 1, true, true, true, false);
         BackgroundImage background = new BackgroundImage(image, NO_REPEAT, NO_REPEAT, CENTER, size);

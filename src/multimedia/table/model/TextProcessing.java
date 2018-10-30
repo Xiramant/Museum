@@ -13,6 +13,8 @@ public class TextProcessing {
     private final static int LINE_FEED = 10;
     //Символ возврата каретки (переноса строки)
     private final static int CARRIAGE_RETURN = 13;
+    //Символ пробела
+    private final static char SPACE = 32;
 
     //Метод копирования текста из файла в лист стрингов
     //каждый стринг представляет собой строчку из файла с текстом
@@ -78,5 +80,29 @@ public class TextProcessing {
         }
 
         return "";
+    }
+
+    //Метод копирования первой строчки из файла в String
+    // и разбития ее на две строчки
+    //Используется для разбития ФИО на фамилию, имя+отчество
+    // (сначала я хотел разделить строчку на 3 слова: фамилию, имя, отчество
+    // но у некоторых людей фио не подпадают под эту категорию)
+    public static ArrayList<String> readingFirstStokeFromFileAndSplitIntoWord(final File file) {
+
+        //временная строка, куда записывается первая строка из файла
+        String firstString = readingFirstStokeFromFile(file);
+        if (firstString.length() == 0) return null;
+
+        //лист фио разделенных на фамилию и имя + отчество
+        ArrayList<String> fio = new ArrayList<>();
+
+        for (int i = 0; i < firstString.length(); i++) {
+            if (firstString.charAt(i) == SPACE) {
+                fio.add(firstString.substring(0, i));
+                fio.add(firstString.substring(i+1));
+            }
+        }
+
+        return fio;
     }
 }

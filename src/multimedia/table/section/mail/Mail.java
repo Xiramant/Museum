@@ -17,19 +17,19 @@ import table.model.SectionKey;
 
 public class Mail {
 
-    static final SectionKey mailKey = SectionKey.MAIL;
+    private static final SectionKey MAIL_KEY = SectionKey.MAIL;
 
-    static Boolean isDragAndDrop = false;
+    private static Boolean isDragAndDropMail = false;
 
     public static void setMailsScene() {
 
         //лист директорий, в которых содержатся файлы для отображения на основной сцене
-        ArrayList<File> fileMailDirs = new ArrayList<>(getDir(mailKey));
+        ArrayList<File> fileMailDirs = new ArrayList<>(getDir(MAIL_KEY));
 
         //файлы для отображения на основной сцене
         // Внешний ArrayList - отдельное письмо
         // Внутренний ArrayListIndex - страницы письма
-        ArrayList<ArrayListIndex<File>> mailFiles = new ArrayList<>(getFiles(fileMailDirs, FileFormat.IMAGE));
+        ArrayList<ArrayList<File>> mailFiles = new ArrayList<>(getFiles(fileMailDirs, FileFormat.IMAGE));
 
         //инициализация первоначального состояния раздела Mail
         sectionPane.getChildren().clear();
@@ -67,10 +67,6 @@ public class Mail {
 
         currentPanel.setOnMouseDragged(mouseEvent -> {
 
-            System.out.println("");
-            System.out.println("getLayoutX = " + currentPanel.getLayoutX() + "; getLayoutY = " + currentPanel.getLayoutY());
-            System.out.println("getTranslateX = " + currentPanel.getTranslateX() + "; getTranslateY = " + currentPanel.getTranslateY());
-
                 currentPanel.getRelocationCoordinates().setXDelta(mouseEvent.getSceneX() - currentPanel.getRelocationCoordinates().getXBegin());
                 currentPanel.setTranslateX(currentPanel.getRelocationCoordinates().getXDelta());
 
@@ -86,7 +82,7 @@ public class Mail {
 
             if (Math.abs(currentPanel.getRelocationCoordinates().getXDelta()) +
                     Math.abs(currentPanel.getRelocationCoordinates().getYDelta()) > 2d) {
-                isDragAndDrop = true;
+                isDragAndDropMail = true;
             }
 
             currentPanel.setLayoutX(currentPanel.getLayoutX() + currentPanel.getTranslateX());
@@ -106,7 +102,7 @@ public class Mail {
         //перелистывание страниц письма
         currentPanel.setOnMouseClicked(event -> {
 
-            if (!isDragAndDrop) {
+            if (!isDragAndDropMail) {
 
                 //нажатие левой кнопки приводит к листанию страниц письма вперед
                 if (event.getButton() == MouseButton.PRIMARY) {
@@ -126,7 +122,7 @@ public class Mail {
                 locationWithinSectionPanel(currentPanel);
             }
 
-            isDragAndDrop = false;
+            isDragAndDropMail = false;
         });
     }
 

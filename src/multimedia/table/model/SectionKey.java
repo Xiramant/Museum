@@ -3,7 +3,7 @@ package table.model;
 public enum SectionKey {
 
     MAP ("map"),
-    CASE ("case"),
+    PORTFOLIO("portfolio"),
     MAIL ("mail"),
     MEDAL ("medal");
 

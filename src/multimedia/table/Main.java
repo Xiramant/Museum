@@ -17,6 +17,7 @@ import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
 import static table.section.mail.Mail.*;
 import static table.section.map.Map.setMapScene;
 import static table.model.SectionKey.*;
+import static table.section.portfolio.Portfolio.setPortfolioScene;
 
 public class Main extends Application {
 
@@ -59,7 +60,7 @@ public class Main extends Application {
 
     static {
         section.add(MAP);
-        section.add(CASE);
+        section.add(PORTFOLIO);
         section.add(MAIL);
         section.add(MEDAL);
 
@@ -137,10 +138,10 @@ public class Main extends Application {
                         System.out.println("Выбран раздел Карты");
                         setMapScene();
                         break;
-                    case CASE:
+                    case PORTFOLIO:
                         System.out.println("Выбран раздел Личные дела");
                     {
-                        sectionPane.getChildren().clear();
+                        setPortfolioScene();
                     }
                     break;
                     case MAIL:

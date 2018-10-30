@@ -52,7 +52,6 @@ public class Map {
         //Список названий сражений
         ArrayList<String> operationNameList = new ArrayList<>();
         for (int i = 0; i < mapTextFiles.size(); i++) {
-            System.out.println("i = " + i + "; file = " + mapTextFiles.get(i).get(0));
             operationNameList.add(readingFirstStokeFromFile(mapTextFiles.get(i).get(0)));
         }
 
@@ -174,10 +173,6 @@ public class Map {
             });
 
             tpm.setOnMouseDragged(mouseEvent -> {
-
-                System.out.println("");
-                System.out.println("getLayoutX = " + tpm.getLayoutX() + "; getLayoutY = " + tpm.getLayoutY());
-                System.out.println("getTranslateX = " + tpm.getTranslateX() + "; getTranslateY = " + tpm.getTranslateY());
 
                 tpm.getRelocCoord().setXDelta(mouseEvent.getSceneX() - tpm.getRelocCoord().getXBegin());
                 tpm.setTranslateX(tpm.getRelocCoord().getXDelta());
