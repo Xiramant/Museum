@@ -1,9 +1,8 @@
-package table.model;
+package general;
 
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-import java.io.File;
 import java.util.ArrayList;
 
 //Класс для разбития текста на блоки с заданными параметрами (ширина, высота, шрифт),

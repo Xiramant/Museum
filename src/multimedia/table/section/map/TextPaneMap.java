@@ -3,11 +3,10 @@ package table.section.map;
 import javafx.geometry.VPos;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import table.model.ArrayListIndex;
-import table.model.ImagePane;
-import table.model.RelocationCoordinates;
-import table.model.TextPane;
+import general.ArrayListIndex;
+import general.ImagePane;
+import general.RelocationCoordinates;
+import general.TextPane;
 
 import static table.section.map.Map.TEXT_BACKGROUND_FILE;
 

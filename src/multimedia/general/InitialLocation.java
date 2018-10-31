@@ -1,4 +1,4 @@
-package table.model;
+package general;
 
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;

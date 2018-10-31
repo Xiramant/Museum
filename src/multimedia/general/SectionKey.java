@@ -1,4 +1,4 @@
-package table.model;
+package general;
 
 public enum SectionKey {
 

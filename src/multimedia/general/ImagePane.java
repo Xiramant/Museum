@@ -1,4 +1,4 @@
-package table.model;
+package general;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;

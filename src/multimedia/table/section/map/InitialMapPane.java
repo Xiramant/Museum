@@ -2,7 +2,7 @@ package table.section.map;
 
 import javafx.geometry.VPos;
 import javafx.scene.text.*;
-import table.model.ImagePane;
+import general.ImagePane;
 
 import static table.section.map.Map.TEXT_BACKGROUND_FILE;
 

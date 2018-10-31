@@ -4,13 +4,13 @@ import javafx.geometry.VPos;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import table.model.ImagePane;
+import general.ImagePane;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import static table.Main.RESOURCES_PATH;
-import static table.model.TextProcessing.readingFirstStokeFromFileAndSplitIntoWord;
+import static general.TextProcessing.readingFirstStokeFromFileAndSplitIntoWord;
 
 public class PortfolioPane extends ImagePane{
 

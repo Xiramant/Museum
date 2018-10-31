@@ -1,20 +1,16 @@
 package table.section.portfolio;
 
 import javafx.scene.layout.Pane;
-import table.model.ArrayListIndex;
-import table.model.FileFormat;
-import table.model.SectionKey;
-import table.section.map.InitialMapPane;
+import general.FileFormat;
+import general.SectionKey;
 
 import java.util.ArrayList;
 import java.io.File;
 
 import static table.Main.sectionPane;
-import static table.model.FileProcessing.getDir;
-import static table.model.FileProcessing.getFiles;
-import static table.model.InitialLocation.initialPositionElements;
-import static table.model.TextProcessing.readingFirstStokeFromFile;
-import static table.model.TextProcessing.readingFirstStokeFromFileAndSplitIntoWord;
+import static general.FileProcessing.getDir;
+import static general.FileProcessing.getFiles;
+import static general.InitialLocation.initialPositionElements;
 
 public class Portfolio {
 

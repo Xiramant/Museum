@@ -1,8 +1,7 @@
-package table.model;
+package general;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import static table.Main.RESOURCES_PATH;
 

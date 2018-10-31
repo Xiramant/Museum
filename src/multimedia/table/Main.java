@@ -7,8 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import table.model.ImagePane;
-import table.model.SectionKey;
+import general.ImagePane;
+import general.SectionKey;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,7 @@ import static javafx.scene.layout.BackgroundPosition.CENTER;
 import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
 import static table.section.mail.Mail.*;
 import static table.section.map.Map.setMapScene;
-import static table.model.SectionKey.*;
+import static general.SectionKey.*;
 import static table.section.portfolio.Portfolio.setPortfolioScene;
 
 public class Main extends Application {

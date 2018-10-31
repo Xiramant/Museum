@@ -4,15 +4,14 @@ import java.io.File;
 import java.util.ArrayList;
 
 import static table.Main.*;
-import static table.model.FileProcessing.*;
-import static table.model.InitialLocation.initialPositionElements;
+import static general.FileProcessing.*;
+import static general.InitialLocation.initialPositionElements;
 
 import javafx.scene.Cursor;
 import javafx.scene.input.*;
-import table.model.ArrayListIndex;
-import table.model.FileFormat;
-import table.model.ImagePaneSection;
-import table.model.SectionKey;
+import general.FileFormat;
+import general.ImagePaneSection;
+import general.SectionKey;
 
 
 public class Mail {

@@ -6,7 +6,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import table.model.ImagePaneSection;
+import general.ImagePaneSection;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -3,15 +3,15 @@ package table.section.map;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
-import table.model.*;
+import general.*;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import static table.Main.*;
-import static table.model.FileProcessing.*;
-import static table.model.InitialLocation.initialPositionElements;
-import static table.model.TextProcessing.*;
+import static general.FileProcessing.*;
+import static general.InitialLocation.initialPositionElements;
+import static general.TextProcessing.*;
 
 public class Map {
 
