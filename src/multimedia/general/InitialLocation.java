@@ -13,10 +13,14 @@ public class InitialLocation {
     //Метод первоначального расположения панелей на SectionPane в шахматном порядке
     //Элементы в строке располагаются с равным расстоянием между элементами
     //Вертикальное выравнивание в строке - по низу элементов
-    public static void initialPositionElements(final List<Node> elements, final double widthPlusInterval) {
+    public static void initialPositionElements(final double sectionWidth, final double sectionHeight, final List<Node> elements, final double widthPlusInterval) {
 
         //Определение максимального количества элементов в первой строке
-        int maxElementsInFirstRow = (int) (TABLE_CENTER_SECTION_WIDTH / widthPlusInterval);
+        int maxElementsInFirstRow = (int) (sectionWidth / widthPlusInterval);
+
+        System.out.println("sectionWidth = " + sectionWidth +
+                "; maxElementsInFirstRow = " + maxElementsInFirstRow +
+                "; widthPlusInterval = " + widthPlusInterval);
 
         //Лист элементов с разбитием по рядам
         //Внешний список - список рядов
@@ -103,11 +107,11 @@ public class InitialLocation {
         double ySpacing = 0;
 
         for (int i = 0; i < groupElements.size(); i++) {
-            xSpacingInRow.add((TABLE_CENTER_SECTION_WIDTH - sumWidthInRow.get(i)) / (groupElements.get(i).size() + 1));
+            xSpacingInRow.add((sectionWidth - sumWidthInRow.get(i)) / (groupElements.get(i).size() + 1));
         }
 
         for (int i = 0; i < groupElements.size(); i++) {
-            ySpacing = (TABLE_CENTER_SECTION_HEIGHT - sumMaxHeightInRow) / (groupElements.size() + 1);
+            ySpacing = (sectionHeight - sumMaxHeightInRow) / (groupElements.size() + 1);
         }
 
         //распределение элементов по горизонтали
@@ -133,5 +137,10 @@ public class InitialLocation {
                 pane.setLayoutY(topSpace - pane.getPrefHeight());
             }
         }
+    }
+
+    //заглушка для старого стола
+    public static void initialPositionElements(final List<Node> elements, final double widthPlusInterval) {
+        initialPositionElements(TABLE_CENTER_SECTION_WIDTH, TABLE_CENTER_SECTION_HEIGHT, elements, widthPlusInterval);
     }
 }

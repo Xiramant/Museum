@@ -23,7 +23,7 @@ public class Mail {
     public static void setMailsScene() {
 
         //лист директорий, в которых содержатся файлы для отображения на основной сцене
-        ArrayList<File> fileMailDirs = new ArrayList<>(getDir(MAIL_KEY));
+        ArrayList<File> fileMailDirs = new ArrayList<>(getDirKey(MAIL_KEY));
 
         //файлы для отображения на основной сцене
         // Внешний ArrayList - отдельное письмо

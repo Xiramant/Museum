@@ -10,7 +10,7 @@ public class FileProcessing {
     //метод получения списка директорий,
     // в которых содержатся файлы,
     // используемые для построения основной сцены
-    public static ArrayList<File> getDir(final SectionKey sectionKey) {
+    public static ArrayList<File> getDirKey(final SectionKey sectionKey) {
 
         ArrayList<File> dirs = new ArrayList<>();
 
@@ -32,6 +32,8 @@ public class FileProcessing {
 
         return dirs;
     }
+
+
 
     //Получение списка списков файлов изображений или текстовых
     public static ArrayList<ArrayList<File>> getFiles(final ArrayList<File> fileDirs, final FileFormat format) {

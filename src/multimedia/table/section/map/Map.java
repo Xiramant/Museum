@@ -44,7 +44,7 @@ public class Map {
     public static void setMapScene() {
 
         //лист директорий, в которых содержатся файлы для отображения на основной сцене
-        ArrayList<File> fileMapDirs = new ArrayList<>(getDir(MAP_KEY));
+        ArrayList<File> fileMapDirs = new ArrayList<>(getDirKey(MAP_KEY));
 
         mapImageFiles = new ArrayList<>(getFiles(fileMapDirs, FileFormat.IMAGE));
         mapTextFiles = new ArrayList<>(getFiles(fileMapDirs, FileFormat.TEXT));

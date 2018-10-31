@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.io.File;
 
 import static table.Main.sectionPane;
-import static general.FileProcessing.getDir;
+import static general.FileProcessing.getDirKey;
 import static general.FileProcessing.getFiles;
 import static general.InitialLocation.initialPositionElements;
 
@@ -40,7 +40,7 @@ public class Portfolio {
     public static void setPortfolioScene() {
 
         //лист директорий, в которых содержатся файлы для отображения на основной сцене
-        ArrayList<File> fileMapDirs = new ArrayList<>(getDir(PORTFOLIO_KEY));
+        ArrayList<File> fileMapDirs = new ArrayList<>(getDirKey(PORTFOLIO_KEY));
 
         portfolioImageFiles = new ArrayList<>(getFiles(fileMapDirs, FileFormat.IMAGE));
         portfolioTextFiles = new ArrayList<>();
