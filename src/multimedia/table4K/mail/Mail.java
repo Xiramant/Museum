@@ -3,12 +3,16 @@ package table4K.mail;
 import general.FileFormat;
 import general.ImagePaneSection;
 import general.SectionKey;
+import javafx.scene.layout.Pane;
+import table4K.BackHome;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import static general.FileProcessing.*;
 import static general.InitialLocation.initialPositionElements;
+import static general.InitialLocation.setRandomPositionInArea;
+import static table4K.BackHome.returnHome;
 import static table4K.Main4K.RESOURCES_PATH;
 import static table4K.Main4K.changeRootBackground;
 import static table4K.Main4K.mainPane;
@@ -23,6 +27,20 @@ public class Mail {
     public static double MAIL_WIDTH_MAX = 600;
 
     public static double MAIL_WIDTH_SPACING_MIN = 100;
+
+    //координаты начала и конца области для случайного расположения писем
+    public static double MAIL_AREA_BEGIN_X = 2909;
+    public static double MAIL_AREA_BEGIN_Y = 441;
+    public static double MAIL_AREA_END_X = 3490;
+    public static double MAIL_AREA_END_Y = 1128;
+
+    //координаты первоначального расположения 3-х писем
+    public static double MAIL_FIRST_X = 993;
+    public static double MAIL_FIRST_Y = 916;
+    public static double MAIL_SECOND_X = 1670;
+    public static double MAIL_SECOND_Y = 448;
+    public static double MAIL_THIRD_X = 2424;
+    public static double MAIL_THIRD_Y = 761;
 
     public static void setMailScene() {
 
@@ -43,9 +61,42 @@ public class Mail {
             mainPane.getChildren().add(new ImagePaneSection(mailFiles.get(i), MAIL_WIDTH_MAX, 0));
         }
 
-        System.out.println("mainPane.getWidth() = " + mainPane.getWidth() + "; mainPane.getHeight()" + mainPane.getHeight());
         //первоначальное расположение писем на основной сцене
-        initialPositionElements(mainPane.getWidth(), mainPane.getHeight(), mainPane.getChildren(), MAIL_WIDTH_MAX + MAIL_WIDTH_SPACING_MIN);
+
+        //первоначальное расположение писем
+        // в случайном месте в пределах заданной области
+        if (mainPane.getChildren().size() > 0) {
+            setRandomPositionInArea(mainPane.getChildren(),
+                    MAIL_AREA_BEGIN_X,
+                    MAIL_AREA_BEGIN_Y,
+                    MAIL_AREA_END_X,
+                    MAIL_AREA_END_Y);
+        }
+
+        //переопределение координат первых трех писем:
+        // они открываются на 2 странице
+        // и располагаются по заданным координатам
+        if (mainPane.getChildren().size() > 0) {
+            ((ImagePaneSection)mainPane.getChildren().get(0)).setNextImageBackground();
+            mainPane.getChildren().get(0).setLayoutX(MAIL_FIRST_X);
+            mainPane.getChildren().get(0).setLayoutY(MAIL_FIRST_Y);
+        }
+
+        if (mainPane.getChildren().size() > 1) {
+            ((ImagePaneSection)mainPane.getChildren().get(1)).setNextImageBackground();
+            mainPane.getChildren().get(1).setLayoutX(MAIL_SECOND_X);
+            mainPane.getChildren().get(1).setLayoutY(MAIL_SECOND_Y);
+        }
+
+        if (mainPane.getChildren().size() > 2) {
+            ((ImagePaneSection)mainPane.getChildren().get(2)).setNextImageBackground();
+            mainPane.getChildren().get(2).setLayoutX(MAIL_THIRD_X);
+            mainPane.getChildren().get(2).setLayoutY(MAIL_THIRD_Y);
+        }
+
+        mainPane.getChildren().add(returnHome());
+
+//        System.out.println(mainPane.getChildren().get(mainPane.getChildren().size() - 1).gPr);
 
     }
 }

@@ -84,6 +84,28 @@ public class Main4K extends Application{
         mainPane.setPrefHeight(TABLE_HEIGHT);
         root.setCenter(mainPane);
 
+        //создание сцены для родительской панели и отображение
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        primaryStage.setFullScreen(true);
+
+        //установка элементов основной сцены
+        setMainScene();
+    }
+
+    public static void changeRootBackground(final String imagePath) {
+        root.setBackground(new Background(new BackgroundImage(
+                new Image("file:" + imagePath), NO_REPEAT, NO_REPEAT, CENTER,
+                new BackgroundSize(TABLE_WIDTH, TABLE_HEIGHT, false, false, false, false))));
+    }
+
+    public static void setMainScene() {
+
+        changeRootBackground(RESOURCES_PATH + "table_with_lamp.jpg");
+
+        mainPane.getChildren().clear();
+
         //создание иконок для разделов
         ImagePane map = new ImagePane(new File(RESOURCES_PATH + "icon/map_icon.png"), MAP_ICON_WIDTH_MAX, MAP_ICON_HEIGHT_MAX);
         map.setLayoutX(MAP_ICON_X);
@@ -96,6 +118,7 @@ public class Main4K extends Application{
         mail.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, -4, 4);");
 
         mail.setOnMouseClicked(event -> setMailScene());
+        mail.setOnTouchReleased(event -> setMailScene());
 
         ImagePane portfolio = new ImagePane(new File(RESOURCES_PATH + "icon/portfolio_icon.png"), PORTFOLIO_ICON_WIDTH_MAX, PORTFOLIO_ICON_HEIGHT_MAX);
         portfolio.setLayoutX(PORTFOLIO_ICON_X);
@@ -114,20 +137,6 @@ public class Main4K extends Application{
 
 
         mainPane.getChildren().addAll(map, mail, portfolio, medal, book);
-
-        //создание сцены для родительской панели и отображение
-        changeRootBackground(RESOURCES_PATH + "table_with_lamp.jpg");
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        primaryStage.setFullScreen(true);
-
-    }
-
-    public static void changeRootBackground(final String imagePath) {
-        root.setBackground(new Background(new BackgroundImage(
-                new Image("file:" + imagePath), NO_REPEAT, NO_REPEAT, CENTER,
-                new BackgroundSize(TABLE_WIDTH, TABLE_HEIGHT, false, false, false, false))));
     }
 
 }

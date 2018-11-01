@@ -5,6 +5,7 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static table.Main.*;
 
@@ -17,10 +18,6 @@ public class InitialLocation {
 
         //Определение максимального количества элементов в первой строке
         int maxElementsInFirstRow = (int) (sectionWidth / widthPlusInterval);
-
-        System.out.println("sectionWidth = " + sectionWidth +
-                "; maxElementsInFirstRow = " + maxElementsInFirstRow +
-                "; widthPlusInterval = " + widthPlusInterval);
 
         //Лист элементов с разбитием по рядам
         //Внешний список - список рядов
@@ -142,5 +139,21 @@ public class InitialLocation {
     //заглушка для старого стола
     public static void initialPositionElements(final List<Node> elements, final double widthPlusInterval) {
         initialPositionElements(TABLE_CENTER_SECTION_WIDTH, TABLE_CENTER_SECTION_HEIGHT, elements, widthPlusInterval);
+    }
+
+    public static void setRandomPositionInArea(final List<Node> elements,
+                                               final double xBeginArea,
+                                               final double yBeginArea,
+                                               final double xEndArea,
+                                               final double yEndArea) {
+
+        for (int i = 0; i < elements.size(); i++) {
+            elements.get(i).setLayoutX(randomInRange(xBeginArea, xEndArea));
+            elements.get(i).setLayoutY(randomInRange(yBeginArea, yEndArea));
+        }
+    }
+
+    private static double randomInRange(final double begin, final double end) {
+        return new Random().nextInt((int)(end - begin)) + begin;
     }
 }
