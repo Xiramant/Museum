@@ -7,10 +7,10 @@ import static table.Main.*;
 import static general.FileProcessing.*;
 import static general.InitialLocation.initialPositionElements;
 
+import general.ImagePaneIteration;
 import javafx.scene.Cursor;
 import javafx.scene.input.*;
 import general.FileFormat;
-import general.ImagePaneSection;
 import general.SectionKey;
 
 
@@ -34,7 +34,7 @@ public class Mail {
         sectionPane.getChildren().clear();
 
         for (int i = 0; i < mailFiles.size(); i++) {
-            sectionPane.getChildren().add(new ImagePaneSection(mailFiles.get(i), SECTION_MAIL_WIDTH_MAX, 0));
+            sectionPane.getChildren().add(new ImagePaneIteration(mailFiles.get(i), SECTION_MAIL_WIDTH_MAX, 0));
         }
 
         //первоначальное расположение писем на основной сцене
@@ -42,7 +42,7 @@ public class Mail {
 
         //обработка действий с письмами
         for (int i = 0; i < sectionPane.getChildren().size(); i++) {
-            actionProcessing((ImagePaneSection) sectionPane.getChildren().get(i));
+            actionProcessing((ImagePaneIteration) sectionPane.getChildren().get(i));
         }
 
     }
@@ -53,7 +53,7 @@ public class Mail {
 
     //Метод обработки действий пользователя
     // (сейчас реализовано перетаскивание и перелистывание страниц письма с помощью мыши)
-    public static void actionProcessing(final ImagePaneSection currentPanel) {
+    public static void actionProcessing(final ImagePaneIteration currentPanel) {
 
         //перемещение письма
         currentPanel.setOnMousePressed(mouseEvent -> {
@@ -125,7 +125,7 @@ public class Mail {
         });
     }
 
-    public static void locationWithinSectionPanel(final ImagePaneSection currentPanel) {
+    public static void locationWithinSectionPanel(final ImagePaneIteration currentPanel) {
 
         if (currentPanel.getLayoutX() < 0) {
             currentPanel.setLayoutX(2);

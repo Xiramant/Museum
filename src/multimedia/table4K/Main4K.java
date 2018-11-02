@@ -11,9 +11,11 @@ import javafx.stage.StageStyle;
 import java.io.File;
 
 import static javafx.scene.layout.BackgroundPosition.CENTER;
+import static javafx.scene.layout.BackgroundPosition.DEFAULT;
 import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
 import static table4K.Debugging.setDebugging;
 import static table4K.mail.Mail.setMailScene;
+import static table4K.book.Book.setBookScene;
 
 public class Main4K extends Application{
 
@@ -83,6 +85,8 @@ public class Main4K extends Application{
         mainPane.setPrefWidth(TABLE_WIDTH);
         mainPane.setPrefHeight(TABLE_HEIGHT);
         root.setCenter(mainPane);
+        mainPane.setLayoutX(0);
+        mainPane.setLayoutY(0);
 
         //создание сцены для родительской панели и отображение
         Scene scene = new Scene(root);
@@ -96,7 +100,7 @@ public class Main4K extends Application{
 
     public static void changeRootBackground(final String imagePath) {
         root.setBackground(new Background(new BackgroundImage(
-                new Image("file:" + imagePath), NO_REPEAT, NO_REPEAT, CENTER,
+                new Image("file:" + imagePath), NO_REPEAT, NO_REPEAT, DEFAULT,
                 new BackgroundSize(TABLE_WIDTH, TABLE_HEIGHT, false, false, false, false))));
     }
 
@@ -134,6 +138,10 @@ public class Main4K extends Application{
         book.setLayoutX(BOOK_ICON_X);
         book.setLayoutY(BOOK_ICON_Y);
         book.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, 8, 8);");
+
+        book.setOnMouseClicked(event -> setBookScene());
+        book.setOnTouchReleased(event -> setBookScene());
+
 
 
         mainPane.getChildren().addAll(map, mail, portfolio, medal, book);

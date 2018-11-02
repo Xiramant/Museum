@@ -17,8 +17,8 @@ public class BackHome {
         home.setFont(new Font("Arial", 40));
         home.setFill(Color.WHITE);
 
-        home.setLayoutX(TABLE_WIDTH - home.getLayoutBounds().getWidth() );
-        home.setLayoutY(TABLE_HEIGHT - home.getLayoutBounds().getHeight() );
+        home.setLayoutX(TABLE_WIDTH - home.getLayoutBounds().getWidth());
+        home.setLayoutY(TABLE_HEIGHT - home.getLayoutBounds().getHeight());
 
         home.setOnMouseClicked(event -> setMainScene());
         home.setOnTouchReleased(event -> setMainScene());

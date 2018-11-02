@@ -70,10 +70,6 @@ public class ImagePane extends Pane {
         BackgroundSize size = new BackgroundSize(1, 1, true, true, true, false);
         BackgroundImage background = new BackgroundImage(image, NO_REPEAT, NO_REPEAT, CENTER, size);
         this.setBackground(new Background(background));
-
-        this.setStyle(
-                "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
-        );
     }
 
     //установка фона по передаваемому файлу изображении фона

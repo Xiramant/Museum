@@ -1,6 +1,7 @@
 package table4K;
 
 import static table4K.Main4K.*;
+import static table4K.book.Book.*;
 import static table4K.mail.Mail.*;
 
 public class Debugging {
@@ -12,6 +13,7 @@ public class Debugging {
         TABLE_WIDTH /= reductionRatio;
         TABLE_HEIGHT /= reductionRatio;
 
+        //иконки разделов
         MAP_ICON_WIDTH_MAX /= reductionRatio;
         MAP_ICON_HEIGHT_MAX /=reductionRatio;
         MAP_ICON_X /= reductionRatio;
@@ -37,6 +39,7 @@ public class Debugging {
         BOOK_ICON_X /= reductionRatio;
         BOOK_ICON_Y /= reductionRatio;
 
+        //раздел Письма
         MAIL_WIDTH_MAX /= reductionRatio;
         MAIL_WIDTH_SPACING_MIN /= reductionRatio;
 
@@ -51,5 +54,10 @@ public class Debugging {
         MAIL_AREA_BEGIN_Y /= reductionRatio;
         MAIL_AREA_END_X /= reductionRatio;
         MAIL_AREA_END_Y /= reductionRatio;
+
+        //раздел Книга
+        BOOK_WIDTH_MAX /= reductionRatio;
+        BOOK_X /= reductionRatio;
+        BOOK_Y /= reductionRatio;
     }
 }

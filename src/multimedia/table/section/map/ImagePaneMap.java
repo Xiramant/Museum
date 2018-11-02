@@ -1,17 +1,17 @@
 package table.section.map;
 
+import general.ImagePaneIteration;
 import javafx.geometry.VPos;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import general.ImagePaneSection;
 
 import java.io.File;
 import java.util.ArrayList;
 
-public class ImagePaneMap extends ImagePaneSection{
+public class ImagePaneMap extends ImagePaneIteration {
 
     //отступ сверху для блока количество карт
     private static final double TEXT_TOP_PADDING = 7;

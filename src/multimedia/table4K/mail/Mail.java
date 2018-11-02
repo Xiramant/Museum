@@ -1,16 +1,13 @@
 package table4K.mail;
 
 import general.FileFormat;
-import general.ImagePaneSection;
+import general.ImagePaneIteration;
 import general.SectionKey;
-import javafx.scene.layout.Pane;
-import table4K.BackHome;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import static general.FileProcessing.*;
-import static general.InitialLocation.initialPositionElements;
 import static general.InitialLocation.setRandomPositionInArea;
 import static table4K.BackHome.returnHome;
 import static table4K.Main4K.RESOURCES_PATH;
@@ -58,13 +55,12 @@ public class Mail {
         mainPane.getChildren().clear();
 
         for (int i = 0; i < mailFiles.size(); i++) {
-            mainPane.getChildren().add(new ImagePaneSection(mailFiles.get(i), MAIL_WIDTH_MAX, 0));
+            mainPane.getChildren().add(new MailPane(mailFiles.get(i), MAIL_WIDTH_MAX, 0));
         }
 
         //первоначальное расположение писем на основной сцене
 
-        //первоначальное расположение писем
-        // в случайном месте в пределах заданной области
+        //расположение писем в случайном месте в пределах заданной области
         if (mainPane.getChildren().size() > 0) {
             setRandomPositionInArea(mainPane.getChildren(),
                     MAIL_AREA_BEGIN_X,
@@ -77,26 +73,23 @@ public class Mail {
         // они открываются на 2 странице
         // и располагаются по заданным координатам
         if (mainPane.getChildren().size() > 0) {
-            ((ImagePaneSection)mainPane.getChildren().get(0)).setNextImageBackground();
+            ((ImagePaneIteration)mainPane.getChildren().get(0)).setNextImageBackground();
             mainPane.getChildren().get(0).setLayoutX(MAIL_FIRST_X);
             mainPane.getChildren().get(0).setLayoutY(MAIL_FIRST_Y);
         }
 
         if (mainPane.getChildren().size() > 1) {
-            ((ImagePaneSection)mainPane.getChildren().get(1)).setNextImageBackground();
+            ((ImagePaneIteration)mainPane.getChildren().get(1)).setNextImageBackground();
             mainPane.getChildren().get(1).setLayoutX(MAIL_SECOND_X);
             mainPane.getChildren().get(1).setLayoutY(MAIL_SECOND_Y);
         }
 
         if (mainPane.getChildren().size() > 2) {
-            ((ImagePaneSection)mainPane.getChildren().get(2)).setNextImageBackground();
+            ((ImagePaneIteration)mainPane.getChildren().get(2)).setNextImageBackground();
             mainPane.getChildren().get(2).setLayoutX(MAIL_THIRD_X);
             mainPane.getChildren().get(2).setLayoutY(MAIL_THIRD_Y);
         }
 
         mainPane.getChildren().add(returnHome());
-
-//        System.out.println(mainPane.getChildren().get(mainPane.getChildren().size() - 1).gPr);
-
     }
 }

@@ -56,6 +56,24 @@ public class FileProcessing {
         return files;
     }
 
+    //Получение списка файлов изображений или текстовых из
+    // указанной папки
+    public static ArrayList<File> getFiles(final File dir, final FileFormat format) {
+
+        ArrayList<File> formatFiles = new ArrayList<>();
+
+        File allDirFiles[] = dir.listFiles();
+
+        if (allDirFiles.length == 0) {
+            return null;
+        }
+
+        formatFiles.addAll(getFilterFiles(allDirFiles, format.getKeyWord() + "_"));
+
+        return formatFiles;
+    }
+
+
     //Получение (фильтрация) из полученного списка файлов
     // только тех, которые содержат определенный блок:
     // filter + int{0, 1, ...}

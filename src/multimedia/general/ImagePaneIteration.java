@@ -1,18 +1,18 @@
 package general;
 
-import javafx.scene.Cursor;
 import javafx.scene.input.MouseButton;
 
 import java.io.File;
 import java.util.ArrayList;
 
-public class ImagePaneSection extends ImagePane {
+public class ImagePaneIteration extends ImagePane {
 
     //Поле, содержащее список файлов всех фоновых изображений
     // для данного экземпляра панели
     private ArrayListIndex<File> imageFiles = new ArrayListIndex<>();
 
-    //флаг перемещения ImagePaneSection
+    //флаг регистрации перемещения ImagePaneIteration
+    // если параметр в состоянии true, значит панель перемещали
     private boolean isDragAndDrop = false;
 
     //Поле для хранения параметров расположения панели
@@ -30,18 +30,15 @@ public class ImagePaneSection extends ImagePane {
 
     //конструктор с передаваемым списком файлов фоновых изображений
     // и ограничениями на максимальный размер
-    public ImagePaneSection(final ArrayList<File> imageFilesEnter, final double wMax, final double hMax) {
+    public ImagePaneIteration(final ArrayList<File> imageFilesEnter, final double wMax, final double hMax) {
         super(imageFilesEnter.get(0), wMax, hMax);
         this.imageFiles.addAll(imageFilesEnter);
         this.imageFiles.setIndex(0);
-
-        mouseEvent();
-        touchEvent();
     }
 
     //конструктор с передаваемым списком файлов фоновых изображений
     // без задания ограничений на максимальный размер
-    public ImagePaneSection(final ArrayList<File> imageFiles) {
+    public ImagePaneIteration(final ArrayList<File> imageFiles) {
         this(imageFiles, 0, 0);
     }
 
@@ -88,17 +85,24 @@ public class ImagePaneSection extends ImagePane {
         setRelocationCoordinates(new RelocationCoordinates());
     }
 
-    //Метод обработки действий по щелчку мыши
-    private void mouseEvent() {
 
-        //перемещение письма
+    //Метод обработки действий по щелчку мыши
+    public void ipiMouseDragAndDrop() {
+        mousePressed();
+        mouseDragged();
+        mouseReleased();
+    }
+
+    public void mousePressed() {
         this.setOnMousePressed(mouseEvent -> {
             this.toFront();
-            this.setCursor(Cursor.MOVE);
 
             this.getRelocationCoordinates().setXBegin(mouseEvent.getSceneX());
             this.getRelocationCoordinates().setYBegin(mouseEvent.getSceneY());
         });
+    }
+
+    public void mouseDragged(final String style) {
 
         this.setOnMouseDragged(mouseEvent -> {
 
@@ -108,10 +112,17 @@ public class ImagePaneSection extends ImagePane {
             this.getRelocationCoordinates().setYDelta(mouseEvent.getSceneY() - this.getRelocationCoordinates().getYBegin());
             this.setTranslateY(this.getRelocationCoordinates().getYDelta());
 
-            this.setStyle(
-                    "-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);"
-            );
+            if (style.length() > 0) {
+                this.setStyle(style);
+            }
         });
+    }
+
+    public void mouseDragged() {
+        mouseDragged("");
+    }
+
+    public void mouseReleased(final String style) {
 
         this.setOnMouseReleased(mouseEvent -> {
 
@@ -125,13 +136,20 @@ public class ImagePaneSection extends ImagePane {
             this.setTranslateX(0);
             this.setTranslateY(0);
 
-            this.setStyle(
-                    "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
-            );
             this.clearRelocationCoordinates();
+
+            if (style.length() > 0) {
+                this.setStyle(style);
+            }
         });
+    }
+
+    public void mouseReleased() {
+        mouseReleased("");
+    }
 
 
+    public void ipiMouseClicked() {
         //перелистывание страниц письма
         this.setOnMouseClicked(event -> {
 
@@ -157,17 +175,25 @@ public class ImagePaneSection extends ImagePane {
         });
     }
 
-    //Метод обработки действий по тач касаниям
-    private void touchEvent() {
 
-        //перемещение письма
+    //Метод обработки действий по тач касаниям
+    public void ipiTouch() {
+        TouchPressed();
+        TouchMoved();
+        TouchReleased();
+    }
+
+    public void TouchPressed() {
+
         this.setOnTouchPressed(event -> {
             this.toFront();
-            this.setCursor(Cursor.MOVE);
 
             this.getRelocationCoordinates().setXBegin(event.getTouchPoint().getSceneX());
             this.getRelocationCoordinates().setYBegin(event.getTouchPoint().getSceneY());
         });
+    }
+
+    public void TouchMoved(final String style) {
 
         this.setOnTouchMoved(event -> {
 
@@ -177,16 +203,30 @@ public class ImagePaneSection extends ImagePane {
             this.getRelocationCoordinates().setYDelta(event.getTouchPoint().getSceneY() - this.getRelocationCoordinates().getYBegin());
             this.setTranslateY(this.getRelocationCoordinates().getYDelta());
 
-            this.setStyle(
-                    "-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);"
-            );
+            if (style.length() > 0) {
+                this.setStyle(style);
+            }
         });
+    }
+
+    public void TouchMoved() {
+        TouchMoved("");
+    }
+
+
+    public void TouchReleased(final String style) {
 
         this.setOnTouchReleased(event -> {
 
             if (Math.abs(this.getRelocationCoordinates().getXDelta()) +
                     Math.abs(this.getRelocationCoordinates().getYDelta()) > 10d) {
                 isDragAndDrop = true;
+            } else {
+                //исключение перемещения панели,
+                // если она смещена меньше, чем на 10 пикселей
+                // из-за плохой работы тачпанели на мультимедиа столе
+                this.setTranslateX(0);
+                this.setTranslateY(0);
             }
 
             this.setLayoutX(this.getLayoutX() + this.getTranslateX());
@@ -194,9 +234,6 @@ public class ImagePaneSection extends ImagePane {
             this.setTranslateX(0);
             this.setTranslateY(0);
 
-            this.setStyle(
-                    "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
-            );
             this.clearRelocationCoordinates();
 
             //перелистывание страниц письма вперед,
@@ -205,7 +242,21 @@ public class ImagePaneSection extends ImagePane {
                 this.setNextImageBackground();
             }
             isDragAndDrop = false;
+
+            if (style.length() > 0) {
+                this.setStyle(style);
+            }
         });
+    }
+
+    public void TouchReleased() {
+        TouchReleased("");
+    }
+
+
+    //!!! На тачстоле свайпы похоже не работают
+    //Метод обработки действий по тач свайпам
+    public void ipiTouchSwipe() {
 
         //перелистывание страниц письма
         this.setOnSwipeLeft(event -> {

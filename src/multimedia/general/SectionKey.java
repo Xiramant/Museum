@@ -5,7 +5,8 @@ public enum SectionKey {
     MAP ("map"),
     PORTFOLIO("portfolio"),
     MAIL ("mail"),
-    MEDAL ("medal");
+    MEDAL ("medal"),
+    BOOK ("book");
 
     private final String keyWord;
 
