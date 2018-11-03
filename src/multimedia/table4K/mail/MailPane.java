@@ -14,9 +14,9 @@ public class MailPane extends ImagePaneIteration {
         this.ipiMouseClicked();
         this.ipiTouch();
 
-        this.setStyle(
-                "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
-        );
+        this.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);");
+
+        setCenterPane(true);
     }
 
     @Override

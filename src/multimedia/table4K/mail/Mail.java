@@ -36,8 +36,8 @@ public class Mail {
     public static double MAIL_FIRST_Y = 916;
     public static double MAIL_SECOND_X = 1670;
     public static double MAIL_SECOND_Y = 448;
-    public static double MAIL_THIRD_X = 2424;
-    public static double MAIL_THIRD_Y = 761;
+    public static double MAIL_THIRD_X = 2374;
+    public static double MAIL_THIRD_Y = 861;
 
     public static void setMailScene() {
 
