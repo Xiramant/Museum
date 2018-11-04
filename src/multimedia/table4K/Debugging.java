@@ -55,9 +55,19 @@ public class Debugging {
         MAIL_AREA_END_X /= reductionRatio;
         MAIL_AREA_END_Y /= reductionRatio;
 
+        MAIL_LEFT /= reductionRatio;
+        MAIL_TOP /= reductionRatio;
+        //переопределения размеров для MAIL_RIGHT и MAIL_BOTTOM не сделаны, т.к.
+        // они определяются по значениям TABLE_WIDTH и TABLE_HEIGHT
+        // которые уже уменьшены
+        MAIL_RIGHT = MAIL_RIGHT;
+        MAIL_BOTTOM = MAIL_BOTTOM;
+
         //раздел Книга
         BOOK_WIDTH_MAX /= reductionRatio;
         BOOK_X /= reductionRatio;
         BOOK_Y /= reductionRatio;
+
+
     }
 }

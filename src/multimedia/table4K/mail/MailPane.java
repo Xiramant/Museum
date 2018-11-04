@@ -1,14 +1,21 @@
 package table4K.mail;
 
 import general.ImagePaneIteration;
+import general.RestrictionCoordinates;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import static table4K.mail.Mail.*;
 
 public class MailPane extends ImagePaneIteration {
 
     public MailPane (final ArrayList<File> imageFilesEnter, final double wMax, final double hMax) {
         super(imageFilesEnter, wMax, hMax);
+
+        //!!! setRestrCoor должно определяться
+        // до вызова обработки событий щелчка мыши и тача
+        this.setRestrCoor(MAIL_LEFT, MAIL_TOP, MAIL_RIGHT, MAIL_BOTTOM);
 
         this.ipiMouseDragAndDrop();
         this.ipiMouseClicked();
@@ -16,7 +23,7 @@ public class MailPane extends ImagePaneIteration {
 
         this.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);");
 
-        setCenterPane(true);
+        setCenterPaneFlag(true);
     }
 
     @Override

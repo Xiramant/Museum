@@ -1,10 +1,11 @@
 package general;
 
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import static general.RestrictionCoordinates.getNotDetermined;
 
 public class ImagePaneIteration extends ImagePane {
 
@@ -20,13 +21,18 @@ public class ImagePaneIteration extends ImagePane {
     // при ее перемещении методом drag and drop
     private RelocationCoordinates relocationCoordinates = new RelocationCoordinates();
 
+    //Поле для хранения ограничения положения панели
+    private RestrictionCoordinates restrCoor = new RestrictionCoordinates();
+
     //размеры панели с предыдущим фоном
     private double prevWeight = 0;
     private double prevHeight = 0;
 
     //флаг включения/выключения центрирования панели при смене фона
-    private boolean centerPane = false;
+    private boolean centerPaneFlag = false;
 
+    //флаг включения/выключения ограничения местоположения панели
+    private boolean locationRestrictionFlag = false;
 
     public RelocationCoordinates getRelocationCoordinates() {
         return relocationCoordinates;
@@ -36,8 +42,8 @@ public class ImagePaneIteration extends ImagePane {
         this.relocationCoordinates = relocationCoordinates;
     }
 
-    public void setCenterPane(final boolean centerPane) {
-        this.centerPane = centerPane;
+    public void setCenterPaneFlag(final boolean centerPaneFlag) {
+        this.centerPaneFlag = centerPaneFlag;
     }
 
 
@@ -163,6 +169,10 @@ public class ImagePaneIteration extends ImagePane {
             if (style.length() > 0) {
                 this.setStyle(style);
             }
+
+            if (locationRestrictionFlag) {
+                setLocationRestriction();
+            }
         });
     }
 
@@ -199,6 +209,10 @@ public class ImagePaneIteration extends ImagePane {
             }
 
             isDragAndDrop = false;
+
+            if (locationRestrictionFlag) {
+                setLocationRestriction();
+            }
         });
     }
 
@@ -280,6 +294,10 @@ public class ImagePaneIteration extends ImagePane {
             if (style.length() > 0) {
                 this.setStyle(style);
             }
+
+            if (locationRestrictionFlag) {
+                setLocationRestriction();
+            }
         });
     }
 
@@ -322,14 +340,18 @@ public class ImagePaneIteration extends ImagePane {
         });
     }
 
+    //метод установки значений ширины и высоты предыдущей панели
+    // (при изменении фона панели)
     private void setPrevSize() {
         prevWeight = this.getPrefWidth();
         prevHeight = this.getPrefHeight();
     }
 
+    //метод сохраняющий местоположение панели по центру
+    // при изменении ее размеров
     private void saveCenterLocation() {
 
-        if (!centerPane) return;
+        if (!centerPaneFlag) return;
 
         if (prevWeight == 0 && prevHeight == 0) return;
 
@@ -339,5 +361,44 @@ public class ImagePaneIteration extends ImagePane {
             this.setLayoutX(this.getLayoutX() + prevWeight / 2 - this.getPrefWidth() / 2);
             this.setLayoutY(this.getLayoutY() + prevHeight / 2 - this.getPrefHeight() / 2);
     }
+
+    //установка значений области ограничивающей положение панели
+    public void setRestrCoor(final double left, final double top, final double right, final double bottom) {
+
+        restrCoor.setRestrictionCoordinates(left, top, right, bottom);
+
+        this.locationRestrictionFlag = true;
+    }
+
+    //метод устанавливающий ограничения на местоположения панели
+    // в соответствии с областью, заданной в restrCoor
+    private void setLocationRestriction() {
+
+        if (Math.abs(restrCoor.getLeft() - getNotDetermined()) > 0.1) {
+            if (this.getLayoutX() < restrCoor.getLeft()) {
+                this.setLayoutX(restrCoor.getLeft());
+            }
+        }
+
+        if (Math.abs(restrCoor.getTop() - getNotDetermined()) > 0.1) {
+            if (this.getLayoutY() < restrCoor.getTop()) {
+                this.setLayoutY(restrCoor.getTop());
+            }
+        }
+
+        if (Math.abs(restrCoor.getRight() - getNotDetermined()) > 0.1) {
+            if (this.getLayoutX() + this.getPrefWidth() > restrCoor.getRight()) {
+                this.setLayoutX(restrCoor.getRight() - this.getPrefWidth());
+            }
+        }
+
+        if (Math.abs(restrCoor.getBottom() - getNotDetermined()) > 0.1) {
+            if (this.getLayoutY() + this.getPrefHeight() > restrCoor.getBottom()) {
+                this.setLayoutY(restrCoor.getBottom() - this.getPrefHeight());
+            }
+        }
+    }
+
+
 
 }

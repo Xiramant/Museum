@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import static general.FileProcessing.*;
 import static general.InitialLocation.setRandomPositionInArea;
 import static table4K.BackHome.returnHome;
-import static table4K.Main4K.RESOURCES_PATH;
-import static table4K.Main4K.changeRootBackground;
-import static table4K.Main4K.mainPane;
+import static table4K.Main4K.*;
 
 public class Mail {
 
@@ -38,6 +36,12 @@ public class Mail {
     public static double MAIL_SECOND_Y = 448;
     public static double MAIL_THIRD_X = 2374;
     public static double MAIL_THIRD_Y = 861;
+
+    //ограничения на расположение писем
+    public static double MAIL_LEFT = 900;
+    public static double MAIL_TOP = 370;
+    public static double MAIL_RIGHT = TABLE_WIDTH;
+    public static double MAIL_BOTTOM = TABLE_HEIGHT;
 
     public static void setMailScene() {
 
