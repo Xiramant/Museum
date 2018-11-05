@@ -3,6 +3,8 @@ package table4K;
 import static table4K.Main4K.*;
 import static table4K.book.Book.*;
 import static table4K.mail.Mail.*;
+import static table4K.map.Map.*;
+import static table4K.map.MapPaneInitial.*;
 
 public class Debugging {
 
@@ -68,6 +70,15 @@ public class Debugging {
         BOOK_X /= reductionRatio;
         BOOK_Y /= reductionRatio;
 
+        //раздел Карты
+        MAP_INITIAL_PANE_WIDTH_MAX /= reductionRatio;
+        MAP_INITIAL_PANE_MIN_WIDTH_SPACING /= reductionRatio;
+        MAP_INITIAL_TEXT_TOP_PADDING /= reductionRatio;
+        MAP_INITIAL_TEXT_FONT /= reductionRatio;
 
+        MAP_INITIAL_AREA_X_BEGIN /= reductionRatio;
+        MAP_INITIAL_AREA_Y_BEGIN /= reductionRatio;
+        MAP_INITIAL_AREA_X_END /= reductionRatio;
+        MAP_INITIAL_AREA_Y_END /= reductionRatio;
     }
 }

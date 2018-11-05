@@ -16,6 +16,7 @@ import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
 import static table4K.Debugging.setDebugging;
 import static table4K.mail.Mail.setMailScene;
 import static table4K.book.Book.setBookScene;
+import static table4K.map.Map.setMapScene;
 
 public class Main4K extends Application{
 
@@ -116,6 +117,9 @@ public class Main4K extends Application{
         map.setLayoutY(MAP_ICON_Y);
         map.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, -4, 4);");
 
+        map.setOnMouseClicked(event -> setMapScene());
+        map.setOnTouchReleased(event -> setMapScene());
+
         ImagePane mail = new ImagePane(new File(RESOURCES_PATH + "icon/mail_icon.png"), MAIL_ICON_WIDTH_MAX, MAIL_ICON_HEIGHT_MAX);
         mail.setLayoutX(MAIL_ICON_X);
         mail.setLayoutY(MAIL_ICON_Y);
@@ -141,7 +145,6 @@ public class Main4K extends Application{
 
         book.setOnMouseClicked(event -> setBookScene());
         book.setOnTouchReleased(event -> setBookScene());
-
 
 
         mainPane.getChildren().addAll(map, mail, portfolio, medal, book);
