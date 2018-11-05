@@ -164,75 +164,7 @@ public class Map {
 
             TextPaneMap tpm = (TextPaneMap)sectionPane.getChildren().get(currentPanelIndex);
 
-            //перемещение письма
-            tpm.setOnMousePressed(mouseEvent -> {
-                tpm.setCursor(Cursor.MOVE);
 
-                tpm.getRelocCoord().setXBegin(mouseEvent.getSceneX());
-                tpm.getRelocCoord().setYBegin(mouseEvent.getSceneY());
-            });
-
-            tpm.setOnMouseDragged(mouseEvent -> {
-
-                tpm.getRelocCoord().setXDelta(mouseEvent.getSceneX() - tpm.getRelocCoord().getXBegin());
-                tpm.setTranslateX(tpm.getRelocCoord().getXDelta());
-
-                tpm.getRelocCoord().setYDelta(mouseEvent.getSceneY() - tpm.getRelocCoord().getYBegin());
-                tpm.setTranslateY(tpm.getRelocCoord().getYDelta());
-
-                tpm.setStyle(
-                        "-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);"
-                );
-            });
-
-            tpm.setOnMouseReleased(mouseEvent -> {
-
-                if (Math.abs(tpm.getRelocCoord().getXDelta()) +
-                        Math.abs(tpm.getRelocCoord().getYDelta()) > 2d) {
-                    isDragAndDropMapText = true;
-                }
-
-                tpm.setLayoutX(tpm.getLayoutX() + tpm.getTranslateX());
-                tpm.setLayoutY(tpm.getLayoutY() + tpm.getTranslateY());
-                tpm.setTranslateX(0);
-                tpm.setTranslateY(0);
-
-                locationWithinSectionPanel(tpm);
-
-                tpm.setStyle(
-                        "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);"
-                );
-                tpm.clearRelocCoord();
-            });
-
-            //действия при клике мышкой
-            tpm.setOnMouseClicked(event -> {
-
-                if (!isDragAndDropMapText) {
-
-                    //нажатие левой кнопки приводит к листанию текста вперед
-                    if (event.getButton() == MouseButton.PRIMARY) {
-                        tpm.setNextTextBlock();
-                    }
-
-                    //нажатие правой кнопки приводит к листанию текста назад
-                    if (event.getButton() == MouseButton.SECONDARY) {
-                        tpm.setPrevTextBlock();
-                    }
-
-                    //Двойной щелчок левой кнопкой приводит к переносу текста на последнюю страницу
-                    if (event.getClickCount() == 2) {
-                        tpm.setLastTextBlock();
-                    }
-
-                    //Двойной щелчок правой кнопкой приводит к возвращению текста на первую страницу
-                    if (event.getButton() == MouseButton.SECONDARY && event.getClickCount() == 2) {
-                        tpm.setFirstTextBlock();
-                    }
-                }
-
-                isDragAndDropMapText = false;
-            });
         }
     }
 

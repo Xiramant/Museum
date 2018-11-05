@@ -5,6 +5,7 @@ import static table4K.book.Book.*;
 import static table4K.mail.Mail.*;
 import static table4K.map.Map.*;
 import static table4K.map.MapPaneInitial.*;
+import static table4K.map.MapPaneText.МAP_PANE_TEXT_WIDTH_MAX;
 
 public class Debugging {
 
@@ -80,5 +81,7 @@ public class Debugging {
         MAP_INITIAL_AREA_Y_BEGIN /= reductionRatio;
         MAP_INITIAL_AREA_X_END /= reductionRatio;
         MAP_INITIAL_AREA_Y_END /= reductionRatio;
+
+        МAP_PANE_TEXT_WIDTH_MAX /= reductionRatio;
     }
 }

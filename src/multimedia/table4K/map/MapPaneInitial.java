@@ -6,9 +6,20 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-import static table4K.map.Map.TEXT_BACKGROUND_FILE;
+import java.io.File;
+import java.util.ArrayList;
+
+import static table4K.BackHome.returnHome;
+import static table4K.Main4K.*;
+import static table4K.map.Map.*;
 
 public class MapPaneInitial extends ImagePane{
+
+    //лист файлов для изображений карт
+    private ArrayList<File> mapImageFiles = new ArrayList<>();
+
+    //лист файлов для текстовых описаний карт
+    private ArrayList<File> mapTextFiles = new ArrayList<>();
 
     //максимальная ширина текстового блока
     // для начальной сцены
@@ -25,9 +36,12 @@ public class MapPaneInitial extends ImagePane{
     private Font TEXT_FONT = new Font("Book Antiqua Bold Italic", MAP_INITIAL_TEXT_FONT);
 
 
-    public MapPaneInitial(final String operationName) {
+    public MapPaneInitial(final String operationName, ArrayList<File> mapImageFiles, ArrayList<File> mapTextFiles) {
 
         super(TEXT_BACKGROUND_FILE, MAP_INITIAL_PANE_WIDTH_MAX, 0);
+
+        this.mapImageFiles.addAll(mapImageFiles);
+        this.mapTextFiles.addAll(mapTextFiles);
 
         Text textOperationName = new Text(operationName);
 
@@ -41,5 +55,32 @@ public class MapPaneInitial extends ImagePane{
         this.getChildren().add(textOperationName);
 
         this.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 2);");
+
+        mapPaneInitialEvent();
+    }
+
+    //Метод обработки действий пользователя при выборе операции по клику мышкой
+    public void mapPaneInitialEvent() {
+
+        this.setOnMouseClicked(event -> action());
+
+        this.setOnTouchPressed(event -> {
+            action();
+
+            try {
+                wait(1000);
+            } catch (InterruptedException e) {
+                System.out.println("проблема с установкой задержки в классе MapPaneInitial при отпускании тача");
+            }
+        });
+    }
+
+    private void action() {
+
+        MapPaneImage map = new MapPaneImage(mapImageFiles);
+        MapPaneText text = new MapPaneText(mapTextFiles);
+
+        mainPane.getChildren().clear();
+        mainPane.getChildren().addAll(map, text, returnHome());
     }
 }

@@ -15,6 +15,7 @@ import static general.InitialLocation.initialPositionElements;
 import static general.InitialLocation.initialPositionElementsForArea;
 import static general.TextProcessing.readingFirstStokeFromFile;
 
+import static table4K.BackHome.returnHome;
 import static table4K.Main4K.RESOURCES_PATH;
 import static table4K.Main4K.changeRootBackground;
 import static table4K.Main4K.mainPane;
@@ -49,9 +50,6 @@ public class Map {
     //внутренний лист - текстовые файлы для сражения.
     private static ArrayList<ArrayList<File>> mapTextFiles;
 
-    //лист стрингов, в которые преобразуется содержание текстовых файлов
-    private static ArrayListIndex<String> mapTextString = new ArrayListIndex<>();
-
 
     public static void setMapScene() {
 
@@ -73,7 +71,9 @@ public class Map {
         // с расположением списка сражений
         mainPane.getChildren().clear();
         for (int i = 0; i < operationNameList.size(); i++) {
-            mainPane.getChildren().add(new MapPaneInitial(operationNameList.get(i)));
+            mainPane.getChildren().add(new MapPaneInitial(operationNameList.get(i),
+                                        mapImageFiles.get(i),
+                                        mapTextFiles.get(i)));
         }
         initialPositionElementsForArea(mainPane.getChildren(),
                 MAP_INITIAL_PANE_MIN_WIDTH_SPACING,
@@ -82,14 +82,7 @@ public class Map {
                 MAP_INITIAL_AREA_X_END,
                 MAP_INITIAL_AREA_Y_END);
 
-        for (int i = 0; i < mainPane.getChildren().size(); i++) {
-            System.out.println("");
-            System.out.println("i = " + i +
-                    "; x = " + mainPane.getChildren().get(i).getLayoutX() +
-                    "; y = " + mainPane.getChildren().get(i).getLayoutY());
-
-        }
-
+        mainPane.getChildren().add(returnHome());
     }
 
 }

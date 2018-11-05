@@ -13,14 +13,6 @@ public class ImagePaneIteration extends ImagePane {
     // для данного экземпляра панели
     private ArrayListIndex<File> imageFiles = new ArrayListIndex<>();
 
-    //флаг регистрации перемещения ImagePaneIteration
-    // если параметр в состоянии true, значит панель перемещали
-    private boolean isDragAndDrop = false;
-
-    //Поле для хранения параметров расположения панели
-    // при ее перемещении методом drag and drop
-    private RelocationCoordinates relocationCoordinates = new RelocationCoordinates();
-
     //Поле для хранения ограничения положения панели
     private RestrictionCoordinates restrCoor = new RestrictionCoordinates();
 
@@ -33,14 +25,6 @@ public class ImagePaneIteration extends ImagePane {
 
     //флаг включения/выключения ограничения местоположения панели
     private boolean locationRestrictionFlag = false;
-
-    public RelocationCoordinates getRelocationCoordinates() {
-        return relocationCoordinates;
-    }
-
-    public void setRelocationCoordinates(final RelocationCoordinates relocationCoordinates) {
-        this.relocationCoordinates = relocationCoordinates;
-    }
 
     public void setCenterPaneFlag(final boolean centerPaneFlag) {
         this.centerPaneFlag = centerPaneFlag;
@@ -108,10 +92,10 @@ public class ImagePaneIteration extends ImagePane {
         return imageFiles.size() - 1;
     }
 
-    //Метод по очистке данных в поле relocationCoordinates
-    public void clearRelocationCoordinates() {
-        setRelocationCoordinates(new RelocationCoordinates());
-    }
+//    //Метод по очистке данных в поле relocationCoordinates
+//    public void clearRelocationCoordinates() {
+//        setRelocationCoordinates(new RelocationCoordinates());
+//    }
 
 
     //Метод обработки действий по щелчку мыши
@@ -231,13 +215,6 @@ public class ImagePaneIteration extends ImagePane {
 
             this.getRelocationCoordinates().setXBegin(event.getTouchPoint().getSceneX());
             this.getRelocationCoordinates().setYBegin(event.getTouchPoint().getSceneY());
-
-            try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                System.out.println("проблема с установкой задержки в классе ImagePantIteration при отпускании тача");
-            }
-
         });
     }
 
@@ -297,6 +274,12 @@ public class ImagePaneIteration extends ImagePane {
 
             if (locationRestrictionFlag) {
                 setLocationRestriction();
+            }
+
+            try {
+                wait(1000);
+            } catch (InterruptedException e) {
+                System.out.println("проблема с установкой задержки в классе ImagePantIteration при отпускании тача");
             }
         });
     }
