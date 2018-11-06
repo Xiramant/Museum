@@ -59,7 +59,7 @@ public class MapPaneText extends ImagePane {
 
         super(TEXT_BACKGROUND_FILE, МAP_PANE_TEXT_WIDTH_MAX, 0);
 
-        this.setLayoutX(TABLE_WIDTH - this.getPrefWidth() - 200);
+        this.setLayoutX(TABLE_WIDTH - this.getPrefWidth());
         this.setLayoutY(TABLE_HEIGHT - this.getPrefHeight());
 
         for (int i = 0; i < textFiles.size(); i++) {

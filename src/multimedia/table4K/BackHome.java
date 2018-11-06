@@ -1,5 +1,6 @@
 package table4K;
 
+import javafx.geometry.VPos;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -13,12 +14,13 @@ public class BackHome {
 
     public static Text returnHome() {
 
-        Text home = new Text("Вернуться к выбору разделов");
-        home.setFont(new Font("Arial", 40));
+        Text home = new Text("К выбору разделов");
+        home.setFont(new Font("Arial", 30));
         home.setFill(Color.WHITE);
 
         home.setLayoutX(TABLE_WIDTH - home.getLayoutBounds().getWidth());
-        home.setLayoutY(TABLE_HEIGHT - home.getLayoutBounds().getHeight());
+        home.setLayoutY(TABLE_HEIGHT - 10);
+        home.setTextOrigin(VPos.BOTTOM);
 
         home.setOnMouseClicked(event -> setMainScene());
         home.setOnTouchReleased(event -> setMainScene());
