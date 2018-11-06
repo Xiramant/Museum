@@ -1,17 +1,13 @@
 package table4K.map;
 
-import general.ArrayListIndex;
 import general.FileFormat;
 import general.SectionKey;
-import javafx.scene.layout.Pane;
-
 
 import java.io.File;
 import java.util.ArrayList;
 
 import static general.FileProcessing.getDirKey;
 import static general.FileProcessing.getFiles;
-import static general.InitialLocation.initialPositionElements;
 import static general.InitialLocation.initialPositionElementsForArea;
 import static general.TextProcessing.readingFirstStokeFromFile;
 

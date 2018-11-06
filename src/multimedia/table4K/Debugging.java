@@ -5,7 +5,8 @@ import static table4K.book.Book.*;
 import static table4K.mail.Mail.*;
 import static table4K.map.Map.*;
 import static table4K.map.MapPaneInitial.*;
-import static table4K.map.MapPaneText.МAP_PANE_TEXT_WIDTH_MAX;
+import static table4K.map.MapPaneText.*;
+import static table4K.map.MapPaneImage.*;
 
 public class Debugging {
 
@@ -83,5 +84,17 @@ public class Debugging {
         MAP_INITIAL_AREA_Y_END /= reductionRatio;
 
         МAP_PANE_TEXT_WIDTH_MAX /= reductionRatio;
+        МAP_PANE_TEXT_HEIGHT_TEXT_BLOCK /= reductionRatio;
+        МAP_PANE_TEXT_TOP_PADDING_TEXT_BLOCK /= reductionRatio;
+        МAP_PANE_TEXT_TOP_PADDING_PAGE_NUMBER /= reductionRatio;
+        МAP_PANE_TEXT_FONT_SIZE_TEXT_BLOCK /= reductionRatio;
+        МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER /= reductionRatio;
+
+        MAP_PAGE_BACKGROUND_WIDTH_MAX /= reductionRatio;
+        MAP_PAGE_BACKGROUND_HEIGHT_MAX /= reductionRatio;
+        MAP_PAGE_BACKGROUND_X /= reductionRatio;
+        MAP_PAGE_BACKGROUND_Y /= reductionRatio;
+        MAP_PAGE_TOP_PADDING /= reductionRatio;
+        MAP_PAGE_LEFT_PADDING /= reductionRatio;
     }
 }

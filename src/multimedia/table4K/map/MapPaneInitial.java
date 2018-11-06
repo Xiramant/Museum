@@ -54,7 +54,7 @@ public class MapPaneInitial extends ImagePane{
 
         this.getChildren().add(textOperationName);
 
-        this.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 2);");
+        this.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.4, 0, 3);");
 
         mapPaneInitialEvent();
     }
