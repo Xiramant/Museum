@@ -55,6 +55,8 @@ public class Debugging {
         MAIL_SECOND_Y /= reductionRatio;
         MAIL_THIRD_X /= reductionRatio;
         MAIL_THIRD_Y /= reductionRatio;
+        MAIL_FORTH_X /= reductionRatio;
+        MAIL_FORTH_Y /= reductionRatio;
 
         MAIL_AREA_BEGIN_X /= reductionRatio;
         MAIL_AREA_BEGIN_Y /= reductionRatio;

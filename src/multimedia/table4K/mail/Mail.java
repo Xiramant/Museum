@@ -36,6 +36,8 @@ public class Mail {
     public static double MAIL_SECOND_Y = 448;
     public static double MAIL_THIRD_X = 2374;
     public static double MAIL_THIRD_Y = 861;
+    public static double MAIL_FORTH_X = 2000;
+    public static double MAIL_FORTH_Y = 1550;
 
     //ограничения на расположение писем
     public static double MAIL_LEFT = 900;
@@ -91,6 +93,11 @@ public class Mail {
             ((ImagePaneIteration)mainPane.getChildren().get(2)).setNextImageBackground();
             mainPane.getChildren().get(2).setLayoutX(MAIL_THIRD_X);
             mainPane.getChildren().get(2).setLayoutY(MAIL_THIRD_Y);
+        }
+
+        if (mainPane.getChildren().size() > 3) {
+            mainPane.getChildren().get(3).setLayoutX(MAIL_FORTH_X);
+            mainPane.getChildren().get(3).setLayoutY(MAIL_FORTH_Y);
         }
 
         mainPane.getChildren().add(returnHome());

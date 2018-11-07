@@ -291,37 +291,37 @@ public class ImagePaneIteration extends ImagePane {
 
     //!!! На тачстоле свайпы похоже не работают
     //Метод обработки действий по тач свайпам
-    public void ipiTouchSwipe() {
-
-        //перелистывание страниц письма
-        this.setOnSwipeLeft(event -> {
-            if (!isDragAndDrop) {
-                this.setNextImageBackground();
-            }
-            isDragAndDrop = false;
-        });
-
-        this.setOnSwipeRight(event -> {
-            if (!isDragAndDrop) {
-                this.setPrevImageBackground();
-            }
-            isDragAndDrop = false;
-        });
-
-        this.setOnSwipeUp(event -> {
-            if (!isDragAndDrop) {
-                this.setFirstImageBackground();
-            }
-            isDragAndDrop = false;
-        });
-
-        this.setOnSwipeDown(event -> {
-            if (!isDragAndDrop) {
-                this.setLastImageBackground();
-            }
-            isDragAndDrop = false;
-        });
-    }
+//    public void ipiTouchSwipe() {
+//
+//        //перелистывание страниц письма
+//        this.setOnSwipeLeft(event -> {
+//            if (!isDragAndDrop) {
+//                this.setNextImageBackground();
+//            }
+//            isDragAndDrop = false;
+//        });
+//
+//        this.setOnSwipeRight(event -> {
+//            if (!isDragAndDrop) {
+//                this.setPrevImageBackground();
+//            }
+//            isDragAndDrop = false;
+//        });
+//
+//        this.setOnSwipeUp(event -> {
+//            if (!isDragAndDrop) {
+//                this.setFirstImageBackground();
+//            }
+//            isDragAndDrop = false;
+//        });
+//
+//        this.setOnSwipeDown(event -> {
+//            if (!isDragAndDrop) {
+//                this.setLastImageBackground();
+//            }
+//            isDragAndDrop = false;
+//        });
+//    }
 
     //метод установки значений ширины и высоты предыдущей панели
     // (при изменении фона панели)

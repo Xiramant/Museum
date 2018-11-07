@@ -23,7 +23,7 @@ public class Main4K extends Application{
     //Флаг дебаггинга,
     // по которому все размеры уменьшаются в 2 раза,
     // чтобы программу можно было дебажить на обычном мониторе
-    private final boolean debugging = false;
+    private final boolean debugging = true;
 
     //путь к директории с файлами
     public static final String RESOURCES_PATH = "C://museumResources/";
