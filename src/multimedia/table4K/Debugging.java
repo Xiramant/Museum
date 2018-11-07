@@ -7,6 +7,8 @@ import static table4K.map.Map.*;
 import static table4K.map.MapPaneInitial.*;
 import static table4K.map.MapPaneText.*;
 import static table4K.map.MapPaneImage.*;
+import static table4K.portfolio.Portfolio.*;
+import static table4K.portfolio.PortfolioPane.*;
 
 public class Debugging {
 
@@ -84,6 +86,7 @@ public class Debugging {
         MAP_INITIAL_AREA_Y_END /= reductionRatio;
 
         МAP_PANE_TEXT_WIDTH_MAX /= reductionRatio;
+        МAP_PANE_TEXT_BOTTOM_INSET /= reductionRatio;
         МAP_PANE_TEXT_HEIGHT_TEXT_BLOCK /= reductionRatio;
         МAP_PANE_TEXT_TOP_PADDING_TEXT_BLOCK /= reductionRatio;
         МAP_PANE_TEXT_TOP_PADDING_PAGE_NUMBER /= reductionRatio;
@@ -96,5 +99,13 @@ public class Debugging {
         MAP_PAGE_BACKGROUND_Y /= reductionRatio;
         MAP_PAGE_TOP_PADDING /= reductionRatio;
         MAP_PAGE_LEFT_PADDING /= reductionRatio;
+
+        //раздел Личные дела
+        PORTFOLIO_HERO_X /= reductionRatio;
+        PORTFOLIO_HERO_Y /= reductionRatio;
+        PORTFOLIO_VETERAN_X /= reductionRatio;
+        PORTFOLIO_VETERAN_Y /= reductionRatio;
+
+        PORTFOLIO_PANE_WIDTH_MAX /= reductionRatio;
     }
 }

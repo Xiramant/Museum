@@ -21,6 +21,8 @@ public class MapPaneText extends ImagePane {
     //максимальная ширина панели текстового блока для раздела Карты
     public static double МAP_PANE_TEXT_WIDTH_MAX = 640;
 
+    public static double МAP_PANE_TEXT_BOTTOM_INSET = 100;
+
     //высота текстового блока
     public static double МAP_PANE_TEXT_HEIGHT_TEXT_BLOCK = 620;
 
@@ -60,7 +62,7 @@ public class MapPaneText extends ImagePane {
         super(TEXT_BACKGROUND_FILE, МAP_PANE_TEXT_WIDTH_MAX, 0);
 
         this.setLayoutX(TABLE_WIDTH - this.getPrefWidth());
-        this.setLayoutY(TABLE_HEIGHT - this.getPrefHeight());
+        this.setLayoutY(TABLE_HEIGHT - this.getPrefHeight() - МAP_PANE_TEXT_BOTTOM_INSET);
 
         for (int i = 0; i < textFiles.size(); i++) {
             mapTextString.add(readingFileIntoString(textFiles.get(i)));
@@ -71,7 +73,7 @@ public class MapPaneText extends ImagePane {
         mouseAction();
         touchAction();
 
-        this.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);");
+        this.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 3);");
 
         this.getChildren().addAll(displayText, caseCountPageText);
     }

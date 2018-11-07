@@ -46,6 +46,7 @@ public class Mail {
     public static void setMailScene() {
 
         changeRootBackground(RESOURCES_PATH + "table_4K_mail.jpg");
+        mainPane.getChildren().clear();
 
         //лист директорий, в которых содержатся файлы для отображения на основной сцене
         ArrayList<File> fileMailDirs = new ArrayList<>(getDirKey(MAIL_KEY));
@@ -56,8 +57,6 @@ public class Mail {
         ArrayList<ArrayList<File>> mailFiles = new ArrayList<>(getFiles(fileMailDirs, FileFormat.IMAGE));
 
         //инициализация первоначального состояния раздела Mail
-        mainPane.getChildren().clear();
-
         for (int i = 0; i < mailFiles.size(); i++) {
             mainPane.getChildren().add(new MailPane(mailFiles.get(i), MAIL_WIDTH_MAX, 0));
         }

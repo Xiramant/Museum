@@ -10,20 +10,20 @@ import javafx.stage.StageStyle;
 
 import java.io.File;
 
-import static javafx.scene.layout.BackgroundPosition.CENTER;
 import static javafx.scene.layout.BackgroundPosition.DEFAULT;
 import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
 import static table4K.Debugging.setDebugging;
 import static table4K.mail.Mail.setMailScene;
 import static table4K.book.Book.setBookScene;
 import static table4K.map.Map.setMapScene;
+import static table4K.portfolio.Portfolio.setPortfolioScene;
 
 public class Main4K extends Application{
 
     //Флаг дебаггинга,
     // по которому все размеры уменьшаются в 2 раза,
     // чтобы программу можно было дебажить на обычном мониторе
-    private final boolean debugging = true;
+    private final boolean debugging = false;
 
     //путь к директории с файлами
     public static final String RESOURCES_PATH = "C://museumResources/";
@@ -132,6 +132,9 @@ public class Main4K extends Application{
         portfolio.setLayoutX(PORTFOLIO_ICON_X);
         portfolio.setLayoutY(PORTFOLIO_ICON_Y);
         portfolio.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 5);");
+
+        portfolio.setOnMouseClicked(event -> setPortfolioScene());
+        portfolio.setOnTouchReleased(event -> setPortfolioScene());
 
         ImagePane medal = new ImagePane(new File(RESOURCES_PATH + "icon/medal_icon.png"), MEDAL_ICON_WIDTH_MAX, MEDAL_ICON_HEIGHT_MAX);
         medal.setLayoutX(MEDAL_ICON_X);

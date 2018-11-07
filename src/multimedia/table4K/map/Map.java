@@ -50,6 +50,7 @@ public class Map {
     public static void setMapScene() {
 
         changeRootBackground(RESOURCES_PATH + "table_4K_map.jpg");
+        mainPane.getChildren().clear();
 
         //лист директорий, в которых содержатся файлы для отображения на основной сцене
         ArrayList<File> fileMapDirs = new ArrayList<>(getDirKey(MAP_KEY));
@@ -65,7 +66,6 @@ public class Map {
 
         //Инициализация первоначального состояния раздела Карты
         // с расположением списка сражений
-        mainPane.getChildren().clear();
         for (int i = 0; i < operationNameList.size(); i++) {
             mainPane.getChildren().add(new MapPaneInitial(operationNameList.get(i),
                                         mapImageFiles.get(i),

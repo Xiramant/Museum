@@ -26,6 +26,7 @@ public class Book {
     public static void setBookScene() {
 
         changeRootBackground(RESOURCES_PATH + "table_4K_book.jpg");
+        mainPane.getChildren().clear();
 
         ArrayList<File> pageFiles = new ArrayList<>(getFiles(new File(BOOK_PATH), FileFormat.IMAGE));
 
@@ -33,7 +34,6 @@ public class Book {
         bookTemp.setLayoutX(BOOK_X);
         bookTemp.setLayoutY(BOOK_Y);
 
-        mainPane.getChildren().clear();
         mainPane.getChildren().add(bookTemp);
 
         mainPane.getChildren().add(returnHome());
