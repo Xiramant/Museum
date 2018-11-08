@@ -10,7 +10,7 @@ public class FileProcessing {
     //метод получения списка директорий,
     // в которых содержатся файлы,
     // используемые для построения основной сцены
-    public static ArrayList<File> getDirKey(final SectionKey sectionKey) {
+    public static ArrayList<File> getDirKey(final SectionKey sectionKey, final String filter) {
 
         ArrayList<File> dirs = new ArrayList<>();
 
@@ -28,9 +28,13 @@ public class FileProcessing {
 
         //получение листа файлов с путями к директориям,
         // в которых содержатся файлы для построения основной сцены
-        dirs.addAll(getFilterFiles(mainDirFiles, sectionKey.getKeyWord() + "_"));
+        dirs.addAll(getFilterFiles(mainDirFiles, filter + "_"));
 
         return dirs;
+    }
+
+    public static ArrayList<File> getDirKey(final SectionKey sectionKey) {
+        return getDirKey(sectionKey, sectionKey.getKeyWord());
     }
 
 

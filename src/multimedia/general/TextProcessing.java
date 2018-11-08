@@ -75,6 +75,11 @@ public class TextProcessing {
                     return builderTemp.toString();
                 }
             }
+
+            //в этом методе возврат метода нужен,
+            // если в файле только одна строка
+            return builderTemp.toString();
+
         } catch (IOException e) {
             System.out.println("Ошибка чтения первой строки из файла = " + file.toString() + e);
         }
@@ -96,11 +101,24 @@ public class TextProcessing {
         //лист фио разделенных на фамилию и имя + отчество
         ArrayList<String> fio = new ArrayList<>();
 
+        //временная строка, куда записываются символы одного слова
+        StringBuilder builderTemp = new StringBuilder();
+
         for (int i = 0; i < firstString.length(); i++) {
+
             if (firstString.charAt(i) == SPACE) {
-                fio.add(firstString.substring(0, i));
-                fio.add(firstString.substring(i+1));
+                if (builderTemp.length() != 0) {
+                    fio.add(builderTemp.toString());
+                }
+                builderTemp.setLength(0);
+                continue;
             }
+
+            builderTemp.append(firstString.charAt(i));
+        }
+
+        if (builderTemp.length() != 0) {
+            fio.add(builderTemp.toString());
         }
 
         return fio;

@@ -9,10 +9,11 @@ import static table4K.map.MapPaneText.*;
 import static table4K.map.MapPaneImage.*;
 import static table4K.portfolio.Portfolio.*;
 import static table4K.portfolio.PortfolioPane.*;
+import static table4K.portfolio.PersonalCardPane.*;
 
 public class Debugging {
 
-    private static double reductionRatio = 2;
+    private static double reductionRatio = 2.133;
 
     public static void setDebugging() {
 
@@ -109,5 +110,6 @@ public class Debugging {
         PORTFOLIO_VETERAN_Y /= reductionRatio;
 
         PORTFOLIO_PANE_WIDTH_MAX /= reductionRatio;
+
     }
 }
