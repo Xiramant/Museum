@@ -4,9 +4,11 @@ import general.ImagePane;
 
 import java.io.File;
 
+import static table4K.Main4K.debuggingRatio;
+
 public class PortfolioPane extends ImagePane {
 
-    public static double PORTFOLIO_PANE_WIDTH_MAX = 1372;
+    private final static double PORTFOLIO_PANE_WIDTH_MAX = 1372 / debuggingRatio;
 
     public PortfolioPane(final File background) {
         super(background, PORTFOLIO_PANE_WIDTH_MAX, 0);

@@ -104,12 +104,7 @@ public class Debugging {
         MAP_PAGE_LEFT_PADDING /= reductionRatio;
 
         //раздел Личные дела
-        PORTFOLIO_HERO_X /= reductionRatio;
-        PORTFOLIO_HERO_Y /= reductionRatio;
-        PORTFOLIO_VETERAN_X /= reductionRatio;
-        PORTFOLIO_VETERAN_Y /= reductionRatio;
 
-        PORTFOLIO_PANE_WIDTH_MAX /= reductionRatio;
 
     }
 }
