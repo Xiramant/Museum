@@ -2,15 +2,12 @@ package table4K.portfolio;
 
 import general.FileFormat;
 import general.SectionKey;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import static general.FileProcessing.getDirKey;
 import static general.FileProcessing.getFiles;
-import static general.TextProcessing.readingFirstStokeFromFile;
 import static table4K.BackHome.returnHome;
 import static table4K.Main4K.*;
 
@@ -54,7 +51,7 @@ public class Portfolio {
         heroImageFiles = new ArrayList<>(getFiles(fileHeroDirs, FileFormat.IMAGE));
         heroTextFiles = new ArrayList<>(getFiles(fileHeroDirs, FileFormat.TEXT));
 
-        PortfolioSlide sliderHero = new PortfolioSlide(heroImageFiles, heroTextFiles);
+        PortfolioSlider sliderHero = new PortfolioSlider(heroImageFiles, heroTextFiles);
         sliderHero.setLayoutX(PORTFOLIO_SLIDER_HERO_X);
         sliderHero.setLayoutY(PORTFOLIO_SLIDER_HERO_Y);
 

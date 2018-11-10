@@ -35,13 +35,13 @@ public class PersonalCardPane extends ImagePane {
 
     //отступы для текста в личной карточке
     private static final double PERSONAL_CARD_PANE_SURNAME_X = 270 / debuggingRatio;
-    private static final double PERSONAL_CARD_PANE_SURNAME_Y = 104 / debuggingRatio;
+    private static final double PERSONAL_CARD_PANE_SURNAME_Y = 106 / debuggingRatio;
     private static final double PERSONAL_CARD_PANE_NAME_X = 270 / debuggingRatio;
-    private static final double PERSONAL_CARD_PANE_NAME_Y = 128 / debuggingRatio;
+    private static final double PERSONAL_CARD_PANE_NAME_Y = 130 / debuggingRatio;
     private static final double PERSONAL_CARD_PANE_PATRONYMIC_X = 270 / debuggingRatio;
-    private static final double PERSONAL_CARD_PANE_PATRONYMIC_Y = 150 / debuggingRatio;
+    private static final double PERSONAL_CARD_PANE_PATRONYMIC_Y = 152 / debuggingRatio;
     private static final double PERSONAL_CARD_PANE_YEAR_X = 291 / debuggingRatio;
-    private static final double PERSONAL_CARD_PANE_YEAR_Y = 174 / debuggingRatio;
+    private static final double PERSONAL_CARD_PANE_YEAR_Y = 178 / debuggingRatio;
 
 
     public PersonalCardPane(final ArrayList<File> imageFilesEnter, final ArrayList<File> textFilesEnter) {
@@ -49,8 +49,6 @@ public class PersonalCardPane extends ImagePane {
 
         imageFiles.addAll(imageFilesEnter);
         textFiles.addAll(textFilesEnter);
-
-        this.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, -1, 2);");
 
         ImagePane photo = new ImagePane(imageFiles.get(0), PERSONAL_CARD_PANE_PHOTO_WIDTH_MAX, 0);
         photo.setLayoutX(PERSONAL_CARD_PANE_PHOTO_X);
@@ -88,6 +86,6 @@ public class PersonalCardPane extends ImagePane {
         year.setText(personalInfo.get(3));
 
         this.getChildren().addAll(photo, surname, name, patronymic, year);
-
     }
+
 }

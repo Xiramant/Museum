@@ -24,7 +24,7 @@ public class Main4K extends Application{
     // по которому все размеры уменьшаются в 2 раза,
     // чтобы программу можно было дебажить на обычном мониторе
     private final boolean debugging = true;
-    public static final double  debuggingRatio = 2.133;
+    public static final double  debuggingRatio = 2.1333;
 
     //путь к директории с файлами
     public static final String RESOURCES_PATH = "C://museumResources/";
