@@ -16,8 +16,7 @@ public class TextProcessing {
     //Символ пробела
     private final static char SPACE = 32;
 
-    //Метод копирования текста из файла в лист стрингов
-    //каждый стринг представляет собой строчку из файла с текстом
+    //Метод копирования текста из файла в стринг
     public static String readingFileIntoString(final File file) {
 
         //временная строка, куда записываются символы из одной строки
@@ -50,6 +49,28 @@ public class TextProcessing {
         }
 
         return builderTemp.toString();
+    }
+
+    //добавление пробелов в начале каждой строчки текста
+    public static String addSpaceToEachLine(final String text, final int number) {
+
+        StringBuilder add = new StringBuilder();
+        for (int i = 0; i < number; i++) {
+            add.append(" ");
+        }
+
+        StringBuilder out = new StringBuilder(add.toString());
+
+        for (int i = 0; i < text.length(); i++) {
+
+            out.append(text.charAt(i));
+
+            if (text.codePointAt(i) == LINE_FEED) {
+                out.append(add.toString());
+            }
+        }
+
+        return out.toString();
     }
 
     //Метод копирования первой строчки из файла в String
@@ -88,10 +109,7 @@ public class TextProcessing {
     }
 
     //Метод копирования первой строчки из файла в String
-    // и разбития ее на две строчки
-    //Используется для разбития ФИО на фамилию, имя+отчество
-    // (сначала я хотел разделить строчку на 3 слова: фамилию, имя, отчество
-    // но у некоторых людей фио не подпадают под эту категорию)
+    // и разбития ее слова
     public static ArrayList<String> readingFirstStokeFromFileAndSplitIntoWord(final File file) {
 
         //временная строка, куда записывается первая строка из файла
@@ -123,4 +141,5 @@ public class TextProcessing {
 
         return fio;
     }
+
 }

@@ -18,14 +18,14 @@ public class ArrayListIndex<E> extends ArrayList<E> {
         if (hasNextElement()) {
             return super.get(++index);
         }
-        return getLastElement();
+        return getFirstElement();
     }
 
     public E getPrevElement() {
         if (hasPrevElement()) {
             return super.get(--index);
         }
-        return getFirstElement();
+        return getLastElement();
     }
 
     public E getCurrentElement() {

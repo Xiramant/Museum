@@ -9,8 +9,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import static general.TextProcessing.readingFirstStokeFromFileAndSplitIntoWord;
-import static table4K.Main4K.RESOURCES_PATH;
-import static table4K.Main4K.debuggingRatio;
+import static table4K.BackHome.returnHome;
+import static table4K.Main4K.*;
 
 public class PersonalCardPane extends ImagePane {
 
@@ -19,6 +19,9 @@ public class PersonalCardPane extends ImagePane {
 
     //лист файлов текста личного дела
     private ArrayList<File> textFiles = new ArrayList<>();
+
+    //фио
+    private String fio;
 
     //максимальная ширина личной карточки
     private static final double PERSONAL_CARD_PANE_WIDTH_MAX = 450 / debuggingRatio;
@@ -85,7 +88,30 @@ public class PersonalCardPane extends ImagePane {
         year.setLayoutY(PERSONAL_CARD_PANE_YEAR_Y);
         year.setText(personalInfo.get(3));
 
+        fio = surname.getText() + " " + name.getText() + " " + patronymic.getText();
+
         this.getChildren().addAll(photo, surname, name, patronymic, year);
+
+        this.setOnMouseClicked(event -> {
+            personalCardAction();
+        });
+
+        this.setOnTouchReleased(event -> {
+            personalCardAction();
+            try {
+                wait(1000);
+            } catch (InterruptedException e) {
+                System.out.println("проблема с установкой задержки в классе PortfolioSlider при отпускании тача");
+            }
+        });
+    }
+
+    private void personalCardAction() {
+        PortfolioCasePane pcp = new PortfolioCasePane(fio, imageFiles, textFiles);
+
+        changeRootBackground(RESOURCES_PATH + "table_4K_portfolio.jpg");
+        mainPane.getChildren().clear();
+        mainPane.getChildren().addAll(pcp, returnHome());
     }
 
 }

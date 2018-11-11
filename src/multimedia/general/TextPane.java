@@ -15,7 +15,11 @@ public class TextPane {
     //Символ пробела
     private final char SPACE = 32;
 
-    public ArrayList<String> breakTextIntoBlocks(final String text, final double widthBlock, final double heightBlock, final Font fontBlock) {
+    public ArrayList<String> breakTextIntoBlocks(final String text,
+                                                 final double widthBlock,
+                                                 final double heightBlock,
+                                                 final Font fontBlock,
+                                                 final double lineSpacing) {
 
         //блоки текстов
         ArrayList<String> textPaneList = new ArrayList<>();
@@ -23,6 +27,9 @@ public class TextPane {
         Text textBlock = new Text();
         textBlock.setFont(fontBlock);
         textBlock.setWrappingWidth(widthBlock);
+        if (lineSpacing != 0) {
+            textBlock.setLineSpacing(lineSpacing);
+        }
 
         //Разбитие текста на слова,
         // где разделителями считаются: Пробел и Перевод каретки на новую строку
@@ -70,6 +77,14 @@ public class TextPane {
         textPaneList.add(sb.toString());
 
         return textPaneList;
+    }
+
+    public ArrayList<String> breakTextIntoBlocks(final String text,
+                                                 final double widthBlock,
+                                                 final double heightBlock,
+                                                 final Font fontBlock) {
+
+        return breakTextIntoBlocks(text, widthBlock, heightBlock, fontBlock, 0);
     }
 
 }

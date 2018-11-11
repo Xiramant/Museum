@@ -92,12 +92,6 @@ public class ImagePaneIteration extends ImagePane {
         return imageFiles.size() - 1;
     }
 
-//    //Метод по очистке данных в поле relocationCoordinates
-//    public void clearRelocationCoordinates() {
-//        setRelocationCoordinates(new RelocationCoordinates());
-//    }
-
-
     //Метод обработки действий по щелчку мыши
     public void ipiMouseDragAndDrop() {
         mousePressed();

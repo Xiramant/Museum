@@ -7,13 +7,11 @@ import static table4K.map.Map.*;
 import static table4K.map.MapPaneInitial.*;
 import static table4K.map.MapPaneText.*;
 import static table4K.map.MapPaneImage.*;
-import static table4K.portfolio.Portfolio.*;
-import static table4K.portfolio.PortfolioPane.*;
-import static table4K.portfolio.PersonalCardPane.*;
+
 
 public class Debugging {
 
-    private static double reductionRatio = 2.133;
+    private static double reductionRatio = debuggingRatio;
 
     public static void setDebugging() {
 
