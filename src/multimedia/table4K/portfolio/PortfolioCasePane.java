@@ -22,9 +22,9 @@ public class PortfolioCasePane extends ImagePane{
     //максимальная высота
     private static final double PORTFOLIO_CASE_HEIGHT_MAX = 1300 / debuggingRatio;
     //отступ слева
-    private static final double PORTFOLIO_CASE_X = 1500 / debuggingRatio;
+    static final double PORTFOLIO_CASE_X = 1500 / debuggingRatio;
     //отступ сверху
-    private static final double PORTFOLIO_CASE_Y = 760 / debuggingRatio;
+    static final double PORTFOLIO_CASE_Y = 760 / debuggingRatio;
 
     //Текстовый блок ФИО на корешке папки Личное дело
     //шрифт

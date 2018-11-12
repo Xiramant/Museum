@@ -330,7 +330,7 @@ public class InitialLocation {
         }
     }
 
-    private static double randomInRange(final double begin, final double end) {
+    public static double randomInRange(final double begin, final double end) {
         return new Random().nextInt((int)(end - begin)) + begin;
     }
 }

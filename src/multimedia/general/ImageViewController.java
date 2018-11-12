@@ -7,6 +7,8 @@ import javafx.scene.image.ImageView;
 import java.io.File;
 import java.net.MalformedURLException;
 
+import static general.RestrictionCoordinates.getNotDetermined;
+
 public class ImageViewController extends ImageView {
 
     //Поле для хранения параметров расположения панели
@@ -21,6 +23,8 @@ public class ImageViewController extends ImageView {
     }
 
     private boolean flagDragAndDrop = false;
+
+    private boolean flagLocationRestriction = false;
 
     public void setFlagDragAndDrop(final boolean flagDragAndDrop) {
         this.flagDragAndDrop = flagDragAndDrop;
@@ -38,7 +42,6 @@ public class ImageViewController extends ImageView {
     public ImageViewController(final File imageFile) {
 //        super(new Image(imageFile.toURI().toURL().toString()));
         super(new Image("file:" + imageFile.toString()));
-
     }
 
 
@@ -92,9 +95,9 @@ public class ImageViewController extends ImageView {
                 this.setStyle(style);
             }
 
-//            if (locationRestrictionFlag) {
-//                setLocationRestriction();
-//            }
+            if (flagLocationRestriction) {
+                setLocationRestriction();
+            }
         });
     }
 
@@ -157,9 +160,9 @@ public class ImageViewController extends ImageView {
                 this.setStyle(style);
             }
 
-//            if (locationRestrictionFlag) {
-//                setLocationRestriction();
-//            }
+            if (flagLocationRestriction) {
+                setLocationRestriction();
+            }
 
             try {
                 wait(1000);
@@ -175,5 +178,42 @@ public class ImageViewController extends ImageView {
 
     protected void clearRelocationCoordinates() {
         setRelocationCoordinates(new RelocationCoordinates());
+    }
+
+    //установка значений области ограничивающей положение панели
+    public void setRestrCoor(final double left, final double top, final double right, final double bottom) {
+
+        restrCoor.setRestrictionCoordinates(left, top, right, bottom);
+
+        this.flagLocationRestriction = true;
+    }
+
+    //метод устанавливающий ограничения на местоположения панели
+    // в соответствии с областью, заданной в restrCoor
+    private void setLocationRestriction() {
+
+        if (Math.abs(restrCoor.getLeft() - getNotDetermined()) > 0.1) {
+            if (this.getLayoutX() < restrCoor.getLeft()) {
+                this.setLayoutX(restrCoor.getLeft());
+            }
+        }
+
+        if (Math.abs(restrCoor.getTop() - getNotDetermined()) > 0.1) {
+            if (this.getLayoutY() < restrCoor.getTop()) {
+                this.setLayoutY(restrCoor.getTop());
+            }
+        }
+
+        if (Math.abs(restrCoor.getRight() - getNotDetermined()) > 0.1) {
+            if (this.getLayoutX() + this.getLayoutBounds().getWidth() > restrCoor.getRight()) {
+                this.setLayoutX(restrCoor.getRight() - this.getLayoutBounds().getWidth());
+            }
+        }
+
+        if (Math.abs(restrCoor.getBottom() - getNotDetermined()) > 0.1) {
+            if (this.getLayoutY() + this.getLayoutBounds().getHeight() > restrCoor.getBottom()) {
+                this.setLayoutY(restrCoor.getBottom() - this.getLayoutBounds().getHeight());
+            }
+        }
     }
 }

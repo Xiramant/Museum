@@ -4,7 +4,12 @@ import general.ImageViewController;
 
 import java.io.File;
 
+import static general.InitialLocation.randomInRange;
+import static table4K.Main4K.TABLE_HEIGHT;
+import static table4K.Main4K.TABLE_WIDTH;
 import static table4K.Main4K.debuggingRatio;
+import static table4K.portfolio.PortfolioCasePane.PORTFOLIO_CASE_X;
+import static table4K.portfolio.PortfolioCasePane.PORTFOLIO_CASE_Y;
 
 public class PortfolioCasePhoto extends ImageViewController{
 
@@ -18,7 +23,7 @@ public class PortfolioCasePhoto extends ImageViewController{
     private final double PORTFOLIO_PHOTO_X = 36 / debuggingRatio;
 
     //отступ сверху до фотографии в раскрытом личном деле
-    private final double PORTFOLIO_PHOTO_y = 86 / debuggingRatio;
+    private final double PORTFOLIO_PHOTO_Y = 86 / debuggingRatio;
 
     public PortfolioCasePhoto(final File imageFile) {
         super(imageFile);
@@ -27,8 +32,25 @@ public class PortfolioCasePhoto extends ImageViewController{
         this.setFitHeight(PORTFOLIO_PHOTO_HEIGHT_MAX);
         this.setPreserveRatio(true);
         this.setStyle("-fx-effect: dropshadow(gaussian, black, 6, 0.3, -1, 1);");
-        this.setLayoutX(PORTFOLIO_PHOTO_X + PORTFOLIO_PHOTO_WIDTH_MAX / 2 - this.getLayoutBounds().getWidth() / 2);
-        this.setLayoutY(PORTFOLIO_PHOTO_y + PORTFOLIO_PHOTO_HEIGHT_MAX / 2 - this.getLayoutBounds().getHeight() / 2);
+
+        //если разница между максимальным и реальным размерами фото больше единицы,
+        // то положение устанавливается рандомно в заданных пределах
+        // в противном случае положение устанавливается по середине заданной области
+        if (Math.abs(PORTFOLIO_PHOTO_WIDTH_MAX - this.getLayoutBounds().getWidth()) > 1) {
+            this.setLayoutX(randomInRange(PORTFOLIO_PHOTO_X, PORTFOLIO_PHOTO_X + PORTFOLIO_PHOTO_WIDTH_MAX - this.getLayoutBounds().getWidth()));
+        } else {
+            this.setLayoutX(PORTFOLIO_PHOTO_X + PORTFOLIO_PHOTO_WIDTH_MAX / 2 - this.getLayoutBounds().getWidth() / 2);
+        }
+        if (Math.abs(PORTFOLIO_PHOTO_HEIGHT_MAX - this.getLayoutBounds().getHeight()) > 1) {
+            this.setLayoutY(randomInRange(PORTFOLIO_PHOTO_Y, PORTFOLIO_PHOTO_Y + PORTFOLIO_PHOTO_HEIGHT_MAX - this.getLayoutBounds().getHeight()));
+        } else {
+            this.setLayoutY(PORTFOLIO_PHOTO_Y + PORTFOLIO_PHOTO_HEIGHT_MAX / 2 - this.getLayoutBounds().getHeight() / 2);
+        }
+
+        setRestrCoor(-PORTFOLIO_CASE_X,
+                -PORTFOLIO_CASE_Y,
+                TABLE_WIDTH - PORTFOLIO_CASE_X,
+                TABLE_HEIGHT - PORTFOLIO_CASE_Y);
 
         this.ivcMouseDragAndDrop();
         this.ivcTouchDragAndDrop();
