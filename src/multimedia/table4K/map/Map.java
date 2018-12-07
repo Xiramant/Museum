@@ -12,9 +12,7 @@ import static general.InitialLocation.initialPositionElementsForArea;
 import static general.TextProcessing.readingFirstStokeFromFile;
 
 import static table4K.BackHome.returnHome;
-import static table4K.Main4K.RESOURCES_PATH;
-import static table4K.Main4K.changeRootBackground;
-import static table4K.Main4K.mainPane;
+import static table4K.Main4K.*;
 
 
 public class Map {
@@ -27,14 +25,14 @@ public class Map {
     private static final SectionKey MAP_KEY = SectionKey.MAP;
 
     //минимальное расстояние по горизонтали между блоками изначальной сцены
-    public static double MAP_INITIAL_PANE_MIN_WIDTH_SPACING = 100;
+    public static double MAP_INITIAL_PANE_MIN_WIDTH_SPACING = 100 / debuggingRatio;
 
     //координаты области в которой должны разместиться
     // первоначальные текстовые блоки для выбора сражения
-    public static double MAP_INITIAL_AREA_X_BEGIN = 800;
-    public static double MAP_INITIAL_AREA_Y_BEGIN = 350;
-    public static double MAP_INITIAL_AREA_X_END = 4000;
-    public static double MAP_INITIAL_AREA_Y_END = 2050;
+    public static double MAP_INITIAL_AREA_X_BEGIN = 800 / debuggingRatio;
+    public static double MAP_INITIAL_AREA_Y_BEGIN = 350 / debuggingRatio;
+    public static double MAP_INITIAL_AREA_X_END = 4000 / debuggingRatio;
+    public static double MAP_INITIAL_AREA_Y_END = 2050 / debuggingRatio;
 
     //Карты:
     //внешний лист - лист сражений;

@@ -1,27 +1,24 @@
 package table4K.book;
 
 import general.FileFormat;
-import general.ImagePaneIteration;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import static general.FileProcessing.getFiles;
 import static table4K.BackHome.returnHome;
-import static table4K.Main4K.RESOURCES_PATH;
-import static table4K.Main4K.changeRootBackground;
-import static table4K.Main4K.mainPane;
+import static table4K.Main4K.*;
 
 public class Book {
 
     //путь к директории с файлами писем
     private static final String BOOK_PATH = RESOURCES_PATH + "book/";
 
-    public static double BOOK_WIDTH_MAX = 2419;
+    public static double BOOK_WIDTH_MAX = 2419 / debuggingRatio;
 
     //координаты начала и конца области для случайного расположения писем
-    public static double BOOK_X = 819;
-    public static double BOOK_Y = 446;
+    public static double BOOK_X = 819 / debuggingRatio;
+    public static double BOOK_Y = 446 / debuggingRatio;
 
     public static void setBookScene() {
 

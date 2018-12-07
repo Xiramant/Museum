@@ -19,29 +19,32 @@ public class Mail {
 
     private static final SectionKey MAIL_KEY = SectionKey.MAIL;
 
-    public static double MAIL_WIDTH_MAX = 600;
+    public static double MAIL_WIDTH_MAX = 600 / debuggingRatio;
 
-    public static double MAIL_WIDTH_SPACING_MIN = 100;
+    public static double MAIL_WIDTH_SPACING_MIN = 100 / debuggingRatio;
 
     //координаты начала и конца области для случайного расположения писем
-    public static double MAIL_AREA_BEGIN_X = 2909;
-    public static double MAIL_AREA_BEGIN_Y = 441;
-    public static double MAIL_AREA_END_X = 3490;
-    public static double MAIL_AREA_END_Y = 1128;
+    public static double MAIL_AREA_BEGIN_X = 2909 / debuggingRatio;
+    public static double MAIL_AREA_BEGIN_Y = 441 / debuggingRatio;
+    public static double MAIL_AREA_END_X = 3490 / debuggingRatio;
+    public static double MAIL_AREA_END_Y = 1128 / debuggingRatio;
 
-    //координаты первоначального расположения 3-х писем
-    public static double MAIL_FIRST_X = 993;
-    public static double MAIL_FIRST_Y = 916;
-    public static double MAIL_SECOND_X = 1670;
-    public static double MAIL_SECOND_Y = 448;
-    public static double MAIL_THIRD_X = 2374;
-    public static double MAIL_THIRD_Y = 861;
-    public static double MAIL_FORTH_X = 2000;
-    public static double MAIL_FORTH_Y = 1550;
+    //координаты первоначального расположения 4-х писем
+    public static double MAIL_FIRST_X = 993 / debuggingRatio;
+    public static double MAIL_FIRST_Y = 916 / debuggingRatio;
+    public static double MAIL_SECOND_X = 1670 / debuggingRatio;
+    public static double MAIL_SECOND_Y = 448 / debuggingRatio;
+    public static double MAIL_THIRD_X = 2374 / debuggingRatio;
+    public static double MAIL_THIRD_Y = 861 / debuggingRatio;
+    public static double MAIL_FORTH_X = 2000 / debuggingRatio;
+    public static double MAIL_FORTH_Y = 1550 / debuggingRatio;
 
     //ограничения на расположение писем
-    public static double MAIL_LEFT = 900;
-    public static double MAIL_TOP = 370;
+    public static double MAIL_LEFT = 900 / debuggingRatio;
+    public static double MAIL_TOP = 370 / debuggingRatio;
+    //переопределения размеров для MAIL_RIGHT и MAIL_BOTTOM не сделаны, т.к.
+    // они определяются по значениям TABLE_WIDTH и TABLE_HEIGHT
+    // которые уже уменьшены
     public static double MAIL_RIGHT = TABLE_WIDTH;
     public static double MAIL_BOTTOM = TABLE_HEIGHT;
 

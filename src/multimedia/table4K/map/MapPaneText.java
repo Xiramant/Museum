@@ -14,29 +14,30 @@ import java.util.ArrayList;
 import static general.TextProcessing.readingFileIntoString;
 import static table4K.Main4K.TABLE_HEIGHT;
 import static table4K.Main4K.TABLE_WIDTH;
+import static table4K.Main4K.debuggingRatio;
 import static table4K.map.Map.*;
 
 public class MapPaneText extends ImagePane {
 
     //максимальная ширина панели текстового блока для раздела Карты
-    public static double МAP_PANE_TEXT_WIDTH_MAX = 640;
+    public static double МAP_PANE_TEXT_WIDTH_MAX = 640 / debuggingRatio;
 
-    public static double МAP_PANE_TEXT_BOTTOM_INSET = 100;
+    public static double МAP_PANE_TEXT_BOTTOM_INSET = 100 / debuggingRatio;
 
     //высота текстового блока
-    public static double МAP_PANE_TEXT_HEIGHT_TEXT_BLOCK = 620;
+    public static double МAP_PANE_TEXT_HEIGHT_TEXT_BLOCK = 620 / debuggingRatio;
 
     //отступ сверху для текстового блока
-    public static double МAP_PANE_TEXT_TOP_PADDING_TEXT_BLOCK = 160;
+    public static double МAP_PANE_TEXT_TOP_PADDING_TEXT_BLOCK = 160 / debuggingRatio;
 
     //отступ сверху для блока количество страниц
-    public static double МAP_PANE_TEXT_TOP_PADDING_PAGE_NUMBER = 800;
+    public static double МAP_PANE_TEXT_TOP_PADDING_PAGE_NUMBER = 800 / debuggingRatio;
 
     //размер шрифта текстового блока
-    public static double МAP_PANE_TEXT_FONT_SIZE_TEXT_BLOCK = 28;
+    public static double МAP_PANE_TEXT_FONT_SIZE_TEXT_BLOCK = 28 / debuggingRatio;
 
     //размер шрифта блока количество страниц
-    public static double МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER = 20;
+    public static double МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER = 20 / debuggingRatio;
 
     //шрифт текстового блока
     private Font МAP_PANE_TEXT_FONT_TEXT_BLOCK = new Font("Book Antiqua Bold Italic", МAP_PANE_TEXT_FONT_SIZE_TEXT_BLOCK);

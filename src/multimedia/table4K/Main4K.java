@@ -12,7 +12,6 @@ import java.io.File;
 
 import static javafx.scene.layout.BackgroundPosition.DEFAULT;
 import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
-import static table4K.Debugging.setDebugging;
 import static table4K.mail.Mail.setMailScene;
 import static table4K.book.Book.setBookScene;
 import static table4K.map.Map.setMapScene;
@@ -20,11 +19,9 @@ import static table4K.portfolio.Portfolio.setPortfolioScene;
 
 public class Main4K extends Application{
 
-    //Флаг дебаггинга,
-    // по которому все размеры уменьшаются в 2 раза,
+    //величина на которые уменьшаются все размеры,
     // чтобы программу можно было дебажить на обычном мониторе
-    private final boolean debugging = true;
-    public static final double  debuggingRatio = 2;
+    public static final double debuggingRatio = 2.133;
 
     //путь к директории с файлами
     public static final String RESOURCES_PATH = "C://museumResources/";
@@ -35,38 +32,38 @@ public class Main4K extends Application{
     public static Pane mainPane;
 
     //Размеры интерактивного стола
-    public static double TABLE_WIDTH = 4096;
-    public static double TABLE_HEIGHT = 2160;
+    public static double TABLE_WIDTH = 4096 / debuggingRatio;
+    public static double TABLE_HEIGHT = 2160 / debuggingRatio;
 
     //Иконка раздела Карты
-    public static double MAP_ICON_WIDTH_MAX = 1547;
-    public static double MAP_ICON_HEIGHT_MAX = 972;
-    public static double MAP_ICON_X = 0;
-    public static double MAP_ICON_Y = 107;
+    public static double MAP_ICON_WIDTH_MAX = 1547 / debuggingRatio;
+    public static double MAP_ICON_HEIGHT_MAX = 972 / debuggingRatio;
+    public static double MAP_ICON_X = 0 / debuggingRatio;
+    public static double MAP_ICON_Y = 107 / debuggingRatio;
 
     //Иконка раздела Письма
-    public static double MAIL_ICON_WIDTH_MAX = 579;
-    public static double MAIL_ICON_HEIGHT_MAX = 693;
-    public static double MAIL_ICON_X = 429;
-    public static double MAIL_ICON_Y = 1314;
+    public static double MAIL_ICON_WIDTH_MAX = 579 / debuggingRatio;
+    public static double MAIL_ICON_HEIGHT_MAX = 693 / debuggingRatio;
+    public static double MAIL_ICON_X = 429 / debuggingRatio;
+    public static double MAIL_ICON_Y = 1314 / debuggingRatio;
 
     //Иконка раздела Личные дела
-    public static double PORTFOLIO_ICON_WIDTH_MAX = 752;
-    public static double PORTFOLIO_ICON_HEIGHT_MAX = 977;
-    public static double PORTFOLIO_ICON_X = 1899;
-    public static double PORTFOLIO_ICON_Y = 684;
+    public static double PORTFOLIO_ICON_WIDTH_MAX = 752 / debuggingRatio;
+    public static double PORTFOLIO_ICON_HEIGHT_MAX = 977 / debuggingRatio;
+    public static double PORTFOLIO_ICON_X = 1899 / debuggingRatio;
+    public static double PORTFOLIO_ICON_Y = 684 / debuggingRatio;
 
     //Иконка раздела Медали
-    public static double MEDAL_ICON_WIDTH_MAX = 526;
-    public static double MEDAL_ICON_HEIGHT_MAX = 424;
-    public static double MEDAL_ICON_X = 3385;
-    public static double MEDAL_ICON_Y = 163;
+    public static double MEDAL_ICON_WIDTH_MAX = 526 / debuggingRatio;
+    public static double MEDAL_ICON_HEIGHT_MAX = 424 / debuggingRatio;
+    public static double MEDAL_ICON_X = 3385 / debuggingRatio;
+    public static double MEDAL_ICON_Y = 163 / debuggingRatio;
 
     //Иконка раздела Медали
-    public static double BOOK_ICON_WIDTH_MAX = 672;
-    public static double BOOK_ICON_HEIGHT_MAX = 895;
-    public static double BOOK_ICON_X = 3264;
-    public static double BOOK_ICON_Y = 1046;
+    public static double BOOK_ICON_WIDTH_MAX = 672 / debuggingRatio;
+    public static double BOOK_ICON_HEIGHT_MAX = 895 / debuggingRatio;
+    public static double BOOK_ICON_X = 3264 / debuggingRatio;
+    public static double BOOK_ICON_Y = 1046 / debuggingRatio;
 
     public static void main(String[] args) {
         launch(args);
@@ -74,8 +71,6 @@ public class Main4K extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
-        if (debugging) setDebugging();
 
         //создание родительской панели
         root = new BorderPane();
