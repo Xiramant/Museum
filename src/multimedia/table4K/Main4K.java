@@ -15,6 +15,7 @@ import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
 import static table4K.mail.Mail.setMailScene;
 import static table4K.book.Book.setBookScene;
 import static table4K.map.Map.setMapScene;
+import static table4K.medal.Medal.setOrdenScene;
 import static table4K.portfolio.Portfolio.setPortfolioScene;
 
 public class Main4K extends Application{
@@ -136,6 +137,9 @@ public class Main4K extends Application{
         medal.setLayoutX(MEDAL_ICON_X);
         medal.setLayoutY(MEDAL_ICON_Y);
         medal.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, 3, 2);");
+
+        medal.setOnMouseClicked(event -> setOrdenScene());
+        medal.setOnTouchReleased(event -> setOrdenScene());
 
         ImagePane book = new ImagePane(new File(RESOURCES_PATH + "icon/book_icon.png"), BOOK_ICON_WIDTH_MAX, BOOK_ICON_HEIGHT_MAX);
         book.setLayoutX(BOOK_ICON_X);
