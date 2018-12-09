@@ -10,6 +10,7 @@ import javafx.stage.StageStyle;
 
 import java.io.File;
 
+import static general.SectionKey.*;
 import static javafx.scene.layout.BackgroundPosition.DEFAULT;
 import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
 import static table4K.mail.Mail.setMailScene;
@@ -138,8 +139,8 @@ public class Main4K extends Application{
         medal.setLayoutY(MEDAL_ICON_Y);
         medal.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, 3, 2);");
 
-        medal.setOnMouseClicked(event -> setOrdenScene());
-        medal.setOnTouchReleased(event -> setOrdenScene());
+        medal.setOnMouseClicked(event -> setOrdenScene(ORDEN));
+        medal.setOnTouchReleased(event -> setOrdenScene(ORDEN));
 
         ImagePane book = new ImagePane(new File(RESOURCES_PATH + "icon/book_icon.png"), BOOK_ICON_WIDTH_MAX, BOOK_ICON_HEIGHT_MAX);
         book.setLayoutX(BOOK_ICON_X);

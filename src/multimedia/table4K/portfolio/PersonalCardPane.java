@@ -24,7 +24,10 @@ public class PersonalCardPane extends ImagePane {
     private String fio;
 
     //максимальная ширина личной карточки
-    private static final double PERSONAL_CARD_PANE_WIDTH_MAX = 450 / debuggingRatio;
+    public static final double PERSONAL_CARD_PANE_WIDTH_MAX = 450 / debuggingRatio;
+
+    //максимальная высота личной карточки
+    public static final double PERSONAL_CARD_PANE_HEIGHT_MAX = 278 / debuggingRatio;
 
     //максимальная ширина фото на личную карточку
     private static final double PERSONAL_CARD_PANE_PHOTO_WIDTH_MAX = 128 / debuggingRatio;

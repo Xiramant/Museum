@@ -1,111 +1,115 @@
-package table4K.medal;
+package general;
 
-import general.SliderIndex;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.SubScene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import static table4K.Main4K.RESOURCES_PATH;
-import static table4K.Main4K.debuggingRatio;
-import static table4K.medal.MedalImage.MEDAL_SLIDER_IMAGE_HEIGHT_MAX;
 
-public class MedalSlider extends Pane {
+public class Slider extends Pane{
 
-    //ширина слайдера для медалей
-    private static final double SLIDER_WIDTH = 3250 / debuggingRatio;
-
-    //ширина сабсцены, играющей роль маски видимости
-    // для медалей
-    private static final double SUBSCENE_SLIDER_WIDTH = 2950 / debuggingRatio;
+    //ширина слайдера
+    private final double SLIDER_WIDTH;
 
     //высота слайдера
-    private static final double SLIDER_HEIGHT = MEDAL_SLIDER_IMAGE_HEIGHT_MAX;
+    private final double SLIDER_HEIGHT;
 
-    //количество орденов, отображаемых в слайдере
-    private static final int sliderNumber = 6;
+    //пути к левой и правой стрелкам слайдера
+    private final static String LEFT_ARROW_PATH = "file:" + RESOURCES_PATH + "arrow_left.png";
+    private final static String RIGHT_ARROW_PATH = "file:" + RESOURCES_PATH + "arrow_right.png";
 
-    //список файлов изображений орденов
-    private ArrayList<ArrayList<File>> imageFiles;
+    //высота стрелок слайдера в процентах от высоты слайдера
+    private final double ARROW_HEIGHT = 0.8;
 
-    //список файлов с текстом для орденов
-    private ArrayList<ArrayList<File>> textFiles;
+    //ширина сабсцены, играющей роль маски видимости
+    private final double SUBSCENE_SLIDER_WIDTH;
+
+    //количество элементов, отображаемых в слайдере
+    private final int SLIDER_NUMBER;
 
     //слайдер индекс для получения индекса ордена
     // отображаемого в слайдере при пролистывании
     private SliderIndex sliderIndex;
 
-    public MedalSlider(final ArrayList<ArrayList<File>> imageFilesEnter,
-                           final ArrayList<ArrayList<File>> textFilesEnter) {
+    private ArrayList<Node> sliderElements = new ArrayList<>();
 
-        imageFiles = imageFilesEnter;
-        textFiles = textFilesEnter;
+    public Slider(final double sliderWidthEnter,
+                  final double sliderHeightEnter,
+                  final double subsceneSliderWidthEnter,
+                  final int sliderNumberEnter,
+                  final ArrayList<Node> sliderElementsEnter) {
 
-        if (imageFiles.size() != textFiles.size()) {
-            System.out.println("Количество личных дел в imageFiles и textFiles в классе PortfolioSlider не совпадают");
-        }
+        this.SLIDER_WIDTH = sliderWidthEnter;
+        this.SLIDER_HEIGHT = sliderHeightEnter;
+        this.SUBSCENE_SLIDER_WIDTH = subsceneSliderWidthEnter;
+        this.SLIDER_NUMBER = sliderNumberEnter;
+        this.sliderElements = sliderElementsEnter;
 
-        sliderIndex = new SliderIndex(imageFiles.size(), sliderNumber);
+        this.sliderIndex = new SliderIndex(sliderElements.size(), SLIDER_NUMBER);
 
-        //добавление орденов в группу, отображаемую в слайдере
+        //добавление элементов в группу, отображаемую в слайдере
         Group grSliderView = new Group();
-        for (int i = 0; i < sliderNumber; i++) {
-            grSliderView.getChildren().add(new MedalImage(imageFiles.get(i), textFiles.get(i)));
+        for (int i = 0; i < SLIDER_NUMBER; i++) {
+            Node temp = sliderElements.get(i);
+            grSliderView.getChildren().add(temp);
         }
 
-        //задание положения элементов в сабсцене
+        //необходимо для получения правильного размера высоты элементов grSliderView
+        // без данной конструкции getLayoutBounds().getHeight() выдаст 0
+        grSliderView.layout();
+
+        //задание положения элементов на сабсцене
         for (int i = 0; i < grSliderView.getChildren().size(); i++) {
-            grSliderView.getChildren().get(i).setLayoutX((0.5 + i) * (SUBSCENE_SLIDER_WIDTH / sliderNumber) -
-                                                         grSliderView.getChildren().get(i).getLayoutBounds().getWidth() / 2);
+            grSliderView.getChildren().get(i).setLayoutX((0.5 + i) * (SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER) -
+                    grSliderView.getChildren().get(i).getLayoutBounds().getWidth() / 2);
             grSliderView.getChildren().get(i).setLayoutY((SLIDER_HEIGHT - grSliderView.getChildren().get(i).getLayoutBounds().getHeight()) / 2);
         }
 
         //левая стрелка листания слайдера
-        ImageView arrowLeft = createSliderArrow("file:" + RESOURCES_PATH + "medal/arrow_left.png");
+        ImageView arrowLeft = createSliderArrow(LEFT_ARROW_PATH);
 
-        //сабсцена для группы медалей в слайдере
-        // которая играет роль маски видимости
-        // при их перелистывании
+        //сабсцена для группы элементов в слайдере,
+        // которая играет роль маски видимости при их перелистывании
         SubScene subScene = new SubScene(grSliderView, SUBSCENE_SLIDER_WIDTH, SLIDER_HEIGHT);
         subScene.setLayoutX((SLIDER_WIDTH - SUBSCENE_SLIDER_WIDTH) / 2);
         subScene.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, -1, 2);");
 
         //правая стрелка листания слайдера
-        ImageView arrowRight = createSliderArrow("file:" + RESOURCES_PATH + "medal/arrow_right.png");
+        ImageView arrowRight = createSliderArrow(RIGHT_ARROW_PATH);
         arrowRight.setLayoutX(SLIDER_WIDTH - arrowLeft.getLayoutBounds().getWidth());
 
         this.getChildren().addAll(arrowLeft, subScene, arrowRight);
 
-
         arrowLeft.setOnMouseClicked(event -> {
-            arrowClick(grSliderView, -(SUBSCENE_SLIDER_WIDTH / sliderNumber));
+            arrowClick(grSliderView, -(SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER));
         });
 
         arrowRight.setOnMouseClicked(event -> {
-            arrowClick(grSliderView,SUBSCENE_SLIDER_WIDTH / sliderNumber);
+            arrowClick(grSliderView,SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER);
         });
 
         arrowLeft.setOnTouchReleased(event -> {
-            arrowClick(grSliderView, -(SUBSCENE_SLIDER_WIDTH / sliderNumber));
+            arrowClick(grSliderView, -(SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER));
             try {
                 wait(1000);
             } catch (InterruptedException e) {
-                System.out.println("проблема с установкой задержки в классе MedalSlider при отпускании тача");
+                System.out.println("проблема с установкой задержки в классе Slider при отпускании тача");
             }
         });
 
         arrowRight.setOnTouchReleased(event -> {
-            arrowClick(grSliderView, SUBSCENE_SLIDER_WIDTH / sliderNumber);
+            arrowClick(grSliderView, SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER);
             try {
                 wait(1000);
             } catch (InterruptedException e) {
-                System.out.println("проблема с установкой задержки в классе MedalSlider при отпускании тача");
+                System.out.println("проблема с установкой задержки в классе Slider при отпускании тача");
             }
         });
     }
@@ -114,7 +118,7 @@ public class MedalSlider extends Pane {
     private ImageView createSliderArrow(final String imagePath) {
 
         ImageView arrow = new ImageView(imagePath);
-        arrow.setFitHeight(SLIDER_HEIGHT * 0.8);
+        arrow.setFitHeight(SLIDER_HEIGHT * ARROW_HEIGHT);
         arrow.setLayoutY((SLIDER_HEIGHT - arrow.getLayoutBounds().getHeight()) / 2);
         arrow.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, -1, 2);");
 
@@ -129,17 +133,22 @@ public class MedalSlider extends Pane {
 
         int newSliderIndex = (displacement < 0)? sliderIndex.getNextSliderIndex(): sliderIndex.gePrevSliderIndex();
 
-        MedalImage miTemp = new MedalImage(imageFiles.get(newSliderIndex),
-                textFiles.get(newSliderIndex));
+        Node miTemp = sliderElements.get(newSliderIndex);
 
         if (displacement < 0) {
-            miTemp.setLayoutX((0.5 + sliderNumber) * (SUBSCENE_SLIDER_WIDTH / sliderNumber) -
-                              miTemp.getLayoutBounds().getWidth() / 2);
             grSliderView.getChildren().add(miTemp);
         } else {
-            miTemp.setLayoutX(- (0.5 * (SUBSCENE_SLIDER_WIDTH / sliderNumber) +
-                                 miTemp.getLayoutBounds().getWidth() / 2));
             grSliderView.getChildren().add(0, miTemp);
+        }
+
+        grSliderView.layout();
+
+        if (displacement < 0) {
+            miTemp.setLayoutX((0.5 + SLIDER_NUMBER) * (SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER) -
+                    miTemp.getLayoutBounds().getWidth() / 2);
+        } else {
+            miTemp.setLayoutX(- (0.5 * (SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER) +
+                    miTemp.getLayoutBounds().getWidth() / 2));
         }
 
         miTemp.setLayoutY((SLIDER_HEIGHT - miTemp.getLayoutBounds().getHeight()) / 2);
@@ -163,7 +172,7 @@ public class MedalSlider extends Pane {
             grSliderView.getChildren().remove(
                     (displacement < 0)?
                             0:
-                            grSliderView.getChildren().get(grSliderView.getChildren().size() - 1));
+                            SLIDER_NUMBER);
 
             for (int i = 0; i < grSliderView.getChildren().size(); i++) {
                 grSliderView.getChildren().get(i).setLayoutX(grSliderView.getChildren().get(i).getLayoutX() + displacement);
