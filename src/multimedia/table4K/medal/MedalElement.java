@@ -1,6 +1,5 @@
 package table4K.medal;
 
-import general.ImagePane;
 import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -14,8 +13,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 import static general.TextProcessing.readingFirstStokeFromFile;
-import static table4K.Main4K.RESOURCES_PATH;
 import static table4K.Main4K.debuggingRatio;
+import static table4K.medal.Medal.DESCRIPTION_HEIGHT;
+import static table4K.medal.Medal.DESCRIPTION_WIDTH;
 import static table4K.medal.Medal.descriptionPane;
 
 public class MedalElement extends ImageView {
@@ -79,6 +79,10 @@ public class MedalElement extends ImageView {
 
         Group medalGroup = new Group();
 
+        MedalDescriptionText mdt = new MedalDescriptionText(textFilesAction.get(1));
+
+        mdt.layout();
+
         for (int i = 0; i < imageFilesAction.size(); i++) {
             ImageView temp = new ImageView("file:" + imageFilesAction.get(i).toString());
             double ratio = temp.getLayoutBounds().getHeight() / temp.getLayoutBounds().getWidth();
@@ -90,12 +94,21 @@ public class MedalElement extends ImageView {
             if (i != 0) {
                 temp.setLayoutX(medalGroup.getLayoutBounds().getWidth() + 100 / debuggingRatio);
             }
+            temp.setLayoutY(mdt.getPrefHeight() / 2 - temp.getLayoutBounds().getHeight() / 2);
             temp.setPreserveRatio(true);
             medalGroup.getChildren().add(temp);
         }
 
-        ImagePane descriptionImage = new ImagePane(new File(RESOURCES_PATH + "medal/description.jpg"), 0, 900 / debuggingRatio);
-        Text descriptionText = new Text();
+        mdt.setLayoutX(medalGroup.getLayoutBounds().getWidth() + 150 / debuggingRatio);
+
+        medalGroup.getChildren().add(mdt);
+
+        medalGroup.setLayoutX(DESCRIPTION_WIDTH / 2 - medalGroup.getLayoutBounds().getWidth() / 2);
+        medalGroup.setLayoutY(DESCRIPTION_HEIGHT / 2 - medalGroup.getLayoutBounds().getHeight() / 2);
+
+
+
+
 
 
         descriptionPane.getChildren().addAll(name, medalGroup);

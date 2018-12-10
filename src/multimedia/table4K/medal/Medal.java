@@ -62,8 +62,8 @@ public class Medal {
     private static final double SELECT_MEDAL_Y = 1592 / debuggingRatio;
 
     //параметры descriptionPane
-    private static final double DESCRIPTION_WIDTH = 3356 / debuggingRatio;
-    private static final double DESCRIPTION_HEIGHT = 1111 / debuggingRatio;
+    public static final double DESCRIPTION_WIDTH = 3356 / debuggingRatio;
+    public static final double DESCRIPTION_HEIGHT = 1111 / debuggingRatio;
     private static final double DESCRIPTION_X = 740 / debuggingRatio;
     private static final double DESCRIPTION_Y = 1049 / debuggingRatio;
 
