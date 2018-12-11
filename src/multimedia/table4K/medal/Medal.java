@@ -68,7 +68,7 @@ public class Medal {
     private static final double DESCRIPTION_X = TABLE_WIDTH - DESCRIPTION_WIDTH;
     private static final double DESCRIPTION_Y = TABLE_HEIGHT - DESCRIPTION_HEIGHT;
 
-    
+
     public static void setOrdenScene(final SectionKey medalType) {
 
         mainPane.getChildren().clear();

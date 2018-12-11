@@ -64,7 +64,7 @@ public class MedalDescriptionText extends ImagePane {
 
 
     MedalDescriptionText(final File textFileDescription) {
-        super(new File(RESOURCES_PATH + "medal/description.jpg"), 0, MEDAL_DESCRIPTION_TEXT_PANE_HEIGHT_MAX);
+        super(new File(RESOURCES_PATH + "medal/description.png"), 0, MEDAL_DESCRIPTION_TEXT_PANE_HEIGHT_MAX);
 
         String text = readingFileIntoString(textFileDescription);
 
