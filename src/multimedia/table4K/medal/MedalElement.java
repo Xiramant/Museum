@@ -28,16 +28,50 @@ public class MedalElement extends ImageView {
 
     //величина соотношения высоты и длины изображения медали/ордена
     // для определения медаль это или орден
-    private static double RATIO_MEDAL_OR_ORDEN = 1.5;
+    static final double RATIO_MEDAL_OR_ORDEN = 1.5;
 
     //максимальная высота изображения медали для слайдера,
     // а также ордена, похожего на медаль
-    public static double MEDAL_SLIDER_IMAGE_HEIGHT_MAX = 400 / debuggingRatio;
+    static final double MEDAL_SLIDER_IMAGE_HEIGHT_MAX = 400 / debuggingRatio;
 
     //максимальная высота изображения медали для ордена
-    private static double ORDEN_SLIDER_IMAGE_HEIGHT_MAX = 300 / debuggingRatio;
+    private static final double ORDEN_SLIDER_IMAGE_HEIGHT_MAX = 300 / debuggingRatio;
 
-    public MedalElement(final ArrayList<File> imageFilesEnter, final ArrayList<File> textFilesEnter) {
+    //тень изображения медали/ордена для слайдера
+    private static final String MEDAL_SLIDER_IMAGE_SHADOW = "-fx-effect: dropshadow(gaussian, black, 6, 0.3, -1, 1);";
+
+    //размер плашки, при превышении которой следует переходить к уменьшенному шрифту
+    private static final double MEDAL_NAME_SIZE_MAX = 2100 / debuggingRatio;
+
+    //размер шрифта для названия медали/ордена
+    private static final double MEDAL_NAME_FONT_SIZE = 80 / debuggingRatio;
+
+    //размер уменьшенного шрифта для названия медали/ордена
+    private static final double MEDAL_NAME_FONT_SMALL_SIZE = 60 / debuggingRatio;
+
+    //шрифт для названия медали/ордена
+    private static final Font MEDAL_NAME_FONT = Font.font("Arial", FontWeight.BOLD, MEDAL_NAME_FONT_SIZE);
+
+    //уменьшенный шрифт для названия медали/ордена
+    private static final Font MEDAL_NAME_FONT_SMALL = Font.font("Arial Narrow", FontWeight.BOLD, MEDAL_NAME_FONT_SMALL_SIZE);
+
+    //цвет шрифта для названия медали/ордена
+    private static final Color MEDAL_NAME_COLOR = Color.rgb(167, 6, 6);
+
+    //положение серединной точки для названия медали/ордена
+    private static final double MEDAL_NAME_CENTER_X = 1673 / debuggingRatio;
+
+    //положение нижней точки для названия медали/ордена
+    private static final double MEDAL_NAME_BOTTOM_Y = -40 / debuggingRatio;
+
+    //интервал между медалями/орденами по горизонтали
+    private static final double MEDAL_HORIZONTAL_INTERVAL = 100 / debuggingRatio;
+
+    //интервал до панели с текстом описания медали/ордена
+    private static final double MEDAL_DESCRIPTION_INTERVAL = 150 / debuggingRatio;
+
+
+    MedalElement(final ArrayList<File> imageFilesEnter, final ArrayList<File> textFilesEnter) {
         super(new Image("file:" + imageFilesEnter.get(0).toString()));
 
         imageFiles = imageFilesEnter;
@@ -52,10 +86,19 @@ public class MedalElement extends ImageView {
         }
 
         this.setPreserveRatio(true);
-        this.setStyle("-fx-effect: dropshadow(gaussian, black, 6, 0.3, -1, 1);");
+        this.setStyle(MEDAL_SLIDER_IMAGE_SHADOW);
 
         this.setOnMouseClicked(event -> {
             medalImageAction(imageFiles, textFiles);
+        });
+
+        this.setOnTouchReleased(event -> {
+            medalImageAction(imageFiles, textFiles);
+            try {
+                wait(1000);
+            } catch (InterruptedException e) {
+                System.out.println("проблема с установкой задержки в классе MedalElement при отпускании тача");
+            }
         });
     }
 
@@ -66,52 +109,81 @@ public class MedalElement extends ImageView {
         ArrayList<File> imageFilesAction = imageFilesEnter;
         ArrayList<File> textFilesAction = textFilesEnter;
 
-        Text name = new Text();
-        name.setText(readingFirstStokeFromFile(textFilesAction.get(0)));
-        name.setFont(Font.font("Arial", FontWeight.BOLD, 80 / debuggingRatio));
-        if (name.getLayoutBounds().getWidth() > 2100 / debuggingRatio) {
-            name.setFont(Font.font("Arial Narrow", FontWeight.BOLD, 60 / debuggingRatio));
+        Text name = setMedalNameText(textFilesAction.get(0));
+
+        Group medalGroup = addElementsInGroup(imageFilesAction, textFilesAction.get(1));
+
+        descriptionPane.getChildren().add(name);
+
+        //Попытка передачи элементов в descriptionPane
+        // непосредственно из группы medalGroup обычным способом неудалась,
+        // т.к. при передаче элемента в descriptionPane он удалялся из группы medalGroup
+        // и соответственно уменьшался размер (size) группы.
+        //Пришлось соорудить следующую конструкцию:
+        int sizeTemp = medalGroup.getChildren().size();
+        for (int i = 0; i < sizeTemp; i++) {
+            descriptionPane.getChildren().add(medalGroup.getChildren().get(0));
         }
-        name.setFill(Color.rgb(167, 6, 6));
+    }
+
+    //установка названия медали/ордена
+    // на вход передается файл с путем до текстового файла с названием медали/ордена
+    private static Text setMedalNameText(final File fileName) {
+
+        Text name = new Text();
+
+        name.setText(readingFirstStokeFromFile(fileName));
+        name.setFont(MEDAL_NAME_FONT);
+        if (name.getLayoutBounds().getWidth() > MEDAL_NAME_SIZE_MAX) {
+            name.setFont(MEDAL_NAME_FONT_SMALL);
+        }
+        name.setFill(MEDAL_NAME_COLOR);
         name.setTextOrigin(VPos.BOTTOM);
-        name.setLayoutX(1673 / debuggingRatio - name.getLayoutBounds().getWidth() / 2);
-        name.setLayoutY(109 / debuggingRatio);
+        name.setLayoutX(MEDAL_NAME_CENTER_X - name.getLayoutBounds().getWidth() / 2);
+        name.setLayoutY(MEDAL_NAME_BOTTOM_Y / debuggingRatio);
+
+        return name;
+    }
+
+    //добавление в группу медалей/орденов и текстовой панели с описанием
+    private static Group addElementsInGroup(final ArrayList<File> imageFiles, final File textFile) {
 
         Group medalGroup = new Group();
 
-        MedalDescriptionText mdt = new MedalDescriptionText(textFilesAction.get(1));
+        //добавление в группу медалей/орденов
+        for (int i = 0; i < imageFiles.size(); i++) {
+            MedalDescriptionImage temp = new MedalDescriptionImage(imageFiles.get(i));
 
-        mdt.layout();
-
-        for (int i = 0; i < imageFilesAction.size(); i++) {
-            ImageView temp = new ImageView("file:" + imageFilesAction.get(i).toString());
-            double ratio = temp.getLayoutBounds().getHeight() / temp.getLayoutBounds().getWidth();
-            if (ratio > RATIO_MEDAL_OR_ORDEN) {
-                temp.setFitHeight(800 / debuggingRatio);
-            } else {
-                temp.setFitHeight(600 / debuggingRatio);
-            }
             if (i != 0) {
-                temp.setLayoutX(medalGroup.getLayoutBounds().getWidth() + 100 / debuggingRatio);
+                temp.setLayoutX(medalGroup.getLayoutBounds().getWidth() + MEDAL_HORIZONTAL_INTERVAL);
             }
-            temp.setLayoutY(mdt.getPrefHeight() / 2 - temp.getLayoutBounds().getHeight() / 2);
-            temp.setPreserveRatio(true);
+
+            temp.setLayoutY(DESCRIPTION_HEIGHT / 2 - temp.getLayoutBounds().getHeight() / 2);
+
             medalGroup.getChildren().add(temp);
         }
 
-        mdt.setLayoutX(medalGroup.getLayoutBounds().getWidth() + 150 / debuggingRatio);
+        //добавление в группу текстовой панели с описанием
+        MedalDescriptionText mdt = new MedalDescriptionText(textFile);
+        mdt.setLayoutX(medalGroup.getLayoutBounds().getWidth() + MEDAL_DESCRIPTION_INTERVAL);
+        mdt.setLayoutY(DESCRIPTION_HEIGHT / 2 - mdt.getPrefHeight() / 2);
 
         medalGroup.getChildren().add(mdt);
 
-        medalGroup.setLayoutX(DESCRIPTION_WIDTH / 2 - medalGroup.getLayoutBounds().getWidth() / 2);
-        medalGroup.setLayoutY(DESCRIPTION_HEIGHT / 2 - medalGroup.getLayoutBounds().getHeight() / 2);
+        //установка отступов слева для descriptionPane
+        setLeftInsetForGroupElements(medalGroup);
 
+        return medalGroup;
+    }
 
+    //задание отступов слева для элементов группы
+    // для правильного расположения в descriptionPane
+    private static void setLeftInsetForGroupElements(final Group medalGroup) {
+        double leftInset = DESCRIPTION_WIDTH / 2 - medalGroup.getLayoutBounds().getWidth() / 2;
 
-
-
-
-        descriptionPane.getChildren().addAll(name, medalGroup);
+        for (int i = 0; i < medalGroup.getChildren().size(); i++) {
+            medalGroup.getChildren().get(i).setLayoutX(medalGroup.getChildren().get(i).getLayoutX() + leftInset);
+        }
     }
 
 }

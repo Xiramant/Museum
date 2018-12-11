@@ -14,10 +14,11 @@ import static general.SectionKey.*;
 import static table4K.BackHome.returnHome;
 import static table4K.Main4K.*;
 import static table4K.medal.MedalElement.MEDAL_SLIDER_IMAGE_HEIGHT_MAX;
+import static table4K.medal.MedalElement.medalImageAction;
 
 public class Medal {
 
-    protected static Pane descriptionPane;
+    static Pane descriptionPane;
 
     private static final SectionKey MEDAL_KEY = SectionKey.MEDAL;
     private static final SectionKey ORDEN_KEY = ORDEN;
@@ -46,8 +47,8 @@ public class Medal {
     private static int medalSliderNumber;
 
     //отступы слайдера для выбора медали/ордена
-    private static double MEDAL_SLIDER_X = 800 / debuggingRatio;
-    private static double MEDAL_SLIDER_Y = 587 / debuggingRatio;
+    private static final double MEDAL_SLIDER_X = 800 / debuggingRatio;
+    private static final double MEDAL_SLIDER_Y = 587 / debuggingRatio;
 
     //параметры Pane для выбора ордена
     private static final double SELECT_ORDEN_WIDTH = 500 / debuggingRatio;
@@ -62,11 +63,12 @@ public class Medal {
     private static final double SELECT_MEDAL_Y = 1592 / debuggingRatio;
 
     //параметры descriptionPane
-    public static final double DESCRIPTION_WIDTH = 3356 / debuggingRatio;
-    public static final double DESCRIPTION_HEIGHT = 1111 / debuggingRatio;
-    private static final double DESCRIPTION_X = 740 / debuggingRatio;
-    private static final double DESCRIPTION_Y = 1049 / debuggingRatio;
+    static final double DESCRIPTION_WIDTH = 3356 / debuggingRatio;
+    static final double DESCRIPTION_HEIGHT = 979 / debuggingRatio;
+    private static final double DESCRIPTION_X = TABLE_WIDTH - DESCRIPTION_WIDTH;
+    private static final double DESCRIPTION_Y = TABLE_HEIGHT - DESCRIPTION_HEIGHT;
 
+    
     public static void setOrdenScene(final SectionKey medalType) {
 
         mainPane.getChildren().clear();
@@ -84,6 +86,7 @@ public class Medal {
         //панель выбора отображения орденов или медалей
         Pane selectPane = new Pane();
 
+        //установка параметров при выборе подраздела Ордена или Медали
         if (medalType == ORDEN) {
             changeRootBackground(RESOURCES_PATH + "table_4K_orden.jpg");
             fileDirs = new ArrayList<>(getDirKey(MEDAL_KEY, ORDEN_KEY.getKeyWord()));
@@ -105,6 +108,7 @@ public class Medal {
         medalImageFiles = new ArrayList<>(getFiles(fileDirs, FileFormat.IMAGE));
         medalTextFiles = new ArrayList<>(getFiles(fileDirs, FileFormat.TEXT));
 
+        //установка слайдера для орденов/медалей
         ArrayList<Node> medalList = new ArrayList<>();
         for (int i = 0; i < medalImageFiles.size(); i++) {
             medalList.add(new MedalElement(medalImageFiles.get(i), medalTextFiles.get(i)));
@@ -119,8 +123,12 @@ public class Medal {
         sliderMedal.setLayoutX(MEDAL_SLIDER_X);
         sliderMedal.setLayoutY(MEDAL_SLIDER_Y);
 
+        //показ Ордена Кутузова или Медали Нахимова при выборе секции
+        medalImageAction(medalImageFiles.get(4), medalTextFiles.get(4));
+
         mainPane.getChildren().addAll(selectPane, sliderMedal, descriptionPane, returnHome());
 
+        //действия по выбору подраздела Ордена или Медали
         selectPane.setOnMouseClicked(event -> {
             if (selectPane.getLayoutY() == SELECT_ORDEN_Y) {
                 setOrdenScene(ORDEN);

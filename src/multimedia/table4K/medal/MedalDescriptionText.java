@@ -12,6 +12,8 @@ import java.io.File;
 
 import static general.TextProcessing.readingFileIntoString;
 import static table4K.Main4K.*;
+import static table4K.medal.Medal.DESCRIPTION_HEIGHT;
+import static table4K.medal.Medal.DESCRIPTION_WIDTH;
 
 public class MedalDescriptionText extends ImagePane {
 
@@ -36,10 +38,10 @@ public class MedalDescriptionText extends ImagePane {
     private static final double MEDAL_DESCRIPTION_PAGE_NUMBER_FONT_SIZE = 22 / debuggingRatio;
 
     //шрифт текстового блока
-    private final Font MEDAL_DESCRIPTION_TEXT_BLOCK_FONT = new Font("Book Antiqua Bold Italic", MEDAL_DESCRIPTION_TEXT_BLOCK_FONT_SIZE);
+    private static final Font MEDAL_DESCRIPTION_TEXT_BLOCK_FONT = new Font("Book Antiqua Bold Italic", MEDAL_DESCRIPTION_TEXT_BLOCK_FONT_SIZE);
 
     //шрифт блока количество страниц
-    private final Font MEDAL_DESCRIPTION_PAGE_NUMBER_FONT = new Font("Book Antiqua Bold Italic", MEDAL_DESCRIPTION_PAGE_NUMBER_FONT_SIZE);
+    private static final Font MEDAL_DESCRIPTION_PAGE_NUMBER_FONT = new Font("Book Antiqua Bold Italic", MEDAL_DESCRIPTION_PAGE_NUMBER_FONT_SIZE);
 
     //отображаемый текстовый блок
     private Text displayText = new Text();
@@ -52,16 +54,16 @@ public class MedalDescriptionText extends ImagePane {
 
     //область ограничения перемещения панели
     private static final double TOP_RESTRICTION = 0;
-    private static final double BOTTOM_RESTRICTION = TABLE_HEIGHT - MEDAL_DESCRIPTION_TEXT_PANE_HEIGHT_MAX;
+    private static final double BOTTOM_RESTRICTION = DESCRIPTION_HEIGHT - MEDAL_DESCRIPTION_TEXT_PANE_HEIGHT_MAX;
     private static final double LEFT_RESTRICTION = 0;
-    private static final double RIGHT_RESTRICTION = TABLE_WIDTH - 653 / debuggingRatio;
+    private static final double RIGHT_RESTRICTION = DESCRIPTION_WIDTH - 653 / debuggingRatio;
 
     //тени для неподвижной/перемещаемой панели
     private static final String SHADOW_STILL = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 1, 2);";
     private static final String SHADOW_MOVED = "-fx-effect: dropshadow(gaussian, black, 50, 0, 0, 10);";
 
 
-    public MedalDescriptionText(final File textFileDescription) {
+    MedalDescriptionText(final File textFileDescription) {
         super(new File(RESOURCES_PATH + "medal/description.jpg"), 0, MEDAL_DESCRIPTION_TEXT_PANE_HEIGHT_MAX);
 
         String text = readingFileIntoString(textFileDescription);
@@ -131,6 +133,7 @@ public class MedalDescriptionText extends ImagePane {
 
         //перемещение планшета
         this.setOnMousePressed(mouseEvent -> {
+            this.toFront();
 
             this.getRelocationCoordinates().setXBegin(mouseEvent.getSceneX());
             this.getRelocationCoordinates().setYBegin(mouseEvent.getSceneY());
@@ -200,6 +203,8 @@ public class MedalDescriptionText extends ImagePane {
     private void touchAction() {
 
         this.setOnTouchPressed(touchEvent -> {
+            this.toFront();
+
             this.getRelocationCoordinates().setXBegin(touchEvent.getTouchPoint().getSceneX());
             this.getRelocationCoordinates().setYBegin(touchEvent.getTouchPoint().getSceneY());
         });
