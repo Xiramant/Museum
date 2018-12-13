@@ -1,19 +1,17 @@
 package table4K.portfolio;
 
 import general.FileFormat;
+import general.OrderElements;
 import general.SectionKey;
-import general.Slider;
-import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import static general.FileProcessing.getDirKey;
 import static general.FileProcessing.getFiles;
+import static general.InitialLocation.initialPositionElementsForArea;
 import static table4K.BackHome.returnHome;
 import static table4K.Main4K.*;
-import static table4K.portfolio.PersonalCardPane.PERSONAL_CARD_PANE_HEIGHT_MAX;
 
 public class Portfolio {
 
@@ -29,31 +27,18 @@ public class Portfolio {
     //внутренний лист - текст из личного дела.
     private static ArrayList<ArrayList<File>> heroTextFiles;
 
-    //Личные дела ветеранов ВОВ:
-    //внешний лист - личное дело;
-    //внутренний лист - фото из личного дела.
-    private static ArrayList<ArrayList<File>> veteranImageFiles;
+    //минимальный интервал между карточками героев Советского союза
+    private static final double PORTFOLIO_PCP_WIDTH_SPACING_MIN = 50 / debuggingRatio;
 
-    //Личные дела ветеранов ВОВ:
-    //внешний лист - личное дело;
-    //внутренний лист - текст из личного дела.
-    private static ArrayList<ArrayList<File>> veteranTextFiles;
+    //Координаты области, в которой должны располагаться карточки героев Советского союза
+    private static final double PORTFOLIO_PCP_AREA_X_BEGIN = 875 / debuggingRatio;
+    private static final double PORTFOLIO_PCP_AREA_X_END = 3975 / debuggingRatio;
+    private static final double PORTFOLIO_PCP_AREA_Y_BEGIN = 1150 / debuggingRatio;
+    private static final double PORTFOLIO_PCP_AREA_Y_END = 1850 / debuggingRatio;
 
-    private static final double MEDAL_SLIDER_WIDTH = 3250 / debuggingRatio;
+    //Параметры тени для карточек героев Советского союза
+    private static final String pcpShadow = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 3);";
 
-    //высота слайдера для медалей
-    private static final double MEDAL_SLIDER_HEIGHT = PERSONAL_CARD_PANE_HEIGHT_MAX;
-
-    //ширина сабсцены, играющей роль маски видимости
-    // для медалей
-    private static final double MEDAL_SUBSCENE_SLIDER_WIDTH = 2950 / debuggingRatio;
-
-    //количество орденов, отображаемых в слайдере
-    private static int medalSliderNumber = 6;
-
-    //отступы слайдера для выбора личного дела героя Советского Союза
-    public static double PORTFOLIO_SLIDER_HERO_X = 800 / debuggingRatio;
-    public static double PORTFOLIO_SLIDER_HERO_Y = 970 / debuggingRatio;
 
     public static void setPortfolioScene() {
 
@@ -67,20 +52,20 @@ public class Portfolio {
         heroImageFiles = new ArrayList<>(getFiles(fileHeroDirs, FileFormat.IMAGE));
         heroTextFiles = new ArrayList<>(getFiles(fileHeroDirs, FileFormat.TEXT));
 
-        ArrayList<Node> heroList = new ArrayList<>();
         for (int i = 0; i < heroImageFiles.size(); i++) {
-            heroList.add(new PersonalCardPane(heroImageFiles.get(i), heroTextFiles.get(i)));
+            PersonalCardPane temp = new PersonalCardPane(heroImageFiles.get(i), heroTextFiles.get(i));
+            temp.setStyle(pcpShadow);
+            mainPane.getChildren().add(temp);
         }
 
-        Slider sliderHero = new Slider(MEDAL_SLIDER_WIDTH,
-                MEDAL_SLIDER_HEIGHT,
-                MEDAL_SUBSCENE_SLIDER_WIDTH,
-                medalSliderNumber,
-                heroList);
+        initialPositionElementsForArea(mainPane.getChildren(),
+                PORTFOLIO_PCP_WIDTH_SPACING_MIN,
+                PORTFOLIO_PCP_AREA_X_BEGIN,
+                PORTFOLIO_PCP_AREA_Y_BEGIN,
+                PORTFOLIO_PCP_AREA_X_END,
+                PORTFOLIO_PCP_AREA_Y_END,
+                OrderElements.TABLED);
 
-        sliderHero.setLayoutX(PORTFOLIO_SLIDER_HERO_X);
-        sliderHero.setLayoutY(PORTFOLIO_SLIDER_HERO_Y);
-
-        mainPane.getChildren().addAll(sliderHero, returnHome());
+        mainPane.getChildren().add(returnHome());
     }
 }

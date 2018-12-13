@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static general.OrderElements.*;
 import static table.Main.*;
 
 public class InitialLocation {
+
 
     //Метод первоначального расположения одинаковых панелей в шахматном порядке в заданной области
     //Если элементов в ряду меньше максимального количества,
@@ -20,7 +22,8 @@ public class InitialLocation {
                                                       final double areaXBegin,
                                                       final double areaYBegin,
                                                       final double areaXEnd,
-                                                      final double areaYEnd) {
+                                                      final double areaYEnd,
+                                                      final OrderElements orderElements) {
 
         //размеры элемента (панели)
         double elementWidth = ((Pane)elements.get(0)).getPrefWidth();
@@ -37,8 +40,10 @@ public class InitialLocation {
         // в шахматном порядке
         //Внешний список - список рядов
         //Внутренний список - элементы в ряду
-        ArrayList<ArrayList<Pane>> groupElements =
-                setStaggeredArrangementElements(elements, minHorizontalInterval, areaWidth);
+        ArrayList<ArrayList<Pane>> groupElements = setOrderArrangementElements(elements,
+                                                                               minHorizontalInterval,
+                                                                               areaWidth,
+                                                                               orderElements);
 
         //интервал между элементами в первой строке
         double firstRowInterval = (groupElements.get(0).size() > 1)?
@@ -91,9 +96,10 @@ public class InitialLocation {
     // т.к. если элементы не влезут по высоте, то ужать их все-равно не получится)
     //Внешний список - список рядов
     //Внутренний список - элементы в ряду
-    private static ArrayList<ArrayList<Pane>> setStaggeredArrangementElements (final List<Node> elements,
-                                                                               final double minHorizontalInterval,
-                                                                               final double areaWidth) {
+    private static ArrayList<ArrayList<Pane>> setOrderArrangementElements(final List<Node> elements,
+                                                                          final double minHorizontalInterval,
+                                                                          final double areaWidth,
+                                                                          final OrderElements orderElements) {
 
         //ширина элемента (панели)
         double elementWidth = ((Pane)elements.get(0)).getPrefWidth();
@@ -115,7 +121,7 @@ public class InitialLocation {
         //Для шахматного расположения элементов
         // в нечетном ряду количество элементов должно быть на 1 меньше,
         // чем в четном (или наоборот)
-        int maxElementsInRow;
+        int maxElementsInRow = 0;
 
         //Номер ряда
         int rowNumber = 0;
@@ -126,7 +132,13 @@ public class InitialLocation {
         //расположение элементов в groupElements
         for (int i = 0; i < elements.size(); i++) {
 
-            maxElementsInRow = (rowNumber % 2 == 0)? maxElementsInFirstRow: maxElementsInFirstRow - 1;
+            if (orderElements == STAGGERED) {
+                maxElementsInRow = (rowNumber % 2 == 0) ? maxElementsInFirstRow : maxElementsInFirstRow - 1;
+            }
+
+            if (orderElements == TABLED) {
+                maxElementsInRow = maxElementsInFirstRow;
+            }
 
             if (currentElementInRow == maxElementsInRow) {
                 //Т.к. объекты передаются по ссылкам, то

@@ -1,6 +1,7 @@
 package table4K.map;
 
 import general.FileFormat;
+import general.OrderElements;
 import general.SectionKey;
 
 import java.io.File;
@@ -74,7 +75,8 @@ public class Map {
                 MAP_INITIAL_AREA_X_BEGIN,
                 MAP_INITIAL_AREA_Y_BEGIN,
                 MAP_INITIAL_AREA_X_END,
-                MAP_INITIAL_AREA_Y_END);
+                MAP_INITIAL_AREA_Y_END,
+                OrderElements.STAGGERED);
 
         mainPane.getChildren().add(returnHome());
     }
