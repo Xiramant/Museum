@@ -1,18 +1,18 @@
 package table4K;
 
-import general.ImagePane;
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.File;
-
 import static general.SectionKey.*;
 import static javafx.scene.layout.BackgroundPosition.DEFAULT;
 import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
+import static table4K.film.Film.setFilmScene;
 import static table4K.mail.Mail.setMailScene;
 import static table4K.book.Book.setBookScene;
 import static table4K.map.Map.setMapScene;
@@ -28,6 +28,9 @@ public class Main4K extends Application{
     //путь к директории с файлами
     public static final String RESOURCES_PATH = "C://museumResources/";
 
+    //время задержки после тача
+    public static final int TOUCH_TIMEOUT = 1000;
+
     private static BorderPane root;
 
     //Основная панель с содержимым
@@ -38,34 +41,56 @@ public class Main4K extends Application{
     public static double TABLE_HEIGHT = 2160 / debuggingRatio;
 
     //Иконка раздела Карты
-    public static double MAP_ICON_WIDTH_MAX = 1547 / debuggingRatio;
-    public static double MAP_ICON_HEIGHT_MAX = 972 / debuggingRatio;
-    public static double MAP_ICON_X = 0 / debuggingRatio;
-    public static double MAP_ICON_Y = 107 / debuggingRatio;
+    private static final String MAP_URL = "file:///" + RESOURCES_PATH + "icon/map_icon.png";
+    private static final double MAP_ICON_WIDTH = 1547 / debuggingRatio;
+    private static final double MAP_ICON_HEIGHT = 972 / debuggingRatio;
+    private static final double MAP_ICON_X = 0 / debuggingRatio;
+    private static final double MAP_ICON_Y = 107 / debuggingRatio;
+    private static final String MAP_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -4, 4);";
 
     //Иконка раздела Письма
-    public static double MAIL_ICON_WIDTH_MAX = 579 / debuggingRatio;
-    public static double MAIL_ICON_HEIGHT_MAX = 693 / debuggingRatio;
-    public static double MAIL_ICON_X = 429 / debuggingRatio;
-    public static double MAIL_ICON_Y = 1314 / debuggingRatio;
+    private static final String MAIL_URL = "file:///" + RESOURCES_PATH + "icon/mail_icon.png";
+    private static final double MAIL_ICON_WIDTH = 579 / debuggingRatio;
+    private static final double MAIL_ICON_HEIGHT = 693 / debuggingRatio;
+    private static final double MAIL_ICON_X = 748 / debuggingRatio;
+    private static final double MAIL_ICON_Y = 1242 / debuggingRatio;
+    private static final String MAIL_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -4, 4);";
 
     //Иконка раздела Личные дела
-    public static double PORTFOLIO_ICON_WIDTH_MAX = 752 / debuggingRatio;
-    public static double PORTFOLIO_ICON_HEIGHT_MAX = 977 / debuggingRatio;
-    public static double PORTFOLIO_ICON_X = 1899 / debuggingRatio;
-    public static double PORTFOLIO_ICON_Y = 684 / debuggingRatio;
+    private static final String PORTFOLIO_URL = "file:///" + RESOURCES_PATH + "icon/portfolio_icon.png";
+    private static final double PORTFOLIO_ICON_WIDTH = 752 / debuggingRatio;
+    private static final double PORTFOLIO_ICON_HEIGHT = 977 / debuggingRatio;
+    private static final double PORTFOLIO_ICON_X = 1899 / debuggingRatio;
+    private static final double PORTFOLIO_ICON_Y = 684 / debuggingRatio;
+    private static final String PORTFOLIO_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 5);";
 
     //Иконка раздела Медали
-    public static double MEDAL_ICON_WIDTH_MAX = 526 / debuggingRatio;
-    public static double MEDAL_ICON_HEIGHT_MAX = 424 / debuggingRatio;
-    public static double MEDAL_ICON_X = 3385 / debuggingRatio;
-    public static double MEDAL_ICON_Y = 163 / debuggingRatio;
+    private static final String MEDAL_URL = "file:///" + RESOURCES_PATH + "icon/medal_icon.png";
+    private static final double MEDAL_ICON_WIDTH = 526 / debuggingRatio;
+    private static final double MEDAL_ICON_HEIGHT = 424 / debuggingRatio;
+    private static final double MEDAL_ICON_X = 66 / debuggingRatio;
+    private static final double MEDAL_ICON_Y = 1653 / debuggingRatio;
+    private static final String MEDAL_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -4, 4);";
 
-    //Иконка раздела Медали
-    public static double BOOK_ICON_WIDTH_MAX = 672 / debuggingRatio;
-    public static double BOOK_ICON_HEIGHT_MAX = 895 / debuggingRatio;
-    public static double BOOK_ICON_X = 3264 / debuggingRatio;
-    public static double BOOK_ICON_Y = 1046 / debuggingRatio;
+    //Иконка раздела Книги
+    private static final String BOOK_URL = "file:///" + RESOURCES_PATH + "icon/book_icon.png";
+    private static final double BOOK_ICON_WIDTH = 672 / debuggingRatio;
+    private static final double BOOK_ICON_HEIGHT = 895 / debuggingRatio;
+    private static final double BOOK_ICON_X = 3169 / debuggingRatio;
+    private static final double BOOK_ICON_Y = 1129 / debuggingRatio;
+    private static final String BOOK_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 8, 8);";
+
+    //Иконка раздела Фильмы
+    private static final String FILM1_URL = "file:///" + RESOURCES_PATH + "icon/film1_icon.png";
+    private static final String FILM2_URL = "file:///" + RESOURCES_PATH + "icon/film2_icon.png";
+    private static final double FILM1_ICON_WIDTH = 584 / debuggingRatio;
+    private static final double FILM2_ICON_WIDTH = 536 / debuggingRatio;
+    private static final double FILM2_ICON_X = 178 / debuggingRatio;
+    private static final double FILM2_ICON_Y = 223 / debuggingRatio;
+    private static final double FILM_ICON_X = 3244 / debuggingRatio;
+    private static final double FILM_ICON_Y = 146 / debuggingRatio;
+    private static final String FILM_SHADOW = "-fx-effect: dropshadow(gaussian, black, 15, 0.3, 8, 8);";
+    
 
     public static void main(String[] args) {
         launch(args);
@@ -110,48 +135,75 @@ public class Main4K extends Application{
         mainPane.getChildren().clear();
 
         //создание иконок для разделов
-        ImagePane map = new ImagePane(new File(RESOURCES_PATH + "icon/map_icon.png"), MAP_ICON_WIDTH_MAX, MAP_ICON_HEIGHT_MAX);
+        ImageView map = new ImageView(new Image(MAP_URL));
+        map.setPreserveRatio(true);
+        map.setFitWidth(MAP_ICON_WIDTH);
         map.setLayoutX(MAP_ICON_X);
         map.setLayoutY(MAP_ICON_Y);
-        map.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, -4, 4);");
+        map.setStyle(MAP_SHADOW);
 
         map.setOnMouseClicked(event -> setMapScene());
         map.setOnTouchReleased(event -> setMapScene());
 
-        ImagePane mail = new ImagePane(new File(RESOURCES_PATH + "icon/mail_icon.png"), MAIL_ICON_WIDTH_MAX, MAIL_ICON_HEIGHT_MAX);
+        ImageView mail = new ImageView(new Image(MAIL_URL));
+        mail.setPreserveRatio(true);
+        mail.setFitWidth(MAIL_ICON_WIDTH);
         mail.setLayoutX(MAIL_ICON_X);
         mail.setLayoutY(MAIL_ICON_Y);
-        mail.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, -4, 4);");
+        mail.setStyle(MAIL_SHADOW);
 
         mail.setOnMouseClicked(event -> setMailScene());
         mail.setOnTouchReleased(event -> setMailScene());
 
-        ImagePane portfolio = new ImagePane(new File(RESOURCES_PATH + "icon/portfolio_icon.png"), PORTFOLIO_ICON_WIDTH_MAX, PORTFOLIO_ICON_HEIGHT_MAX);
+        ImageView portfolio = new ImageView(new Image(PORTFOLIO_URL));
+        portfolio.setPreserveRatio(true);
+        portfolio.setFitWidth(PORTFOLIO_ICON_WIDTH);
         portfolio.setLayoutX(PORTFOLIO_ICON_X);
         portfolio.setLayoutY(PORTFOLIO_ICON_Y);
-        portfolio.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 5);");
+        portfolio.setStyle(PORTFOLIO_SHADOW);
 
         portfolio.setOnMouseClicked(event -> setPortfolioScene());
         portfolio.setOnTouchReleased(event -> setPortfolioScene());
 
-        ImagePane medal = new ImagePane(new File(RESOURCES_PATH + "icon/medal_icon.png"), MEDAL_ICON_WIDTH_MAX, MEDAL_ICON_HEIGHT_MAX);
+        ImageView medal = new ImageView(new Image(MEDAL_URL));
+        medal.setPreserveRatio(true);
+        medal.setFitWidth(MEDAL_ICON_WIDTH);
         medal.setLayoutX(MEDAL_ICON_X);
         medal.setLayoutY(MEDAL_ICON_Y);
-        medal.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, 3, 2);");
+        medal.setStyle(MEDAL_SHADOW);
 
         medal.setOnMouseClicked(event -> setOrdenScene(ORDEN));
         medal.setOnTouchReleased(event -> setOrdenScene(ORDEN));
 
-        ImagePane book = new ImagePane(new File(RESOURCES_PATH + "icon/book_icon.png"), BOOK_ICON_WIDTH_MAX, BOOK_ICON_HEIGHT_MAX);
+        ImageView book = new ImageView(new Image(BOOK_URL));
+        book.setPreserveRatio(true);
+        book.setFitWidth(BOOK_ICON_WIDTH);
         book.setLayoutX(BOOK_ICON_X);
         book.setLayoutY(BOOK_ICON_Y);
-        book.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, 8, 8);");
+        book.setStyle(BOOK_SHADOW);
 
         book.setOnMouseClicked(event -> setBookScene());
         book.setOnTouchReleased(event -> setBookScene());
 
+        ImageView film1 = new ImageView(new Image(FILM1_URL));
+        film1.setFitWidth(FILM1_ICON_WIDTH);
+        film1.setPreserveRatio(true);
+        film1.setStyle(FILM_SHADOW);
+        ImageView film2 = new ImageView(new Image(FILM2_URL));
+        film2.setFitWidth(FILM2_ICON_WIDTH);
+        film2.setPreserveRatio(true);
+        film2.setLayoutX(FILM2_ICON_X);
+        film2.setLayoutY(FILM2_ICON_Y);
+        film2.setStyle(FILM_SHADOW);
+        Group film = new Group(film1, film2);
+        film.setLayoutX(FILM_ICON_X);
+        film.setLayoutY(FILM_ICON_Y);
 
-        mainPane.getChildren().addAll(map, mail, portfolio, medal, book);
+        film.setOnMouseClicked(event -> setFilmScene());
+        film.setOnTouchReleased(event -> setFilmScene());
+
+
+        mainPane.getChildren().addAll(map, mail, portfolio, medal, book, film);
     }
 
 }

@@ -3,7 +3,8 @@ package general;
 public enum FileFormat {
 
     IMAGE ("img"),
-    TEXT ("text");
+    TEXT ("text"),
+    VIDEO("video");
 
     private final String keyWord;
 
