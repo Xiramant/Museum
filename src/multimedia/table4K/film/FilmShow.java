@@ -50,7 +50,7 @@ public class FilmShow {
         player.setLayoutY(TABLE_HEIGHT / 2 - FILM_VIEW_HEIGHT / 2);
         player.getChildren().addAll(mediaView, vignette);
 
-        mainPane.getChildren().addAll(player, returnHome());
+        mainPane.getChildren().addAll(player, returnHome(mediaPlayer));
     }
 
 
