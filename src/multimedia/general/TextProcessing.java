@@ -51,6 +51,52 @@ public class TextProcessing {
         return builderTemp.toString();
     }
 
+    //Метод копирования текста из файла в лист стрингов
+    // где каждый стринг представляет собой строчку текста
+    //Пустые строки в лист стрингов не добавляются
+    public static ArrayList<String> readingFileIntoStringList(final File file) {
+
+        ArrayList<String> textList = new ArrayList<>();
+
+        //временная строка, куда записываются символы из одной строки
+        StringBuilder builderTemp = new StringBuilder();
+
+        //Создание потока для чтения данных из файла
+        // с кодировкой "windows-1251"
+        //Данная кодировка получается по умолчанию при создании текстового файла в OS Windows
+        //Без try/catch пишет, что не проверяется ошибка FileNotFoundException
+        try {
+            InputStreamReader isr = new InputStreamReader(new FileInputStream(file), "windows-1251");
+            BufferedReader br = new BufferedReader(isr);
+
+            //чтение данных из файла пока переменная чтения не вернет -1 (конец файла)
+            //!!!!! не вставлять проверку и чтение символов с помощью только br.read()),
+            //иначе будет читать через символ, т.к. при проверке символ уже считывается
+            int c;
+            while ((c = br.read()) != -1) {
+
+                if (c != CARRIAGE_RETURN) {
+                    if (c != LINE_FEED && c != BOM) {
+                        builderTemp.append((char) c);
+                    }
+                } else {
+                    if (!builderTemp.toString().equals("")) {
+                        textList.add(builderTemp.toString());
+                        builderTemp.setLength(0);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Ошибка чтения из файла = " + file.toString() + e);
+        }
+
+        if (!builderTemp.toString().equals("")) {
+            textList.add(builderTemp.toString());
+        }
+
+        return textList;
+    }
+
     //добавление пробелов в начале каждой строчки текста
     public static String addSpaceToEachLine(final String text, final int number) {
 

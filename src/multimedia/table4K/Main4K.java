@@ -18,6 +18,7 @@ import static table4K.book.Book.setBookScene;
 import static table4K.map.Map.setMapScene;
 import static table4K.medal.Medal.setOrdenScene;
 import static table4K.portfolio.Portfolio.setPortfolioScene;
+import static table4K.quiz.Quiz.setQuizScene;
 
 public class Main4K extends Application{
 
@@ -61,7 +62,7 @@ public class Main4K extends Application{
     private static final double PORTFOLIO_ICON_WIDTH = 752 / debuggingRatio;
     private static final double PORTFOLIO_ICON_HEIGHT = 977 / debuggingRatio;
     private static final double PORTFOLIO_ICON_X = 1899 / debuggingRatio;
-    private static final double PORTFOLIO_ICON_Y = 684 / debuggingRatio;
+    private static final double PORTFOLIO_ICON_Y = 556 / debuggingRatio;
     private static final String PORTFOLIO_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 5);";
 
     //Иконка раздела Медали
@@ -90,6 +91,13 @@ public class Main4K extends Application{
     private static final double FILM_ICON_X = 3244 / debuggingRatio;
     private static final double FILM_ICON_Y = 146 / debuggingRatio;
     private static final String FILM_SHADOW = "-fx-effect: dropshadow(gaussian, black, 15, 0.3, 8, 8);";
+
+    //Иконка раздела Викторина
+    private static final String QUIZ_URL = "file:///" + RESOURCES_PATH + "icon/quiz_icon.png";
+    private static final double QUIZ_ICON_WIDTH = 617 / debuggingRatio;
+    private static final double QUIZ_ICON_X = 1669 / debuggingRatio;
+    private static final double QUIZ_ICON_Y = 1697 / debuggingRatio;
+    private static final String QUIZ_SHADOW = "-fx-effect: dropshadow(gaussian, black, 15, 0.3, -2, 8);";
     
 
     public static void main(String[] args) {
@@ -202,8 +210,18 @@ public class Main4K extends Application{
         film.setOnMouseClicked(event -> setFilmScene());
         film.setOnTouchReleased(event -> setFilmScene());
 
+        ImageView quiz = new ImageView(new Image(QUIZ_URL));
+        quiz.setPreserveRatio(true);
+        quiz.setFitWidth(QUIZ_ICON_WIDTH);
+        quiz.setLayoutX(QUIZ_ICON_X);
+        quiz.setLayoutY(QUIZ_ICON_Y);
+        quiz.setStyle(QUIZ_SHADOW);
 
-        mainPane.getChildren().addAll(map, mail, portfolio, medal, book, film);
+        quiz.setOnMouseClicked(event -> setQuizScene());
+        quiz.setOnTouchReleased(event -> setQuizScene());
+
+
+        mainPane.getChildren().addAll(map, mail, portfolio, medal, book, film, quiz);
     }
 
 }
