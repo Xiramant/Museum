@@ -18,6 +18,9 @@ import static table4K.Main4K.debuggingRatio;
 
 public class QuizButton extends ImagePane {
 
+    //флаг нажата ли кнопка
+    private boolean onPush = false;
+
     //месторасположение скина тв кнопки
     private static final File BUTTON_BACKGROUND = new File(RESOURCES_PATH + "quiz/tv_button.png");
 
@@ -27,6 +30,19 @@ public class QuizButton extends ImagePane {
     private static final Font BUTTON_NAME_FONT = Font.font("Arial", FontWeight.BOLD, 83/debuggingRatio);
 
     private static final Color BUTTON_NAME_COLOR = Color.rgb(30, 30, 30);
+
+
+    public boolean isOnPush() {
+        return onPush;
+    }
+
+    public void setOnPush(final boolean onPush) {
+        this.onPush = onPush;
+    }
+
+    public void setOnPushInvert() {
+        this.onPush = !onPush;
+    }
 
     public QuizButton(final String name) {
         super(BUTTON_BACKGROUND, BUTTON_WIDTH, 0);
@@ -51,5 +67,16 @@ public class QuizButton extends ImagePane {
         iv.setLayoutY(this.getPrefHeight() / 2 - iv.getLayoutBounds().getHeight() / 2);
 
         this.getChildren().add(iv);
+    }
+
+    void buttonStateInvert() {
+
+        setOnPushInvert();
+
+        if (isOnPush()) {
+            this.setImageBackground(new File(RESOURCES_PATH + "quiz/tv_button_shadow.png"));
+        } else {
+            this.setImageBackground(new File(RESOURCES_PATH + "quiz/tv_button.png"));
+        }
     }
 }
