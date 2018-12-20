@@ -4,22 +4,22 @@ import javafx.scene.Group;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import static javafx.scene.input.MouseEvent.MOUSE_CLICKED;
 import static table4K.Main4K.RESOURCES_PATH;
 
 public class QuizButtonSelectGroup extends Group {
 
-    ArrayList<QuizButtonSelect> buttonGroup = new ArrayList<>();
+    public void add(final QuizButtonSelect button) {
+        this.getChildren().add(button);
+        groupAction();
+    }
 
-    QuizButtonSelectGroup(final ArrayList<QuizButtonSelect> buttonGroupEnter) {
-        buttonGroup = buttonGroupEnter;
+    private void groupAction() {
+        for(int i = 0; i < this.getChildren().size(); i++) {
+            QuizButtonSelect temp = (QuizButtonSelect) this.getChildren().get(i);
 
-        for (QuizButtonSelect temp: buttonGroup) {
-            this.getChildren().add(temp);
-        }
-
-        for(QuizButtonSelect temp : buttonGroup) {
             temp.setOnMouseClicked(event -> {
 
                 temp.setOnPushInvert();
@@ -34,19 +34,13 @@ public class QuizButtonSelectGroup extends Group {
                 }
 
             });
-
         }
-
-    }
-
-    public void setButtonGroup(final QuizButtonSelect button) {
-        this.buttonGroup.add(button);
     }
 
     void setNonPush(final QuizButtonSelect tempEnter) {
 
-        for(int i = 0; i < buttonGroup.size(); i++) {
-            QuizButtonSelect temp = buttonGroup.get(i);
+        for(int i = 0; i < this.getChildren().size(); i++) {
+            QuizButtonSelect temp = (QuizButtonSelect) this.getChildren().get(i);
             if (!temp.equals(tempEnter)) {
                 temp.setNonePush();
             }

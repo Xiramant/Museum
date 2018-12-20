@@ -81,13 +81,11 @@ public class Quiz {
         buttonQuestion.setLayoutY(1840 / debuggingRatio);
 
 
-        ArrayList<QuizButtonSelect> buttonArray = new ArrayList<>();
-        buttonArray.add(buttonOne);
-        buttonArray.add(buttonTwo);
-        buttonArray.add(buttonThree);
-        buttonArray.add(buttonFour);
-
-        QuizButtonSelectGroup buttonGroup = new QuizButtonSelectGroup(buttonArray);
+        QuizButtonSelectGroup buttonGroup = new QuizButtonSelectGroup();
+        buttonGroup.add(buttonOne);
+        buttonGroup.add(buttonTwo);
+        buttonGroup.add(buttonThree);
+        buttonGroup.add(buttonFour);
 
         mainPane.getChildren().addAll(buttonPlay, buttonGroup, buttonQuestion, buttonNext);
 

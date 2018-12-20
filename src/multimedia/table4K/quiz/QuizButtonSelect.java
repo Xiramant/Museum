@@ -15,18 +15,6 @@ public class QuizButtonSelect extends QuizButton {
         super(name);
 
         qpta = qptaEnter;
-
-        this.setOnMouseClicked(event -> {
-
-            buttonStateInvert();
-
-            if (isOnPush()) {
-                qpta.setStyle("-fx-background-color: #464d46;");
-            } else {
-                qpta.setStyle("");
-            }
-
-        });
     }
 
     void setNonePush() {
