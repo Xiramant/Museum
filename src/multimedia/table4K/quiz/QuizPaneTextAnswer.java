@@ -9,11 +9,15 @@ import static table4K.quiz.Quiz.*;
 
 public class QuizPaneTextAnswer extends Pane {
 
+    public String answer;
+
     public Text answerText = new Text();
 
-    public void setQPTAText(final String answerString) {
+    public void setQPTAText(final String answerNumber, final String answerEnter) {
 
-        answerText.setText(answerString);
+        answer = answerEnter;
+
+        answerText.setText(answerNumber + answerEnter);
         answerText.setFont(TEXT_FONT);
         answerText.setFill(TEXT_COLOR);
         answerText.setTextOrigin(VPos.TOP);

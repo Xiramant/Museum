@@ -37,21 +37,43 @@ public class Quiz {
 
     private static ArrayList<QuizQuestion> questionBlock;
 
+    private static QuizQuestion selectQuestion;
+
     private static QuizPlayer player;
 
     private static final int QUESTION_MAX = 20;
 
-    static QuizPaneTextAnswer answerOne = new QuizPaneTextAnswer();
-    static QuizPaneTextAnswer answerTwo = new QuizPaneTextAnswer();
-    static QuizPaneTextAnswer answerThree = new QuizPaneTextAnswer();
-    static QuizPaneTextAnswer answerFour = new QuizPaneTextAnswer();
+    static QuizPaneTextAnswer answerOne;
+    static QuizPaneTextAnswer answerTwo;
+    static QuizPaneTextAnswer answerThree;
+    static QuizPaneTextAnswer answerFour;
 
 
     public static void setQuizScene() {
 
         changeRootBackground(RESOURCES_PATH + "table_4K_quiz.jpg");
         mainPane.getChildren().clear();
+        answerOne = new QuizPaneTextAnswer();
+        answerTwo = new QuizPaneTextAnswer();
+        answerThree = new QuizPaneTextAnswer();
+        answerFour = new QuizPaneTextAnswer();
 
+        //Текст викторины разбитый по строчкам
+        ArrayList<String> quizText = readingFileIntoStringList(new File(RESOURCES_PATH + "quiz/quiz_text.txt"));
+
+        //Блоки вопросов викторины представленные в виде листа
+        ArrayList<ArrayList<String>> quizTextBlock = new ArrayList<>(getQuizTextBlock(quizText));
+
+        //Блоки вопросов викторины представлены в виде класса questionBlock
+        questionBlock = new ArrayList<>(getQuestionBlock(quizTextBlock));
+
+        player = new QuizPlayer();
+
+        groupText = setQuestion();
+
+        mainPane.getChildren().addAll(groupText);
+
+        //создание кнопок управления
         QuizButton buttonPlay = new QuizButton(new File(RESOURCES_PATH + "quiz/buttonPlay.png"));
         buttonPlay.setLayoutX(505 / debuggingRatio);
         buttonPlay.setLayoutY(1840 / debuggingRatio);
@@ -76,34 +98,18 @@ public class Quiz {
         buttonFour.setLayoutX(1656 / debuggingRatio);
         buttonFour.setLayoutY(1840 / debuggingRatio);
 
-        QuizButton buttonQuestion = new QuizButton("?");
-        buttonQuestion.setLayoutX(1974 / debuggingRatio);
-        buttonQuestion.setLayoutY(1840 / debuggingRatio);
-
-
         QuizButtonSelectGroup buttonGroup = new QuizButtonSelectGroup();
         buttonGroup.add(buttonOne);
         buttonGroup.add(buttonTwo);
         buttonGroup.add(buttonThree);
         buttonGroup.add(buttonFour);
 
+        QuizButtonTest buttonQuestion = new QuizButtonTest("?", selectQuestion.getCorrectAnswer(), buttonGroup);
+        buttonQuestion.setLayoutX(1974 / debuggingRatio);
+        buttonQuestion.setLayoutY(1840 / debuggingRatio);
+
         mainPane.getChildren().addAll(buttonPlay, buttonGroup, buttonQuestion, buttonNext);
 
-
-        //Текст викторины разбитый по строчкам
-        ArrayList<String> quizText = readingFileIntoStringList(new File(RESOURCES_PATH + "quiz/quiz_text.txt"));
-
-        //Блоки вопросов викторины представленные в виде листа
-        ArrayList<ArrayList<String>> quizTextBlock = new ArrayList<>(getQuizTextBlock(quizText));
-
-        //Блоки вопросов викторины представлены в виде класса questionBlock
-        questionBlock = new ArrayList<>(getQuestionBlock(quizTextBlock));
-
-        player = new QuizPlayer();
-
-        groupText = setQuestion();
-
-        mainPane.getChildren().addAll(groupText);
 
 
 
@@ -127,7 +133,7 @@ public class Quiz {
 
         int random = new Random().nextInt(questionBlockTemp.size());
 
-        QuizQuestion selectQuestion = questionBlockTemp.get(random);
+        selectQuestion = questionBlockTemp.get(random);
         questionBlockTemp.remove(random);
 
         ArrayList<String> randomAnswer = selectQuestion.getRandomAnswer();
@@ -151,19 +157,19 @@ public class Quiz {
         questionText.setLayoutX(TEXT_X_CENTER - questionText.getWrappingWidth() / 2);
         questionText.setLayoutY(questionNumberText.getLayoutY() + questionNumberText.getLayoutBounds().getHeight() + BLOCK_TEXT_VERTICAL_INTERVAL);
 
-        answerOne.setQPTAText("1.  " + randomAnswer.get(0));
+        answerOne.setQPTAText("1.  ", randomAnswer.get(0));
         answerOne.setLayoutX(questionText.getLayoutX());
         answerOne.setLayoutY(questionText.getLayoutY() + questionText.getLayoutBounds().getHeight());
 
-        answerTwo.setQPTAText("2. " + randomAnswer.get(1));
+        answerTwo.setQPTAText("2. ", randomAnswer.get(1));
         answerTwo.setLayoutX(questionText.getLayoutX());
         answerTwo.setLayoutY(answerOne.getLayoutY() + answerOne.getPrefHeight());
 
-        answerThree.setQPTAText("3. " + randomAnswer.get(2));
+        answerThree.setQPTAText("3. ", randomAnswer.get(2));
         answerThree.setLayoutX(questionText.getLayoutX());
         answerThree.setLayoutY(answerTwo.getLayoutY() + answerTwo.getPrefHeight());
 
-        answerFour.setQPTAText("4. " + randomAnswer.get(3));
+        answerFour.setQPTAText("4. ", randomAnswer.get(3));
         answerFour.setLayoutX(questionText.getLayoutX());
         answerFour.setLayoutY(answerThree.getLayoutY() + answerThree.getPrefHeight());
 

@@ -38,10 +38,12 @@ public class QuizButton extends ImagePane {
 
     public void setOnPush(final boolean onPush) {
         this.onPush = onPush;
+        setButtonSkin();
     }
 
     public void setOnPushInvert() {
         this.onPush = !onPush;
+        setButtonSkin();
     }
 
     public QuizButton(final String name) {
@@ -69,14 +71,12 @@ public class QuizButton extends ImagePane {
         this.getChildren().add(iv);
     }
 
-    void buttonStateInvert() {
-
-        setOnPushInvert();
-
+    public void setButtonSkin() {
         if (isOnPush()) {
             this.setImageBackground(new File(RESOURCES_PATH + "quiz/tv_button_shadow.png"));
         } else {
             this.setImageBackground(new File(RESOURCES_PATH + "quiz/tv_button.png"));
         }
     }
+
 }

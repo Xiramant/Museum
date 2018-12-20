@@ -11,41 +11,69 @@ import static table4K.Main4K.RESOURCES_PATH;
 
 public class QuizButtonSelectGroup extends Group {
 
+    private boolean flagTest = false;
+
+    public void setFlagTestOn() {
+        this.flagTest = true;
+        groupAction();
+        System.out.println("flagTest = " + flagTest);
+    }
+
+
     public void add(final QuizButtonSelect button) {
         this.getChildren().add(button);
         groupAction();
     }
 
     private void groupAction() {
+
+        System.out.println("flagTest000 = " + flagTest);
+
+
         for(int i = 0; i < this.getChildren().size(); i++) {
             QuizButtonSelect temp = (QuizButtonSelect) this.getChildren().get(i);
 
             temp.setOnMouseClicked(event -> {
-
-                temp.setOnPushInvert();
-
-                if (temp.isOnPush()) {
-                    temp.setImageBackground(new File(RESOURCES_PATH + "quiz/tv_button_shadow.png"));
-                    temp.qpta.setStyle("-fx-background-color: #464d46;");
-                    setNonPush(temp);
-                } else {
-                    temp.setImageBackground(new File(RESOURCES_PATH + "quiz/tv_button.png"));
-                    temp.qpta.setStyle("");
+                if (!flagTest) {
+                    temp.setOnPushInvert();
+                    if (temp.isOnPush()) {
+                        setNonPush(temp);
+                    }
                 }
-
             });
         }
+
     }
 
     void setNonPush(final QuizButtonSelect tempEnter) {
-
         for(int i = 0; i < this.getChildren().size(); i++) {
             QuizButtonSelect temp = (QuizButtonSelect) this.getChildren().get(i);
             if (!temp.equals(tempEnter)) {
-                temp.setNonePush();
+                temp.setOnPush(false);
             }
         }
     }
 
+    public boolean isOnPush() {
+        for(int i = 0; i < this.getChildren().size(); i++) {
+            QuizButtonSelect temp = (QuizButtonSelect) this.getChildren().get(i);
+            if (temp.isOnPush()) {
+                return true;
+            }
+        }
 
+        return false;
+    }
+
+    public QuizButtonSelect getPushButton() {
+
+        for(int i = 0; i < this.getChildren().size(); i++) {
+            QuizButtonSelect temp = (QuizButtonSelect) this.getChildren().get(i);
+            if (temp.isOnPush()) {
+                return temp;
+            }
+        }
+
+        return null;
+    }
 }
