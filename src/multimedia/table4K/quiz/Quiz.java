@@ -17,7 +17,8 @@ import static table4K.Main4K.*;
 
 public class Quiz {
 
-    private static Group groupText;
+    private static Group groupText = new Group();
+    private static Group groupButton = new Group();
 
     static final Font TEXT_FONT =  new Font("Dited", 80/debuggingRatio);
 
@@ -37,26 +38,25 @@ public class Quiz {
 
     private static ArrayList<QuizQuestion> questionBlock;
 
-    private static QuizQuestion selectQuestion;
+    static QuizQuestion selectQuestion;
 
-    private static QuizPlayer player;
+    static QuizPlayer player;
 
-    private static final int QUESTION_MAX = 20;
+    static final int QUESTION_MAX = 5;
 
-    static QuizPaneTextAnswer answerOne;
-    static QuizPaneTextAnswer answerTwo;
-    static QuizPaneTextAnswer answerThree;
-    static QuizPaneTextAnswer answerFour;
+    private static QuizPaneTextAnswer answerOne;
+    private static QuizPaneTextAnswer answerTwo;
+    private static QuizPaneTextAnswer answerThree;
+    private static QuizPaneTextAnswer answerFour;
+
+    static Text pointsReceivedText;
 
 
     public static void setQuizScene() {
 
         changeRootBackground(RESOURCES_PATH + "table_4K_quiz.jpg");
         mainPane.getChildren().clear();
-        answerOne = new QuizPaneTextAnswer();
-        answerTwo = new QuizPaneTextAnswer();
-        answerThree = new QuizPaneTextAnswer();
-        answerFour = new QuizPaneTextAnswer();
+
 
         //Текст викторины разбитый по строчкам
         ArrayList<String> quizText = readingFileIntoStringList(new File(RESOURCES_PATH + "quiz/quiz_text.txt"));
@@ -69,72 +69,32 @@ public class Quiz {
 
         player = new QuizPlayer();
 
-        groupText = setQuestion();
+        setQuestion();
+        setButton();
 
-        mainPane.getChildren().addAll(groupText);
-
-        //создание кнопок управления
-        QuizButton buttonPlay = new QuizButton(new File(RESOURCES_PATH + "quiz/buttonPlay.png"));
-        buttonPlay.setLayoutX(505 / debuggingRatio);
-        buttonPlay.setLayoutY(1840 / debuggingRatio);
-
-        QuizButton buttonNext = new QuizButton(new File(RESOURCES_PATH + "quiz/buttonNext.png"));
-        buttonNext.setLayoutX(2478 / debuggingRatio);
-        buttonNext.setLayoutY(1840 / debuggingRatio);
-
-        QuizButtonSelect buttonOne = new QuizButtonSelect("1", answerOne);
-        buttonOne.setLayoutX(999 / debuggingRatio);
-        buttonOne.setLayoutY(1840 / debuggingRatio);
-
-        QuizButtonSelect buttonTwo = new QuizButtonSelect("2", answerTwo);
-        buttonTwo.setLayoutX(1218 / debuggingRatio);
-        buttonTwo.setLayoutY(1840 / debuggingRatio);
-
-        QuizButtonSelect buttonThree = new QuizButtonSelect("3", answerThree);
-        buttonThree.setLayoutX(1437 / debuggingRatio);
-        buttonThree.setLayoutY(1840 / debuggingRatio);
-
-        QuizButtonSelect buttonFour = new QuizButtonSelect("4", answerFour);
-        buttonFour.setLayoutX(1656 / debuggingRatio);
-        buttonFour.setLayoutY(1840 / debuggingRatio);
-
-        QuizButtonSelectGroup buttonGroup = new QuizButtonSelectGroup();
-        buttonGroup.add(buttonOne);
-        buttonGroup.add(buttonTwo);
-        buttonGroup.add(buttonThree);
-        buttonGroup.add(buttonFour);
-
-        QuizButtonTest buttonQuestion = new QuizButtonTest("?", selectQuestion.getCorrectAnswer(), buttonGroup);
-        buttonQuestion.setLayoutX(1974 / debuggingRatio);
-        buttonQuestion.setLayoutY(1840 / debuggingRatio);
-
-        mainPane.getChildren().addAll(buttonPlay, buttonGroup, buttonQuestion, buttonNext);
-
-
-
-
-        mainPane.getChildren().addAll(returnHome());
-
-
+        mainPane.getChildren().addAll(groupText, groupButton, returnHome());
     }
 
 
-    private static Group setQuestion() {
+    static void setQuestion() {
+
+        groupText.getChildren().clear();
 
         Text questionNumberText = new Text();
         Text questionText = new Text();
-        Text pointsReceivedText = new Text();
+        pointsReceivedText = new Text();
 
-        Group groupText = new Group();
+        answerOne = new QuizPaneTextAnswer();
+        answerTwo = new QuizPaneTextAnswer();
+        answerThree = new QuizPaneTextAnswer();
+        answerFour = new QuizPaneTextAnswer();
 
         player.incrementQuestionNumber();
 
-        ArrayList<QuizQuestion> questionBlockTemp = new ArrayList<>(questionBlock);
+        int random = new Random().nextInt(questionBlock.size());
 
-        int random = new Random().nextInt(questionBlockTemp.size());
-
-        selectQuestion = questionBlockTemp.get(random);
-        questionBlockTemp.remove(random);
+        selectQuestion = questionBlock.get(random);
+        questionBlock.remove(random);
 
         ArrayList<String> randomAnswer = selectQuestion.getRandomAnswer();
 
@@ -149,7 +109,16 @@ public class Quiz {
         questionNumberText.setLayoutX(TEXT_X_CENTER - questionNumberText.getLayoutBounds().getWidth() / 2);
         questionNumberText.setLayoutY(QUESTION_NUMBER_TEXT_Y);
 
-        questionText.setText(selectQuestion.getQuestion());
+        StringBuilder point = new StringBuilder();
+        point.append("(Вопрос на ");
+        point.append(selectQuestion.getPoints());
+        if (selectQuestion.getPoints() == 1) {
+            point.append(" балл). ");
+        } else {
+            point.append(" балла). ");
+        }
+
+        questionText.setText(point.toString() + selectQuestion.getQuestion());
         questionText.setWrappingWidth(QUESTION_TEXT_WIDTH_MAX);
         questionText.setFont(TEXT_FONT);
         questionText.setFill(TEXT_COLOR);
@@ -181,10 +150,137 @@ public class Quiz {
 
 
         groupText.getChildren().addAll(questionNumberText, questionText, answerOne, answerTwo, answerThree, answerFour, pointsReceivedText);
+    }
+
+    static void setResult() {
+
+        groupText.getChildren().clear();
+
+        Text end = new Text();
+
+        Text result = new Text();
+
+        end.setText("Результаты викторины:");
+        end.setFont(TEXT_FONT);
+        end.setFill(TEXT_COLOR);
+        end.setLayoutX(TEXT_X_CENTER - end.getLayoutBounds().getWidth() / 2);
+        end.setLayoutY(QUESTION_NUMBER_TEXT_Y);
 
 
 
-        return groupText;
+        result.setText(getTextResult());
+        result.setWrappingWidth(QUESTION_TEXT_WIDTH_MAX);
+        result.setFont(TEXT_FONT);
+        result.setFill(TEXT_COLOR);
+        result.setTextAlignment(TextAlignment.JUSTIFY);
+        result.setLayoutX(TEXT_X_CENTER - result.getWrappingWidth() / 2);
+        result.setLayoutY(QUESTION_NUMBER_TEXT_Y + end.getLayoutBounds().getHeight() + BLOCK_TEXT_VERTICAL_INTERVAL);
+
+        groupText.getChildren().addAll(end, result);
+
+    }
+
+    private static String getTextResult() {
+
+        StringBuilder resultSB = new StringBuilder();
+        resultSB.append("Игроком правильно отвечено на ");
+        resultSB.append(player.getCorrectAnswer());
+        resultSB.append(" вопросов из ");
+        resultSB.append(QUESTION_MAX);
+        resultSB.append(".");
+
+        resultSB.append("\n");
+
+        resultSB.append("Получено ");
+        resultSB.append(player.getReceivePoints());
+        resultSB.append(" баллов из ");
+        resultSB.append(player.getMaxPoints());
+        resultSB.append(" возможных.");
+
+        resultSB.append("\n");
+        resultSB.append("\n");
+
+        resultSB.append("Чтобы начать игру заново, нажмите кнопку перехода (нижняя правая кнопка).");
+
+        return resultSB.toString();
+    }
+
+    static void setButton() {
+
+        groupButton.getChildren().clear();
+
+        //создание кнопок управления
+        QuizButton buttonPlay = new QuizButton(new File(RESOURCES_PATH + "quiz/buttonPlay.png"));
+        buttonPlay.setLayoutX(505 / debuggingRatio);
+        buttonPlay.setLayoutY(1840 / debuggingRatio);
+
+        QuizButtonSelect buttonOne = new QuizButtonSelect("1", answerOne);
+        buttonOne.setLayoutX(999 / debuggingRatio);
+        buttonOne.setLayoutY(1840 / debuggingRatio);
+
+        QuizButtonSelect buttonTwo = new QuizButtonSelect("2", answerTwo);
+        buttonTwo.setLayoutX(1218 / debuggingRatio);
+        buttonTwo.setLayoutY(1840 / debuggingRatio);
+
+        QuizButtonSelect buttonThree = new QuizButtonSelect("3", answerThree);
+        buttonThree.setLayoutX(1437 / debuggingRatio);
+        buttonThree.setLayoutY(1840 / debuggingRatio);
+
+        QuizButtonSelect buttonFour = new QuizButtonSelect("4", answerFour);
+        buttonFour.setLayoutX(1656 / debuggingRatio);
+        buttonFour.setLayoutY(1840 / debuggingRatio);
+
+        QuizButtonSelectGroup buttonSelectGroup = new QuizButtonSelectGroup();
+        buttonSelectGroup.add(buttonOne);
+        buttonSelectGroup.add(buttonTwo);
+        buttonSelectGroup.add(buttonThree);
+        buttonSelectGroup.add(buttonFour);
+
+        QuizButtonTest buttonTest = new QuizButtonTest("?", selectQuestion.getCorrectAnswer(), buttonSelectGroup);
+        buttonTest.setLayoutX(1974 / debuggingRatio);
+        buttonTest.setLayoutY(1840 / debuggingRatio);
+
+        QuizButtonNext buttonNext = new QuizButtonNext(new File(RESOURCES_PATH + "quiz/buttonNext.png"), buttonTest);
+        buttonNext.setLayoutX(2478 / debuggingRatio);
+        buttonNext.setLayoutY(1840 / debuggingRatio);
+
+        groupButton.getChildren().addAll(buttonPlay, buttonSelectGroup, buttonTest, buttonNext);
+    }
+
+    static void setButtonResult() {
+
+        groupButton.getChildren().clear();
+
+        //создание кнопок управления
+        QuizButton buttonPlay = new QuizButton(new File(RESOURCES_PATH + "quiz/buttonPlay.png"));
+        buttonPlay.setLayoutX(505 / debuggingRatio);
+        buttonPlay.setLayoutY(1840 / debuggingRatio);
+
+        QuizButton buttonOne = new QuizButton("1");
+        buttonOne.setLayoutX(999 / debuggingRatio);
+        buttonOne.setLayoutY(1840 / debuggingRatio);
+
+        QuizButton buttonTwo = new QuizButton("2");
+        buttonTwo.setLayoutX(1218 / debuggingRatio);
+        buttonTwo.setLayoutY(1840 / debuggingRatio);
+
+        QuizButton buttonThree = new QuizButton("3");
+        buttonThree.setLayoutX(1437 / debuggingRatio);
+        buttonThree.setLayoutY(1840 / debuggingRatio);
+
+        QuizButton buttonFour = new QuizButton("4");
+        buttonFour.setLayoutX(1656 / debuggingRatio);
+        buttonFour.setLayoutY(1840 / debuggingRatio);
+
+        QuizButton buttonTest = new QuizButton("?");
+        buttonTest.setLayoutX(1974 / debuggingRatio);
+        buttonTest.setLayoutY(1840 / debuggingRatio);
+
+        QuizButtonNew buttonNew = new QuizButtonNew(new File(RESOURCES_PATH + "quiz/buttonNext.png"));
+        buttonNew.setLayoutX(2478 / debuggingRatio);
+        buttonNew.setLayoutY(1840 / debuggingRatio);
+
+        groupButton.getChildren().addAll(buttonPlay, buttonOne, buttonTwo, buttonThree, buttonFour, buttonTest, buttonNew);
     }
 
 

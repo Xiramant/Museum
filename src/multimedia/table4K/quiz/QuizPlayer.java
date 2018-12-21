@@ -30,7 +30,7 @@ public class QuizPlayer {
         return receivePoints;
     }
 
-    public void setReceivePoints(final int receivePoints) {
+    public void incremenrReceivePoints(final int receivePoints) {
         this.receivePoints += receivePoints;
     }
 
@@ -38,7 +38,7 @@ public class QuizPlayer {
         return maxPoints;
     }
 
-    public void setMaxPoints(final int maxPoints) {
+    public void incrementMaxPoints(final int maxPoints) {
         this.maxPoints += maxPoints;
     }
 

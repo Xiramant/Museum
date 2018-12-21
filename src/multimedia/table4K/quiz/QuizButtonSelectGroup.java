@@ -6,45 +6,70 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import static general.TouchWait.isTimeWaitEnd;
+import static general.TouchWait.setTimeWait;
 import static javafx.scene.input.MouseEvent.MOUSE_CLICKED;
 import static table4K.Main4K.RESOURCES_PATH;
+import static table4K.quiz.Quiz.setQuizScene;
 
 public class QuizButtonSelectGroup extends Group {
 
+    //Флаг запущенной проверки правильности ответа
     private boolean flagTest = false;
 
-    public void setFlagTestOn() {
+    public boolean isFlagTest() {
+        return flagTest;
+    }
+
+    void setFlagTestOn() {
         this.flagTest = true;
         groupAction();
-        System.out.println("flagTest = " + flagTest);
     }
 
 
+    //добавление кнопки в группу
     public void add(final QuizButtonSelect button) {
         this.getChildren().add(button);
+
         groupAction();
     }
 
+    //задание реакции группы кнопок на действия
     private void groupAction() {
-
-        System.out.println("flagTest000 = " + flagTest);
-
-
         for(int i = 0; i < this.getChildren().size(); i++) {
             QuizButtonSelect temp = (QuizButtonSelect) this.getChildren().get(i);
 
             temp.setOnMouseClicked(event -> {
-                if (!flagTest) {
-                    temp.setOnPushInvert();
-                    if (temp.isOnPush()) {
-                        setNonPush(temp);
-                    }
+                buttonGroupAction(temp);
+            });
+
+            temp.setOnTouchReleased(event -> {
+                if (isTimeWaitEnd()) {
+
+                    buttonGroupAction(temp);
+
+                    setTimeWait();
                 }
             });
         }
-
     }
 
+    //задание реакции отдельной кнопки, входящей в группу, на действие
+    private void buttonGroupAction(final QuizButtonSelect buttonCurent) {
+
+        if (!isFlagTest()) {
+
+            buttonCurent.setOnPushInvert();
+
+            if (buttonCurent.isOnPush()) {
+                setNonPush(buttonCurent);
+            }
+        }
+    }
+
+    //установка всех остальных кнопок из группы,
+    // кроме переданной в параметрах метода,
+    // в состояние - не нажата
     void setNonPush(final QuizButtonSelect tempEnter) {
         for(int i = 0; i < this.getChildren().size(); i++) {
             QuizButtonSelect temp = (QuizButtonSelect) this.getChildren().get(i);
@@ -54,6 +79,8 @@ public class QuizButtonSelectGroup extends Group {
         }
     }
 
+    //возвращает true, если нажата хотябы одна кнопка из группы
+    // в противном случае возвращает false
     public boolean isOnPush() {
         for(int i = 0; i < this.getChildren().size(); i++) {
             QuizButtonSelect temp = (QuizButtonSelect) this.getChildren().get(i);
@@ -65,6 +92,8 @@ public class QuizButtonSelectGroup extends Group {
         return false;
     }
 
+    //возвращает кнопку из группы, которая нажата,
+    // если не нажата ни одна из кнопок, то возвращает null
     public QuizButtonSelect getPushButton() {
 
         for(int i = 0; i < this.getChildren().size(); i++) {
