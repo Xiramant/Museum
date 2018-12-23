@@ -13,6 +13,8 @@ public class QuizQuestion {
 
     private String correctAnswer;
 
+    private String media;
+
     public int getPoints() {
         return points;
     }
@@ -29,16 +31,22 @@ public class QuizQuestion {
         return correctAnswer;
     }
 
+    public String getMedia() {
+        return media;
+    }
+
 
     QuizQuestion(final int pointsEnter,
                  final String questionEnter,
                  final ArrayList<String> answerEnter,
-                 final String correctAnswerEnter) {
+                 final String correctAnswerEnter,
+                 final String mediaEnter) {
 
         points = pointsEnter;
         question = questionEnter;
         answer = answerEnter;
         correctAnswer = correctAnswerEnter;
+        media = mediaEnter;
     }
 
     public ArrayList<String> getRandomAnswer() {
@@ -65,6 +73,11 @@ public class QuizQuestion {
             stringExit += temp + System.lineSeparator();
         }
         stringExit += "Правильный ответ: " + correctAnswer;
+
+        if (media.length() != 0) {
+            stringExit += System.lineSeparator();
+            stringExit += "Название медиа файла: " + media;
+        }
 
         return stringExit;
     }

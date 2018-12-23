@@ -12,13 +12,6 @@ public class QuizButtonNew extends QuizButton {
 
         this.setOnMouseClicked(event -> {
 
-            if (isTimeWaitEnd()) {
-                setQuizScene();
-                setTimeWait();
-            }
-        });
-
-        this.setOnTouchReleased(event -> {
             quizButtonNewAction();
         });
 

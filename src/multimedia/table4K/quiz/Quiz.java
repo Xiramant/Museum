@@ -17,11 +17,6 @@ import static table4K.Main4K.*;
 
 public class Quiz {
 
-    private static Group groupText = new Group();
-    private static Group groupButton = new Group();
-
-    static final Font TEXT_FONT =  new Font("Dited", 80/debuggingRatio);
-
     static final Color TEXT_COLOR = Color.rgb(7, 153, 89);
 
     private static final double TEXT_X_CENTER = 1610 / debuggingRatio;
@@ -32,17 +27,28 @@ public class Quiz {
 
     private static final double POINTS_RECEIVED_TEXT_Y = 1456 / debuggingRatio;
 
-    static final double BLOCK_TEXT_VERTICAL_INTERVAL = 50 / debuggingRatio;
+    static final int QUESTION_MAX = 20;
 
-    static final double LINE_TEXT_VERTICAL_INTERVAL = 20 / debuggingRatio;
+    private static double textFontSize;
+
+    static Font textFont;
+
+    static double blockTextVerticalInterval;
+
+    static double lineTextVerticalInterval;
 
     private static ArrayList<QuizQuestion> questionBlock;
+    private static ArrayList<QuizQuestion> questionMediaBlock;
 
     static QuizQuestion selectQuestion;
 
     static QuizPlayer player;
 
-    static final int QUESTION_MAX = 5;
+    private static Group groupText = new Group();
+    private static Group groupButton = new Group();
+
+    private static Text questionNumberText;
+    private static Text questionText;
 
     private static QuizPaneTextAnswer answerOne;
     private static QuizPaneTextAnswer answerTwo;
@@ -57,18 +63,22 @@ public class Quiz {
         changeRootBackground(RESOURCES_PATH + "table_4K_quiz.jpg");
         mainPane.getChildren().clear();
 
-
         //Текст викторины разбитый по строчкам
         ArrayList<String> quizText = readingFileIntoStringList(new File(RESOURCES_PATH + "quiz/quiz_text.txt"));
+        ArrayList<String> quizMedia = readingFileIntoStringList(new File(RESOURCES_PATH + "quiz/quiz_media.txt"));
 
         //Блоки вопросов викторины представленные в виде листа
         ArrayList<ArrayList<String>> quizTextBlock = new ArrayList<>(getQuizTextBlock(quizText));
+        ArrayList<ArrayList<String>> quizMediaBlock = new ArrayList<>(getQuizTextBlock(quizMedia));
 
         //Блоки вопросов викторины представлены в виде класса questionBlock
         questionBlock = new ArrayList<>(getQuestionBlock(quizTextBlock));
+        questionMediaBlock = new ArrayList<>(getQuestionBlock(quizMediaBlock));
 
+        //создание нового игрока
         player = new QuizPlayer();
 
+        //установка отображения вопроса и кнопок
         setQuestion();
         setButton();
 
@@ -76,12 +86,22 @@ public class Quiz {
     }
 
 
+    //вывод на экран вопроса викторины
     static void setQuestion() {
+
+        //задание первоначальных значений параметров текста,
+        // чтобы при их изменении (из-за того, что текст не помещается на экран),
+        // на следующем вопросе они были с первоначальными значениями
+        textFontSize = 80 / debuggingRatio;
+        textFont =  new Font("Dited", textFontSize);
+        blockTextVerticalInterval = 50 / debuggingRatio;
+        lineTextVerticalInterval = 20 / debuggingRatio;
+
 
         groupText.getChildren().clear();
 
-        Text questionNumberText = new Text();
-        Text questionText = new Text();
+        questionNumberText = new Text();
+        questionText = new Text();
         pointsReceivedText = new Text();
 
         answerOne = new QuizPaneTextAnswer();
@@ -91,10 +111,15 @@ public class Quiz {
 
         player.incrementQuestionNumber();
 
-        int random = new Random().nextInt(questionBlock.size());
-
-        selectQuestion = questionBlock.get(random);
-        questionBlock.remove(random);
+        if (player.getQuestionNumber() % 5 == 0) {
+            int random = new Random().nextInt(questionMediaBlock.size());
+            selectQuestion = questionMediaBlock.get(random);
+            questionMediaBlock.remove(random);
+        } else {
+            int random = new Random().nextInt(questionBlock.size());
+            selectQuestion = questionBlock.get(random);
+            questionBlock.remove(random);
+        }
 
         ArrayList<String> randomAnswer = selectQuestion.getRandomAnswer();
 
@@ -104,7 +129,6 @@ public class Quiz {
 
 
         questionNumberText.setText(questionNumber);
-        questionNumberText.setFont(TEXT_FONT);
         questionNumberText.setFill(TEXT_COLOR);
         questionNumberText.setLayoutX(TEXT_X_CENTER - questionNumberText.getLayoutBounds().getWidth() / 2);
         questionNumberText.setLayoutY(QUESTION_NUMBER_TEXT_Y);
@@ -120,37 +144,76 @@ public class Quiz {
 
         questionText.setText(point.toString() + selectQuestion.getQuestion());
         questionText.setWrappingWidth(QUESTION_TEXT_WIDTH_MAX);
-        questionText.setFont(TEXT_FONT);
         questionText.setFill(TEXT_COLOR);
         questionText.setTextAlignment(TextAlignment.JUSTIFY);
         questionText.setLayoutX(TEXT_X_CENTER - questionText.getWrappingWidth() / 2);
-        questionText.setLayoutY(questionNumberText.getLayoutY() + questionNumberText.getLayoutBounds().getHeight() + BLOCK_TEXT_VERTICAL_INTERVAL);
 
         answerOne.setQPTAText("1.  ", randomAnswer.get(0));
         answerOne.setLayoutX(questionText.getLayoutX());
-        answerOne.setLayoutY(questionText.getLayoutY() + questionText.getLayoutBounds().getHeight());
 
         answerTwo.setQPTAText("2. ", randomAnswer.get(1));
         answerTwo.setLayoutX(questionText.getLayoutX());
-        answerTwo.setLayoutY(answerOne.getLayoutY() + answerOne.getPrefHeight());
 
         answerThree.setQPTAText("3. ", randomAnswer.get(2));
         answerThree.setLayoutX(questionText.getLayoutX());
-        answerThree.setLayoutY(answerTwo.getLayoutY() + answerTwo.getPrefHeight());
 
         answerFour.setQPTAText("4. ", randomAnswer.get(3));
         answerFour.setLayoutX(questionText.getLayoutX());
-        answerFour.setLayoutY(answerThree.getLayoutY() + answerThree.getPrefHeight());
 
         pointsReceivedText.setText(pointsReceived);
-        pointsReceivedText.setFont(TEXT_FONT);
         pointsReceivedText.setFill(TEXT_COLOR);
         pointsReceivedText.setLayoutX(TEXT_X_CENTER - pointsReceivedText.getLayoutBounds().getWidth() / 2);
         pointsReceivedText.setLayoutY(POINTS_RECEIVED_TEXT_Y);
 
+        setFontSize();
+
 
         groupText.getChildren().addAll(questionNumberText, questionText, answerOne, answerTwo, answerThree, answerFour, pointsReceivedText);
     }
+
+
+    //метод уменьшающий размер текста и вертикальных интервалов,
+    //если четверный ответ с вертикальным отступом находится ниже линии баллов
+    private static void setFontSize() {
+
+        double multiplier = 1;
+
+        do {
+            textFontSize *= multiplier;
+            textFont =  new Font("Dited", textFontSize);
+            blockTextVerticalInterval *= multiplier;
+            lineTextVerticalInterval *= multiplier;
+
+            questionNumberText.setFont(textFont);
+
+            questionText.setFont(textFont);
+            questionText.setLayoutY(questionNumberText.getLayoutY() + questionNumberText.getLayoutBounds().getHeight() + blockTextVerticalInterval);
+
+            answerOne.setQPTAFont();
+            answerOne.setQPTAHeight();
+            answerOne.setLayoutY(questionText.getLayoutY() + questionText.getLayoutBounds().getHeight());
+
+            answerTwo.setQPTAFont();
+            answerTwo.setQPTAHeight();
+            answerTwo.setLayoutY(answerOne.getLayoutY() + answerOne.getPrefHeight());
+
+            answerThree.setQPTAFont();
+            answerThree.setQPTAHeight();
+            answerThree.setLayoutY(answerTwo.getLayoutY() + answerTwo.getPrefHeight());
+
+            answerFour.setQPTAFont();
+            answerFour.setQPTAHeight();
+            answerFour.setLayoutY(answerThree.getLayoutY() + answerThree.getPrefHeight());
+
+            pointsReceivedText.setFont(textFont);
+
+
+            multiplier *= 0.95;
+        }
+        while ((answerFour.getLayoutY() + answerFour.getPrefHeight() + blockTextVerticalInterval) > pointsReceivedText.getLayoutY());
+
+    }
+
 
     static void setResult() {
 
@@ -161,7 +224,7 @@ public class Quiz {
         Text result = new Text();
 
         end.setText("Результаты викторины:");
-        end.setFont(TEXT_FONT);
+        end.setFont(textFont);
         end.setFill(TEXT_COLOR);
         end.setLayoutX(TEXT_X_CENTER - end.getLayoutBounds().getWidth() / 2);
         end.setLayoutY(QUESTION_NUMBER_TEXT_Y);
@@ -170,11 +233,11 @@ public class Quiz {
 
         result.setText(getTextResult());
         result.setWrappingWidth(QUESTION_TEXT_WIDTH_MAX);
-        result.setFont(TEXT_FONT);
+        result.setFont(textFont);
         result.setFill(TEXT_COLOR);
         result.setTextAlignment(TextAlignment.JUSTIFY);
         result.setLayoutX(TEXT_X_CENTER - result.getWrappingWidth() / 2);
-        result.setLayoutY(QUESTION_NUMBER_TEXT_Y + end.getLayoutBounds().getHeight() + BLOCK_TEXT_VERTICAL_INTERVAL);
+        result.setLayoutY(QUESTION_NUMBER_TEXT_Y + end.getLayoutBounds().getHeight() + blockTextVerticalInterval);
 
         groupText.getChildren().addAll(end, result);
 
@@ -210,9 +273,10 @@ public class Quiz {
         groupButton.getChildren().clear();
 
         //создание кнопок управления
-        QuizButton buttonPlay = new QuizButton(new File(RESOURCES_PATH + "quiz/buttonPlay.png"));
-        buttonPlay.setLayoutX(505 / debuggingRatio);
-        buttonPlay.setLayoutY(1840 / debuggingRatio);
+//        if (selectQuestion.getMedia().length() == 0) {}
+        QuizButtonMedia buttonMedia = new QuizButtonMedia(new File(RESOURCES_PATH + "quiz/buttonMedia.png"), selectQuestion.getMedia());
+        buttonMedia.setLayoutX(505 / debuggingRatio);
+        buttonMedia.setLayoutY(1840 / debuggingRatio);
 
         QuizButtonSelect buttonOne = new QuizButtonSelect("1", answerOne);
         buttonOne.setLayoutX(999 / debuggingRatio);
@@ -240,11 +304,11 @@ public class Quiz {
         buttonTest.setLayoutX(1974 / debuggingRatio);
         buttonTest.setLayoutY(1840 / debuggingRatio);
 
-        QuizButtonNext buttonNext = new QuizButtonNext(new File(RESOURCES_PATH + "quiz/buttonNext.png"), buttonTest);
+        QuizButtonNext buttonNext = new QuizButtonNext(new File(RESOURCES_PATH + "quiz/buttonNext.png"), buttonMedia, buttonTest);
         buttonNext.setLayoutX(2478 / debuggingRatio);
         buttonNext.setLayoutY(1840 / debuggingRatio);
 
-        groupButton.getChildren().addAll(buttonPlay, buttonSelectGroup, buttonTest, buttonNext);
+        groupButton.getChildren().addAll(buttonMedia, buttonSelectGroup, buttonTest, buttonNext);
     }
 
     static void setButtonResult() {
@@ -320,43 +384,112 @@ public class Quiz {
         ArrayList<QuizQuestion> questionBlock = new ArrayList<>();
 
         for (ArrayList<String> block: quizTextBlock) {
-            int pointTemp = 0;
-            String questionTemp = "";
-            String correctAnswerTemp = "";
-            ArrayList<String> answerTemp = new ArrayList<>();
 
-            for (String str: block) {
-
-                if (str.startsWith("Баллов: ")) {
-                    String strTemp = str.substring((new String("Баллов: ")).length());
-                    strTemp = strTemp.replaceAll(" ", "");
-                    pointTemp = (Integer.parseInt(strTemp));
-                    continue;
-                }
-
-                if (str.startsWith("Вопрос: ")) {
-                    questionTemp = str.substring((new String("Вопрос: ")).length());
-                    continue;
-                }
-
-                if (str.startsWith("+ ") || str.startsWith("- ")) {
-                    answerTemp.add(str.substring((new String("+ ")).length()));
-
-                    if (str.startsWith("+ ")) {
-                        correctAnswerTemp = str.substring((new String("+ ")).length());
-                    }
-                }
-            }
+            int pointTemp = getPoints(block);
+            String questionTemp = getQuestion(block);
+            String correctAnswerTemp = getCorrectAnswer(block);
+            ArrayList<String> answerTemp = new ArrayList<>(getAnswers(block));
+            String mediaTemp = getMedia(block);
 
             if (pointTemp != 0 &&
                     !questionTemp.equals("") &&
                     !correctAnswerTemp.equals("") &&
                     answerTemp.size() != 0) {
 
-                questionBlock.add(new QuizQuestion(pointTemp, questionTemp, answerTemp, correctAnswerTemp));
+                questionBlock.add(new QuizQuestion(pointTemp, questionTemp, answerTemp, correctAnswerTemp, mediaTemp));
             }
         }
 
         return questionBlock;
+    }
+
+//    //Получение листа класса QuizQuestionWithMedia для викторины
+//    // где QuizQuestion является представлением отдельного блока вопроса викторины
+//    private static ArrayList<QuizQuestionWithMedia> getQuestionMediaBlock(final ArrayList<ArrayList<String>> quizTextBlock) {
+//
+//        ArrayList<QuizQuestionWithMedia> questionMediaBlock = new ArrayList<>();
+//
+//        for (ArrayList<String> block: quizTextBlock) {
+//
+//            int pointTemp = getPoints(block);
+//            String questionTemp = getQuestion(block);
+//            String correctAnswerTemp = getCorrectAnswer(block);
+//            ArrayList<String> answerTemp = new ArrayList<>(getAnswers(block));
+//            File mediaFileTemp = getMediaFile(block);
+//
+//            if (pointTemp != 0 &&
+//                    !questionTemp.equals("") &&
+//                    !correctAnswerTemp.equals("") &&
+//                    answerTemp.size() != 0 &&
+//                    !mediaFileTemp.toString().equals("")) {
+//
+//                questionMediaBlock.add(new QuizQuestionWithMedia(pointTemp, questionTemp, answerTemp, correctAnswerTemp, mediaFileTemp));
+//            }
+//        }
+//
+//        return questionMediaBlock;
+//    }
+
+
+
+    private static int getPoints(final ArrayList<String> block) {
+
+        for (String str: block) {
+            if (str.startsWith("Баллов: ")) {
+                String strTemp = str.substring((new String("Баллов: ")).length());
+                strTemp = strTemp.replaceAll(" ", "");
+                return (Integer.parseInt(strTemp));
+            }
+        }
+
+        return 0;
+    }
+
+    private static String getQuestion(final ArrayList<String> block) {
+
+        for (String str: block) {
+            if (str.startsWith("Вопрос: ")) {
+                return str.substring((new String("Вопрос: ")).length());
+            }
+        }
+
+        return "";
+    }
+
+    private static String getCorrectAnswer(final ArrayList<String> block) {
+
+        for (String str: block) {
+            if (str.startsWith("+ ")) {
+                return str.substring((new String("+ ")).length());
+            }
+        }
+
+        return "";
+    }
+
+    private static ArrayList<String> getAnswers(final ArrayList<String> block) {
+
+        ArrayList<String> answerTemp = new ArrayList<>();
+
+        for (String str: block) {
+            if (str.startsWith("+ ") || str.startsWith("- ")) {
+                answerTemp.add(str.substring((new String("+ ")).length()));
+            }
+        }
+
+        return answerTemp;
+    }
+
+    private static String getMedia(final ArrayList<String> block) {
+
+        for (String str: block) {
+            if (str.startsWith("Медиа: ")) {
+                String mediaTemp = str.substring((new String("Медиа: ")).length());
+                mediaTemp = mediaTemp.replaceAll(" ", "");
+                return mediaTemp;
+            }
+        }
+
+        return "";
     }
 }

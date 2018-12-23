@@ -22,17 +22,26 @@ public class QuizPaneTextAnswer extends Pane {
         answer = answerEnter;
 
         answerText.setText(answerNumber + answerEnter);
-        answerText.setFont(TEXT_FONT);
+        answerText.setFont(textFont);
         answerText.setFill(TEXT_COLOR);
         answerText.setTextOrigin(VPos.TOP);
-        answerText.setWrappingWidth(QUESTION_TEXT_WIDTH_MAX - BLOCK_TEXT_VERTICAL_INTERVAL);
-        answerText.setLayoutX(BLOCK_TEXT_VERTICAL_INTERVAL / 2);
-        answerText.setLayoutY(LINE_TEXT_VERTICAL_INTERVAL / 2);
+        answerText.setWrappingWidth(QUESTION_TEXT_WIDTH_MAX - blockTextVerticalInterval);
+        answerText.setLayoutX(blockTextVerticalInterval / 2);
+        answerText.setLayoutY(lineTextVerticalInterval / 2);
 
         this.setPrefWidth(QUESTION_TEXT_WIDTH_MAX);
-        this.setPrefHeight(answerText.getLayoutBounds().getHeight() + LINE_TEXT_VERTICAL_INTERVAL);
+        this.setPrefHeight(answerText.getLayoutBounds().getHeight() + lineTextVerticalInterval);
 
         this.getChildren().add(answerText);
+    }
+
+    public void setQPTAFont() {
+        answerText.setFont(textFont);
+    }
+
+    public void setQPTAHeight() {
+        answerText.setLayoutY(lineTextVerticalInterval / 2);
+        this.setPrefHeight(answerText.getLayoutBounds().getHeight() + lineTextVerticalInterval);
     }
 
 }

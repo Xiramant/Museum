@@ -8,12 +8,15 @@ import static table4K.quiz.Quiz.*;
 
 public class QuizButtonNext extends QuizButton {
 
+    private QuizButtonMedia media;
     private QuizButtonTest test;
 
     QuizButtonNext(final File imageFile,
+                   final QuizButtonMedia mediaEnter,
                    final QuizButtonTest testEnter) {
         super(imageFile);
 
+        media = mediaEnter;
         test = testEnter;
 
         this.setOnMouseClicked(event -> {
@@ -39,6 +42,8 @@ public class QuizButtonNext extends QuizButton {
             if (!test.getGroup().isFlagTest()) {
                 test.buttonTestAction();
             }
+
+            media.setQuizButtonMediaNonPush();
 
             if (player.getQuestionNumber() == QUESTION_MAX) {
                 setResult();
