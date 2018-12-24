@@ -9,7 +9,7 @@ import javafx.scene.media.MediaView;
 
 import java.io.File;
 
-import static table4K.BackHome.returnHome;
+import static table4K.BackHome.*;
 import static table4K.Main4K.*;
 
 public class FilmShow {
@@ -50,7 +50,7 @@ public class FilmShow {
         player.setLayoutY(TABLE_HEIGHT / 2 - FILM_VIEW_HEIGHT / 2);
         player.getChildren().addAll(mediaView, vignette);
 
-        mainPane.getChildren().addAll(player, returnHome(mediaPlayer));
+        mainPane.getChildren().addAll(player, returnHome(mediaPlayer), returnBack(mediaPlayer));
     }
 
 

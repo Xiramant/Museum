@@ -1,6 +1,7 @@
 package table4K.portfolio;
 
 import general.ImagePane;
+import general.SectionKey;
 import javafx.geometry.VPos;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import static general.TextProcessing.readingFirstStokeFromFileAndSplitIntoWord;
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
+import static table4K.BackHome.returnBack;
 import static table4K.BackHome.returnHome;
 import static table4K.Main4K.*;
 
@@ -117,7 +119,7 @@ public class PersonalCardPane extends ImagePane {
 
         changeRootBackground(RESOURCES_PATH + "table_4K_portfolio.jpg");
         mainPane.getChildren().clear();
-        mainPane.getChildren().addAll(pcp, returnHome());
+        mainPane.getChildren().addAll(pcp, returnBack(SectionKey.PORTFOLIO), returnHome());
     }
 
 }

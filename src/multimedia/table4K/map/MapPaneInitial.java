@@ -1,6 +1,7 @@
 package table4K.map;
 
 import general.ImagePane;
+import general.SectionKey;
 import javafx.geometry.VPos;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
-import static table4K.BackHome.returnHome;
+import static table4K.BackHome.*;
 import static table4K.Main4K.*;
 import static table4K.map.Map.*;
 
@@ -84,6 +85,6 @@ public class MapPaneInitial extends ImagePane{
         MapPaneText text = new MapPaneText(mapTextFiles);
 
         mainPane.getChildren().clear();
-        mainPane.getChildren().addAll(map, text, returnHome());
+        mainPane.getChildren().addAll(map, text, returnBack(SectionKey.MAP), returnHome());
     }
 }
