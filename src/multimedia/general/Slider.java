@@ -11,6 +11,8 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 
+import static general.TouchWait.isTimeWaitEnd;
+import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.RESOURCES_PATH;
 
 public class Slider extends Pane{
@@ -24,6 +26,8 @@ public class Slider extends Pane{
     //пути к левой и правой стрелкам слайдера
     private final static String LEFT_ARROW_PATH = "file:" + RESOURCES_PATH + "arrow_left.png";
     private final static String RIGHT_ARROW_PATH = "file:" + RESOURCES_PATH + "arrow_right.png";
+
+    private final static String SLIDER_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -1, 2);";
 
     //высота стрелок слайдера в процентах от высоты слайдера
     private final double ARROW_HEIGHT = 0.8;
@@ -79,7 +83,7 @@ public class Slider extends Pane{
         // которая играет роль маски видимости при их перелистывании
         SubScene subScene = new SubScene(grSliderView, SUBSCENE_SLIDER_WIDTH, SLIDER_HEIGHT);
         subScene.setLayoutX((SLIDER_WIDTH - SUBSCENE_SLIDER_WIDTH) / 2);
-        subScene.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, -1, 2);");
+        subScene.setStyle(SLIDER_SHADOW);
 
         //правая стрелка листания слайдера
         ImageView arrowRight = createSliderArrow(RIGHT_ARROW_PATH);
@@ -96,20 +100,16 @@ public class Slider extends Pane{
         });
 
         arrowLeft.setOnTouchReleased(event -> {
-            arrowClick(grSliderView, -(SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER));
-            try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                System.out.println("проблема с установкой задержки в классе Slider при отпускании тача");
+            if (isTimeWaitEnd()) {
+                arrowClick(grSliderView, -(SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER));
+                setTimeWait();
             }
         });
 
         arrowRight.setOnTouchReleased(event -> {
-            arrowClick(grSliderView, SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER);
-            try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                System.out.println("проблема с установкой задержки в классе Slider при отпускании тача");
+            if (isTimeWaitEnd()) {
+                arrowClick(grSliderView, SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER);
+                setTimeWait();
             }
         });
     }
@@ -120,7 +120,7 @@ public class Slider extends Pane{
         ImageView arrow = new ImageView(imagePath);
         arrow.setFitHeight(SLIDER_HEIGHT * ARROW_HEIGHT);
         arrow.setLayoutY((SLIDER_HEIGHT - arrow.getLayoutBounds().getHeight()) / 2);
-        arrow.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, -1, 2);");
+        arrow.setStyle(SLIDER_SHADOW);
 
         return arrow;
     }

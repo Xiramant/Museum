@@ -14,11 +14,11 @@ public class Book {
     //путь к директории с файлами писем
     private static final String BOOK_PATH = RESOURCES_PATH + "book/";
 
-    public static double BOOK_WIDTH_MAX = 2419 / debuggingRatio;
+    private static final double BOOK_WIDTH_MAX = 2419 / debuggingRatio;
 
     //координаты начала и конца области для случайного расположения писем
-    public static double BOOK_X = 819 / debuggingRatio;
-    public static double BOOK_Y = 446 / debuggingRatio;
+    private static final double BOOK_X = 819 / debuggingRatio;
+    private static final double BOOK_Y = 446 / debuggingRatio;
 
     public static void setBookScene() {
 

@@ -13,6 +13,8 @@ import javafx.scene.text.TextAlignment;
 import java.io.File;
 
 import static general.TextProcessing.readingFirstStokeFromFile;
+import static general.TouchWait.isTimeWaitEnd;
+import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.RESOURCES_PATH;
 import static table4K.Main4K.TOUCH_TIMEOUT;
 import static table4K.Main4K.debuggingRatio;
@@ -22,6 +24,7 @@ import static table4K.film.FilmShow.FilmShowSet;
 public class FilmInitialImage extends ImagePane {
 
     //параметры надписи названия фильма
+    private static final double FILM_BOX_WIDTH = 600 / debuggingRatio;
     private static final Font FILM_NAME_FONT = Font.font("Arial Narrow", FontWeight.BOLD, 36 / debuggingRatio);
     private static final Color FILM_NAME_COLOR = Color.rgb(52, 54, 70);
     private static final double FILM_NAME_WIDTH_MAX = 240 / debuggingRatio;
@@ -36,7 +39,7 @@ public class FilmInitialImage extends ImagePane {
 
 
     FilmInitialImage(final File videoFileEnter, final File textFileEnter) {
-        super(new File(RESOURCES_PATH + "film/box_with_name.png"), 600 / debuggingRatio, 0);
+        super(new File(RESOURCES_PATH + "film/box_with_name.png"), FILM_BOX_WIDTH, 0);
 
         videoPath = videoFileEnter.toURI().toString();
 
@@ -67,11 +70,9 @@ public class FilmInitialImage extends ImagePane {
         });
 
         this.setOnTouchReleased(event -> {
-            FilmShowSet(videoPath, ratio);
-            try {
-                wait(TOUCH_TIMEOUT);
-            } catch (InterruptedException e) {
-                System.out.println("проблема с установкой задержки в классе " + this.getClass().getName() + " при отпускании тача");
+            if (isTimeWaitEnd()) {
+                FilmShowSet(videoPath, ratio);
+                setTimeWait();
             }
         });
     }

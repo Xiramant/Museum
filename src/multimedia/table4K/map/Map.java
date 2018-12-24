@@ -20,20 +20,20 @@ public class Map {
 
     //Файл изображения фона текстового блока
     // для первоначальной сцены раздела Карты
-    public static final File TEXT_BACKGROUND_FILE = new File(RESOURCES_PATH + "map/text_case.png");
+    static final File TEXT_BACKGROUND_FILE = new File(RESOURCES_PATH + "map/text_case.png");
 
     //Ключевое слово раздела Map
     private static final SectionKey MAP_KEY = SectionKey.MAP;
 
     //минимальное расстояние по горизонтали между блоками изначальной сцены
-    public static double MAP_INITIAL_PANE_MIN_WIDTH_SPACING = 100 / debuggingRatio;
+    private static final double MAP_INITIAL_PANE_MIN_WIDTH_SPACING = 100 / debuggingRatio;
 
     //координаты области в которой должны разместиться
     // первоначальные текстовые блоки для выбора сражения
-    public static double MAP_INITIAL_AREA_X_BEGIN = 800 / debuggingRatio;
-    public static double MAP_INITIAL_AREA_Y_BEGIN = 350 / debuggingRatio;
-    public static double MAP_INITIAL_AREA_X_END = 4000 / debuggingRatio;
-    public static double MAP_INITIAL_AREA_Y_END = 2050 / debuggingRatio;
+    static final double MAP_INITIAL_AREA_X_BEGIN = 800 / debuggingRatio;
+    static final double MAP_INITIAL_AREA_Y_BEGIN = 350 / debuggingRatio;
+    static final double MAP_INITIAL_AREA_X_END = 4000 / debuggingRatio;
+    static final double MAP_INITIAL_AREA_Y_END = 2050 / debuggingRatio;
 
     //Карты:
     //внешний лист - лист сражений;

@@ -8,6 +8,8 @@ import java.io.File;
 import java.net.MalformedURLException;
 
 import static general.RestrictionCoordinates.getNotDetermined;
+import static general.TouchWait.isTimeWaitEnd;
+import static general.TouchWait.setTimeWait;
 
 public class ImageViewController extends ImageView {
 
@@ -147,27 +149,25 @@ public class ImageViewController extends ImageView {
     protected void ivcTouchReleased(final String style) {
 
         this.setOnTouchReleased(event -> {
+            if (isTimeWaitEnd()) {
 
-            this.setLayoutX(this.getLayoutX() + this.getTranslateX());
-            this.setLayoutY(this.getLayoutY() + this.getTranslateY());
-            this.setTranslateX(0);
-            this.setTranslateY(0);
+                this.setLayoutX(this.getLayoutX() + this.getTranslateX());
+                this.setLayoutY(this.getLayoutY() + this.getTranslateY());
+                this.setTranslateX(0);
+                this.setTranslateY(0);
 
-            this.clearRelocationCoordinates();
+                this.clearRelocationCoordinates();
 
 
-            if (style.length() > 0) {
-                this.setStyle(style);
-            }
+                if (style.length() > 0) {
+                    this.setStyle(style);
+                }
 
-            if (flagLocationRestriction) {
-                setLocationRestriction();
-            }
+                if (flagLocationRestriction) {
+                    setLocationRestriction();
+                }
 
-            try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                System.out.println("проблема с установкой задержки в классе ImageViewController при отпускании тача");
+                setTimeWait();
             }
         });
     }

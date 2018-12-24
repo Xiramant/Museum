@@ -13,6 +13,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import static general.TextProcessing.readingFirstStokeFromFile;
+import static general.TouchWait.isTimeWaitEnd;
+import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.debuggingRatio;
 import static table4K.medal.Medal.DESCRIPTION_HEIGHT;
 import static table4K.medal.Medal.DESCRIPTION_WIDTH;
@@ -93,11 +95,9 @@ public class MedalElement extends ImageView {
         });
 
         this.setOnTouchReleased(event -> {
-            medalImageAction(imageFiles, textFiles);
-            try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                System.out.println("проблема с установкой задержки в классе MedalElement при отпускании тача");
+            if (isTimeWaitEnd()) {
+                medalImageAction(imageFiles, textFiles);
+                setTimeWait();
             }
         });
     }

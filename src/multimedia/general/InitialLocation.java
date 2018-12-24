@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Random;
 
 import static general.OrderElements.*;
-import static table.Main.*;
 
 public class InitialLocation {
 
@@ -323,11 +322,6 @@ public class InitialLocation {
                 pane.setLayoutY(topSpace - pane.getPrefHeight());
             }
         }
-    }
-
-    //заглушка для старого стола
-    public static void initialPositionElements(final List<Node> elements, final double widthPlusInterval) {
-        initialPositionElements(TABLE_CENTER_SECTION_WIDTH, TABLE_CENTER_SECTION_HEIGHT, elements, widthPlusInterval);
     }
 
     public static void setRandomPositionInArea(final List<Node> elements,

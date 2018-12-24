@@ -13,6 +13,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import static general.TextProcessing.*;
+import static general.TouchWait.isTimeWaitEnd;
+import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.*;
 import static table4K.Main4K.RESOURCES_PATH;
 
@@ -60,13 +62,16 @@ public class PortfolioCasePane extends ImagePane{
     //лист стрингов для страниц при перелистывании текстового блока
     private ArrayListIndex<String> textBlockStrings;
 
+    private static final String PCP_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 3);";
+    private static final String PHOTO_SHADOW = "-fx-effect: dropshadow(gaussian, black, 2, 0.5, 1, 1);";
+
 
     public PortfolioCasePane(final String fioEnter, final ArrayList<File> imageFilesEnter, final ArrayList<File> textFilesEnter) {
         super(new File(RESOURCES_PATH + "portfolio/portfolio_case.png"), 0, PORTFOLIO_CASE_HEIGHT_MAX);
 
         this.setLayoutX(PORTFOLIO_CASE_X);
         this.setLayoutY(PORTFOLIO_CASE_Y);
-        this.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 3);");
+        this.setStyle(PCP_SHADOW);
 
         //получение текстового блока для ФИО
         Text fioBlock = getTextFIO(fioEnter);
@@ -130,7 +135,7 @@ public class PortfolioCasePane extends ImagePane{
 
         temp.setFitHeight(BIOGRAPHY_PHOTO_HEIGHT_MAX);
         temp.setPreserveRatio(true);
-        temp.setStyle("-fx-effect: dropshadow(gaussian, black, 2, 0.5, 1, 1);");
+        temp.setStyle(PHOTO_SHADOW);
         temp.setLayoutX(BIOGRAPHY_PHOTO_X);
         temp.setLayoutY(BIOGRAPHY_PHOTO_Y);
 
@@ -160,13 +165,9 @@ public class PortfolioCasePane extends ImagePane{
         });
 
         temp.setOnTouchReleased(event -> {
-
+            if (isTimeWaitEnd()) {
                 temp.setText(textBlockStrings.getNextElement());
-
-            try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                System.out.println("проблема с установкой задержки в классе PortfolioCasePane при отпускании тача");
+                setTimeWait();
             }
         });
 

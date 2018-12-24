@@ -9,6 +9,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import static general.TextProcessing.readingFirstStokeFromFileAndSplitIntoWord;
+import static general.TouchWait.isTimeWaitEnd;
+import static general.TouchWait.setTimeWait;
 import static table4K.BackHome.returnHome;
 import static table4K.Main4K.*;
 
@@ -24,7 +26,7 @@ public class PersonalCardPane extends ImagePane {
     private String fio;
 
     //максимальная ширина личной карточки
-    public static final double PERSONAL_CARD_PANE_WIDTH_MAX = 450 / debuggingRatio;
+    private static final double PERSONAL_CARD_PANE_WIDTH_MAX = 450 / debuggingRatio;
 
     //максимальная высота личной карточки
     public static final double PERSONAL_CARD_PANE_HEIGHT_MAX = 278 / debuggingRatio;
@@ -49,6 +51,9 @@ public class PersonalCardPane extends ImagePane {
     private static final double PERSONAL_CARD_PANE_YEAR_X = 291 / debuggingRatio;
     private static final double PERSONAL_CARD_PANE_YEAR_Y = 178 / debuggingRatio;
 
+    //тень
+    private static final String PERSONAL_CARD_PANE_SHADOW_STILL = "-fx-effect: dropshadow(gaussian, black, 5, 0.3, -0.5, 1);";
+
 
     public PersonalCardPane(final ArrayList<File> imageFilesEnter, final ArrayList<File> textFilesEnter) {
         super(new File(RESOURCES_PATH + "portfolio/personal_card.png"), PERSONAL_CARD_PANE_WIDTH_MAX, 0);
@@ -59,7 +64,7 @@ public class PersonalCardPane extends ImagePane {
         ImagePane photo = new ImagePane(imageFiles.get(0), PERSONAL_CARD_PANE_PHOTO_WIDTH_MAX, 0);
         photo.setLayoutX(PERSONAL_CARD_PANE_PHOTO_X);
         photo.setLayoutY(PERSONAL_CARD_PANE_PHOTO_Y);
-        photo.setStyle("-fx-effect: dropshadow(gaussian, black, 5, 0.3, -0.5, 1);");
+        photo.setStyle(PERSONAL_CARD_PANE_SHADOW_STILL);
 
         ArrayList<String> personalInfo = new ArrayList<>(readingFirstStokeFromFileAndSplitIntoWord(textFiles.get(0)));
 
@@ -100,11 +105,9 @@ public class PersonalCardPane extends ImagePane {
         });
 
         this.setOnTouchReleased(event -> {
-            personalCardAction();
-            try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                System.out.println("проблема с установкой задержки в классе PortfolioSlider при отпускании тача");
+            if (isTimeWaitEnd()) {
+                personalCardAction();
+                setTimeWait();
             }
         });
     }

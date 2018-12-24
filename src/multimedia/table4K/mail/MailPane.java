@@ -10,6 +10,9 @@ import static table4K.mail.Mail.*;
 
 public class MailPane extends ImagePaneIteration {
 
+    private static final String SHADOW_NORMAL = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);";
+    private static final String SHADOW_DRAG_AND_DROP = "-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);";
+
     public MailPane (final ArrayList<File> imageFilesEnter, final double wMax, final double hMax) {
         super(imageFilesEnter, wMax, hMax);
 
@@ -21,7 +24,7 @@ public class MailPane extends ImagePaneIteration {
         this.ipiMouseClicked();
         this.ipiTouch();
 
-        this.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);");
+        this.setStyle(SHADOW_NORMAL);
 
         setCenterPaneFlag(true);
     }
@@ -29,15 +32,15 @@ public class MailPane extends ImagePaneIteration {
     @Override
     public void ipiMouseDragAndDrop() {
         super.mousePressed();
-        super.mouseDragged("-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);");
-        super.mouseReleased("-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);");
+        super.mouseDragged(SHADOW_DRAG_AND_DROP);
+        super.mouseReleased(SHADOW_NORMAL);
     }
 
     @Override
     public void ipiTouch() {
         super.TouchPressed();
-        super.TouchMoved("-fx-effect: dropshadow(gaussian, black, 50, 0, -10, 10);");
-        super.TouchReleased("-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);");
+        super.TouchMoved(SHADOW_DRAG_AND_DROP);
+        super.TouchReleased(SHADOW_NORMAL);
     }
 
 }

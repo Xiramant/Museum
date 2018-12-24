@@ -12,6 +12,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import static general.TextProcessing.readingFileIntoString;
+import static general.TouchWait.isTimeWaitEnd;
+import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.TABLE_HEIGHT;
 import static table4K.Main4K.TABLE_WIDTH;
 import static table4K.Main4K.debuggingRatio;
@@ -20,30 +22,34 @@ import static table4K.map.Map.*;
 public class MapPaneText extends ImagePane {
 
     //максимальная ширина панели текстового блока для раздела Карты
-    public static double МAP_PANE_TEXT_WIDTH_MAX = 640 / debuggingRatio;
+    private static final double МAP_PANE_TEXT_WIDTH_MAX = 640 / debuggingRatio;
 
-    public static double МAP_PANE_TEXT_BOTTOM_INSET = 100 / debuggingRatio;
+    private static final double МAP_PANE_TEXT_BOTTOM_INSET = 100 / debuggingRatio;
 
     //высота текстового блока
-    public static double МAP_PANE_TEXT_HEIGHT_TEXT_BLOCK = 620 / debuggingRatio;
+    private static final double МAP_PANE_TEXT_HEIGHT_TEXT_BLOCK = 620 / debuggingRatio;
 
     //отступ сверху для текстового блока
-    public static double МAP_PANE_TEXT_TOP_PADDING_TEXT_BLOCK = 160 / debuggingRatio;
+    private static final double МAP_PANE_TEXT_TOP_PADDING_TEXT_BLOCK = 160 / debuggingRatio;
 
     //отступ сверху для блока количество страниц
-    public static double МAP_PANE_TEXT_TOP_PADDING_PAGE_NUMBER = 800 / debuggingRatio;
+    private static final double МAP_PANE_TEXT_TOP_PADDING_PAGE_NUMBER = 800 / debuggingRatio;
 
     //размер шрифта текстового блока
-    public static double МAP_PANE_TEXT_FONT_SIZE_TEXT_BLOCK = 28 / debuggingRatio;
+    private static final double МAP_PANE_TEXT_FONT_SIZE_TEXT_BLOCK = 28 / debuggingRatio;
 
     //размер шрифта блока количество страниц
-    public static double МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER = 20 / debuggingRatio;
+    static final double МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER = 20 / debuggingRatio;
 
     //шрифт текстового блока
-    private Font МAP_PANE_TEXT_FONT_TEXT_BLOCK = new Font("Book Antiqua Bold Italic", МAP_PANE_TEXT_FONT_SIZE_TEXT_BLOCK);
+    private final Font МAP_PANE_TEXT_FONT_TEXT_BLOCK = new Font("Book Antiqua Bold Italic", МAP_PANE_TEXT_FONT_SIZE_TEXT_BLOCK);
 
     //шрифт блока количество страниц
-    private Font МAP_PANE_TEXT_FONT_PAGE_NUMBER = new Font("Book Antiqua Bold Italic", МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER);
+    private final Font МAP_PANE_TEXT_FONT_PAGE_NUMBER = new Font("Book Antiqua Bold Italic", МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER);
+
+    //тень
+    private static final String MAP_PANE_TEXT_SHADOW_NORMAL = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 3);";
+    private static final String MAP_PANE_TEXT_SHADOW_DRAG_AND_DROP = "-fx-effect: dropshadow(gaussian, black, 50, 0, 0, 10);";
 
     //отображаемый текстовый блок
     private Text displayText = new Text();
@@ -65,8 +71,8 @@ public class MapPaneText extends ImagePane {
         this.setLayoutX(TABLE_WIDTH - this.getPrefWidth());
         this.setLayoutY(TABLE_HEIGHT - this.getPrefHeight() - МAP_PANE_TEXT_BOTTOM_INSET);
 
-        for (int i = 0; i < textFiles.size(); i++) {
-            mapTextString.add(readingFileIntoString(textFiles.get(i)));
+        for (File temp: textFiles) {
+            mapTextString.add(readingFileIntoString(temp));
         }
 
         setDisplayText(0);
@@ -74,7 +80,7 @@ public class MapPaneText extends ImagePane {
         mouseAction();
         touchAction();
 
-        this.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 3);");
+        this.setStyle(MAP_PANE_TEXT_SHADOW_NORMAL);
 
         this.getChildren().addAll(displayText, caseCountPageText);
     }
@@ -161,9 +167,7 @@ public class MapPaneText extends ImagePane {
             this.getRelocationCoordinates().setYDelta(mouseEvent.getSceneY() - this.getRelocationCoordinates().getYBegin());
             this.setTranslateY(this.getRelocationCoordinates().getYDelta());
 
-            this.setStyle(
-                    "-fx-effect: dropshadow(gaussian, black, 50, 0, 0, 10);"
-            );
+            this.setStyle(MAP_PANE_TEXT_SHADOW_DRAG_AND_DROP);
         });
 
         this.setOnMouseReleased(mouseEvent -> {
@@ -182,9 +186,7 @@ public class MapPaneText extends ImagePane {
 
             setLocationRestriction();
 
-            this.setStyle(
-                    "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 3);"
-            );
+            this.setStyle(MAP_PANE_TEXT_SHADOW_NORMAL);
         });
 
         //действия при клике мышкой
@@ -232,51 +234,44 @@ public class MapPaneText extends ImagePane {
             this.getRelocationCoordinates().setYDelta(touchEvent.getTouchPoint().getSceneY() - this.getRelocationCoordinates().getYBegin());
             this.setTranslateY(this.getRelocationCoordinates().getYDelta());
 
-            this.setStyle(
-                    "-fx-effect: dropshadow(gaussian, black, 50, 0, 0, 10);"
-            );
+            this.setStyle(MAP_PANE_TEXT_SHADOW_DRAG_AND_DROP);
         });
 
         this.setOnTouchReleased(touchEvent -> {
+            if (isTimeWaitEnd()) {
 
-            if (Math.abs(this.getRelocationCoordinates().getXDelta()) +
-                    Math.abs(this.getRelocationCoordinates().getYDelta()) > 10d) {
-                isDragAndDrop = true;
-            } else {
-                //исключение перемещения панели,
-                // если она смещена меньше, чем на 10 пикселей
-                // из-за плохой работы тачпанели на мультимедиа столе
+                if (Math.abs(this.getRelocationCoordinates().getXDelta()) +
+                        Math.abs(this.getRelocationCoordinates().getYDelta()) > 10d) {
+                    isDragAndDrop = true;
+                } else {
+                    //исключение перемещения панели,
+                    // если она смещена меньше, чем на 10 пикселей
+                    // из-за плохой работы тачпанели на мультимедиа столе
+                    this.setTranslateX(0);
+                    this.setTranslateY(0);
+                }
+
+                this.setLayoutX(this.getLayoutX() + this.getTranslateX());
+                this.setLayoutY(this.getLayoutY() + this.getTranslateY());
                 this.setTranslateX(0);
                 this.setTranslateY(0);
-            }
 
-            this.setLayoutX(this.getLayoutX() + this.getTranslateX());
-            this.setLayoutY(this.getLayoutY() + this.getTranslateY());
-            this.setTranslateX(0);
-            this.setTranslateY(0);
+                this.clearRelocationCoordinates();
 
-            this.clearRelocationCoordinates();
+                setLocationRestriction();
 
-            setLocationRestriction();
+                //перелистывание страниц письма вперед,
+                // если оно не перемещалось
+                if (!isDragAndDrop) {
+                    this.setNextTextBlock();
+                }
+                isDragAndDrop = false;
 
-            //перелистывание страниц письма вперед,
-            // если оно не перемещалось
-            if (!isDragAndDrop) {
-                this.setNextTextBlock();
-            }
-            isDragAndDrop = false;
+                this.setStyle(MAP_PANE_TEXT_SHADOW_NORMAL);
 
-            this.setStyle(
-                    "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 3);"
-            );
-
-            try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                System.out.println("проблема с установкой задержки в классе MapPaneText при отпускании тача");
+                setTimeWait();
             }
         });
-        
     }
 
     //ограничение на перемещение планшета

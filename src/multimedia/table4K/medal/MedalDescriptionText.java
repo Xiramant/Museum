@@ -11,6 +11,8 @@ import javafx.scene.text.Text;
 import java.io.File;
 
 import static general.TextProcessing.readingFileIntoString;
+import static general.TouchWait.isTimeWaitEnd;
+import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.*;
 import static table4K.medal.Medal.DESCRIPTION_HEIGHT;
 import static table4K.medal.Medal.DESCRIPTION_WIDTH;
@@ -220,43 +222,40 @@ public class MedalDescriptionText extends ImagePane {
         });
 
         this.setOnTouchReleased(touchEvent -> {
+            if (isTimeWaitEnd()) {
 
-            if (Math.abs(this.getRelocationCoordinates().getXDelta()) +
-                    Math.abs(this.getRelocationCoordinates().getYDelta()) > 10d) {
-                isDragAndDrop = true;
-            } else {
-                //исключение перемещения панели,
-                // если она смещена меньше, чем на 10 пикселей
-                // из-за плохой работы тачпанели на мультимедиа столе
+                if (Math.abs(this.getRelocationCoordinates().getXDelta()) +
+                        Math.abs(this.getRelocationCoordinates().getYDelta()) > 10d) {
+                    isDragAndDrop = true;
+                } else {
+                    //исключение перемещения панели,
+                    // если она смещена меньше, чем на 10 пикселей
+                    // из-за плохой работы тачпанели на мультимедиа столе
+                    this.setTranslateX(0);
+                    this.setTranslateY(0);
+                }
+
+                this.setLayoutX(this.getLayoutX() + this.getTranslateX());
+                this.setLayoutY(this.getLayoutY() + this.getTranslateY());
                 this.setTranslateX(0);
                 this.setTranslateY(0);
-            }
 
-            this.setLayoutX(this.getLayoutX() + this.getTranslateX());
-            this.setLayoutY(this.getLayoutY() + this.getTranslateY());
-            this.setTranslateX(0);
-            this.setTranslateY(0);
+                this.clearRelocationCoordinates();
 
-            this.clearRelocationCoordinates();
+                setLocationRestriction();
 
-            setLocationRestriction();
+                //перелистывание страниц письма вперед,
+                // если оно не перемещалось
+                if (!isDragAndDrop) {
+                    this.setNextTextBlock();
+                }
+                isDragAndDrop = false;
 
-            //перелистывание страниц письма вперед,
-            // если оно не перемещалось
-            if (!isDragAndDrop) {
-                this.setNextTextBlock();
-            }
-            isDragAndDrop = false;
+                this.setStyle(SHADOW_STILL);
 
-            this.setStyle(SHADOW_STILL);
-
-            try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                System.out.println("проблема с установкой задержки в классе MedalDescriptionText при отпускании тача");
+                    setTimeWait();
             }
         });
-
     }
 
     //ограничение на перемещение планшета

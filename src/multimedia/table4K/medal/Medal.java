@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import static general.FileProcessing.*;
 import static general.SectionKey.*;
+import static general.TouchWait.isTimeWaitEnd;
+import static general.TouchWait.setTimeWait;
 import static table4K.BackHome.returnHome;
 import static table4K.Main4K.*;
 import static table4K.medal.MedalElement.MEDAL_SLIDER_IMAGE_HEIGHT_MAX;
@@ -138,10 +140,14 @@ public class Medal {
         });
 
         selectPane.setOnTouchReleased(event -> {
-            if (selectPane.getLayoutY() == SELECT_ORDEN_Y) {
-                setOrdenScene(ORDEN);
-            } else {
-                setOrdenScene(MEDAL);
+            if (isTimeWaitEnd()) {
+                if (selectPane.getLayoutY() == SELECT_ORDEN_Y) {
+                    setOrdenScene(ORDEN);
+                } else {
+                    setOrdenScene(MEDAL);
+                }
+
+                setTimeWait();
             }
         });
     }

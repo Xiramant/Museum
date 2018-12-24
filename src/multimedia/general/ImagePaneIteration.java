@@ -6,6 +6,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import static general.RestrictionCoordinates.getNotDetermined;
+import static general.TouchWait.isTimeWaitEnd;
+import static general.TouchWait.setTimeWait;
 
 public class ImagePaneIteration extends ImagePane {
 
@@ -236,44 +238,42 @@ public class ImagePaneIteration extends ImagePane {
     public void TouchReleased(final String style) {
 
         this.setOnTouchReleased(event -> {
+            if (isTimeWaitEnd()) {
 
-            if (Math.abs(this.getRelocationCoordinates().getXDelta()) +
-                    Math.abs(this.getRelocationCoordinates().getYDelta()) > 10d) {
-                isDragAndDrop = true;
-            } else {
-                //исключение перемещения панели,
-                // если она смещена меньше, чем на 10 пикселей
-                // из-за плохой работы тачпанели на мультимедиа столе
+                if (Math.abs(this.getRelocationCoordinates().getXDelta()) +
+                        Math.abs(this.getRelocationCoordinates().getYDelta()) > 10d) {
+                    isDragAndDrop = true;
+                } else {
+                    //исключение перемещения панели,
+                    // если она смещена меньше, чем на 10 пикселей
+                    // из-за плохой работы тачпанели на мультимедиа столе
+                    this.setTranslateX(0);
+                    this.setTranslateY(0);
+                }
+
+                this.setLayoutX(this.getLayoutX() + this.getTranslateX());
+                this.setLayoutY(this.getLayoutY() + this.getTranslateY());
                 this.setTranslateX(0);
                 this.setTranslateY(0);
-            }
 
-            this.setLayoutX(this.getLayoutX() + this.getTranslateX());
-            this.setLayoutY(this.getLayoutY() + this.getTranslateY());
-            this.setTranslateX(0);
-            this.setTranslateY(0);
+                this.clearRelocationCoordinates();
 
-            this.clearRelocationCoordinates();
+                //перелистывание страниц письма вперед,
+                // если оно не перемещалось
+                if (!isDragAndDrop) {
+                    this.setNextImageBackground();
+                }
+                isDragAndDrop = false;
 
-            //перелистывание страниц письма вперед,
-            // если оно не перемещалось
-            if (!isDragAndDrop) {
-                this.setNextImageBackground();
-            }
-            isDragAndDrop = false;
+                if (style.length() > 0) {
+                    this.setStyle(style);
+                }
 
-            if (style.length() > 0) {
-                this.setStyle(style);
-            }
+                if (locationRestrictionFlag) {
+                    setLocationRestriction();
+                }
 
-            if (locationRestrictionFlag) {
-                setLocationRestriction();
-            }
-
-            try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                System.out.println("проблема с установкой задержки в классе ImagePantIteration при отпускании тача");
+                setTimeWait();
             }
         });
     }
@@ -282,40 +282,6 @@ public class ImagePaneIteration extends ImagePane {
         TouchReleased("");
     }
 
-
-    //!!! На тачстоле свайпы похоже не работают
-    //Метод обработки действий по тач свайпам
-//    public void ipiTouchSwipe() {
-//
-//        //перелистывание страниц письма
-//        this.setOnSwipeLeft(event -> {
-//            if (!isDragAndDrop) {
-//                this.setNextImageBackground();
-//            }
-//            isDragAndDrop = false;
-//        });
-//
-//        this.setOnSwipeRight(event -> {
-//            if (!isDragAndDrop) {
-//                this.setPrevImageBackground();
-//            }
-//            isDragAndDrop = false;
-//        });
-//
-//        this.setOnSwipeUp(event -> {
-//            if (!isDragAndDrop) {
-//                this.setFirstImageBackground();
-//            }
-//            isDragAndDrop = false;
-//        });
-//
-//        this.setOnSwipeDown(event -> {
-//            if (!isDragAndDrop) {
-//                this.setLastImageBackground();
-//            }
-//            isDragAndDrop = false;
-//        });
-//    }
 
     //метод установки значений ширины и высоты предыдущей панели
     // (при изменении фона панели)
@@ -375,7 +341,5 @@ public class ImagePaneIteration extends ImagePane {
             }
         }
     }
-
-
 
 }

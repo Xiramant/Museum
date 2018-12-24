@@ -9,6 +9,8 @@ import javafx.scene.text.TextAlignment;
 import java.io.File;
 import java.util.ArrayList;
 
+import static general.TouchWait.isTimeWaitEnd;
+import static general.TouchWait.setTimeWait;
 import static table4K.BackHome.returnHome;
 import static table4K.Main4K.*;
 import static table4K.map.Map.*;
@@ -23,17 +25,21 @@ public class MapPaneInitial extends ImagePane{
 
     //максимальная ширина текстового блока
     // для начальной сцены
-    public static double MAP_INITIAL_PANE_WIDTH_MAX = 530 / debuggingRatio;
+    private static final double MAP_INITIAL_PANE_WIDTH_MAX = 530 / debuggingRatio;
 
     //отступ текстового блока от верха
-    public static double MAP_INITIAL_TEXT_TOP_PADDING = 350 / debuggingRatio;
+    private static final double MAP_INITIAL_TEXT_TOP_PADDING = 350 / debuggingRatio;
 
     //размер шрифта для текстового блока начальной сцены раздела Карты
-    public static double MAP_INITIAL_TEXT_FONT = 50 / debuggingRatio;
+    private static final double MAP_INITIAL_TEXT_FONT = 50 / debuggingRatio;
 
     //шрифт текстового блока
     //!!! не делать static иначе размер шрифта не изменяется
     private Font TEXT_FONT = new Font("Book Antiqua Bold Italic", MAP_INITIAL_TEXT_FONT);
+
+    private static final String MAP_PANE_INITIAL_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.4, 0, 3);";
+
+    private static final double MAP_PANE_INITIAL_TEXT_WIDTH_PERCENTAGE = 0.8;
 
 
     public MapPaneInitial(final String operationName, ArrayList<File> mapImageFiles, ArrayList<File> mapTextFiles) {
@@ -46,15 +52,15 @@ public class MapPaneInitial extends ImagePane{
         Text textOperationName = new Text(operationName);
 
         textOperationName.setFont(TEXT_FONT);
-        textOperationName.setWrappingWidth(this.getPrefWidth() * 0.8);
-        textOperationName.setX(this.getPrefWidth() * 0.1);
+        textOperationName.setWrappingWidth(this.getPrefWidth() * MAP_PANE_INITIAL_TEXT_WIDTH_PERCENTAGE);
+        textOperationName.setX((this.getPrefWidth() - textOperationName.getWrappingWidth()) / 2);
         textOperationName.setTextAlignment(TextAlignment.CENTER);
         textOperationName.setY(MAP_INITIAL_TEXT_TOP_PADDING);
         textOperationName.setTextOrigin(VPos.CENTER);
 
         this.getChildren().add(textOperationName);
 
-        this.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.4, 0, 3);");
+        this.setStyle(MAP_PANE_INITIAL_SHADOW);
 
         mapPaneInitialEvent();
     }
@@ -65,12 +71,9 @@ public class MapPaneInitial extends ImagePane{
         this.setOnMouseClicked(event -> action());
 
         this.setOnTouchPressed(event -> {
-            action();
-
-            try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                System.out.println("проблема с установкой задержки в классе MapPaneInitial при отпускании тача");
+            if (isTimeWaitEnd()) {
+                action();
+                setTimeWait();
             }
         });
     }

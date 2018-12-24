@@ -37,7 +37,7 @@ public class Portfolio {
     private static final double PORTFOLIO_PCP_AREA_Y_END = 1850 / debuggingRatio;
 
     //Параметры тени для карточек героев Советского союза
-    private static final String pcpShadow = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 3);";
+    private static final String PCP_SHADOW_STILL = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 3);";
 
 
     public static void setPortfolioScene() {
@@ -54,7 +54,7 @@ public class Portfolio {
 
         for (int i = 0; i < heroImageFiles.size(); i++) {
             PersonalCardPane temp = new PersonalCardPane(heroImageFiles.get(i), heroTextFiles.get(i));
-            temp.setStyle(pcpShadow);
+            temp.setStyle(PCP_SHADOW_STILL);
             mainPane.getChildren().add(temp);
         }
 

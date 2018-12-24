@@ -323,6 +323,23 @@ public class Quiz {
         resultSB.append(" возможных.");
 
         resultSB.append("\n");
+        resultSB.append("Знания соответствуют уровню: ");
+
+        double level = (double)player.getReceivePoints() / (double)player.getMaxPoints();
+
+        if (level < 0.3) {
+            resultSB.append("НАЧИНАЮЩИЙ.");
+        } else if (level < 0.6) {
+            resultSB.append("ЛЮБИТЕЛЬ.");
+        } else if (level < 0.8) {
+            resultSB.append("СПЕЦИАЛИСТ.");
+        } else if (level < 0.95) {
+            resultSB.append("ПРОФЕССИОНАЛ.");
+        } else {
+            resultSB.append("ЭКСПЕРТ.");
+        }
+
+        resultSB.append("\n");
         resultSB.append("\n");
 
         resultSB.append("Чтобы начать игру заново, нажмите кнопку перехода (нижняя правая кнопка).");

@@ -25,13 +25,18 @@ public class PortfolioCasePhoto extends ImageViewController{
     //отступ сверху до фотографии в раскрытом личном деле
     private final double PORTFOLIO_PHOTO_Y = 86 / debuggingRatio;
 
+    //тени для неподвижной/перемещаемой панели
+    private static final String SHADOW_STILL = "-fx-effect: dropshadow(gaussian, black, 6, 0.3, -1, 1);";
+    private static final String SHADOW_MOVED = "-fx-effect: dropshadow(gaussian, black, 40, 0, -10, 10);";
+
+
     public PortfolioCasePhoto(final File imageFile) {
         super(imageFile);
 
         this.setFitWidth(PORTFOLIO_PHOTO_WIDTH_MAX);
         this.setFitHeight(PORTFOLIO_PHOTO_HEIGHT_MAX);
         this.setPreserveRatio(true);
-        this.setStyle("-fx-effect: dropshadow(gaussian, black, 6, 0.3, -1, 1);");
+        this.setStyle(SHADOW_STILL);
 
         //если разница между максимальным и реальным размерами фото больше единицы,
         // то положение устанавливается рандомно в заданных пределах
@@ -59,15 +64,15 @@ public class PortfolioCasePhoto extends ImageViewController{
     @Override
     public void ivcMouseDragAndDrop() {
         super.ivcMousePressed();
-        super.ivcMouseDragged("-fx-effect: dropshadow(gaussian, black, 40, 0, -10, 10);");
-        super.ivcMouseReleased("-fx-effect: dropshadow(gaussian, black, 6, 0.3, -1, 1);");
+        super.ivcMouseDragged(SHADOW_MOVED);
+        super.ivcMouseReleased(SHADOW_STILL);
     }
 
     @Override
     public void ivcTouchDragAndDrop() {
         super.ivcTouchPressed();
-        super.ivcTouchMoved("-fx-effect: dropshadow(gaussian, black, 40, 0, -10, 10);");
-        super.ivcTouchReleased("-fx-effect: dropshadow(gaussian, black, 6, 0.3, -1, 1);");
+        super.ivcTouchMoved(SHADOW_MOVED);
+        super.ivcTouchReleased(SHADOW_STILL);
     }
 
 }

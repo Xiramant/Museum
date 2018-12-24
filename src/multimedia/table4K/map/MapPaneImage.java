@@ -11,47 +11,52 @@ import javafx.scene.text.TextAlignment;
 import java.io.File;
 import java.util.ArrayList;
 
+import static general.TouchWait.isTimeWaitEnd;
+import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.RESOURCES_PATH;
 import static table4K.Main4K.debuggingRatio;
 import static table4K.Main4K.mainPane;
 import static table4K.map.Map.*;
 import static table4K.map.MapPaneText.МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER;
-import static table4K.map.MapPaneText.МAP_PANE_TEXT_TOP_PADDING_PAGE_NUMBER;
+
 
 public class MapPaneImage extends ImagePaneIteration {
 
     //максимальная ширина карты
-    public static double МAP_PANE_IMAGE_WIDTH_MAX = MAP_INITIAL_AREA_X_END - MAP_INITIAL_AREA_X_BEGIN;
+    private static final double МAP_PANE_IMAGE_WIDTH_MAX = MAP_INITIAL_AREA_X_END - MAP_INITIAL_AREA_X_BEGIN;
 
     //максимальная высота карты
-    public static double МAP_PANE_IMAGE_HEIGHT_MAX = MAP_INITIAL_AREA_Y_END - MAP_INITIAL_AREA_Y_BEGIN;
+    private static final double МAP_PANE_IMAGE_HEIGHT_MAX = MAP_INITIAL_AREA_Y_END - MAP_INITIAL_AREA_Y_BEGIN;
 
     //файл фона для количества страниц (карт)
-    public static final File MAP_PAGE_BACKGROUND_FILE = new File(RESOURCES_PATH + "map/map_page_background.jpg");
+    private static final File MAP_PAGE_BACKGROUND_FILE = new File(RESOURCES_PATH + "map/map_page_background.jpg");
 
     //максимальная ширина фона для количества страниц (карт)
-    public static double MAP_PAGE_BACKGROUND_WIDTH_MAX = 140 / debuggingRatio;
+    private static final double MAP_PAGE_BACKGROUND_WIDTH_MAX = 140 / debuggingRatio;
 
     //максимальная высота фона для количества страниц (карт)
-    public static double MAP_PAGE_BACKGROUND_HEIGHT_MAX = 30 / debuggingRatio;
+    private static final double MAP_PAGE_BACKGROUND_HEIGHT_MAX = 30 / debuggingRatio;
 
     //отступ слева для фона количества страниц (карт)
-    public static double MAP_PAGE_BACKGROUND_X = 16 / debuggingRatio;
+    private static final double MAP_PAGE_BACKGROUND_X = 16 / debuggingRatio;
 
     //отступ сверху для фона количества страниц (карт)
-    public static double MAP_PAGE_BACKGROUND_Y = 10 / debuggingRatio;
+    private static final double MAP_PAGE_BACKGROUND_Y = 10 / debuggingRatio;
 
     //отображение текста количества страниц
     private Text mapCountPageText = new Text();
 
     //отступ сверху для блока количество карт
-    public static double MAP_PAGE_TOP_PADDING = 14 / debuggingRatio;
+    private static final double MAP_PAGE_TOP_PADDING = 14 / debuggingRatio;
 
     //отступ слева для блока количество карт
-    public static double MAP_PAGE_LEFT_PADDING = 24 / debuggingRatio;
+    private static final double MAP_PAGE_LEFT_PADDING = 24 / debuggingRatio;
 
     //шрифт блока количество страниц
-    private Font МAP_PANE_IMAGE_FONT_PAGE_NUMBER = new Font("Book Antiqua Bold Italic", МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER);
+    private static final Font МAP_PANE_IMAGE_FONT_PAGE_NUMBER = new Font("Book Antiqua Bold Italic", МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER);
+
+    //тень
+    private static final String MAP_PANE_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 2);";
 
 
     public MapPaneImage(final ArrayList<File> imageFilesEnter) {
@@ -62,7 +67,7 @@ public class MapPaneImage extends ImagePaneIteration {
 
         mpiScale();
 
-        this.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 2);");
+        this.setStyle(MAP_PANE_SHADOW);
 
         this.ipiMouseClicked();
         this.TouchReleased();
@@ -128,25 +133,23 @@ public class MapPaneImage extends ImagePaneIteration {
     public void TouchReleased(final String style) {
 
         this.setOnTouchReleased(event -> {
+            if (isTimeWaitEnd()) {
 
-            int prevIndex = this.getCurrentBackgroundIndex();
+                int prevIndex = this.getCurrentBackgroundIndex();
 
-            //перелистывание страниц письма вперед,
-            this.setNextImageBackground();
+                //перелистывание страниц письма вперед,
+                this.setNextImageBackground();
 
-            mpiScale();
+                mpiScale();
 
-            setMapCountPageText();
+                setMapCountPageText();
 
-            //если карта сменилась, то смена текста в текстовой панели
-            if (prevIndex != this.getCurrentBackgroundIndex()) {
-                ((MapPaneText)mainPane.getChildren().get(1)).setDisplayText(this.getCurrentBackgroundIndex());
-            }
+                //если карта сменилась, то смена текста в текстовой панели
+                if (prevIndex != this.getCurrentBackgroundIndex()) {
+                    ((MapPaneText)mainPane.getChildren().get(1)).setDisplayText(this.getCurrentBackgroundIndex());
+                }
 
-            try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                System.out.println("проблема с установкой задержки в классе MapPaneImage при отпускании тача");
+                setTimeWait();
             }
         });
     }

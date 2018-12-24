@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import static general.SectionKey.*;
+import static general.TouchWait.isTimeWaitEnd;
+import static general.TouchWait.setTimeWait;
 import static javafx.scene.layout.BackgroundPosition.DEFAULT;
 import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
 import static table4K.film.Film.setFilmScene;
@@ -151,7 +153,12 @@ public class Main4K extends Application{
         map.setStyle(MAP_SHADOW);
 
         map.setOnMouseClicked(event -> setMapScene());
-        map.setOnTouchReleased(event -> setMapScene());
+        map.setOnTouchReleased(event -> {
+            if (isTimeWaitEnd()) {
+                setMapScene();
+                setTimeWait();
+            }
+        });
 
         ImageView mail = new ImageView(new Image(MAIL_URL));
         mail.setPreserveRatio(true);
@@ -161,7 +168,12 @@ public class Main4K extends Application{
         mail.setStyle(MAIL_SHADOW);
 
         mail.setOnMouseClicked(event -> setMailScene());
-        mail.setOnTouchReleased(event -> setMailScene());
+        mail.setOnTouchReleased(event -> {
+            if (isTimeWaitEnd()) {
+                setMailScene();
+                setTimeWait();
+            }
+        });
 
         ImageView portfolio = new ImageView(new Image(PORTFOLIO_URL));
         portfolio.setPreserveRatio(true);
@@ -171,7 +183,12 @@ public class Main4K extends Application{
         portfolio.setStyle(PORTFOLIO_SHADOW);
 
         portfolio.setOnMouseClicked(event -> setPortfolioScene());
-        portfolio.setOnTouchReleased(event -> setPortfolioScene());
+        portfolio.setOnTouchReleased(event -> {
+            if (isTimeWaitEnd()) {
+                setPortfolioScene();
+                setTimeWait();
+            }
+        });
 
         ImageView medal = new ImageView(new Image(MEDAL_URL));
         medal.setPreserveRatio(true);
@@ -181,7 +198,12 @@ public class Main4K extends Application{
         medal.setStyle(MEDAL_SHADOW);
 
         medal.setOnMouseClicked(event -> setOrdenScene(ORDEN));
-        medal.setOnTouchReleased(event -> setOrdenScene(ORDEN));
+        medal.setOnTouchReleased(event -> {
+            if (isTimeWaitEnd()) {
+                setOrdenScene(ORDEN);
+                setTimeWait();
+            }
+        });
 
         ImageView book = new ImageView(new Image(BOOK_URL));
         book.setPreserveRatio(true);
@@ -191,7 +213,12 @@ public class Main4K extends Application{
         book.setStyle(BOOK_SHADOW);
 
         book.setOnMouseClicked(event -> setBookScene());
-        book.setOnTouchReleased(event -> setBookScene());
+        book.setOnTouchReleased(event -> {
+            if (isTimeWaitEnd()) {
+                setBookScene();
+                setTimeWait();
+            }
+        });
 
         ImageView film1 = new ImageView(new Image(FILM1_URL));
         film1.setFitWidth(FILM1_ICON_WIDTH);
@@ -208,7 +235,12 @@ public class Main4K extends Application{
         film.setLayoutY(FILM_ICON_Y);
 
         film.setOnMouseClicked(event -> setFilmScene());
-        film.setOnTouchReleased(event -> setFilmScene());
+        film.setOnTouchReleased(event -> {
+            if (isTimeWaitEnd()) {
+                setFilmScene();
+                setTimeWait();
+            }
+        });
 
         ImageView quiz = new ImageView(new Image(QUIZ_URL));
         quiz.setPreserveRatio(true);
@@ -218,7 +250,12 @@ public class Main4K extends Application{
         quiz.setStyle(QUIZ_SHADOW);
 
         quiz.setOnMouseClicked(event -> setQuizScene());
-        quiz.setOnTouchReleased(event -> setQuizScene());
+        quiz.setOnTouchReleased(event -> {
+            if (isTimeWaitEnd()) {
+                setQuizScene();
+                setTimeWait();
+            }
+        });
 
 
         mainPane.getChildren().addAll(map, mail, portfolio, medal, book, film, quiz);
