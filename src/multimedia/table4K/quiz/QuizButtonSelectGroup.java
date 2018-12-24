@@ -1,6 +1,7 @@
 package table4K.quiz;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,9 +46,7 @@ public class QuizButtonSelectGroup extends Group {
 
             temp.setOnTouchReleased(event -> {
                 if (isTimeWaitEnd()) {
-
                     buttonGroupAction(temp);
-
                     setTimeWait();
                 }
             });
@@ -55,14 +54,14 @@ public class QuizButtonSelectGroup extends Group {
     }
 
     //задание реакции отдельной кнопки, входящей в группу, на действие
-    private void buttonGroupAction(final QuizButtonSelect buttonCurent) {
+    private void buttonGroupAction(final QuizButtonSelect buttonCurrent) {
 
         if (!isFlagTest()) {
 
-            buttonCurent.setOnPushInvert();
+            buttonCurrent.setOnPushInvert();
 
-            if (buttonCurent.isOnPush()) {
-                setNonPush(buttonCurent);
+            if (buttonCurrent.isOnPush()) {
+                setNonPush(buttonCurrent);
             }
         }
     }

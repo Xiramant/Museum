@@ -3,7 +3,7 @@ package general;
 import java.io.File;
 import java.util.ArrayList;
 
-import static table.Main.RESOURCES_PATH;
+import static table4K.Main4K.RESOURCES_PATH;
 
 public class FileProcessing {
 

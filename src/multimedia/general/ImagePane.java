@@ -8,10 +8,9 @@ import javafx.scene.layout.Pane;
 
 import java.io.File;
 
-import static table.Main.RESOURCES_PATH;
 import static javafx.scene.layout.BackgroundPosition.CENTER;
 import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
-import static table.Main.*;
+import static table4K.Main4K.*;
 
 public class ImagePane extends Pane {
 

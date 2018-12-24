@@ -25,14 +25,13 @@ public class QuizButtonNext extends QuizButton {
 
         this.setOnTouchReleased(event -> {
             if (isTimeWaitEnd()) {
-
                 quizButtonNextAction();
-
                 setTimeWait();
             }
         });
     }
 
+    //действия при нажатии на кнопку Следующий
     private void quizButtonNextAction() {
 
         if (test.getGroup().isOnPush()) {
@@ -43,8 +42,11 @@ public class QuizButtonNext extends QuizButton {
                 test.buttonTestAction();
             }
 
+            //установить кнопку Медиа в ненажатое состояние
             media.setQuizButtonMediaNonPush();
 
+            //вывод на экран следующего вопроса или результата викторины,
+            // если достигнуто заданное количество вопросов
             if (player.getQuestionNumber() == QUESTION_MAX) {
                 setResult();
                 setButtonResult();

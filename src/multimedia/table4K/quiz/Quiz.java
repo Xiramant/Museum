@@ -17,51 +17,94 @@ import static table4K.Main4K.*;
 
 public class Quiz {
 
-    static final Color TEXT_COLOR = Color.rgb(7, 153, 89);
-
-    private static final double TEXT_X_CENTER = 1610 / debuggingRatio;
-
-    private static final double QUESTION_NUMBER_TEXT_Y = 398 / debuggingRatio;
-
-    static final double QUESTION_TEXT_WIDTH_MAX = 1800 / debuggingRatio;
-
-    private static final double POINTS_RECEIVED_TEXT_Y = 1456 / debuggingRatio;
-
+    //Число вопросов викторины
     static final int QUESTION_MAX = 20;
 
+    //Номер вопроса для которого используется вопрос с медиа
+    private static final int QUESTION_MEDIA = 5;
+
+    //цвет текста викторины
+    static final Color TEXT_COLOR = Color.rgb(7, 153, 89);
+
+    //центр экрана телевизора по горизонтали
+    private static final double TEXT_X_CENTER = 1610 / debuggingRatio;
+
+    //отступ сверху для надписи Номер вопроса
+    private static final double QUESTION_NUMBER_TEXT_Y = 398 / debuggingRatio;
+
+    //отступ сверху для текста Полученные очки
+    private static final double POINTS_RECEIVED_TEXT_Y = 1456 / debuggingRatio;
+
+    //максимальная ширина текста викторины
+    static final double QUESTION_TEXT_WIDTH_MAX = 1800 / debuggingRatio;
+
+    //первоначальные параметры шрифта текста викторины
+    private static final double TEXT_FONT_SIZE_INITIAL = 80 / debuggingRatio;
+    private static final String TEXT_FONT_NAME = "Dited";
+    private static final double BLOCK_TEXT_VERTICAL_INTERVAL_INITIAL = 50 / debuggingRatio;
+    private static final double LINE_TEXT_VERTICAL_INTERVAL_INITIAL = 20 / debuggingRatio;
+
+    //множитель, на который постепенно уменьшается размер шрифта и отступов текста викторины,
+    // чтобы влезть в экран телевизора
+    private static final double MULTIPLIER = 0.95;
+
+    //месторасположение изображений кнопок Медиа и Следующий
+    private static final File BUTTON_MEDIA_BACKGROUND_FILE = new File(RESOURCES_PATH + "quiz/buttonMedia.png");
+    private static final File BUTTON_NEXT_BACKGROUND_FILE = new File(RESOURCES_PATH + "quiz/buttonNext.png");
+
+    //расположение кнопок управления викториной
+    private static final double BUTTON_MEDIA_X = 505 / debuggingRatio;
+    private static final double BUTTON_ONE_X = 999 / debuggingRatio;
+    private static final double BUTTON_TWO_X = 1218 / debuggingRatio;
+    private static final double BUTTON_THREE_X = 1437 / debuggingRatio;
+    private static final double BUTTON_FOUR_X = 1656 / debuggingRatio;
+    private static final double BUTTON_TEST_X = 1974 / debuggingRatio;
+    private static final double BUTTON_NEW_X = 2478 / debuggingRatio;
+    private static final double BUTTON_Y = 1840 / debuggingRatio;
+
+    //размер шрифта текста викторины
     private static double textFontSize;
 
+    //шрифт текста викторины
     static Font textFont;
 
+    //вертикальный отступ для абзацев текста викторины
     static double blockTextVerticalInterval;
 
+    //вертикальный отступ для вариантов ответов викторины
     static double lineTextVerticalInterval;
 
+    //листы QuizQuestion для текстовых вопросов и вопросов с медиа
     private static ArrayList<QuizQuestion> questionBlock;
     private static ArrayList<QuizQuestion> questionMediaBlock;
 
-    static QuizQuestion selectQuestion;
+    //текущий вопрос викторины
+    static QuizQuestion currentQuestion;
 
+    //игрок с результатами для текущей викторины
     static QuizPlayer player;
 
+    //группа текстовых блоков викторины
     private static Group groupText = new Group();
+
+    //группа кнопок викторины
     private static Group groupButton = new Group();
 
+    //Text номера вопроса, вопроса и полученных очков
     private static Text questionNumberText;
     private static Text questionText;
+    static Text pointsReceivedText;
 
+    //панели вариантов ответов
     private static QuizPaneTextAnswer answerOne;
     private static QuizPaneTextAnswer answerTwo;
     private static QuizPaneTextAnswer answerThree;
     private static QuizPaneTextAnswer answerFour;
 
-    static Text pointsReceivedText;
-
 
     public static void setQuizScene() {
 
         changeRootBackground(RESOURCES_PATH + "table_4K_quiz.jpg");
-        mainPane.getChildren().clear();
 
         //Текст викторины разбитый по строчкам
         ArrayList<String> quizText = readingFileIntoStringList(new File(RESOURCES_PATH + "quiz/quiz_text.txt"));
@@ -71,7 +114,7 @@ public class Quiz {
         ArrayList<ArrayList<String>> quizTextBlock = new ArrayList<>(getQuizTextBlock(quizText));
         ArrayList<ArrayList<String>> quizMediaBlock = new ArrayList<>(getQuizTextBlock(quizMedia));
 
-        //Блоки вопросов викторины представлены в виде класса questionBlock
+        //Блоки вопросов викторины представлены в виде класса QuizQuestion
         questionBlock = new ArrayList<>(getQuestionBlock(quizTextBlock));
         questionMediaBlock = new ArrayList<>(getQuestionBlock(quizMediaBlock));
 
@@ -82,6 +125,7 @@ public class Quiz {
         setQuestion();
         setButton();
 
+        mainPane.getChildren().clear();
         mainPane.getChildren().addAll(groupText, groupButton, returnHome());
     }
 
@@ -92,13 +136,10 @@ public class Quiz {
         //задание первоначальных значений параметров текста,
         // чтобы при их изменении (из-за того, что текст не помещается на экран),
         // на следующем вопросе они были с первоначальными значениями
-        textFontSize = 80 / debuggingRatio;
-        textFont =  new Font("Dited", textFontSize);
-        blockTextVerticalInterval = 50 / debuggingRatio;
-        lineTextVerticalInterval = 20 / debuggingRatio;
-
-
-        groupText.getChildren().clear();
+        textFontSize = TEXT_FONT_SIZE_INITIAL;
+        textFont = new Font(TEXT_FONT_NAME, TEXT_FONT_SIZE_INITIAL);
+        blockTextVerticalInterval = BLOCK_TEXT_VERTICAL_INTERVAL_INITIAL;
+        lineTextVerticalInterval = LINE_TEXT_VERTICAL_INTERVAL_INITIAL;
 
         questionNumberText = new Text();
         questionText = new Text();
@@ -111,22 +152,19 @@ public class Quiz {
 
         player.incrementQuestionNumber();
 
-        if (player.getQuestionNumber() % 5 == 0) {
-            int random = new Random().nextInt(questionMediaBlock.size());
-            selectQuestion = questionMediaBlock.get(random);
-            questionMediaBlock.remove(random);
+        //получение текущего вопроса: текстового или с медиа
+        if (player.getQuestionNumber() % QUESTION_MEDIA == 0) {
+            currentQuestion = getCurrentQuestion(questionMediaBlock);
         } else {
-            int random = new Random().nextInt(questionBlock.size());
-            selectQuestion = questionBlock.get(random);
-            questionBlock.remove(random);
+            currentQuestion = getCurrentQuestion(questionBlock);
         }
 
-        ArrayList<String> randomAnswer = selectQuestion.getRandomAnswer();
+        //формирование списка ответов со случайным расположением
+        ArrayList<String> randomAnswer = currentQuestion.getRandomAnswer();
 
         String questionNumber = "Вопрос: " + String.valueOf(player.getQuestionNumber()) + " / " + String.valueOf(QUESTION_MAX);
 
         String pointsReceived = "Получено баллов: " + String.valueOf(player.getReceivePoints());
-
 
         questionNumberText.setText(questionNumber);
         questionNumberText.setFill(TEXT_COLOR);
@@ -135,14 +173,20 @@ public class Quiz {
 
         StringBuilder point = new StringBuilder();
         point.append("(Вопрос на ");
-        point.append(selectQuestion.getPoints());
-        if (selectQuestion.getPoints() == 1) {
+        point.append(currentQuestion.getPoints());
+        if (currentQuestion.getPoints() == 1) {
             point.append(" балл). ");
         } else {
             point.append(" балла). ");
         }
 
-        questionText.setText(point.toString() + selectQuestion.getQuestion());
+        String Question = point.toString() + currentQuestion.getQuestion();
+        if (player.getQuestionNumber() % QUESTION_MEDIA == 0) {
+            Question += System.lineSeparator() +
+                    "Для просмотра фотографии нажмите нижнюю левую кнопку с символом треугольника.";
+        }
+
+        questionText.setText(Question);
         questionText.setWrappingWidth(QUESTION_TEXT_WIDTH_MAX);
         questionText.setFill(TEXT_COLOR);
         questionText.setTextAlignment(TextAlignment.JUSTIFY);
@@ -168,59 +212,78 @@ public class Quiz {
         setFontSize();
 
 
+        groupText.getChildren().clear();
         groupText.getChildren().addAll(questionNumberText, questionText, answerOne, answerTwo, answerThree, answerFour, pointsReceivedText);
     }
 
+    //получение текущего вопроса из переданного блока вопросов
+    private static QuizQuestion getCurrentQuestion(final ArrayList<QuizQuestion> questionBlock) {
 
-    //метод уменьшающий размер текста и вертикальных интервалов,
-    //если четверный ответ с вертикальным отступом находится ниже линии баллов
+        QuizQuestion temp;
+
+        int random = new Random().nextInt(questionBlock.size());
+        temp = questionBlock.get(random);
+        questionBlock.remove(random);
+
+        return temp;
+    }
+
+
+    //метод уменьшающий размер текста и вертикальные интервалы,
+    //если текст викторины не помещается на экран телевизора
     private static void setFontSize() {
 
-        double multiplier = 1;
+        double multiplierCurrent = 1;
 
         do {
-            textFontSize *= multiplier;
-            textFont =  new Font("Dited", textFontSize);
-            blockTextVerticalInterval *= multiplier;
-            lineTextVerticalInterval *= multiplier;
+            textFontSize *= multiplierCurrent;
+            textFont =  new Font(TEXT_FONT_NAME, textFontSize);
+            blockTextVerticalInterval *= multiplierCurrent;
+            lineTextVerticalInterval *= multiplierCurrent;
 
             questionNumberText.setFont(textFont);
 
             questionText.setFont(textFont);
-            questionText.setLayoutY(questionNumberText.getLayoutY() + questionNumberText.getLayoutBounds().getHeight() + blockTextVerticalInterval);
+            questionText.setLayoutY(questionNumberText.getLayoutY() +
+                                    questionNumberText.getLayoutBounds().getHeight() +
+                                    blockTextVerticalInterval);
 
             answerOne.setQPTAFont();
             answerOne.setQPTAHeight();
-            answerOne.setLayoutY(questionText.getLayoutY() + questionText.getLayoutBounds().getHeight());
+            answerOne.setLayoutY(questionText.getLayoutY() +
+                                questionText.getLayoutBounds().getHeight());
 
             answerTwo.setQPTAFont();
             answerTwo.setQPTAHeight();
-            answerTwo.setLayoutY(answerOne.getLayoutY() + answerOne.getPrefHeight());
+            answerTwo.setLayoutY(answerOne.getLayoutY() +
+                                answerOne.getPrefHeight());
 
             answerThree.setQPTAFont();
             answerThree.setQPTAHeight();
-            answerThree.setLayoutY(answerTwo.getLayoutY() + answerTwo.getPrefHeight());
+            answerThree.setLayoutY(answerTwo.getLayoutY() +
+                                answerTwo.getPrefHeight());
 
             answerFour.setQPTAFont();
             answerFour.setQPTAHeight();
-            answerFour.setLayoutY(answerThree.getLayoutY() + answerThree.getPrefHeight());
+            answerFour.setLayoutY(answerThree.getLayoutY() +
+                                answerThree.getPrefHeight());
 
             pointsReceivedText.setFont(textFont);
 
 
-            multiplier *= 0.95;
+            multiplierCurrent *= MULTIPLIER;
         }
-        while ((answerFour.getLayoutY() + answerFour.getPrefHeight() + blockTextVerticalInterval) > pointsReceivedText.getLayoutY());
+        while ((answerFour.getLayoutY() +
+                answerFour.getPrefHeight() +
+                blockTextVerticalInterval) > pointsReceivedText.getLayoutY());
 
     }
 
 
+    //вывод результатов викторины на экран
     static void setResult() {
 
-        groupText.getChildren().clear();
-
         Text end = new Text();
-
         Text result = new Text();
 
         end.setText("Результаты викторины:");
@@ -228,8 +291,6 @@ public class Quiz {
         end.setFill(TEXT_COLOR);
         end.setLayoutX(TEXT_X_CENTER - end.getLayoutBounds().getWidth() / 2);
         end.setLayoutY(QUESTION_NUMBER_TEXT_Y);
-
-
 
         result.setText(getTextResult());
         result.setWrappingWidth(QUESTION_TEXT_WIDTH_MAX);
@@ -239,10 +300,11 @@ public class Quiz {
         result.setLayoutX(TEXT_X_CENTER - result.getWrappingWidth() / 2);
         result.setLayoutY(QUESTION_NUMBER_TEXT_Y + end.getLayoutBounds().getHeight() + blockTextVerticalInterval);
 
+        groupText.getChildren().clear();
         groupText.getChildren().addAll(end, result);
-
     }
 
+    //получение текста результата викторины
     private static String getTextResult() {
 
         StringBuilder resultSB = new StringBuilder();
@@ -268,31 +330,28 @@ public class Quiz {
         return resultSB.toString();
     }
 
+    //создание кнопок управления викториной
     static void setButton() {
 
-        groupButton.getChildren().clear();
-
-        //создание кнопок управления
-//        if (selectQuestion.getMedia().length() == 0) {}
-        QuizButtonMedia buttonMedia = new QuizButtonMedia(new File(RESOURCES_PATH + "quiz/buttonMedia.png"), selectQuestion.getMedia());
-        buttonMedia.setLayoutX(505 / debuggingRatio);
-        buttonMedia.setLayoutY(1840 / debuggingRatio);
+        QuizButtonMedia buttonMedia = new QuizButtonMedia(BUTTON_MEDIA_BACKGROUND_FILE, currentQuestion.getMedia());
+        buttonMedia.setLayoutX(BUTTON_MEDIA_X);
+        buttonMedia.setLayoutY(BUTTON_Y);
 
         QuizButtonSelect buttonOne = new QuizButtonSelect("1", answerOne);
-        buttonOne.setLayoutX(999 / debuggingRatio);
-        buttonOne.setLayoutY(1840 / debuggingRatio);
+        buttonOne.setLayoutX(BUTTON_ONE_X);
+        buttonOne.setLayoutY(BUTTON_Y);
 
         QuizButtonSelect buttonTwo = new QuizButtonSelect("2", answerTwo);
-        buttonTwo.setLayoutX(1218 / debuggingRatio);
-        buttonTwo.setLayoutY(1840 / debuggingRatio);
+        buttonTwo.setLayoutX(BUTTON_TWO_X);
+        buttonTwo.setLayoutY(BUTTON_Y);
 
         QuizButtonSelect buttonThree = new QuizButtonSelect("3", answerThree);
-        buttonThree.setLayoutX(1437 / debuggingRatio);
-        buttonThree.setLayoutY(1840 / debuggingRatio);
+        buttonThree.setLayoutX(BUTTON_THREE_X);
+        buttonThree.setLayoutY(BUTTON_Y);
 
         QuizButtonSelect buttonFour = new QuizButtonSelect("4", answerFour);
-        buttonFour.setLayoutX(1656 / debuggingRatio);
-        buttonFour.setLayoutY(1840 / debuggingRatio);
+        buttonFour.setLayoutX(BUTTON_FOUR_X);
+        buttonFour.setLayoutY(BUTTON_Y);
 
         QuizButtonSelectGroup buttonSelectGroup = new QuizButtonSelectGroup();
         buttonSelectGroup.add(buttonOne);
@@ -300,53 +359,58 @@ public class Quiz {
         buttonSelectGroup.add(buttonThree);
         buttonSelectGroup.add(buttonFour);
 
-        QuizButtonTest buttonTest = new QuizButtonTest("?", selectQuestion.getCorrectAnswer(), buttonSelectGroup);
-        buttonTest.setLayoutX(1974 / debuggingRatio);
-        buttonTest.setLayoutY(1840 / debuggingRatio);
+        QuizButtonTest buttonTest = new QuizButtonTest("?",
+                                                        currentQuestion.getCorrectAnswer(),
+                                                        buttonSelectGroup);
+        buttonTest.setLayoutX(BUTTON_TEST_X);
+        buttonTest.setLayoutY(BUTTON_Y);
 
-        QuizButtonNext buttonNext = new QuizButtonNext(new File(RESOURCES_PATH + "quiz/buttonNext.png"), buttonMedia, buttonTest);
-        buttonNext.setLayoutX(2478 / debuggingRatio);
-        buttonNext.setLayoutY(1840 / debuggingRatio);
+        QuizButtonNext buttonNext = new QuizButtonNext(BUTTON_NEXT_BACKGROUND_FILE,
+                                                        buttonMedia,
+                                                        buttonTest);
+        buttonNext.setLayoutX(BUTTON_NEW_X);
+        buttonNext.setLayoutY(BUTTON_Y);
 
+
+        groupButton.getChildren().clear();
         groupButton.getChildren().addAll(buttonMedia, buttonSelectGroup, buttonTest, buttonNext);
     }
 
+    //установка кнопок управления викториной при выводе результатов викторины на экран
     static void setButtonResult() {
 
-        groupButton.getChildren().clear();
-
         //создание кнопок управления
-        QuizButton buttonPlay = new QuizButton(new File(RESOURCES_PATH + "quiz/buttonPlay.png"));
-        buttonPlay.setLayoutX(505 / debuggingRatio);
-        buttonPlay.setLayoutY(1840 / debuggingRatio);
+        QuizButton buttonMedia = new QuizButton(BUTTON_MEDIA_BACKGROUND_FILE);
+        buttonMedia.setLayoutX(BUTTON_MEDIA_X);
+        buttonMedia.setLayoutY(BUTTON_Y);
 
         QuizButton buttonOne = new QuizButton("1");
-        buttonOne.setLayoutX(999 / debuggingRatio);
-        buttonOne.setLayoutY(1840 / debuggingRatio);
+        buttonOne.setLayoutX(BUTTON_ONE_X);
+        buttonOne.setLayoutY(BUTTON_Y);
 
         QuizButton buttonTwo = new QuizButton("2");
-        buttonTwo.setLayoutX(1218 / debuggingRatio);
-        buttonTwo.setLayoutY(1840 / debuggingRatio);
+        buttonTwo.setLayoutX(BUTTON_TWO_X);
+        buttonTwo.setLayoutY(BUTTON_Y);
 
         QuizButton buttonThree = new QuizButton("3");
-        buttonThree.setLayoutX(1437 / debuggingRatio);
-        buttonThree.setLayoutY(1840 / debuggingRatio);
+        buttonThree.setLayoutX(BUTTON_THREE_X);
+        buttonThree.setLayoutY(BUTTON_Y);
 
         QuizButton buttonFour = new QuizButton("4");
-        buttonFour.setLayoutX(1656 / debuggingRatio);
-        buttonFour.setLayoutY(1840 / debuggingRatio);
+        buttonFour.setLayoutX(BUTTON_FOUR_X);
+        buttonFour.setLayoutY(BUTTON_Y);
 
         QuizButton buttonTest = new QuizButton("?");
-        buttonTest.setLayoutX(1974 / debuggingRatio);
-        buttonTest.setLayoutY(1840 / debuggingRatio);
+        buttonTest.setLayoutX(BUTTON_TEST_X);
+        buttonTest.setLayoutY(BUTTON_Y);
 
-        QuizButtonNew buttonNew = new QuizButtonNew(new File(RESOURCES_PATH + "quiz/buttonNext.png"));
-        buttonNew.setLayoutX(2478 / debuggingRatio);
-        buttonNew.setLayoutY(1840 / debuggingRatio);
+        QuizButtonNew buttonNew = new QuizButtonNew(BUTTON_NEXT_BACKGROUND_FILE);
+        buttonNew.setLayoutX(BUTTON_NEW_X);
+        buttonNew.setLayoutY(BUTTON_Y);
 
-        groupButton.getChildren().addAll(buttonPlay, buttonOne, buttonTwo, buttonThree, buttonFour, buttonTest, buttonNew);
+        groupButton.getChildren().clear();
+        groupButton.getChildren().addAll(buttonMedia, buttonOne, buttonTwo, buttonThree, buttonFour, buttonTest, buttonNew);
     }
-
 
     //Получение листа листов строк викторины, где
     // внешний лист - блок текста по отдельному вопросу
@@ -402,34 +466,6 @@ public class Quiz {
 
         return questionBlock;
     }
-
-//    //Получение листа класса QuizQuestionWithMedia для викторины
-//    // где QuizQuestion является представлением отдельного блока вопроса викторины
-//    private static ArrayList<QuizQuestionWithMedia> getQuestionMediaBlock(final ArrayList<ArrayList<String>> quizTextBlock) {
-//
-//        ArrayList<QuizQuestionWithMedia> questionMediaBlock = new ArrayList<>();
-//
-//        for (ArrayList<String> block: quizTextBlock) {
-//
-//            int pointTemp = getPoints(block);
-//            String questionTemp = getQuestion(block);
-//            String correctAnswerTemp = getCorrectAnswer(block);
-//            ArrayList<String> answerTemp = new ArrayList<>(getAnswers(block));
-//            File mediaFileTemp = getMediaFile(block);
-//
-//            if (pointTemp != 0 &&
-//                    !questionTemp.equals("") &&
-//                    !correctAnswerTemp.equals("") &&
-//                    answerTemp.size() != 0 &&
-//                    !mediaFileTemp.toString().equals("")) {
-//
-//                questionMediaBlock.add(new QuizQuestionWithMedia(pointTemp, questionTemp, answerTemp, correctAnswerTemp, mediaFileTemp));
-//            }
-//        }
-//
-//        return questionMediaBlock;
-//    }
-
 
 
     private static int getPoints(final ArrayList<String> block) {

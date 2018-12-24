@@ -11,21 +11,18 @@ public class QuizButtonNew extends QuizButton {
         super(imageFile);
 
         this.setOnMouseClicked(event -> {
-
             quizButtonNewAction();
         });
 
         this.setOnTouchReleased(event -> {
             if (isTimeWaitEnd()) {
-
                 quizButtonNewAction();
-
                 setTimeWait();
             }
         });
     }
 
-    //действия при клике мышкой/таче на кнопке
+    //действия при нажатии на кнопку Новый
     private static void quizButtonNewAction() {
         setQuizScene();
     }

@@ -3,7 +3,7 @@ package table4K.quiz;
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
 import static table4K.quiz.Quiz.pointsReceivedText;
-import static table4K.quiz.Quiz.selectQuestion;
+import static table4K.quiz.Quiz.currentQuestion;
 import static table4K.quiz.Quiz.player;
 
 public class QuizButtonTest extends QuizButton {
@@ -32,14 +32,13 @@ public class QuizButtonTest extends QuizButton {
 
         this.setOnTouchReleased(event -> {
             if (isTimeWaitEnd()) {
-
                 buttonTestAction();
-
                 setTimeWait();
             }
         });
     }
 
+    //действия при нажатии на кнопку Тест
     public void buttonTestAction() {
 
         if (group.isOnPush()) {
@@ -49,11 +48,11 @@ public class QuizButtonTest extends QuizButton {
 
                 selectCorrectAnswer();
 
-                player.incrementMaxPoints(selectQuestion.getPoints());
+                player.incrementMaxPoints(currentQuestion.getPoints());
 
                 if (group.getPushButton().getAnswer().equals(correctAnswer)) {
                     player.incrementCorrectAnswer();
-                    player.incremenrReceivePoints(selectQuestion.getPoints());
+                    player.incremenrReceivePoints(currentQuestion.getPoints());
                 }
 
                 setPointsReceivedText();
@@ -79,8 +78,8 @@ public class QuizButtonTest extends QuizButton {
 
         if (group.getPushButton().getAnswer().equals(correctAnswer)) {
 
-            point.append(selectQuestion.getPoints());
-            if (selectQuestion.getPoints() == 1) {
+            point.append(currentQuestion.getPoints());
+            if (currentQuestion.getPoints() == 1) {
                 point.append(" балл");
             } else {
                 point.append(" балла");
