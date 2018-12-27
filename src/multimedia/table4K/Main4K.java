@@ -36,6 +36,11 @@ public class Main4K extends Application{
     public static final boolean MOUSE_PERMISSION = true;
     public static final boolean TOUCH_PERMISSION = true;
 
+    //размер минимального смещения, при котором считается,
+    // что изображение целеноправленно перемещалось,
+    // а не сдвинулось случайно при щелчке / тапе
+    private static final double MIN_MOVE = 10d;
+
     //путь к директории с файлами
     public static final String RESOURCES_PATH = "C://museumResources/";
 
@@ -276,4 +281,8 @@ public class Main4K extends Application{
     }
 
 
+    //Индикация минимального перемещения изображения
+    public static boolean isMinMove(final double xDelta, final double yDelta) {
+        return Math.abs(xDelta) + Math.abs(yDelta) > MIN_MOVE;
+    }
 }

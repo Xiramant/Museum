@@ -8,13 +8,9 @@ import java.util.ArrayList;
 
 import static general.TouchWait.isTimeWaitEnd;
 import static table4K.Main4K.actionPermission;
+import static table4K.Main4K.isMinMove;
 
-public class ImageViewIteration extends ImageViewController {
-
-    //размер минимального смещения, при котором считается,
-    // что изображение целеноправленно перемещалось,
-    // а не сдвинулось случайно при щелчке / тапе
-    private static final double MIN_MOVE = 10d;
+public class ImageViewIteration extends ImageViewMoved {
 
     //Поле, содержащее список файлов всех изображений
     // для данного экземпляра класса
@@ -38,41 +34,42 @@ public class ImageViewIteration extends ImageViewController {
         this.imageFiles.addAll(imageFilesEnter);
         this.imageFiles.setIndex(0);
 
-        ivcMouseEvent();
-        ivcTouchEvent();
+        mouseEvent();
+        touchEvent();
     }
 
     @Override
-    protected void ivcMouseEvent() {
-        super.ivcMousePressed();
-        super.ivcMouseDragged();
-        this.ivcMouseReleased();
+    protected void mouseEvent() {
+        super.mousePressed();
+        super.mouseDragged();
+        this.mouseReleased();
     }
 
     @Override
-    protected void ivcMouseReleased(final String style) {
+    protected void mouseReleased(final String style) {
         this.setOnMouseReleased(event -> releasedAction(event, style));
     }
+
     @Override
-    protected void ivcMouseReleased() {
-        ivcMouseReleased("");
+    protected void mouseReleased() {
+        mouseReleased("");
     }
 
     @Override
-    protected void ivcTouchEvent() {
-        super.ivcTouchPressed();
-        super.ivcTouchMoved();
-        this.ivcTouchReleased();
+    protected void touchEvent() {
+        super.touchPressed();
+        super.touchMoved();
+        this.touchReleased();
     }
 
     @Override
-    protected void ivcTouchReleased(final String style) {
+    protected void touchReleased(final String style) {
         this.setOnTouchReleased(event -> releasedAction(event, style));
     }
 
     @Override
-    protected void ivcTouchReleased() {
-        ivcTouchReleased("");
+    protected void touchReleased() {
+        touchReleased("");
     }
 
     @Override
@@ -80,7 +77,8 @@ public class ImageViewIteration extends ImageViewController {
 
         if (isTimeWaitEnd() && actionPermission(event)) {
 
-            if (isMinMove()) {
+            if (isMinMove(this.getRelocationCoordinates().getXDelta(),
+                          this.getRelocationCoordinates().getYDelta())) {
                 super.releasedAction(event, style);
             } else {
 
@@ -100,12 +98,6 @@ public class ImageViewIteration extends ImageViewController {
                 super.releasedActionWithIteration(style);
             }
         }
-    }
-
-    //Индикация минимального перемещения изображения
-    private boolean isMinMove() {
-        return Math.abs(this.getRelocationCoordinates().getXDelta()) +
-                Math.abs(this.getRelocationCoordinates().getYDelta()) > MIN_MOVE;
     }
 
 

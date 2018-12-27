@@ -3,6 +3,8 @@ package table4K.map;
 import general.ImagePane;
 import general.SectionKey;
 import javafx.geometry.VPos;
+import javafx.scene.Group;
+import javafx.scene.input.InputEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -63,28 +65,26 @@ public class MapPaneInitial extends ImagePane{
 
         this.setStyle(MAP_PANE_INITIAL_SHADOW);
 
-        mapPaneInitialEvent();
+        this.setOnMouseReleased(event -> action(event));
+        this.setOnTouchReleased(event -> action(event));
+
     }
 
-    //Метод обработки действий пользователя при выборе операции по клику мышкой
-    public void mapPaneInitialEvent() {
 
-        this.setOnMouseClicked(event -> action());
+    private void action(final InputEvent event) {
 
-        this.setOnTouchPressed(event -> {
-            if (isTimeWaitEnd()) {
-                action();
-                setTimeWait();
-            }
-        });
-    }
+        if (isTimeWaitEnd() && actionPermission(event)) {
 
-    private void action() {
+            MapPaneText text = new MapPaneText(mapTextFiles);
+            MapPaneImage map = new MapPaneImage(mapImageFiles, text);
 
-        MapPaneImage map = new MapPaneImage(mapImageFiles);
-        MapPaneText text = new MapPaneText(mapTextFiles);
+            Group mapGroup = new Group();
+            mapGroup.getChildren().addAll(map, text);
 
-        mainPane.getChildren().clear();
-        mainPane.getChildren().addAll(map, text, returnBack(SectionKey.MAP), returnHome());
+            mainPane.getChildren().clear();
+            mainPane.getChildren().addAll(mapGroup, returnBack(SectionKey.MAP), returnHome());
+
+            setTimeWait();
+        }
     }
 }

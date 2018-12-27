@@ -1,6 +1,6 @@
 package table4K.portfolio;
 
-import general.ImageViewController;
+import general.ImageViewMoved;
 
 import java.io.File;
 
@@ -11,7 +11,7 @@ import static table4K.Main4K.DEBUGGING_RATIO;
 import static table4K.portfolio.PortfolioCasePane.PORTFOLIO_CASE_X;
 import static table4K.portfolio.PortfolioCasePane.PORTFOLIO_CASE_Y;
 
-public class PortfolioCasePhoto extends ImageViewController{
+public class PortfolioCasePhoto extends ImageViewMoved {
 
     //максимальная ширина фотографии в раскрытом личном деле
     private final double PORTFOLIO_PHOTO_WIDTH_MAX = 746 / DEBUGGING_RATIO;
@@ -57,22 +57,22 @@ public class PortfolioCasePhoto extends ImageViewController{
                 TABLE_WIDTH - PORTFOLIO_CASE_X,
                 TABLE_HEIGHT - PORTFOLIO_CASE_Y);
 
-        this.ivcMouseEvent();
-        this.ivcTouchEvent();
+        this.mouseEvent();
+        this.touchEvent();
     }
 
     @Override
-    public void ivcMouseEvent() {
-        super.ivcMousePressed();
-        super.ivcMouseDragged(SHADOW_MOVED);
-        super.ivcMouseReleased(SHADOW_STILL);
+    public void mouseEvent() {
+        super.mousePressed();
+        super.mouseDragged(SHADOW_MOVED);
+        super.mouseReleased(SHADOW_STILL);
     }
 
     @Override
-    public void ivcTouchEvent() {
-        super.ivcTouchPressed();
-        super.ivcTouchMoved(SHADOW_MOVED);
-        super.ivcTouchReleased(SHADOW_STILL);
+    public void touchEvent() {
+        super.touchPressed();
+        super.touchMoved(SHADOW_MOVED);
+        super.touchReleased(SHADOW_STILL);
     }
 
 }

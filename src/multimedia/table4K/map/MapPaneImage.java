@@ -3,7 +3,7 @@ package table4K.map;
 import general.ImagePane;
 import general.ImagePaneIteration;
 import javafx.geometry.VPos;
-import javafx.scene.input.MouseButton;
+import javafx.scene.input.InputEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -13,14 +13,15 @@ import java.util.ArrayList;
 
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
-import static table4K.Main4K.RESOURCES_PATH;
-import static table4K.Main4K.DEBUGGING_RATIO;
-import static table4K.Main4K.mainPane;
+import static table4K.Main4K.*;
 import static table4K.map.Map.*;
 import static table4K.map.MapPaneText.МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER;
 
 
 public class MapPaneImage extends ImagePaneIteration {
+
+    //связь панели с текстом с панелью с картой
+    private MapPaneText mapText;
 
     //максимальная ширина карты
     private static final double МAP_PANE_IMAGE_WIDTH_MAX = MAP_INITIAL_AREA_X_END - MAP_INITIAL_AREA_X_BEGIN;
@@ -59,8 +60,11 @@ public class MapPaneImage extends ImagePaneIteration {
     private static final String MAP_PANE_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 2);";
 
 
-    public MapPaneImage(final ArrayList<File> imageFilesEnter) {
+    public MapPaneImage(final ArrayList<File> imageFilesEnter, final MapPaneText mapTextEnter) {
         super(imageFilesEnter, МAP_PANE_IMAGE_WIDTH_MAX, МAP_PANE_IMAGE_HEIGHT_MAX);
+        setMoveDisabled();
+
+        mapText = mapTextEnter;
 
         this.setLayoutX(MAP_INITIAL_AREA_X_BEGIN / 2 + MAP_INITIAL_AREA_X_END / 2 - this.getPrefWidth() / 2);
         this.setLayoutY(MAP_INITIAL_AREA_Y_BEGIN / 2 + MAP_INITIAL_AREA_Y_END / 2 - this.getPrefHeight() / 2);
@@ -69,8 +73,8 @@ public class MapPaneImage extends ImagePaneIteration {
 
         this.setStyle(MAP_PANE_SHADOW);
 
-        this.ipiMouseClicked();
-        this.TouchReleased();
+        this.mouseReleased();
+        this.touchReleased();
 
         ImagePane pageCount = new ImagePane(MAP_PAGE_BACKGROUND_FILE,
                                             MAP_PAGE_BACKGROUND_WIDTH_MAX,
@@ -86,76 +90,36 @@ public class MapPaneImage extends ImagePaneIteration {
 
         setMapCountPageText();
 
-        setCenterPaneFlag(true);
-
         this.getChildren().addAll(pageCount, mapCountPageText);
     }
 
     @Override
-    public void ipiMouseClicked() {
-
-        this.setOnMouseClicked(event -> {
-
-            int prevIndex = this.getCurrentBackgroundIndex();
-
-            //нажатие левой кнопки приводит к листанию карт вперед
-            if (event.getButton() == MouseButton.PRIMARY) {
-                this.setNextImageBackground();
-            }
-
-            //нажатие правой кнопки приводит к листанию карт назад
-            if (event.getButton() == MouseButton.SECONDARY) {
-                this.setPrevImageBackground();
-            }
-
-            //Двойной щелчок приводит к переходу к последней карте
-            if (event.getClickCount() == 2) {
-                this.setLastImageBackground();
-            }
-
-            //Двойной щелчок правой кнопкой приводит к переходу к первой карте
-            if (event.getButton() == MouseButton.SECONDARY && event.getClickCount() == 2) {
-                this.setFirstImageBackground();
-            }
-
-            mpiScale();
-
-            setMapCountPageText();
-
-            //если карта сменилась, то смена текста в текстовой панели
-            if (prevIndex != this.getCurrentBackgroundIndex()) {
-                ((MapPaneText)mainPane.getChildren().get(1)).setDisplayText(this.getCurrentBackgroundIndex());
-            }
-        });
+    protected void mouseReleased() {
+        this.setOnMouseClicked(event -> releasedAction(event));
     }
 
     @Override
-    public void TouchReleased(final String style) {
+    protected void touchReleased() {
+        this.setOnTouchReleased(event -> releasedAction(event));
+    }
 
-        this.setOnTouchReleased(event -> {
-            if (isTimeWaitEnd()) {
+    private void releasedAction(final InputEvent event) {
 
-                int prevIndex = this.getCurrentBackgroundIndex();
+        if (isTimeWaitEnd() && actionPermission(event) && imageFiles.size() > 1) {
 
-                //перелистывание страниц письма вперед,
-                this.setNextImageBackground();
+            setNextBackground();
+            mpiScale();
+            setMapCountPageText();
 
-                mpiScale();
+            //смена текста в текстовой панели при смене карты
+            mapText.setDisplayText(this.getCurrentBackgroundIndex());
 
-                setMapCountPageText();
-
-                //если карта сменилась, то смена текста в текстовой панели
-                if (prevIndex != this.getCurrentBackgroundIndex()) {
-                    ((MapPaneText)mainPane.getChildren().get(1)).setDisplayText(this.getCurrentBackgroundIndex());
-                }
-
-                setTimeWait();
-            }
-        });
+            setTimeWait();
+        }
     }
 
 
-    //Масштабабирование панели,
+    //Масштабирование панели,
     // если размер карты слишком маленький
     private void mpiScale(){
 

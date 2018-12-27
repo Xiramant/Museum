@@ -1,11 +1,8 @@
 package general;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchEvent;
-
 
 import java.io.File;
 
@@ -14,32 +11,32 @@ import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.actionPermission;
 
-public class ImageViewController extends ImageView {
+public class ImagePaneMoved extends ImagePane{
 
-    //Поле для хранения параметров расположения ImageView
+    //Поле для хранения параметров расположения ImagePaneMoved
     // при его перемещении
     private RelocationCoordinates relocationCoordinates = new RelocationCoordinates();
 
-    //Поле для хранения ограничения положения ImageView
+    //Поле для хранения ограничения положения ImagePaneMoved
     private RestrictionCoordinates restrictionCoordinates = new RestrictionCoordinates();
 
     //флаг разрешения на перемещение изображения
     private boolean permissionMove = true;
 
-    //Флаг разрешения на ограничение перемещения ImageView
+    //Флаг разрешения на ограничение перемещения ImagePaneMoved
     private boolean permissionLocationRestriction = false;
 
     //Флаг нажатия мышки или тача
-    //Требуется, чтобы событие ivcMouseDragged / ivcTouchMoved (а также ivcMouseReleased / ivcTouchReleased)
-    // можно было регистрировать только после события ivcMousePressed / ivcTouchPressed
+    //Требуется, чтобы событие mouseDragged / touchMoved (а также mouseReleased / touchReleased)
+    // можно было регистрировать только после события mousePressed / touchPressed
     protected boolean flagPressed = false;
 
 
     public void setMoveDisabled() {
         this.permissionMove = false;
 
-        ivcMouseEvent();
-        ivcTouchEvent();
+        mouseEvent();
+        touchEvent();
     }
 
     protected RelocationCoordinates getRelocationCoordinates() {
@@ -49,69 +46,68 @@ public class ImageViewController extends ImageView {
     private void setRelocationCoordinates(final RelocationCoordinates relocationCoordinates) {
         this.relocationCoordinates = relocationCoordinates;
     }
+    
 
+    public ImagePaneMoved(final File imageFile, final double wMax, final double hMax) {
+        super(imageFile, wMax, hMax);
 
-    public ImageViewController(final File imageFile) {
-//        super(new Image(imageFile.toURI().toURL().toString()));
-        super(new Image("file:" + imageFile.toString()));
-
-        ivcMouseEvent();
-        ivcTouchEvent();
+        mouseEvent();
+        touchEvent();
     }
 
 
-    protected void ivcMouseEvent() {
-        ivcMousePressed();
-        ivcMouseDragged();
-        ivcMouseReleased();
+    protected void mouseEvent() {
+        mousePressed();
+        mouseDragged();
+        mouseReleased();
     }
 
-    protected void ivcMousePressed() {
+    protected void mousePressed() {
         this.setOnMousePressed(event -> pressedAction(event));
     }
 
-    protected void ivcMouseDragged(final String style) {
+    protected void mouseDragged(final String style) {
         this.setOnMouseDragged(event -> movedAction(event, style));
     }
 
-    protected void ivcMouseDragged() {
-        ivcMouseDragged("");
+    protected void mouseDragged() {
+        mouseDragged("");
     }
 
-    protected void ivcMouseReleased(final String style) {
+    protected void mouseReleased(final String style) {
         this.setOnMouseReleased(event -> releasedAction(event, style));
     }
 
-    protected void ivcMouseReleased() {
-        ivcMouseReleased("");
+    protected void mouseReleased() {
+        mouseReleased("");
     }
 
 
     //Метод обработки действий по тач касаниям
-    protected void ivcTouchEvent() {
-        ivcTouchPressed();
-        ivcTouchMoved();
-        ivcTouchReleased();
+    protected void touchEvent() {
+        touchPressed();
+        touchMoved();
+        touchReleased();
     }
 
-    protected void ivcTouchPressed() {
+    protected void touchPressed() {
         this.setOnTouchPressed(event -> pressedAction(event));
     }
 
-    protected void ivcTouchMoved(final String style) {
+    protected void touchMoved(final String style) {
         this.setOnTouchMoved(event -> movedAction(event, style));
     }
 
-    protected void ivcTouchMoved() {
-        ivcTouchMoved("");
+    protected void touchMoved() {
+        touchMoved("");
     }
 
-    protected void ivcTouchReleased(final String style) {
+    protected void touchReleased(final String style) {
         this.setOnTouchReleased(event -> releasedAction(event, style));
     }
 
-    protected void ivcTouchReleased() {
-        ivcTouchReleased("");
+    protected void touchReleased() {
+        touchReleased("");
     }
 
 
@@ -120,12 +116,12 @@ public class ImageViewController extends ImageView {
 
         if (isTimeWaitEnd() && actionPermission(event) && permissionMove) {
 
-                this.toFront();
+            this.toFront();
 
-                this.getRelocationCoordinates().setXBegin(getX(event));
-                this.getRelocationCoordinates().setYBegin(getY(event));
+            this.getRelocationCoordinates().setXBegin(getX(event));
+            this.getRelocationCoordinates().setYBegin(getY(event));
 
-                flagPressed = true;
+            flagPressed = true;
         }
     }
 
@@ -240,4 +236,5 @@ public class ImageViewController extends ImageView {
     private boolean isDetermined(final double restrictionCoordinate) {
         return (Math.abs(restrictionCoordinate - getNotDetermined()) > 0.1);
     }
+    
 }

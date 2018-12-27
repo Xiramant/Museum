@@ -1,6 +1,6 @@
 package table4K.medal;
 
-import general.ImageViewController;
+import general.ImageViewMoved;
 
 import java.io.File;
 
@@ -9,7 +9,7 @@ import static table4K.medal.Medal.DESCRIPTION_HEIGHT;
 import static table4K.medal.Medal.DESCRIPTION_WIDTH;
 import static table4K.medal.MedalElement.RATIO_MEDAL_OR_ORDEN;
 
-public class MedalDescriptionImage extends ImageViewController {
+public class MedalDescriptionImage extends ImageViewMoved {
 
     //максимальная высота изображения медали для слайдера,
     // а также ордена, похожего на медаль
@@ -46,24 +46,24 @@ public class MedalDescriptionImage extends ImageViewController {
                         DESCRIPTION_WIDTH,
                         DESCRIPTION_HEIGHT);
 
-        this.ivcMouseEvent();
-        this.ivcTouchEvent();
+        this.mouseEvent();
+        this.touchEvent();
 
         this.setStyle(SHADOW_STILL);
     }
 
     @Override
-    public void ivcMouseEvent() {
-        super.ivcMousePressed();
-        super.ivcMouseDragged(SHADOW_MOVED);
-        super.ivcMouseReleased(SHADOW_STILL);
+    public void mouseEvent() {
+        super.mousePressed();
+        super.mouseDragged(SHADOW_MOVED);
+        super.mouseReleased(SHADOW_STILL);
     }
 
     @Override
-    public void ivcTouchEvent() {
-        super.ivcTouchPressed();
-        super.ivcTouchMoved(SHADOW_MOVED);
-        super.ivcTouchReleased(SHADOW_STILL);
+    public void touchEvent() {
+        super.touchPressed();
+        super.touchMoved(SHADOW_MOVED);
+        super.touchReleased(SHADOW_STILL);
     }
 
 }

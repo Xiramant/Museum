@@ -1,8 +1,6 @@
 package table4K.mail;
 
-import general.ImagePaneIteration;
 import general.ImageViewIteration;
-import general.RestrictionCoordinates;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,8 +22,8 @@ public class MailPane extends ImageViewIteration {
         // до вызова обработки событий щелчка мыши и тача
         this.setRestrCoor(MAIL_LEFT, MAIL_TOP, MAIL_RIGHT, MAIL_BOTTOM);
 
-        this.ivcMouseEvent();
-        this.ivcTouchEvent();
+        this.mouseEvent();
+        this.touchEvent();
 
         this.setStyle(SHADOW_NORMAL);
 
@@ -33,17 +31,17 @@ public class MailPane extends ImageViewIteration {
     }
 
     @Override
-    protected void ivcMouseEvent() {
-        super.ivcMousePressed();
-        super.ivcMouseDragged(SHADOW_DRAG_AND_DROP);
-        super.ivcMouseReleased(SHADOW_NORMAL);
+    protected void mouseEvent() {
+        super.mousePressed();
+        super.mouseDragged(SHADOW_DRAG_AND_DROP);
+        super.mouseReleased(SHADOW_NORMAL);
     }
 
     @Override
-    protected void ivcTouchEvent() {
-        super.ivcTouchPressed();
-        super.ivcTouchMoved(SHADOW_DRAG_AND_DROP);
-        this.ivcTouchReleased(SHADOW_NORMAL);
+    protected void touchEvent() {
+        super.touchPressed();
+        super.touchMoved(SHADOW_DRAG_AND_DROP);
+        super.touchReleased(SHADOW_NORMAL);
     }
 
 }

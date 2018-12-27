@@ -1,35 +1,31 @@
 package general;
 
-import javafx.scene.input.MouseButton;
+import javafx.scene.input.InputEvent;
 
 import java.io.File;
 import java.util.ArrayList;
 
-import static general.RestrictionCoordinates.getNotDetermined;
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
+import static table4K.Main4K.actionPermission;
+import static table4K.Main4K.isMinMove;
 
-public class ImagePaneIteration extends ImagePane {
+public class ImagePaneIteration extends ImagePaneMoved {
 
     //Поле, содержащее список файлов всех фоновых изображений
     // для данного экземпляра панели
-    private ArrayListIndex<File> imageFiles = new ArrayListIndex<>();
+    protected ArrayListIndex<File> imageFiles = new ArrayListIndex<>();
 
-    //Поле для хранения ограничения положения панели
-    private RestrictionCoordinates restrCoor = new RestrictionCoordinates();
-
-    //размеры панели с предыдущим фоном
+    //размеры ImageView с предыдущим изображением
     private double prevWeight = 0;
     private double prevHeight = 0;
 
     //флаг включения/выключения центрирования панели при смене фона
-    private boolean centerPaneFlag = false;
+    private boolean flagCenterPane = true;
 
-    //флаг включения/выключения ограничения местоположения панели
-    private boolean locationRestrictionFlag = false;
 
-    public void setCenterPaneFlag(final boolean centerPaneFlag) {
-        this.centerPaneFlag = centerPaneFlag;
+    public void setFlagCenterPane(final boolean flagCenterPane) {
+        this.flagCenterPane = flagCenterPane;
     }
 
 
@@ -39,211 +35,65 @@ public class ImagePaneIteration extends ImagePane {
         super(imageFilesEnter.get(0), wMax, hMax);
         this.imageFiles.addAll(imageFilesEnter);
         this.imageFiles.setIndex(0);
+
+        mouseEvent();
+        touchEvent();
     }
 
-    //конструктор с передаваемым списком файлов фоновых изображений
-    // без задания ограничений на максимальный размер
-    public ImagePaneIteration(final ArrayList<File> imageFiles) {
-        this(imageFiles, 0, 0);
+    public ImagePaneIteration(final File imageFile, final double wMax, final double hMax) {
+        super(imageFile, wMax, hMax);
+        this.imageFiles.add(imageFile);
+
+        mouseEvent();
+        touchEvent();
     }
 
-    //установка следующего фонового изображения из списка imageFiles
-    public void setNextImageBackground() {
 
-        if (imageFiles.hasNextElement()) {
-            setPrevSize();
-            this.setImageBackground(imageFiles.getNextElement());
-            saveCenterLocation();
-        } else {
-            this.setFirstImageBackground();
-        }
+    @Override
+    protected void mouseEvent() {
+        super.mousePressed();
+        super.mouseDragged();
+        this.mouseReleased();
     }
 
-    //установка предыдущего фонового изображения из списка imageFiles
-    public void setPrevImageBackground() {
-        if (imageFiles.hasPrevElement()) {
-            setPrevSize();
-            setImageBackground(imageFiles.getPrevElement());
-            saveCenterLocation();
-        }
+    @Override
+    protected void mouseReleased(final String style) {
+        this.setOnMouseReleased(event -> releasedAction(event, style));
     }
 
-    //установка первого фонового изображения из списка imageFiles
-    public void setFirstImageBackground() {
-        if (imageFiles.size() != 0) {
-            setPrevSize();
-            setImageBackground(imageFiles.getFirstElement());
-            saveCenterLocation();
-        }
-    }
-
-    //установка последнего фонового изображения из списка imageFiles
-    public void setLastImageBackground() {
-        if (imageFiles.size() != 0) {
-            setPrevSize();
-            setImageBackground(imageFiles.getLastElement());
-            saveCenterLocation();
-        }
-    }
-
-    public int getCurrentBackgroundIndex() {
-        return imageFiles.getCurrentIndex();
-    }
-
-    public int getLastBackgroundIndex() {
-        return imageFiles.size() - 1;
-    }
-
-    //Метод обработки действий по щелчку мыши
-    public void ipiMouseDragAndDrop() {
-        mousePressed();
-        mouseDragged();
-        mouseReleased();
-    }
-
-    public void mousePressed() {
-        this.setOnMousePressed(mouseEvent -> {
-            this.toFront();
-
-            this.getRelocationCoordinates().setXBegin(mouseEvent.getSceneX());
-            this.getRelocationCoordinates().setYBegin(mouseEvent.getSceneY());
-        });
-    }
-
-    public void mouseDragged(final String style) {
-
-        this.setOnMouseDragged(mouseEvent -> {
-
-            this.getRelocationCoordinates().setXDelta(mouseEvent.getSceneX() - this.getRelocationCoordinates().getXBegin());
-            this.setTranslateX(this.getRelocationCoordinates().getXDelta());
-
-            this.getRelocationCoordinates().setYDelta(mouseEvent.getSceneY() - this.getRelocationCoordinates().getYBegin());
-            this.setTranslateY(this.getRelocationCoordinates().getYDelta());
-
-            if (style.length() > 0) {
-                this.setStyle(style);
-            }
-        });
-    }
-
-    public void mouseDragged() {
-        mouseDragged("");
-    }
-
-    public void mouseReleased(final String style) {
-
-        this.setOnMouseReleased(mouseEvent -> {
-
-            if (Math.abs(this.getRelocationCoordinates().getXDelta()) +
-                    Math.abs(this.getRelocationCoordinates().getYDelta()) > 10d) {
-                isDragAndDrop = true;
-            }
-
-            this.setLayoutX(this.getLayoutX() + this.getTranslateX());
-            this.setLayoutY(this.getLayoutY() + this.getTranslateY());
-            this.setTranslateX(0);
-            this.setTranslateY(0);
-
-            this.clearRelocationCoordinates();
-
-            if (style.length() > 0) {
-                this.setStyle(style);
-            }
-
-            if (locationRestrictionFlag) {
-                setLocationRestriction();
-            }
-        });
-    }
-
-    public void mouseReleased() {
+    @Override
+    protected void mouseReleased() {
         mouseReleased("");
     }
 
-
-    public void ipiMouseClicked() {
-        //перелистывание страниц письма
-        this.setOnMouseClicked(event -> {
-
-            if (!isDragAndDrop) {
-
-                //нажатие левой кнопки приводит к листанию страниц письма вперед
-                if (event.getButton() == MouseButton.PRIMARY) {
-                    this.setNextImageBackground();
-                }
-
-                //нажатие правой кнопки приводит к листанию страниц письма назад
-                if (event.getButton() == MouseButton.SECONDARY) {
-                    this.setPrevImageBackground();
-                }
-
-                //Двойной щелчок приводит к переходу на последнюю страницу
-                if (event.getClickCount() == 2) {
-                    this.setLastImageBackground();
-                }
-
-                //Двойной щелчок правой кнопкой приводит к возвращению письма на первую страницу
-                if (event.getButton() == MouseButton.SECONDARY && event.getClickCount() == 2) {
-                    this.setFirstImageBackground();
-                }
-            }
-
-            isDragAndDrop = false;
-
-            if (locationRestrictionFlag) {
-                setLocationRestriction();
-            }
-        });
+    @Override
+    protected void touchEvent() {
+        super.touchPressed();
+        super.touchMoved();
+        this.touchReleased();
     }
 
-
-    //Метод обработки действий по тач касаниям
-    public void ipiTouch() {
-        TouchPressed();
-        TouchMoved();
-        TouchReleased();
+    @Override
+    protected void touchReleased(final String style) {
+        this.setOnTouchReleased(event -> releasedAction(event, style));
     }
 
-    public void TouchPressed() {
-
-        this.setOnTouchPressed(event -> {
-            this.toFront();
-
-            this.getRelocationCoordinates().setXBegin(event.getTouchPoint().getSceneX());
-            this.getRelocationCoordinates().setYBegin(event.getTouchPoint().getSceneY());
-        });
+    @Override
+    protected void touchReleased() {
+        touchReleased("");
     }
 
-    public void TouchMoved(final String style) {
+    @Override
+    protected void releasedAction(final InputEvent event, final String style) {
 
-        this.setOnTouchMoved(event -> {
+        if (isTimeWaitEnd() && actionPermission(event)) {
 
-            this.getRelocationCoordinates().setXDelta(event.getTouchPoint().getSceneX() - this.getRelocationCoordinates().getXBegin());
-            this.setTranslateX(this.getRelocationCoordinates().getXDelta());
+            if (isMinMove(this.getRelocationCoordinates().getXDelta(),
+                    this.getRelocationCoordinates().getYDelta())) {
+                super.releasedAction(event, style);
+            } else {
 
-            this.getRelocationCoordinates().setYDelta(event.getTouchPoint().getSceneY() - this.getRelocationCoordinates().getYBegin());
-            this.setTranslateY(this.getRelocationCoordinates().getYDelta());
-
-            if (style.length() > 0) {
-                this.setStyle(style);
-            }
-        });
-    }
-
-    public void TouchMoved() {
-        TouchMoved("");
-    }
-
-
-    public void TouchReleased(final String style) {
-
-        this.setOnTouchReleased(event -> {
-            if (isTimeWaitEnd()) {
-
-                if (Math.abs(this.getRelocationCoordinates().getXDelta()) +
-                        Math.abs(this.getRelocationCoordinates().getYDelta()) > 10d) {
-                    isDragAndDrop = true;
-                } else {
+                if (flagPressed) {
                     //исключение перемещения панели,
                     // если она смещена меньше, чем на 10 пикселей
                     // из-за плохой работы тачпанели на мультимедиа столе
@@ -251,37 +101,37 @@ public class ImagePaneIteration extends ImagePane {
                     this.setTranslateY(0);
                 }
 
-                this.setLayoutX(this.getLayoutX() + this.getTranslateX());
-                this.setLayoutY(this.getLayoutY() + this.getTranslateY());
-                this.setTranslateX(0);
-                this.setTranslateY(0);
+                //данная панель используется не только для листания фона панели,
+                // поэтому листание фона панели вынесено в отдельный метод
+                // чтобы его можно было перезаписать
+                setChildAction();
 
-                this.clearRelocationCoordinates();
-
-                //перелистывание страниц письма вперед,
-                // если оно не перемещалось
-                if (!isDragAndDrop) {
-                    this.setNextImageBackground();
-                }
-                isDragAndDrop = false;
-
-                if (style.length() > 0) {
-                    this.setStyle(style);
-                }
-
-                if (locationRestrictionFlag) {
-                    setLocationRestriction();
-                }
-
-                setTimeWait();
+                super.releasedActionWithIteration(style);
             }
-        });
+        }
     }
 
-    public void TouchReleased() {
-        TouchReleased("");
+    public void setChildAction() {
+        setNextBackground();
     }
 
+    //установка следующего фонового изображения из списка imageFiles
+    protected void setNextBackground() {
+        if (imageFiles.size() > 1) {
+
+            if (imageFiles.hasNextElement()) {
+                setBackground(imageFiles.getNextElement());
+            } else {
+                setBackground(imageFiles.getFirstElement());
+            }
+        }
+    }
+
+    private void setBackground(final File imageFile) {
+        setPrevSize();
+        this.setImageBackground(imageFile);
+        saveCenterLocation();
+    }
 
     //метод установки значений ширины и высоты предыдущей панели
     // (при изменении фона панели)
@@ -294,52 +144,23 @@ public class ImagePaneIteration extends ImagePane {
     // при изменении ее размеров
     private void saveCenterLocation() {
 
-        if (!centerPaneFlag) return;
+        if (!flagCenterPane) return;
 
         if (prevWeight == 0 && prevHeight == 0) return;
 
         if (this.getPrefWidth() == prevWeight &&
                 this.getPrefHeight() == prevHeight) return;
 
-            this.setLayoutX(this.getLayoutX() + prevWeight / 2 - this.getPrefWidth() / 2);
-            this.setLayoutY(this.getLayoutY() + prevHeight / 2 - this.getPrefHeight() / 2);
+        this.setLayoutX(this.getLayoutX() + prevWeight / 2 - this.getPrefWidth() / 2);
+        this.setLayoutY(this.getLayoutY() + prevHeight / 2 - this.getPrefHeight() / 2);
     }
 
-    //установка значений области ограничивающей положение панели
-    public void setRestrCoor(final double left, final double top, final double right, final double bottom) {
-
-        restrCoor.setRestrictionCoordinates(left, top, right, bottom);
-
-        this.locationRestrictionFlag = true;
+    public int getCurrentBackgroundIndex() {
+        return imageFiles.getCurrentIndex();
     }
 
-    //метод устанавливающий ограничения на местоположения панели
-    // в соответствии с областью, заданной в restrCoor
-    private void setLocationRestriction() {
-
-        if (Math.abs(restrCoor.getLeft() - getNotDetermined()) > 0.1) {
-            if (this.getLayoutX() < restrCoor.getLeft()) {
-                this.setLayoutX(restrCoor.getLeft());
-            }
-        }
-
-        if (Math.abs(restrCoor.getTop() - getNotDetermined()) > 0.1) {
-            if (this.getLayoutY() < restrCoor.getTop()) {
-                this.setLayoutY(restrCoor.getTop());
-            }
-        }
-
-        if (Math.abs(restrCoor.getRight() - getNotDetermined()) > 0.1) {
-            if (this.getLayoutX() + this.getPrefWidth() > restrCoor.getRight()) {
-                this.setLayoutX(restrCoor.getRight() - this.getPrefWidth());
-            }
-        }
-
-        if (Math.abs(restrCoor.getBottom() - getNotDetermined()) > 0.1) {
-            if (this.getLayoutY() + this.getPrefHeight() > restrCoor.getBottom()) {
-                this.setLayoutY(restrCoor.getBottom() - this.getPrefHeight());
-            }
-        }
+    public int getLastBackgroundIndex() {
+        return imageFiles.size() - 1;
     }
 
 }

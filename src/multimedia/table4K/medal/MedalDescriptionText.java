@@ -2,8 +2,10 @@ package table4K.medal;
 
 import general.ArrayListIndex;
 import general.ImagePane;
+import general.ImagePaneIteration;
 import general.TextPane;
 import javafx.geometry.VPos;
+import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -17,7 +19,7 @@ import static table4K.Main4K.*;
 import static table4K.medal.Medal.DESCRIPTION_HEIGHT;
 import static table4K.medal.Medal.DESCRIPTION_WIDTH;
 
-public class MedalDescriptionText extends ImagePane {
+public class MedalDescriptionText extends ImagePaneIteration {
 
     //максимальная высота панели описания раздела Медали
     private static final double MEDAL_DESCRIPTION_TEXT_PANE_HEIGHT_MAX = 904 / DEBUGGING_RATIO;
@@ -56,9 +58,9 @@ public class MedalDescriptionText extends ImagePane {
 
     //область ограничения перемещения панели
     private static final double TOP_RESTRICTION = 0;
-    private static final double BOTTOM_RESTRICTION = DESCRIPTION_HEIGHT - MEDAL_DESCRIPTION_TEXT_PANE_HEIGHT_MAX;
+    private static final double BOTTOM_RESTRICTION = DESCRIPTION_HEIGHT ;
     private static final double LEFT_RESTRICTION = 0;
-    private static final double RIGHT_RESTRICTION = DESCRIPTION_WIDTH - 653 / DEBUGGING_RATIO;
+    private static final double RIGHT_RESTRICTION = DESCRIPTION_WIDTH ;
 
     //тени для неподвижной/перемещаемой панели
     private static final String SHADOW_STILL = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 1, 2);";
@@ -92,8 +94,13 @@ public class MedalDescriptionText extends ImagePane {
 
         setCountPageText();
 
-        mouseAction();
-        touchAction();
+        setRestrCoor(LEFT_RESTRICTION,
+                TOP_RESTRICTION,
+                RIGHT_RESTRICTION,
+                BOTTOM_RESTRICTION);
+
+        mouseEvent();
+        touchEvent();
 
         this.setStyle(SHADOW_STILL);
 
@@ -105,177 +112,63 @@ public class MedalDescriptionText extends ImagePane {
         caseCountPageText.setText("страница: " + (textPaneList.getCurrentIndex() + 1) + " / " + textPaneList.size());
     }
 
+
     //методы смены текста в текстовом блоке
     private void setNextTextBlock() {
         if(textPaneList.hasNextElement()) {
-            displayText.setText(textPaneList.getNextElement());
-            setCountPageText();
+            setTextBlock(textPaneList.getNextElement());
         } else {
-            setFirstTextBlock();
+            setTextBlock(textPaneList.getFirstElement());
         }
     }
 
-    private void setPrevTextBlock() {
-        displayText.setText(textPaneList.getPrevElement());
+    private void setTextBlock(final String text) {
+        displayText.setText(text);
         setCountPageText();
     }
 
-    private void setFirstTextBlock() {
-        displayText.setText(textPaneList.getFirstElement());
-        setCountPageText();
+    @Override
+    protected void mouseEvent() {
+        super.mousePressed();
+        super.mouseDragged(SHADOW_MOVED);
+        this.mouseReleased(SHADOW_STILL);
     }
 
-    private void setLastTextBlock() {
-        displayText.setText(textPaneList.getLastElement());
-        setCountPageText();
+    @Override
+    protected void mouseReleased(final String style) {
+        this.setOnMouseReleased(event -> releasedAction(event, style));
     }
 
-    //Обработка событий Мыши
-    private void mouseAction() {
-
-        //перемещение планшета
-        this.setOnMousePressed(mouseEvent -> {
-            this.toFront();
-
-            this.getRelocationCoordinates().setXBegin(mouseEvent.getSceneX());
-            this.getRelocationCoordinates().setYBegin(mouseEvent.getSceneY());
-        });
-
-        this.setOnMouseDragged(mouseEvent -> {
-
-            this.getRelocationCoordinates().setXDelta(mouseEvent.getSceneX() - this.getRelocationCoordinates().getXBegin());
-            this.setTranslateX(this.getRelocationCoordinates().getXDelta());
-
-            this.getRelocationCoordinates().setYDelta(mouseEvent.getSceneY() - this.getRelocationCoordinates().getYBegin());
-            this.setTranslateY(this.getRelocationCoordinates().getYDelta());
-
-            this.setStyle(SHADOW_MOVED);
-        });
-
-        this.setOnMouseReleased(mouseEvent -> {
-
-            if (Math.abs(this.getRelocationCoordinates().getXDelta()) +
-                    Math.abs(this.getRelocationCoordinates().getYDelta()) > 10d) {
-                isDragAndDrop = true;
-            }
-
-            this.setLayoutX(this.getLayoutX() + this.getTranslateX());
-            this.setLayoutY(this.getLayoutY() + this.getTranslateY());
-            this.setTranslateX(0);
-            this.setTranslateY(0);
-
-            this.clearRelocationCoordinates();
-
-            setLocationRestriction();
-
-            this.setStyle(SHADOW_STILL);
-        });
-
-        //действия при клике мышкой
-        this.setOnMouseClicked(event -> {
-
-            if (!isDragAndDrop) {
-
-                //нажатие левой кнопки приводит к листанию текста вперед
-                if (event.getButton() == MouseButton.PRIMARY) {
-                    this.setNextTextBlock();
-                }
-
-                //нажатие правой кнопки приводит к листанию текста назад
-                if (event.getButton() == MouseButton.SECONDARY) {
-                    this.setPrevTextBlock();
-                }
-
-                //Двойной щелчок левой кнопкой приводит к переходу на последнюю страницу
-                if (event.getClickCount() == 2) {
-                    this.setLastTextBlock();
-                }
-
-                //Двойной щелчок правой кнопкой приводит к переходу на первую страницу
-                if (event.getButton() == MouseButton.SECONDARY && event.getClickCount() == 2) {
-                    this.setFirstTextBlock();
-                }
-            }
-
-            isDragAndDrop = false;
-        });
+    @Override
+    protected void mouseReleased() {
+        mouseReleased("");
     }
 
-    //Обработка событий Тача
-    private void touchAction() {
-
-        this.setOnTouchPressed(touchEvent -> {
-            this.toFront();
-
-            this.getRelocationCoordinates().setXBegin(touchEvent.getTouchPoint().getSceneX());
-            this.getRelocationCoordinates().setYBegin(touchEvent.getTouchPoint().getSceneY());
-        });
-
-        this.setOnTouchMoved(touchEvent -> {
-            this.getRelocationCoordinates().setXDelta(touchEvent.getTouchPoint().getSceneX() - this.getRelocationCoordinates().getXBegin());
-            this.setTranslateX(this.getRelocationCoordinates().getXDelta());
-
-            this.getRelocationCoordinates().setYDelta(touchEvent.getTouchPoint().getSceneY() - this.getRelocationCoordinates().getYBegin());
-            this.setTranslateY(this.getRelocationCoordinates().getYDelta());
-
-            this.setStyle(SHADOW_MOVED);
-        });
-
-        this.setOnTouchReleased(touchEvent -> {
-            if (isTimeWaitEnd()) {
-
-                if (Math.abs(this.getRelocationCoordinates().getXDelta()) +
-                        Math.abs(this.getRelocationCoordinates().getYDelta()) > 10d) {
-                    isDragAndDrop = true;
-                } else {
-                    //исключение перемещения панели,
-                    // если она смещена меньше, чем на 10 пикселей
-                    // из-за плохой работы тачпанели на мультимедиа столе
-                    this.setTranslateX(0);
-                    this.setTranslateY(0);
-                }
-
-                this.setLayoutX(this.getLayoutX() + this.getTranslateX());
-                this.setLayoutY(this.getLayoutY() + this.getTranslateY());
-                this.setTranslateX(0);
-                this.setTranslateY(0);
-
-                this.clearRelocationCoordinates();
-
-                setLocationRestriction();
-
-                //перелистывание страниц письма вперед,
-                // если оно не перемещалось
-                if (!isDragAndDrop) {
-                    this.setNextTextBlock();
-                }
-                isDragAndDrop = false;
-
-                this.setStyle(SHADOW_STILL);
-
-                    setTimeWait();
-            }
-        });
+    @Override
+    protected void touchEvent() {
+        super.touchPressed();
+        super.touchMoved(SHADOW_MOVED);
+        this.touchReleased(SHADOW_STILL);
     }
 
-    //ограничение на перемещение планшета
-    private void setLocationRestriction() {
+    @Override
+    protected void touchReleased(final String style) {
+        this.setOnTouchReleased(event -> releasedAction(event, style));
+    }
 
-        if (this.getLayoutX() < LEFT_RESTRICTION) {
-            this.setLayoutX(LEFT_RESTRICTION);
-        }
+    @Override
+    protected void touchReleased() {
+        touchReleased("");
+    }
 
-        if (this.getLayoutY() < TOP_RESTRICTION) {
-            this.setLayoutY(TOP_RESTRICTION);
-        }
+    @Override
+    public void setChildAction() {
+        this.setNextTextBlock();
+    }
 
-        if (this.getLayoutX() > RIGHT_RESTRICTION) {
-            this.setLayoutX(RIGHT_RESTRICTION);
-        }
-
-        if (this.getLayoutY() > BOTTOM_RESTRICTION) {
-            this.setLayoutY(BOTTOM_RESTRICTION);
-        }
+    @Override
+    protected void releasedAction(final InputEvent event, final String style) {
+        super.releasedAction(event, style);
     }
 
 }

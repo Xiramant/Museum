@@ -1,9 +1,8 @@
 package table4K.map;
 
-import general.ArrayListIndex;
-import general.ImagePane;
-import general.TextPane;
+import general.*;
 import javafx.geometry.VPos;
+import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -14,12 +13,11 @@ import java.util.ArrayList;
 import static general.TextProcessing.readingFileIntoString;
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
-import static table4K.Main4K.TABLE_HEIGHT;
-import static table4K.Main4K.TABLE_WIDTH;
-import static table4K.Main4K.DEBUGGING_RATIO;
+import static table4K.Main4K.*;
+import static table4K.Main4K.isMinMove;
 import static table4K.map.Map.*;
 
-public class MapPaneText extends ImagePane {
+public class MapPaneText extends ImagePaneIteration {
 
     //максимальная ширина панели текстового блока для раздела Карты
     private static final double МAP_PANE_TEXT_WIDTH_MAX = 640 / DEBUGGING_RATIO;
@@ -77,8 +75,13 @@ public class MapPaneText extends ImagePane {
 
         setDisplayText(0);
 
-        mouseAction();
-        touchAction();
+        setRestrCoor(MAP_INITIAL_AREA_X_BEGIN,
+                MAP_INITIAL_AREA_Y_BEGIN,
+                MAP_INITIAL_AREA_X_END + this.getPrefWidth(),
+                MAP_INITIAL_AREA_Y_END + this.getPrefHeight());
+
+        mouseEvent();
+        touchEvent();
 
         this.setStyle(MAP_PANE_TEXT_SHADOW_NORMAL);
 
@@ -126,172 +129,60 @@ public class MapPaneText extends ImagePane {
     //методы смены текста в текстовом блоке
     private void setNextTextBlock() {
         if(textPaneList.hasNextElement()) {
-            displayText.setText(textPaneList.getNextElement());
-            setCountPageText();
+            setTextBlock(textPaneList.getNextElement());
         } else {
-            setFirstTextBlock();
+            setTextBlock(textPaneList.getFirstElement());
         }
     }
 
-    private void setPrevTextBlock() {
-        displayText.setText(textPaneList.getPrevElement());
+    private void setTextBlock(final String text) {
+        displayText.setText(text);
         setCountPageText();
     }
 
-    private void setFirstTextBlock() {
-        displayText.setText(textPaneList.getFirstElement());
-        setCountPageText();
+
+    @Override
+    protected void mouseEvent() {
+        super.mousePressed();
+        super.mouseDragged(MAP_PANE_TEXT_SHADOW_DRAG_AND_DROP);
+        this.mouseReleased(MAP_PANE_TEXT_SHADOW_NORMAL);
     }
 
-    private void setLastTextBlock() {
-        displayText.setText(textPaneList.getLastElement());
-        setCountPageText();
+    @Override
+    protected void mouseReleased(final String style) {
+        this.setOnMouseReleased(event -> releasedAction(event, style));
     }
 
-    
-    //Обработка событий Мыши
-    private void mouseAction() {
-
-        //перемещение планшета
-        this.setOnMousePressed(mouseEvent -> {
-
-            this.getRelocationCoordinates().setXBegin(mouseEvent.getSceneX());
-            this.getRelocationCoordinates().setYBegin(mouseEvent.getSceneY());
-        });
-
-        this.setOnMouseDragged(mouseEvent -> {
-
-            this.getRelocationCoordinates().setXDelta(mouseEvent.getSceneX() - this.getRelocationCoordinates().getXBegin());
-            this.setTranslateX(this.getRelocationCoordinates().getXDelta());
-
-            this.getRelocationCoordinates().setYDelta(mouseEvent.getSceneY() - this.getRelocationCoordinates().getYBegin());
-            this.setTranslateY(this.getRelocationCoordinates().getYDelta());
-
-            this.setStyle(MAP_PANE_TEXT_SHADOW_DRAG_AND_DROP);
-        });
-
-        this.setOnMouseReleased(mouseEvent -> {
-
-            if (Math.abs(this.getRelocationCoordinates().getXDelta()) +
-                    Math.abs(this.getRelocationCoordinates().getYDelta()) > 10d) {
-                isDragAndDrop = true;
-            }
-
-            this.setLayoutX(this.getLayoutX() + this.getTranslateX());
-            this.setLayoutY(this.getLayoutY() + this.getTranslateY());
-            this.setTranslateX(0);
-            this.setTranslateY(0);
-
-            this.clearRelocationCoordinates();
-
-            setLocationRestriction();
-
-            this.setStyle(MAP_PANE_TEXT_SHADOW_NORMAL);
-        });
-
-        //действия при клике мышкой
-        this.setOnMouseClicked(event -> {
-
-            if (!isDragAndDrop) {
-
-                //нажатие левой кнопки приводит к листанию текста вперед
-                if (event.getButton() == MouseButton.PRIMARY) {
-                    this.setNextTextBlock();
-                }
-
-                //нажатие правой кнопки приводит к листанию текста назад
-                if (event.getButton() == MouseButton.SECONDARY) {
-                    this.setPrevTextBlock();
-                }
-
-                //Двойной щелчок левой кнопкой приводит к переходу на последнюю страницу
-                if (event.getClickCount() == 2) {
-                    this.setLastTextBlock();
-                }
-
-                //Двойной щелчок правой кнопкой приводит к переходу на первую страницу
-                if (event.getButton() == MouseButton.SECONDARY && event.getClickCount() == 2) {
-                    this.setFirstTextBlock();
-                }
-            }
-
-            isDragAndDrop = false;
-        });
+    @Override
+    protected void mouseReleased() {
+        mouseReleased("");
     }
 
-    //Обработка событий Тача
-    private void touchAction() {
-
-        this.setOnTouchPressed(touchEvent -> {
-            this.getRelocationCoordinates().setXBegin(touchEvent.getTouchPoint().getSceneX());
-            this.getRelocationCoordinates().setYBegin(touchEvent.getTouchPoint().getSceneY());
-        });
-
-        this.setOnTouchMoved(touchEvent -> {
-            this.getRelocationCoordinates().setXDelta(touchEvent.getTouchPoint().getSceneX() - this.getRelocationCoordinates().getXBegin());
-            this.setTranslateX(this.getRelocationCoordinates().getXDelta());
-
-            this.getRelocationCoordinates().setYDelta(touchEvent.getTouchPoint().getSceneY() - this.getRelocationCoordinates().getYBegin());
-            this.setTranslateY(this.getRelocationCoordinates().getYDelta());
-
-            this.setStyle(MAP_PANE_TEXT_SHADOW_DRAG_AND_DROP);
-        });
-
-        this.setOnTouchReleased(touchEvent -> {
-            if (isTimeWaitEnd()) {
-
-                if (Math.abs(this.getRelocationCoordinates().getXDelta()) +
-                        Math.abs(this.getRelocationCoordinates().getYDelta()) > 10d) {
-                    isDragAndDrop = true;
-                } else {
-                    //исключение перемещения панели,
-                    // если она смещена меньше, чем на 10 пикселей
-                    // из-за плохой работы тачпанели на мультимедиа столе
-                    this.setTranslateX(0);
-                    this.setTranslateY(0);
-                }
-
-                this.setLayoutX(this.getLayoutX() + this.getTranslateX());
-                this.setLayoutY(this.getLayoutY() + this.getTranslateY());
-                this.setTranslateX(0);
-                this.setTranslateY(0);
-
-                this.clearRelocationCoordinates();
-
-                setLocationRestriction();
-
-                //перелистывание страниц письма вперед,
-                // если оно не перемещалось
-                if (!isDragAndDrop) {
-                    this.setNextTextBlock();
-                }
-                isDragAndDrop = false;
-
-                this.setStyle(MAP_PANE_TEXT_SHADOW_NORMAL);
-
-                setTimeWait();
-            }
-        });
+    @Override
+    protected void touchEvent() {
+        super.touchPressed();
+        super.touchMoved(MAP_PANE_TEXT_SHADOW_DRAG_AND_DROP);
+        this.touchReleased(MAP_PANE_TEXT_SHADOW_NORMAL);
     }
 
-    //ограничение на перемещение планшета
-    private void setLocationRestriction() {
+    @Override
+    protected void touchReleased(final String style) {
+        this.setOnTouchReleased(event -> releasedAction(event, style));
+    }
 
-        if (this.getLayoutX() < MAP_INITIAL_AREA_X_BEGIN) {
-            this.setLayoutX(MAP_INITIAL_AREA_X_BEGIN);
-        }
+    @Override
+    protected void touchReleased() {
+        touchReleased("");
+    }
 
-        if (this.getLayoutY() < MAP_INITIAL_AREA_Y_BEGIN) {
-            this.setLayoutY(MAP_INITIAL_AREA_Y_BEGIN);
-        }
+    @Override
+    public void setChildAction() {
+        this.setNextTextBlock();
+    }
 
-        if (this.getLayoutX() > MAP_INITIAL_AREA_X_END) {
-            this.setLayoutX(MAP_INITIAL_AREA_X_END);
-        }
-
-        if (this.getLayoutY() > MAP_INITIAL_AREA_Y_END) {
-            this.setLayoutY(MAP_INITIAL_AREA_Y_END);
-        }
+    @Override
+    protected void releasedAction(final InputEvent event, final String style) {
+        super.releasedAction(event, style);
     }
 
 }

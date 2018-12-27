@@ -14,22 +14,6 @@ import static table4K.Main4K.*;
 
 public class ImagePane extends Pane {
 
-    //флаг регистрации перемещения ImagePaneIteration
-    // если параметр в состоянии true, значит панель перемещали
-    protected boolean isDragAndDrop = false;
-
-    //Поле для хранения параметров расположения панели
-    // при ее перемещении методом drag and drop
-    protected RelocationCoordinates relocationCoordinates = new RelocationCoordinates();
-
-    public RelocationCoordinates getRelocationCoordinates() {
-        return relocationCoordinates;
-    }
-
-    public void setRelocationCoordinates(final RelocationCoordinates relocationCoordinates) {
-        this.relocationCoordinates = relocationCoordinates;
-    }
-
     //Основной используемый конструктор по передаваемому изображению
     // и ограничениями на максимальный размер
     public ImagePane(final Image image, final double wMax, final double hMax) {
@@ -90,11 +74,6 @@ public class ImagePane extends Pane {
     //установка фона по передаваемому файлу изображении фона
     public void setImageBackground(final File imageFile) {
         setImageBackground(new Image("file:" + imageFile.toString()));
-    }
-
-    //Метод по очистке данных в поле relocationCoordinates
-    public void clearRelocationCoordinates() {
-        setRelocationCoordinates(new RelocationCoordinates());
     }
 
 }
