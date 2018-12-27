@@ -27,22 +27,22 @@ public class Quiz {
     static final Color TEXT_COLOR = Color.rgb(7, 153, 89);
 
     //центр экрана телевизора по горизонтали
-    private static final double TEXT_X_CENTER = 1610 / debuggingRatio;
+    private static final double TEXT_X_CENTER = 1610 / DEBUGGING_RATIO;
 
     //отступ сверху для надписи Номер вопроса
-    private static final double QUESTION_NUMBER_TEXT_Y = 398 / debuggingRatio;
+    private static final double QUESTION_NUMBER_TEXT_Y = 398 / DEBUGGING_RATIO;
 
     //отступ сверху для текста Полученные очки
-    private static final double POINTS_RECEIVED_TEXT_Y = 1456 / debuggingRatio;
+    private static final double POINTS_RECEIVED_TEXT_Y = 1456 / DEBUGGING_RATIO;
 
     //максимальная ширина текста викторины
-    static final double QUESTION_TEXT_WIDTH_MAX = 1800 / debuggingRatio;
+    static final double QUESTION_TEXT_WIDTH_MAX = 1800 / DEBUGGING_RATIO;
 
     //первоначальные параметры шрифта текста викторины
-    private static final double TEXT_FONT_SIZE_INITIAL = 80 / debuggingRatio;
+    private static final double TEXT_FONT_SIZE_INITIAL = 80 / DEBUGGING_RATIO;
     private static final String TEXT_FONT_NAME = "Dited";
-    private static final double BLOCK_TEXT_VERTICAL_INTERVAL_INITIAL = 50 / debuggingRatio;
-    private static final double LINE_TEXT_VERTICAL_INTERVAL_INITIAL = 20 / debuggingRatio;
+    private static final double BLOCK_TEXT_VERTICAL_INTERVAL_INITIAL = 50 / DEBUGGING_RATIO;
+    private static final double LINE_TEXT_VERTICAL_INTERVAL_INITIAL = 20 / DEBUGGING_RATIO;
 
     //множитель, на который постепенно уменьшается размер шрифта и отступов текста викторины,
     // чтобы влезть в экран телевизора
@@ -53,14 +53,14 @@ public class Quiz {
     private static final File BUTTON_NEXT_BACKGROUND_FILE = new File(RESOURCES_PATH + "quiz/buttonNext.png");
 
     //расположение кнопок управления викториной
-    private static final double BUTTON_MEDIA_X = 505 / debuggingRatio;
-    private static final double BUTTON_ONE_X = 999 / debuggingRatio;
-    private static final double BUTTON_TWO_X = 1218 / debuggingRatio;
-    private static final double BUTTON_THREE_X = 1437 / debuggingRatio;
-    private static final double BUTTON_FOUR_X = 1656 / debuggingRatio;
-    private static final double BUTTON_TEST_X = 1974 / debuggingRatio;
-    private static final double BUTTON_NEW_X = 2478 / debuggingRatio;
-    private static final double BUTTON_Y = 1840 / debuggingRatio;
+    private static final double BUTTON_MEDIA_X = 505 / DEBUGGING_RATIO;
+    private static final double BUTTON_ONE_X = 999 / DEBUGGING_RATIO;
+    private static final double BUTTON_TWO_X = 1218 / DEBUGGING_RATIO;
+    private static final double BUTTON_THREE_X = 1437 / DEBUGGING_RATIO;
+    private static final double BUTTON_FOUR_X = 1656 / DEBUGGING_RATIO;
+    private static final double BUTTON_TEST_X = 1974 / DEBUGGING_RATIO;
+    private static final double BUTTON_NEW_X = 2478 / DEBUGGING_RATIO;
+    private static final double BUTTON_Y = 1840 / DEBUGGING_RATIO;
 
     //размер шрифта текста викторины
     private static double textFontSize;

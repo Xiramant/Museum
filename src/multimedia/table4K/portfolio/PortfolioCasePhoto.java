@@ -7,23 +7,23 @@ import java.io.File;
 import static general.InitialLocation.randomInRange;
 import static table4K.Main4K.TABLE_HEIGHT;
 import static table4K.Main4K.TABLE_WIDTH;
-import static table4K.Main4K.debuggingRatio;
+import static table4K.Main4K.DEBUGGING_RATIO;
 import static table4K.portfolio.PortfolioCasePane.PORTFOLIO_CASE_X;
 import static table4K.portfolio.PortfolioCasePane.PORTFOLIO_CASE_Y;
 
 public class PortfolioCasePhoto extends ImageViewController{
 
     //максимальная ширина фотографии в раскрытом личном деле
-    private final double PORTFOLIO_PHOTO_WIDTH_MAX = 746 / debuggingRatio;
+    private final double PORTFOLIO_PHOTO_WIDTH_MAX = 746 / DEBUGGING_RATIO;
 
     //максимальная высота фотографии в раскрытом личном деле
-    private final double PORTFOLIO_PHOTO_HEIGHT_MAX = 1142 / debuggingRatio;
+    private final double PORTFOLIO_PHOTO_HEIGHT_MAX = 1142 / DEBUGGING_RATIO;
 
     //отступ слева до фотографии в раскрытом личном деле
-    private final double PORTFOLIO_PHOTO_X = 36 / debuggingRatio;
+    private final double PORTFOLIO_PHOTO_X = 36 / DEBUGGING_RATIO;
 
     //отступ сверху до фотографии в раскрытом личном деле
-    private final double PORTFOLIO_PHOTO_Y = 86 / debuggingRatio;
+    private final double PORTFOLIO_PHOTO_Y = 86 / DEBUGGING_RATIO;
 
     //тени для неподвижной/перемещаемой панели
     private static final String SHADOW_STILL = "-fx-effect: dropshadow(gaussian, black, 6, 0.3, -1, 1);";
@@ -57,19 +57,19 @@ public class PortfolioCasePhoto extends ImageViewController{
                 TABLE_WIDTH - PORTFOLIO_CASE_X,
                 TABLE_HEIGHT - PORTFOLIO_CASE_Y);
 
-        this.ivcMouseDragAndDrop();
-        this.ivcTouchDragAndDrop();
+        this.ivcMouseEvent();
+        this.ivcTouchEvent();
     }
 
     @Override
-    public void ivcMouseDragAndDrop() {
+    public void ivcMouseEvent() {
         super.ivcMousePressed();
         super.ivcMouseDragged(SHADOW_MOVED);
         super.ivcMouseReleased(SHADOW_STILL);
     }
 
     @Override
-    public void ivcTouchDragAndDrop() {
+    public void ivcTouchEvent() {
         super.ivcTouchPressed();
         super.ivcTouchMoved(SHADOW_MOVED);
         super.ivcTouchReleased(SHADOW_STILL);

@@ -1,8 +1,6 @@
 package table4K.quiz;
 
-import general.ArrayListIndex;
 import general.ImagePane;
-import general.ImagePaneIteration;
 import javafx.geometry.VPos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,7 +12,7 @@ import javafx.scene.text.Text;
 import java.io.File;
 
 import static table4K.Main4K.RESOURCES_PATH;
-import static table4K.Main4K.debuggingRatio;
+import static table4K.Main4K.DEBUGGING_RATIO;
 
 public class QuizButton extends ImagePane {
 
@@ -28,8 +26,8 @@ public class QuizButton extends ImagePane {
     private static final File BUTTON_BACKGROUND_PUSH = new File(RESOURCES_PATH + "quiz/tv_button_shadow.png");
 
     //параметры тв кнопки: ширина, шрифт надписи внутри кнопки, цвет надписи внутри кнопки
-    private static final double BUTTON_WIDTH =  226 / debuggingRatio;
-    private static final Font BUTTON_NAME_FONT = Font.font("Arial", FontWeight.BOLD, 83/debuggingRatio);
+    private static final double BUTTON_WIDTH =  226 / DEBUGGING_RATIO;
+    private static final Font BUTTON_NAME_FONT = Font.font("Arial", FontWeight.BOLD, 83/ DEBUGGING_RATIO);
     private static final Color BUTTON_NAME_COLOR = Color.rgb(30, 30, 30);
 
 
@@ -70,7 +68,7 @@ public class QuizButton extends ImagePane {
         super(BUTTON_BACKGROUND, BUTTON_WIDTH, 0);
 
         ImageView iv = new ImageView(new Image("file:" + imageFile));
-        iv.setFitWidth(iv.getLayoutBounds().getWidth() / debuggingRatio);
+        iv.setFitWidth(iv.getLayoutBounds().getWidth() / DEBUGGING_RATIO);
         iv.setPreserveRatio(true);
         iv.setLayoutX(this.getPrefWidth() / 2 - iv.getLayoutBounds().getWidth() / 2);
         iv.setLayoutY(this.getPrefHeight() / 2 - iv.getLayoutBounds().getHeight() / 2);

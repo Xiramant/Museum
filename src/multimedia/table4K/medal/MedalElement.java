@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import static general.TextProcessing.readingFirstStokeFromFile;
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
-import static table4K.Main4K.debuggingRatio;
+import static table4K.Main4K.DEBUGGING_RATIO;
 import static table4K.medal.Medal.DESCRIPTION_HEIGHT;
 import static table4K.medal.Medal.DESCRIPTION_WIDTH;
 import static table4K.medal.Medal.descriptionPane;
@@ -34,22 +34,22 @@ public class MedalElement extends ImageView {
 
     //максимальная высота изображения медали для слайдера,
     // а также ордена, похожего на медаль
-    static final double MEDAL_SLIDER_IMAGE_HEIGHT_MAX = 400 / debuggingRatio;
+    static final double MEDAL_SLIDER_IMAGE_HEIGHT_MAX = 400 / DEBUGGING_RATIO;
 
     //максимальная высота изображения медали для ордена
-    private static final double ORDEN_SLIDER_IMAGE_HEIGHT_MAX = 300 / debuggingRatio;
+    private static final double ORDEN_SLIDER_IMAGE_HEIGHT_MAX = 300 / DEBUGGING_RATIO;
 
     //тень изображения медали/ордена для слайдера
     private static final String MEDAL_SLIDER_IMAGE_SHADOW = "-fx-effect: dropshadow(gaussian, black, 6, 0.3, -1, 1);";
 
     //размер плашки, при превышении которой следует переходить к уменьшенному шрифту
-    private static final double MEDAL_NAME_SIZE_MAX = 2100 / debuggingRatio;
+    private static final double MEDAL_NAME_SIZE_MAX = 2100 / DEBUGGING_RATIO;
 
     //размер шрифта для названия медали/ордена
-    private static final double MEDAL_NAME_FONT_SIZE = 80 / debuggingRatio;
+    private static final double MEDAL_NAME_FONT_SIZE = 80 / DEBUGGING_RATIO;
 
     //размер уменьшенного шрифта для названия медали/ордена
-    private static final double MEDAL_NAME_FONT_SMALL_SIZE = 60 / debuggingRatio;
+    private static final double MEDAL_NAME_FONT_SMALL_SIZE = 60 / DEBUGGING_RATIO;
 
     //шрифт для названия медали/ордена
     private static final Font MEDAL_NAME_FONT = Font.font("Arial", FontWeight.BOLD, MEDAL_NAME_FONT_SIZE);
@@ -61,16 +61,16 @@ public class MedalElement extends ImageView {
     private static final Color MEDAL_NAME_COLOR = Color.rgb(167, 6, 6);
 
     //положение серединной точки для названия медали/ордена
-    private static final double MEDAL_NAME_CENTER_X = 1673 / debuggingRatio;
+    private static final double MEDAL_NAME_CENTER_X = 1673 / DEBUGGING_RATIO;
 
     //положение нижней точки для названия медали/ордена
-    private static final double MEDAL_NAME_BOTTOM_Y = -40 / debuggingRatio;
+    private static final double MEDAL_NAME_BOTTOM_Y = -40 / DEBUGGING_RATIO;
 
     //интервал между медалями/орденами по горизонтали
-    private static final double MEDAL_HORIZONTAL_INTERVAL = 100 / debuggingRatio;
+    private static final double MEDAL_HORIZONTAL_INTERVAL = 100 / DEBUGGING_RATIO;
 
     //интервал до панели с текстом описания медали/ордена
-    private static final double MEDAL_DESCRIPTION_INTERVAL = 150 / debuggingRatio;
+    private static final double MEDAL_DESCRIPTION_INTERVAL = 150 / DEBUGGING_RATIO;
 
 
     MedalElement(final ArrayList<File> imageFilesEnter, final ArrayList<File> textFilesEnter) {
@@ -140,7 +140,7 @@ public class MedalElement extends ImageView {
         name.setFill(MEDAL_NAME_COLOR);
         name.setTextOrigin(VPos.BOTTOM);
         name.setLayoutX(MEDAL_NAME_CENTER_X - name.getLayoutBounds().getWidth() / 2);
-        name.setLayoutY(MEDAL_NAME_BOTTOM_Y / debuggingRatio);
+        name.setLayoutY(MEDAL_NAME_BOTTOM_Y / DEBUGGING_RATIO);
 
         return name;
     }

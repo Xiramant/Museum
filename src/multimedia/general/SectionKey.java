@@ -8,7 +8,8 @@ public enum SectionKey {
     MEDAL ("medal"),
     ORDEN ("orden"),
     BOOK ("book"),
-    FILM ("film");
+    FILM ("film"),
+    QUIZ ("quiz");
 
     private final String keyWord;
 

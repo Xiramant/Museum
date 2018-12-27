@@ -22,43 +22,43 @@ public class PortfolioCasePane extends ImagePane{
 
     //Развернутая папка Личное дело
     //максимальная высота
-    private static final double PORTFOLIO_CASE_HEIGHT_MAX = 1300 / debuggingRatio;
+    private static final double PORTFOLIO_CASE_HEIGHT_MAX = 1300 / DEBUGGING_RATIO;
     //отступ слева
-    static final double PORTFOLIO_CASE_X = 1500 / debuggingRatio;
+    static final double PORTFOLIO_CASE_X = 1500 / DEBUGGING_RATIO;
     //отступ сверху
-    static final double PORTFOLIO_CASE_Y = 760 / debuggingRatio;
+    static final double PORTFOLIO_CASE_Y = 760 / DEBUGGING_RATIO;
 
     //Текстовый блок ФИО на корешке папки Личное дело
     //шрифт
-    private static final Font FIO_FONT = new Font("Book Antiqua Bold Italic", 52 / debuggingRatio);
+    private static final Font FIO_FONT = new Font("Book Antiqua Bold Italic", 52 / DEBUGGING_RATIO);
     //цвет
     private static final Color FIO_COLOR = Color.rgb(201, 136, 33);
     //отступ слева
-    private static final double FIO_X = 920 / debuggingRatio;
+    private static final double FIO_X = 920 / DEBUGGING_RATIO;
     //отступ сверху
-    private static final double FIO_Y = 640 / debuggingRatio;
+    private static final double FIO_Y = 640 / DEBUGGING_RATIO;
 
     //Фото для биографии
     //максимальная высота
-    private static final double BIOGRAPHY_PHOTO_HEIGHT_MAX = 272 / debuggingRatio;
+    private static final double BIOGRAPHY_PHOTO_HEIGHT_MAX = 272 / DEBUGGING_RATIO;
     //отступ слева
-    private static final double BIOGRAPHY_PHOTO_X = 1021 / debuggingRatio;
+    private static final double BIOGRAPHY_PHOTO_X = 1021 / DEBUGGING_RATIO;
     //отступ сверху
-    private static final double BIOGRAPHY_PHOTO_Y = 128 / debuggingRatio;
+    private static final double BIOGRAPHY_PHOTO_Y = 128 / DEBUGGING_RATIO;
 
     //Текстовый блок биографии
     //ширина
-    private static final double BIOGRAPHY_TEXT_WIDTH = 620 / debuggingRatio;
+    private static final double BIOGRAPHY_TEXT_WIDTH = 620 / DEBUGGING_RATIO;
     //высота
-    private static final double BIOGRAPHY_TEXT_HEIGHT = 765 / debuggingRatio;
+    private static final double BIOGRAPHY_TEXT_HEIGHT = 765 / DEBUGGING_RATIO;
     //шрифт
-    private static final Font BIOGRAPHY_TEXT_FONT =  new Font("B52", 23 / debuggingRatio);
+    private static final Font BIOGRAPHY_TEXT_FONT =  new Font("B52", 23 / DEBUGGING_RATIO);
     //межстрочный интервал
-    private static final double BIOGRAPHY_TEXT_LINE_SPACING = 23 / 2 / debuggingRatio;
+    private static final double BIOGRAPHY_TEXT_LINE_SPACING = 23 / 2 / DEBUGGING_RATIO;
     //отступ слева
-    private static final double BIOGRAPHY_TEXT_X =  1021 / debuggingRatio;
+    private static final double BIOGRAPHY_TEXT_X =  1021 / DEBUGGING_RATIO;
     //отступ сверху
-    private static final double BIOGRAPHY_TEXT_Y =  435 / debuggingRatio;
+    private static final double BIOGRAPHY_TEXT_Y =  435 / DEBUGGING_RATIO;
     //лист стрингов для страниц при перелистывании текстового блока
     private ArrayListIndex<String> textBlockStrings;
 

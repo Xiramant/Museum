@@ -2,80 +2,76 @@ package general;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TouchEvent;
 
 
 import java.io.File;
-import java.net.MalformedURLException;
 
 import static general.RestrictionCoordinates.getNotDetermined;
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
+import static table4K.Main4K.actionPermission;
 
 public class ImageViewController extends ImageView {
 
-    //Поле для хранения параметров расположения панели
-    // при ее перемещении методом drag and drop
-    protected RelocationCoordinates relocationCoordinates = new RelocationCoordinates();
+    //Поле для хранения параметров расположения ImageView
+    // при его перемещении
+    private RelocationCoordinates relocationCoordinates = new RelocationCoordinates();
 
-    //Поле для хранения ограничения положения панели
-    private RestrictionCoordinates restrCoor = new RestrictionCoordinates();
+    //Поле для хранения ограничения положения ImageView
+    private RestrictionCoordinates restrictionCoordinates = new RestrictionCoordinates();
 
-    public RelocationCoordinates getRelocationCoordinates() {
+    //флаг разрешения на перемещение изображения
+    private boolean permissionMove = true;
+
+    //Флаг разрешения на ограничение перемещения ImageView
+    private boolean permissionLocationRestriction = false;
+
+    //Флаг нажатия мышки или тача
+    //Требуется, чтобы событие ivcMouseDragged / ivcTouchMoved (а также ivcMouseReleased / ivcTouchReleased)
+    // можно было регистрировать только после события ivcMousePressed / ivcTouchPressed
+    protected boolean flagPressed = false;
+
+
+    public void setMoveDisabled() {
+        this.permissionMove = false;
+
+        ivcMouseEvent();
+        ivcTouchEvent();
+    }
+
+    protected RelocationCoordinates getRelocationCoordinates() {
         return relocationCoordinates;
     }
 
-    private boolean flagDragAndDrop = false;
-
-    private boolean flagLocationRestriction = false;
-
-    public void setFlagDragAndDrop(final boolean flagDragAndDrop) {
-        this.flagDragAndDrop = flagDragAndDrop;
-
-        if (flagDragAndDrop) {
-            ivcMouseDragAndDrop();
-            ivcTouchDragAndDrop();
-        }
-    }
-
-    public void setRelocationCoordinates(final RelocationCoordinates relocationCoordinates) {
+    private void setRelocationCoordinates(final RelocationCoordinates relocationCoordinates) {
         this.relocationCoordinates = relocationCoordinates;
     }
+
 
     public ImageViewController(final File imageFile) {
 //        super(new Image(imageFile.toURI().toURL().toString()));
         super(new Image("file:" + imageFile.toString()));
+
+        ivcMouseEvent();
+        ivcTouchEvent();
     }
 
 
-    protected void ivcMouseDragAndDrop() {
+    protected void ivcMouseEvent() {
         ivcMousePressed();
         ivcMouseDragged();
         ivcMouseReleased();
     }
 
     protected void ivcMousePressed() {
-        this.setOnMousePressed(mouseEvent -> {
-            this.toFront();
-
-            this.getRelocationCoordinates().setXBegin(mouseEvent.getSceneX());
-            this.getRelocationCoordinates().setYBegin(mouseEvent.getSceneY());
-        });
+        this.setOnMousePressed(event -> pressedAction(event));
     }
 
     protected void ivcMouseDragged(final String style) {
-
-        this.setOnMouseDragged(mouseEvent -> {
-
-            this.getRelocationCoordinates().setXDelta(mouseEvent.getSceneX() - this.getRelocationCoordinates().getXBegin());
-            this.setTranslateX(this.getRelocationCoordinates().getXDelta());
-
-            this.getRelocationCoordinates().setYDelta(mouseEvent.getSceneY() - this.getRelocationCoordinates().getYBegin());
-            this.setTranslateY(this.getRelocationCoordinates().getYDelta());
-
-            if (style.length() > 0) {
-                this.setStyle(style);
-            }
-        });
+        this.setOnMouseDragged(event -> movedAction(event, style));
     }
 
     protected void ivcMouseDragged() {
@@ -83,24 +79,7 @@ public class ImageViewController extends ImageView {
     }
 
     protected void ivcMouseReleased(final String style) {
-
-        this.setOnMouseReleased(mouseEvent -> {
-
-            this.setLayoutX(this.getLayoutX() + this.getTranslateX());
-            this.setLayoutY(this.getLayoutY() + this.getTranslateY());
-            this.setTranslateX(0);
-            this.setTranslateY(0);
-
-            this.clearRelocationCoordinates();
-
-            if (style.length() > 0) {
-                this.setStyle(style);
-            }
-
-            if (flagLocationRestriction) {
-                setLocationRestriction();
-            }
-        });
+        this.setOnMouseReleased(event -> releasedAction(event, style));
     }
 
     protected void ivcMouseReleased() {
@@ -109,48 +88,67 @@ public class ImageViewController extends ImageView {
 
 
     //Метод обработки действий по тач касаниям
-    protected void ivcTouchDragAndDrop() {
+    protected void ivcTouchEvent() {
         ivcTouchPressed();
         ivcTouchMoved();
         ivcTouchReleased();
     }
 
     protected void ivcTouchPressed() {
-
-        this.setOnTouchPressed(event -> {
-            this.toFront();
-
-            this.getRelocationCoordinates().setXBegin(event.getTouchPoint().getSceneX());
-            this.getRelocationCoordinates().setYBegin(event.getTouchPoint().getSceneY());
-        });
+        this.setOnTouchPressed(event -> pressedAction(event));
     }
 
     protected void ivcTouchMoved(final String style) {
-
-        this.setOnTouchMoved(event -> {
-
-            this.getRelocationCoordinates().setXDelta(event.getTouchPoint().getSceneX() - this.getRelocationCoordinates().getXBegin());
-            this.setTranslateX(this.getRelocationCoordinates().getXDelta());
-
-            this.getRelocationCoordinates().setYDelta(event.getTouchPoint().getSceneY() - this.getRelocationCoordinates().getYBegin());
-            this.setTranslateY(this.getRelocationCoordinates().getYDelta());
-
-            if (style.length() > 0) {
-                this.setStyle(style);
-            }
-        });
+        this.setOnTouchMoved(event -> movedAction(event, style));
     }
 
     protected void ivcTouchMoved() {
         ivcTouchMoved("");
     }
 
-
     protected void ivcTouchReleased(final String style) {
+        this.setOnTouchReleased(event -> releasedAction(event, style));
+    }
 
-        this.setOnTouchReleased(event -> {
-            if (isTimeWaitEnd()) {
+    protected void ivcTouchReleased() {
+        ivcTouchReleased("");
+    }
 
+
+    //Выполнение действий по событию Нажатие кнопки мыши или Нажатие тача
+    private void pressedAction(final InputEvent event) {
+
+        if (isTimeWaitEnd() && actionPermission(event) && permissionMove) {
+
+                this.toFront();
+
+                this.getRelocationCoordinates().setXBegin(getX(event));
+                this.getRelocationCoordinates().setYBegin(getY(event));
+
+                flagPressed = true;
+        }
+    }
+
+    //Выполнение действий по событию Перемещение мышью или Перемещение тачем
+    private void movedAction(final InputEvent event, final String style) {
+
+        if (flagPressed && actionPermission(event) && permissionMove) {
+
+            this.getRelocationCoordinates().setXDelta(getX(event) - this.getRelocationCoordinates().getXBegin());
+            this.setTranslateX(this.getRelocationCoordinates().getXDelta());
+
+            this.getRelocationCoordinates().setYDelta(getY(event) - this.getRelocationCoordinates().getYBegin());
+            this.setTranslateY(this.getRelocationCoordinates().getYDelta());
+
+            setActionStyle(style);
+        }
+    }
+
+    protected void releasedAction(final InputEvent event, final String style) {
+
+        if (isTimeWaitEnd() && flagPressed && actionPermission(event)) {
+
+            if (permissionMove) {
                 this.setLayoutX(this.getLayoutX() + this.getTranslateX());
                 this.setLayoutY(this.getLayoutY() + this.getTranslateY());
                 this.setTranslateX(0);
@@ -158,62 +156,88 @@ public class ImageViewController extends ImageView {
 
                 this.clearRelocationCoordinates();
 
-
-                if (style.length() > 0) {
-                    this.setStyle(style);
-                }
-
-                if (flagLocationRestriction) {
-                    setLocationRestriction();
-                }
-
-                setTimeWait();
+                releasedActionWithIteration(style);
             }
-        });
+        }
     }
 
-    protected void ivcTouchReleased() {
-        ivcTouchReleased("");
+    protected void releasedActionWithIteration(final String style) {
+        setActionStyle(style);
+
+        if (permissionLocationRestriction) {
+            setLocationRestriction();
+        }
+
+        flagPressed = false;
+
+        setTimeWait();
     }
 
-    protected void clearRelocationCoordinates() {
+    //получение положения X по событию мыши или тача
+    private double getX(final InputEvent event) {
+        return event.getClass().equals(MouseEvent.class)?
+                ((MouseEvent)event).getSceneX():
+                ((TouchEvent)event).getTouchPoint().getSceneX();
+    }
+
+    //получение положения Y по событию мыши или тача
+    private double getY(final InputEvent event) {
+        return event.getClass().equals(MouseEvent.class)?
+                ((MouseEvent)event).getSceneY():
+                ((TouchEvent)event).getTouchPoint().getSceneY();
+    }
+
+    //установка стиля объекта данного класса при производстве действий с ним
+    private void setActionStyle(final String style) {
+        if (style.length() > 0) {
+            this.setStyle(style);
+        }
+    }
+
+
+    private void clearRelocationCoordinates() {
         setRelocationCoordinates(new RelocationCoordinates());
     }
 
     //установка значений области ограничивающей положение панели
     public void setRestrCoor(final double left, final double top, final double right, final double bottom) {
 
-        restrCoor.setRestrictionCoordinates(left, top, right, bottom);
+        restrictionCoordinates.setRestrictionCoordinates(left, top, right, bottom);
 
-        this.flagLocationRestriction = true;
+        this.permissionLocationRestriction = true;
     }
 
     //метод устанавливающий ограничения на местоположения панели
-    // в соответствии с областью, заданной в restrCoor
+    // в соответствии с областью, заданной в restrictionCoordinates
     private void setLocationRestriction() {
 
-        if (Math.abs(restrCoor.getLeft() - getNotDetermined()) > 0.1) {
-            if (this.getLayoutX() < restrCoor.getLeft()) {
-                this.setLayoutX(restrCoor.getLeft());
+        if (isDetermined(restrictionCoordinates.getLeft())) {
+            if (this.getLayoutX() < restrictionCoordinates.getLeft()) {
+                this.setLayoutX(restrictionCoordinates.getLeft());
             }
         }
 
-        if (Math.abs(restrCoor.getTop() - getNotDetermined()) > 0.1) {
-            if (this.getLayoutY() < restrCoor.getTop()) {
-                this.setLayoutY(restrCoor.getTop());
+        if (isDetermined(restrictionCoordinates.getTop())) {
+            if (this.getLayoutY() < restrictionCoordinates.getTop()) {
+                this.setLayoutY(restrictionCoordinates.getTop());
             }
         }
 
-        if (Math.abs(restrCoor.getRight() - getNotDetermined()) > 0.1) {
-            if (this.getLayoutX() + this.getLayoutBounds().getWidth() > restrCoor.getRight()) {
-                this.setLayoutX(restrCoor.getRight() - this.getLayoutBounds().getWidth());
+        if (isDetermined(restrictionCoordinates.getRight())) {
+            if (this.getLayoutX() + this.getLayoutBounds().getWidth() > restrictionCoordinates.getRight()) {
+                this.setLayoutX(restrictionCoordinates.getRight() - this.getLayoutBounds().getWidth());
             }
         }
 
-        if (Math.abs(restrCoor.getBottom() - getNotDetermined()) > 0.1) {
-            if (this.getLayoutY() + this.getLayoutBounds().getHeight() > restrCoor.getBottom()) {
-                this.setLayoutY(restrCoor.getBottom() - this.getLayoutBounds().getHeight());
+        if (isDetermined(restrictionCoordinates.getBottom())) {
+            if (this.getLayoutY() + this.getLayoutBounds().getHeight() > restrictionCoordinates.getBottom()) {
+                this.setLayoutY(restrictionCoordinates.getBottom() - this.getLayoutBounds().getHeight());
             }
         }
+    }
+
+    //Выявление - определена ли координата ограничения
+    private boolean isDetermined(final double restrictionCoordinate) {
+        return (Math.abs(restrictionCoordinate - getNotDetermined()) > 0.1);
     }
 }

@@ -16,9 +16,9 @@ import static table4K.portfolio.Portfolio.setPortfolioScene;
 
 public class BackHome extends Region {
 
-    private static final double BUTTON_HEIGHT_MAX = 100 / debuggingRatio;
+    private static final double BUTTON_HEIGHT_MAX = 100 / DEBUGGING_RATIO;
 
-    private static final double BUTTON_INDENT = 20 / debuggingRatio;
+    private static final double BUTTON_INDENT = 20 / DEBUGGING_RATIO;
 
     private static final String SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 2, 2);";
 

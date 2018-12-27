@@ -15,13 +15,13 @@ import static table4K.Main4K.*;
 public class FilmShow {
 
     //ширина области просмотра фильма
-    private static final double FILM_VIEW_WIDTH = 2640 / debuggingRatio;
+    private static final double FILM_VIEW_WIDTH = 2640 / DEBUGGING_RATIO;
 
     //высота области просмотра фильма
     private static double FILM_VIEW_HEIGHT;
 
     //отступ экрана слева
-    private static final double PLAYER_X = 1260 / debuggingRatio;
+    private static final double PLAYER_X = 1260 / DEBUGGING_RATIO;
 
 
     public static void FilmShowSet(final String filmName, final double filmRatio) {

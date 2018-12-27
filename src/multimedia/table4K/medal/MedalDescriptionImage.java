@@ -4,7 +4,7 @@ import general.ImageViewController;
 
 import java.io.File;
 
-import static table4K.Main4K.debuggingRatio;
+import static table4K.Main4K.DEBUGGING_RATIO;
 import static table4K.medal.Medal.DESCRIPTION_HEIGHT;
 import static table4K.medal.Medal.DESCRIPTION_WIDTH;
 import static table4K.medal.MedalElement.RATIO_MEDAL_OR_ORDEN;
@@ -13,14 +13,14 @@ public class MedalDescriptionImage extends ImageViewController {
 
     //максимальная высота изображения медали для слайдера,
     // а также ордена, похожего на медаль
-    private static final double MEDAL_IMAGE_HEIGHT_MAX = 800 / debuggingRatio;
+    private static final double MEDAL_IMAGE_HEIGHT_MAX = 800 / DEBUGGING_RATIO;
 
     //максимальная высота изображения медали для ордена
-    private static final double ORDEN_IMAGE_HEIGHT_MAX = 600 / debuggingRatio;
+    private static final double ORDEN_IMAGE_HEIGHT_MAX = 600 / DEBUGGING_RATIO;
 
     //ограничения на расположение
-    private static final double LEFT = 0 / debuggingRatio;
-    private static final double TOP = 0 / debuggingRatio;
+    private static final double LEFT = 0 / DEBUGGING_RATIO;
+    private static final double TOP = 0 / DEBUGGING_RATIO;
 
     //тени для неподвижной/перемещаемой панели
     private static final String SHADOW_STILL = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 2);";
@@ -29,8 +29,6 @@ public class MedalDescriptionImage extends ImageViewController {
 
     MedalDescriptionImage(final File fileImage) {
         super(fileImage);
-
-        this.setFlagDragAndDrop(true);
 
         double ratio = this.getLayoutBounds().getHeight() / this.getLayoutBounds().getWidth();
         if (ratio > RATIO_MEDAL_OR_ORDEN) {
@@ -48,21 +46,21 @@ public class MedalDescriptionImage extends ImageViewController {
                         DESCRIPTION_WIDTH,
                         DESCRIPTION_HEIGHT);
 
-        this.ivcMouseDragAndDrop();
-        this.ivcTouchDragAndDrop();
+        this.ivcMouseEvent();
+        this.ivcTouchEvent();
 
         this.setStyle(SHADOW_STILL);
     }
 
     @Override
-    public void ivcMouseDragAndDrop() {
+    public void ivcMouseEvent() {
         super.ivcMousePressed();
         super.ivcMouseDragged(SHADOW_MOVED);
         super.ivcMouseReleased(SHADOW_STILL);
     }
 
     @Override
-    public void ivcTouchDragAndDrop() {
+    public void ivcTouchEvent() {
         super.ivcTouchPressed();
         super.ivcTouchMoved(SHADOW_MOVED);
         super.ivcTouchReleased(SHADOW_STILL);

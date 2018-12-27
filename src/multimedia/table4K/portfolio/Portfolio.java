@@ -28,13 +28,13 @@ public class Portfolio {
     private static ArrayList<ArrayList<File>> heroTextFiles;
 
     //минимальный интервал между карточками героев Советского союза
-    private static final double PORTFOLIO_PCP_WIDTH_SPACING_MIN = 50 / debuggingRatio;
+    private static final double PORTFOLIO_PCP_WIDTH_SPACING_MIN = 50 / DEBUGGING_RATIO;
 
     //Координаты области, в которой должны располагаться карточки героев Советского союза
-    private static final double PORTFOLIO_PCP_AREA_X_BEGIN = 875 / debuggingRatio;
-    private static final double PORTFOLIO_PCP_AREA_X_END = 3975 / debuggingRatio;
-    private static final double PORTFOLIO_PCP_AREA_Y_BEGIN = 1150 / debuggingRatio;
-    private static final double PORTFOLIO_PCP_AREA_Y_END = 1850 / debuggingRatio;
+    private static final double PORTFOLIO_PCP_AREA_X_BEGIN = 875 / DEBUGGING_RATIO;
+    private static final double PORTFOLIO_PCP_AREA_X_END = 3975 / DEBUGGING_RATIO;
+    private static final double PORTFOLIO_PCP_AREA_Y_BEGIN = 1150 / DEBUGGING_RATIO;
+    private static final double PORTFOLIO_PCP_AREA_Y_END = 1850 / DEBUGGING_RATIO;
 
     //Параметры тени для карточек героев Советского союза
     private static final String PCP_SHADOW_STILL = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -2, 3);";

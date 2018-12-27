@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.RESOURCES_PATH;
-import static table4K.Main4K.debuggingRatio;
+import static table4K.Main4K.DEBUGGING_RATIO;
 import static table4K.Main4K.mainPane;
 import static table4K.map.Map.*;
 import static table4K.map.MapPaneText.МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER;
@@ -32,25 +32,25 @@ public class MapPaneImage extends ImagePaneIteration {
     private static final File MAP_PAGE_BACKGROUND_FILE = new File(RESOURCES_PATH + "map/map_page_background.jpg");
 
     //максимальная ширина фона для количества страниц (карт)
-    private static final double MAP_PAGE_BACKGROUND_WIDTH_MAX = 140 / debuggingRatio;
+    private static final double MAP_PAGE_BACKGROUND_WIDTH_MAX = 140 / DEBUGGING_RATIO;
 
     //максимальная высота фона для количества страниц (карт)
-    private static final double MAP_PAGE_BACKGROUND_HEIGHT_MAX = 30 / debuggingRatio;
+    private static final double MAP_PAGE_BACKGROUND_HEIGHT_MAX = 30 / DEBUGGING_RATIO;
 
     //отступ слева для фона количества страниц (карт)
-    private static final double MAP_PAGE_BACKGROUND_X = 16 / debuggingRatio;
+    private static final double MAP_PAGE_BACKGROUND_X = 16 / DEBUGGING_RATIO;
 
     //отступ сверху для фона количества страниц (карт)
-    private static final double MAP_PAGE_BACKGROUND_Y = 10 / debuggingRatio;
+    private static final double MAP_PAGE_BACKGROUND_Y = 10 / DEBUGGING_RATIO;
 
     //отображение текста количества страниц
     private Text mapCountPageText = new Text();
 
     //отступ сверху для блока количество карт
-    private static final double MAP_PAGE_TOP_PADDING = 14 / debuggingRatio;
+    private static final double MAP_PAGE_TOP_PADDING = 14 / DEBUGGING_RATIO;
 
     //отступ слева для блока количество карт
-    private static final double MAP_PAGE_LEFT_PADDING = 24 / debuggingRatio;
+    private static final double MAP_PAGE_LEFT_PADDING = 24 / DEBUGGING_RATIO;
 
     //шрифт блока количество страниц
     private static final Font МAP_PANE_IMAGE_FONT_PAGE_NUMBER = new Font("Book Antiqua Bold Italic", МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER);

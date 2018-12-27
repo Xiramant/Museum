@@ -1,16 +1,20 @@
 package table4K.book;
 
 import general.ImagePaneIteration;
+import general.ImageViewIteration;
 
 import java.io.File;
 import java.util.ArrayList;
 
-public class BookPane extends ImagePaneIteration {
+public class BookPane extends ImageViewIteration {
 
-    public BookPane (final ArrayList<File> imageFilesEnter, final double wMax, final double hMax) {
-        super(imageFilesEnter, wMax, hMax);
+    public BookPane (final ArrayList<File> imageFilesEnter, final double wMax) {
+        super(imageFilesEnter);
 
-        ipiMouseClicked();
-        ipiTouch();
+        this.setFitWidth(wMax);
+        this.setPreserveRatio(true);
+
+        setMoveDisabled();
     }
 }
+

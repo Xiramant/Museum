@@ -36,42 +36,42 @@ public class Medal {
     private static ArrayList<ArrayList<File>> medalTextFiles;
 
     //ширина слайдера для медалей/орденов
-    private static final double MEDAL_SLIDER_WIDTH = 3250 / debuggingRatio;
+    private static final double MEDAL_SLIDER_WIDTH = 3250 / DEBUGGING_RATIO;
 
     //высота слайдера для медалей/орденов
     private static final double MEDAL_SLIDER_HEIGHT = MEDAL_SLIDER_IMAGE_HEIGHT_MAX;
 
     //ширина сабсцены, играющей роль маски видимости
     // для медалей/орденов
-    private static final double MEDAL_SUBSCENE_SLIDER_WIDTH = 2950 / debuggingRatio;
+    private static final double MEDAL_SUBSCENE_SLIDER_WIDTH = 2950 / DEBUGGING_RATIO;
 
     //количество орденов, отображаемых в слайдере
     private static int medalSliderNumber;
 
     //отступы слайдера для выбора медали/ордена
-    private static final double MEDAL_SLIDER_X = 800 / debuggingRatio;
-    private static final double MEDAL_SLIDER_Y = 587 / debuggingRatio;
+    private static final double MEDAL_SLIDER_X = 800 / DEBUGGING_RATIO;
+    private static final double MEDAL_SLIDER_Y = 587 / DEBUGGING_RATIO;
 
     //параметры Pane для выбора ордена
-    private static final double SELECT_ORDEN_WIDTH = 500 / debuggingRatio;
-    private static final double SELECT_ORDEN_HEIGHT = 470 / debuggingRatio;
-    private static final double SELECT_ORDEN_X = 125 / debuggingRatio;
-    private static final double SELECT_ORDEN_Y = 988 / debuggingRatio;
+    private static final double SELECT_ORDEN_WIDTH = 500 / DEBUGGING_RATIO;
+    private static final double SELECT_ORDEN_HEIGHT = 470 / DEBUGGING_RATIO;
+    private static final double SELECT_ORDEN_X = 125 / DEBUGGING_RATIO;
+    private static final double SELECT_ORDEN_Y = 988 / DEBUGGING_RATIO;
 
     //параметры Pane для выбора медали
-    private static final double SELECT_MEDAL_WIDTH = 490 / debuggingRatio;
-    private static final double SELECT_MEDAL_HEIGHT = 460 / debuggingRatio;
-    private static final double SELECT_MEDAL_X = 97 / debuggingRatio;
-    private static final double SELECT_MEDAL_Y = 1592 / debuggingRatio;
+    private static final double SELECT_MEDAL_WIDTH = 490 / DEBUGGING_RATIO;
+    private static final double SELECT_MEDAL_HEIGHT = 460 / DEBUGGING_RATIO;
+    private static final double SELECT_MEDAL_X = 97 / DEBUGGING_RATIO;
+    private static final double SELECT_MEDAL_Y = 1592 / DEBUGGING_RATIO;
 
     //параметры descriptionPane
-    static final double DESCRIPTION_WIDTH = 3356 / debuggingRatio;
-    static final double DESCRIPTION_HEIGHT = 979 / debuggingRatio;
+    static final double DESCRIPTION_WIDTH = 3356 / DEBUGGING_RATIO;
+    static final double DESCRIPTION_HEIGHT = 979 / DEBUGGING_RATIO;
     private static final double DESCRIPTION_X = TABLE_WIDTH - DESCRIPTION_WIDTH;
     private static final double DESCRIPTION_Y = TABLE_HEIGHT - DESCRIPTION_HEIGHT;
 
 
-    public static void setOrdenScene(final SectionKey medalType) {
+    public static void setMedalScene(final SectionKey medalType) {
 
         mainPane.getChildren().clear();
 
@@ -133,18 +133,18 @@ public class Medal {
         //действия по выбору подраздела Ордена или Медали
         selectPane.setOnMouseClicked(event -> {
             if (selectPane.getLayoutY() == SELECT_ORDEN_Y) {
-                setOrdenScene(ORDEN);
+                setMedalScene(ORDEN);
             } else {
-                setOrdenScene(MEDAL);
+                setMedalScene(MEDAL);
             }
         });
 
         selectPane.setOnTouchReleased(event -> {
             if (isTimeWaitEnd()) {
                 if (selectPane.getLayoutY() == SELECT_ORDEN_Y) {
-                    setOrdenScene(ORDEN);
+                    setMedalScene(ORDEN);
                 } else {
-                    setOrdenScene(MEDAL);
+                    setMedalScene(MEDAL);
                 }
 
                 setTimeWait();

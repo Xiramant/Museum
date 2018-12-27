@@ -16,30 +16,30 @@ import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.TABLE_HEIGHT;
 import static table4K.Main4K.TABLE_WIDTH;
-import static table4K.Main4K.debuggingRatio;
+import static table4K.Main4K.DEBUGGING_RATIO;
 import static table4K.map.Map.*;
 
 public class MapPaneText extends ImagePane {
 
     //максимальная ширина панели текстового блока для раздела Карты
-    private static final double МAP_PANE_TEXT_WIDTH_MAX = 640 / debuggingRatio;
+    private static final double МAP_PANE_TEXT_WIDTH_MAX = 640 / DEBUGGING_RATIO;
 
-    private static final double МAP_PANE_TEXT_BOTTOM_INSET = 100 / debuggingRatio;
+    private static final double МAP_PANE_TEXT_BOTTOM_INSET = 100 / DEBUGGING_RATIO;
 
     //высота текстового блока
-    private static final double МAP_PANE_TEXT_HEIGHT_TEXT_BLOCK = 620 / debuggingRatio;
+    private static final double МAP_PANE_TEXT_HEIGHT_TEXT_BLOCK = 620 / DEBUGGING_RATIO;
 
     //отступ сверху для текстового блока
-    private static final double МAP_PANE_TEXT_TOP_PADDING_TEXT_BLOCK = 160 / debuggingRatio;
+    private static final double МAP_PANE_TEXT_TOP_PADDING_TEXT_BLOCK = 160 / DEBUGGING_RATIO;
 
     //отступ сверху для блока количество страниц
-    private static final double МAP_PANE_TEXT_TOP_PADDING_PAGE_NUMBER = 800 / debuggingRatio;
+    private static final double МAP_PANE_TEXT_TOP_PADDING_PAGE_NUMBER = 800 / DEBUGGING_RATIO;
 
     //размер шрифта текстового блока
-    private static final double МAP_PANE_TEXT_FONT_SIZE_TEXT_BLOCK = 28 / debuggingRatio;
+    private static final double МAP_PANE_TEXT_FONT_SIZE_TEXT_BLOCK = 28 / DEBUGGING_RATIO;
 
     //размер шрифта блока количество страниц
-    static final double МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER = 20 / debuggingRatio;
+    static final double МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER = 20 / DEBUGGING_RATIO;
 
     //шрифт текстового блока
     private final Font МAP_PANE_TEXT_FONT_TEXT_BLOCK = new Font("Book Antiqua Bold Italic", МAP_PANE_TEXT_FONT_SIZE_TEXT_BLOCK);

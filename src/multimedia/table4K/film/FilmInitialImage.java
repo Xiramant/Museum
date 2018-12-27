@@ -16,20 +16,19 @@ import static general.TextProcessing.readingFirstStokeFromFile;
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.RESOURCES_PATH;
-import static table4K.Main4K.TOUCH_TIMEOUT;
-import static table4K.Main4K.debuggingRatio;
+import static table4K.Main4K.DEBUGGING_RATIO;
 import static table4K.film.Film.obj;
 import static table4K.film.FilmShow.FilmShowSet;
 
 public class FilmInitialImage extends ImagePane {
 
     //параметры надписи названия фильма
-    private static final double FILM_BOX_WIDTH = 600 / debuggingRatio;
-    private static final Font FILM_NAME_FONT = Font.font("Arial Narrow", FontWeight.BOLD, 36 / debuggingRatio);
+    private static final double FILM_BOX_WIDTH = 600 / DEBUGGING_RATIO;
+    private static final Font FILM_NAME_FONT = Font.font("Arial Narrow", FontWeight.BOLD, 36 / DEBUGGING_RATIO);
     private static final Color FILM_NAME_COLOR = Color.rgb(52, 54, 70);
-    private static final double FILM_NAME_WIDTH_MAX = 240 / debuggingRatio;
-    private static final double FILM_NAME_X = 309 / debuggingRatio;
-    private static final double FILM_NAME_Y = 294 / debuggingRatio;
+    private static final double FILM_NAME_WIDTH_MAX = 240 / DEBUGGING_RATIO;
+    private static final double FILM_NAME_X = 309 / DEBUGGING_RATIO;
+    private static final double FILM_NAME_Y = 294 / DEBUGGING_RATIO;
 
     //путь к видеофайлу
     private String videoPath;

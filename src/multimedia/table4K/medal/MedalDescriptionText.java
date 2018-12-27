@@ -20,24 +20,24 @@ import static table4K.medal.Medal.DESCRIPTION_WIDTH;
 public class MedalDescriptionText extends ImagePane {
 
     //максимальная высота панели описания раздела Медали
-    private static final double MEDAL_DESCRIPTION_TEXT_PANE_HEIGHT_MAX = 904 / debuggingRatio;
+    private static final double MEDAL_DESCRIPTION_TEXT_PANE_HEIGHT_MAX = 904 / DEBUGGING_RATIO;
 
     //ширина/высота текстового блока описания раздела Медали
-    private static final double MEDAL_DESCRIPTION_TEXT_BLOCK_WIDTH = 540 / debuggingRatio;
-    private static final double MEDAL_DESCRIPTION_TEXT_BLOCK_HEIGHT = 770 / debuggingRatio;
+    private static final double MEDAL_DESCRIPTION_TEXT_BLOCK_WIDTH = 540 / DEBUGGING_RATIO;
+    private static final double MEDAL_DESCRIPTION_TEXT_BLOCK_HEIGHT = 770 / DEBUGGING_RATIO;
 
     //положение текстового блока описания раздела Медали
-    private static final double MEDAL_DESCRIPTION_TEXT_X = 60 / debuggingRatio;
-    private static final double MEDAL_DESCRIPTION_TEXT_Y = 60 / debuggingRatio;
+    private static final double MEDAL_DESCRIPTION_TEXT_X = 60 / DEBUGGING_RATIO;
+    private static final double MEDAL_DESCRIPTION_TEXT_Y = 60 / DEBUGGING_RATIO;
 
     //отступ сверху для блока количество страниц
-    private static final double MEDAL_DESCRIPTION_PAGE_NUMBER_Y = 850 / debuggingRatio;
+    private static final double MEDAL_DESCRIPTION_PAGE_NUMBER_Y = 850 / DEBUGGING_RATIO;
 
     //размер шрифта текстового блока
-    private static final double MEDAL_DESCRIPTION_TEXT_BLOCK_FONT_SIZE = 28 / debuggingRatio;
+    private static final double MEDAL_DESCRIPTION_TEXT_BLOCK_FONT_SIZE = 28 / DEBUGGING_RATIO;
 
     //размер шрифта блока количество страниц
-    private static final double MEDAL_DESCRIPTION_PAGE_NUMBER_FONT_SIZE = 22 / debuggingRatio;
+    private static final double MEDAL_DESCRIPTION_PAGE_NUMBER_FONT_SIZE = 22 / DEBUGGING_RATIO;
 
     //шрифт текстового блока
     private static final Font MEDAL_DESCRIPTION_TEXT_BLOCK_FONT = new Font("Book Antiqua Bold Italic", MEDAL_DESCRIPTION_TEXT_BLOCK_FONT_SIZE);
@@ -58,7 +58,7 @@ public class MedalDescriptionText extends ImagePane {
     private static final double TOP_RESTRICTION = 0;
     private static final double BOTTOM_RESTRICTION = DESCRIPTION_HEIGHT - MEDAL_DESCRIPTION_TEXT_PANE_HEIGHT_MAX;
     private static final double LEFT_RESTRICTION = 0;
-    private static final double RIGHT_RESTRICTION = DESCRIPTION_WIDTH - 653 / debuggingRatio;
+    private static final double RIGHT_RESTRICTION = DESCRIPTION_WIDTH - 653 / DEBUGGING_RATIO;
 
     //тени для неподвижной/перемещаемой панели
     private static final String SHADOW_STILL = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 1, 2);";

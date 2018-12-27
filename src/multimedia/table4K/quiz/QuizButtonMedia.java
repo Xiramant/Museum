@@ -9,7 +9,7 @@ import java.io.File;
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.RESOURCES_PATH;
-import static table4K.Main4K.debuggingRatio;
+import static table4K.Main4K.DEBUGGING_RATIO;
 import static table4K.Main4K.mainPane;
 
 public class QuizButtonMedia extends QuizButton {
@@ -23,16 +23,16 @@ public class QuizButtonMedia extends QuizButton {
     private static final Image TV_SCREEN_IMAGE = new Image("file:" + RESOURCES_PATH + "quiz/quiz_tv_screen.png");
 
     //размеры экрана тв
-    private static final double TV_SCREEN_WIDTH = 2431 / debuggingRatio;
-    private static final double TV_SCREEN_HEIGHT = 1386 / debuggingRatio;
+    private static final double TV_SCREEN_WIDTH = 2431 / DEBUGGING_RATIO;
+    private static final double TV_SCREEN_HEIGHT = 1386 / DEBUGGING_RATIO;
 
     //максимальные размеры медиа (картинки)
-    private static final double MEDIA_WIDTH_MAX = 2100 / debuggingRatio;
-    private static final double MEDIA_HEIGHT_MAX = 1196 / debuggingRatio;
+    private static final double MEDIA_WIDTH_MAX = 2100 / DEBUGGING_RATIO;
+    private static final double MEDIA_HEIGHT_MAX = 1196 / DEBUGGING_RATIO;
 
     //расположение группы из фонов и медиа
-    private static final double GROUP_X = 401 / debuggingRatio;
-    private static final double GROUP_Y = 218 / debuggingRatio;
+    private static final double GROUP_X = 401 / DEBUGGING_RATIO;
+    private static final double GROUP_Y = 218 / DEBUGGING_RATIO;
 
 
     QuizButtonMedia(final File imageFile, final String mediaEnter) {

@@ -16,11 +16,11 @@ import static table4K.Main4K.*;
 public class Film {
 
     //параметры области, в которой располагаются коробки с фильмами
-    private static final double HORIZONTAL_INTERVAL_MIN = 300 / debuggingRatio;
-    private static final double AREA_LOCATION_X_BEGIN = 1000 / debuggingRatio;
-    private static final double AREA_LOCATION_Y_BEGIN = 500 / debuggingRatio;
-    private static final double AREA_LOCATION_X_END = 3800 / debuggingRatio;
-    private static final double AREA_LOCATION_Y_END = 1900 / debuggingRatio;
+    private static final double HORIZONTAL_INTERVAL_MIN = 300 / DEBUGGING_RATIO;
+    private static final double AREA_LOCATION_X_BEGIN = 1000 / DEBUGGING_RATIO;
+    private static final double AREA_LOCATION_Y_BEGIN = 500 / DEBUGGING_RATIO;
+    private static final double AREA_LOCATION_X_END = 3800 / DEBUGGING_RATIO;
+    private static final double AREA_LOCATION_Y_END = 1900 / DEBUGGING_RATIO;
 
     //тень от коробки с фильмом
     private static final String FILM_BOX_SHADOW = "-fx-effect: dropshadow(gaussian, black, 20, 0.3, -3, 10);";

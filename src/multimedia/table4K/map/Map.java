@@ -26,14 +26,14 @@ public class Map {
     private static final SectionKey MAP_KEY = SectionKey.MAP;
 
     //минимальное расстояние по горизонтали между блоками изначальной сцены
-    private static final double MAP_INITIAL_PANE_MIN_WIDTH_SPACING = 100 / debuggingRatio;
+    private static final double MAP_INITIAL_PANE_MIN_WIDTH_SPACING = 100 / DEBUGGING_RATIO;
 
     //координаты области в которой должны разместиться
     // первоначальные текстовые блоки для выбора сражения
-    static final double MAP_INITIAL_AREA_X_BEGIN = 800 / debuggingRatio;
-    static final double MAP_INITIAL_AREA_Y_BEGIN = 350 / debuggingRatio;
-    static final double MAP_INITIAL_AREA_X_END = 4000 / debuggingRatio;
-    static final double MAP_INITIAL_AREA_Y_END = 2050 / debuggingRatio;
+    static final double MAP_INITIAL_AREA_X_BEGIN = 800 / DEBUGGING_RATIO;
+    static final double MAP_INITIAL_AREA_Y_BEGIN = 350 / DEBUGGING_RATIO;
+    static final double MAP_INITIAL_AREA_X_END = 4000 / DEBUGGING_RATIO;
+    static final double MAP_INITIAL_AREA_Y_END = 2050 / DEBUGGING_RATIO;
 
     //Карты:
     //внешний лист - лист сражений;

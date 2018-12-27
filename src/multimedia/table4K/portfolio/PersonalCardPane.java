@@ -28,30 +28,30 @@ public class PersonalCardPane extends ImagePane {
     private String fio;
 
     //максимальная ширина личной карточки
-    private static final double PERSONAL_CARD_PANE_WIDTH_MAX = 450 / debuggingRatio;
+    private static final double PERSONAL_CARD_PANE_WIDTH_MAX = 450 / DEBUGGING_RATIO;
 
     //максимальная высота личной карточки
-    public static final double PERSONAL_CARD_PANE_HEIGHT_MAX = 278 / debuggingRatio;
+    public static final double PERSONAL_CARD_PANE_HEIGHT_MAX = 278 / DEBUGGING_RATIO;
 
     //максимальная ширина фото на личную карточку
-    private static final double PERSONAL_CARD_PANE_PHOTO_WIDTH_MAX = 128 / debuggingRatio;
+    private static final double PERSONAL_CARD_PANE_PHOTO_WIDTH_MAX = 128 / DEBUGGING_RATIO;
 
     //отступы для фото для личной карточки
-    private static final double PERSONAL_CARD_PANE_PHOTO_X = 50 / debuggingRatio;
-    private static final double PERSONAL_CARD_PANE_PHOTO_Y = 51 / debuggingRatio;
+    private static final double PERSONAL_CARD_PANE_PHOTO_X = 50 / DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_PHOTO_Y = 51 / DEBUGGING_RATIO;
 
     //шрифт для текста в личной карточки
-    private static final Font PERSONAL_CARD_PANE_FONT = new Font("B52", 20 / debuggingRatio);
+    private static final Font PERSONAL_CARD_PANE_FONT = new Font("B52", 20 / DEBUGGING_RATIO);
 
     //отступы для текста в личной карточке
-    private static final double PERSONAL_CARD_PANE_SURNAME_X = 270 / debuggingRatio;
-    private static final double PERSONAL_CARD_PANE_SURNAME_Y = 106 / debuggingRatio;
-    private static final double PERSONAL_CARD_PANE_NAME_X = 270 / debuggingRatio;
-    private static final double PERSONAL_CARD_PANE_NAME_Y = 130 / debuggingRatio;
-    private static final double PERSONAL_CARD_PANE_PATRONYMIC_X = 270 / debuggingRatio;
-    private static final double PERSONAL_CARD_PANE_PATRONYMIC_Y = 152 / debuggingRatio;
-    private static final double PERSONAL_CARD_PANE_YEAR_X = 291 / debuggingRatio;
-    private static final double PERSONAL_CARD_PANE_YEAR_Y = 178 / debuggingRatio;
+    private static final double PERSONAL_CARD_PANE_SURNAME_X = 270 / DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_SURNAME_Y = 106 / DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_NAME_X = 270 / DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_NAME_Y = 130 / DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_PATRONYMIC_X = 270 / DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_PATRONYMIC_Y = 152 / DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_YEAR_X = 291 / DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_YEAR_Y = 178 / DEBUGGING_RATIO;
 
     //тень
     private static final String PERSONAL_CARD_PANE_SHADOW_STILL = "-fx-effect: dropshadow(gaussian, black, 5, 0.3, -0.5, 1);";

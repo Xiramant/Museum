@@ -26,13 +26,13 @@ public class MapPaneInitial extends ImagePane{
 
     //максимальная ширина текстового блока
     // для начальной сцены
-    private static final double MAP_INITIAL_PANE_WIDTH_MAX = 530 / debuggingRatio;
+    private static final double MAP_INITIAL_PANE_WIDTH_MAX = 530 / DEBUGGING_RATIO;
 
     //отступ текстового блока от верха
-    private static final double MAP_INITIAL_TEXT_TOP_PADDING = 350 / debuggingRatio;
+    private static final double MAP_INITIAL_TEXT_TOP_PADDING = 350 / DEBUGGING_RATIO;
 
     //размер шрифта для текстового блока начальной сцены раздела Карты
-    private static final double MAP_INITIAL_TEXT_FONT = 50 / debuggingRatio;
+    private static final double MAP_INITIAL_TEXT_FONT = 50 / DEBUGGING_RATIO;
 
     //шрифт текстового блока
     //!!! не делать static иначе размер шрифта не изменяется
