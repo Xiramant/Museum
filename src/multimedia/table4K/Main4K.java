@@ -45,7 +45,7 @@ public class Main4K extends Application{
     public static final String RESOURCES_PATH = "C://museumResources/";
 
     //время задержки после тача
-    public static final int TOUCH_TIMEOUT = 500;
+    public static final int TOUCH_TIMEOUT = 300;
 
     private static BorderPane root;
 

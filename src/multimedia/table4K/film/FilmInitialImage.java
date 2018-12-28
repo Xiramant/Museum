@@ -2,6 +2,7 @@ package table4K.film;
 
 import general.ImagePane;
 import javafx.geometry.VPos;
+import javafx.scene.input.InputEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -17,6 +18,7 @@ import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.RESOURCES_PATH;
 import static table4K.Main4K.DEBUGGING_RATIO;
+import static table4K.Main4K.actionPermission;
 import static table4K.film.Film.obj;
 import static table4K.film.FilmShow.FilmShowSet;
 
@@ -64,16 +66,16 @@ public class FilmInitialImage extends ImagePane {
         });
 
 
-        this.setOnMouseClicked(event -> {
-            FilmShowSet(videoPath, ratio);
-        });
+        this.setOnMouseClicked(event -> filmAction(event));
 
-        this.setOnTouchReleased(event -> {
-            if (isTimeWaitEnd()) {
-                FilmShowSet(videoPath, ratio);
-                setTimeWait();
-            }
-        });
+        this.setOnTouchReleased(event -> filmAction(event));
+    }
+
+    private void filmAction(final InputEvent event) {
+        if (isTimeWaitEnd() && actionPermission(event)) {
+            FilmShowSet(videoPath, ratio);
+            setTimeWait();
+        }
     }
 
 }

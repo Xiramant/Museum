@@ -4,7 +4,7 @@ import general.ArrayListIndex;
 import general.ImagePane;
 import general.TextPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
+import javafx.scene.input.InputEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -59,8 +59,11 @@ public class PortfolioCasePane extends ImagePane{
     private static final double BIOGRAPHY_TEXT_X =  1021 / DEBUGGING_RATIO;
     //отступ сверху
     private static final double BIOGRAPHY_TEXT_Y =  435 / DEBUGGING_RATIO;
+
     //лист стрингов для страниц при перелистывании текстового блока
     private ArrayListIndex<String> textBlockStrings;
+
+    private Text temp;
 
     private static final String PCP_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 3);";
     private static final String PHOTO_SHADOW = "-fx-effect: dropshadow(gaussian, black, 2, 0.5, 1, 1);";
@@ -146,31 +149,23 @@ public class PortfolioCasePane extends ImagePane{
     // с установкой действий по нажатию мыши или тача
     private Text getBiographyText() {
 
-        Text temp = new Text(textBlockStrings.getFirstElement());
+        temp = new Text(textBlockStrings.getFirstElement());
         temp.setWrappingWidth(BIOGRAPHY_TEXT_WIDTH);
         temp.setFont(BIOGRAPHY_TEXT_FONT);
         temp.setLineSpacing(BIOGRAPHY_TEXT_LINE_SPACING);
         temp.setLayoutX(BIOGRAPHY_TEXT_X);
         temp.setLayoutY(BIOGRAPHY_TEXT_Y);
 
-        temp.setOnMouseClicked(event -> {
-
-            if (event.getButton() == MouseButton.PRIMARY) {
-                temp.setText(textBlockStrings.getNextElement());
-            }
-
-            if (event.getButton() == MouseButton.SECONDARY) {
-                temp.setText(textBlockStrings.getPrevElement());
-            }
-        });
-
-        temp.setOnTouchReleased(event -> {
-            if (isTimeWaitEnd()) {
-                temp.setText(textBlockStrings.getNextElement());
-                setTimeWait();
-            }
-        });
+        temp.setOnMouseClicked(event -> pcpAction(event));
+        temp.setOnTouchReleased(event -> pcpAction(event));
 
         return temp;
+    }
+
+    private void pcpAction(final InputEvent event) {
+        if (isTimeWaitEnd() && actionPermission(event)) {
+            temp.setText(textBlockStrings.getNextElement());
+            setTimeWait();
+        }
     }
 }

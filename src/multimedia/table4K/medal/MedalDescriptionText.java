@@ -1,20 +1,16 @@
 package table4K.medal;
 
 import general.ArrayListIndex;
-import general.ImagePane;
 import general.ImagePaneIteration;
 import general.TextPane;
 import javafx.geometry.VPos;
 import javafx.scene.input.InputEvent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.io.File;
 
 import static general.TextProcessing.readingFileIntoString;
-import static general.TouchWait.isTimeWaitEnd;
-import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.*;
 import static table4K.medal.Medal.DESCRIPTION_HEIGHT;
 import static table4K.medal.Medal.DESCRIPTION_WIDTH;

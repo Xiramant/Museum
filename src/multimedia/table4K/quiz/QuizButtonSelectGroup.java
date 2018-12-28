@@ -1,17 +1,12 @@
 package table4K.quiz;
 
 import javafx.scene.Group;
-import javafx.scene.Node;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
+import javafx.scene.input.InputEvent;
 
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
-import static javafx.scene.input.MouseEvent.MOUSE_CLICKED;
-import static table4K.Main4K.RESOURCES_PATH;
-import static table4K.quiz.Quiz.setQuizScene;
+import static table4K.Main4K.actionPermission;
+
 
 public class QuizButtonSelectGroup extends Group {
 
@@ -40,29 +35,23 @@ public class QuizButtonSelectGroup extends Group {
         for(int i = 0; i < this.getChildren().size(); i++) {
             QuizButtonSelect temp = (QuizButtonSelect) this.getChildren().get(i);
 
-            temp.setOnMouseClicked(event -> {
-                buttonGroupAction(temp);
-            });
-
-            temp.setOnTouchReleased(event -> {
-                if (isTimeWaitEnd()) {
-                    buttonGroupAction(temp);
-                    setTimeWait();
-                }
-            });
+            temp.setOnMouseClicked(event -> buttonGroupAction(event, temp));
+            temp.setOnTouchReleased(event -> buttonGroupAction(event, temp));
         }
     }
 
     //задание реакции отдельной кнопки, входящей в группу, на действие
-    private void buttonGroupAction(final QuizButtonSelect buttonCurrent) {
+    private void buttonGroupAction(final InputEvent event, final QuizButtonSelect buttonCurrent) {
 
-        if (!isFlagTest()) {
+        if (isTimeWaitEnd() && actionPermission(event) && !isFlagTest()) {
 
             buttonCurrent.setOnPushInvert();
 
             if (buttonCurrent.isOnPush()) {
                 setNonPush(buttonCurrent);
             }
+
+            setTimeWait();
         }
     }
 

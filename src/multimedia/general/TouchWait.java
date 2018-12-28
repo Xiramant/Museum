@@ -10,8 +10,12 @@ public class TouchWait {
         return (System.currentTimeMillis() > timeWait);
     }
 
+    public static void setTimeWait(final long wait) {
+        TouchWait.timeWait = System.currentTimeMillis() + wait;
+    }
+
     public static void setTimeWait() {
-        TouchWait.timeWait = System.currentTimeMillis() + TOUCH_TIMEOUT;
+        setTimeWait(TOUCH_TIMEOUT);
     }
 
 }

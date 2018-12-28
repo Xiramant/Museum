@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.SubScene;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.RESOURCES_PATH;
+import static table4K.Main4K.actionPermission;
 
 public class Slider extends Pane{
 
@@ -92,25 +94,19 @@ public class Slider extends Pane{
         this.getChildren().addAll(arrowLeft, subScene, arrowRight);
 
         arrowLeft.setOnMouseClicked(event -> {
-            arrowClick(grSliderView, -(SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER));
+            arrowClick(event, grSliderView, -(SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER));
         });
 
         arrowRight.setOnMouseClicked(event -> {
-            arrowClick(grSliderView,SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER);
+            arrowClick(event, grSliderView,SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER);
         });
 
         arrowLeft.setOnTouchReleased(event -> {
-            if (isTimeWaitEnd()) {
-                arrowClick(grSliderView, -(SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER));
-                setTimeWait();
-            }
+            arrowClick(event, grSliderView, -(SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER));
         });
 
         arrowRight.setOnTouchReleased(event -> {
-            if (isTimeWaitEnd()) {
-                arrowClick(grSliderView, SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER);
-                setTimeWait();
-            }
+                arrowClick(event, grSliderView, SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER);
         });
     }
 
@@ -129,54 +125,59 @@ public class Slider extends Pane{
     //Какая стрелка нажата определяется знаком передаваемого сдвига - displacement
     // если он положительный, значит нажата стрелка Вправо,
     // если отрицательный - значит Влево
-    private void arrowClick(final Group grSliderView, final double displacement) {
+    private void arrowClick(final InputEvent event, final Group grSliderView, final double displacement) {
 
-        int newSliderIndex = (displacement < 0)? sliderIndex.getNextSliderIndex(): sliderIndex.gePrevSliderIndex();
+        if (isTimeWaitEnd() && actionPermission(event)) {
 
-        Node miTemp = sliderElements.get(newSliderIndex);
+            int newSliderIndex = (displacement < 0) ? sliderIndex.getNextSliderIndex() : sliderIndex.gePrevSliderIndex();
 
-        if (displacement < 0) {
-            grSliderView.getChildren().add(miTemp);
-        } else {
-            grSliderView.getChildren().add(0, miTemp);
-        }
+            Node miTemp = sliderElements.get(newSliderIndex);
 
-        grSliderView.layout();
-
-        if (displacement < 0) {
-            miTemp.setLayoutX((0.5 + SLIDER_NUMBER) * (SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER) -
-                    miTemp.getLayoutBounds().getWidth() / 2);
-        } else {
-            miTemp.setLayoutX(- (0.5 * (SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER) +
-                    miTemp.getLayoutBounds().getWidth() / 2));
-        }
-
-        miTemp.setLayoutY((SLIDER_HEIGHT - miTemp.getLayoutBounds().getHeight()) / 2);
-
-        TranslateTransition tt1 = new TranslateTransition();
-        tt1.setDuration(Duration.millis(150));
-        tt1.setNode(grSliderView);
-        tt1.setByX(displacement);
-
-        TranslateTransition tt2 = new TranslateTransition();
-        tt2.setDuration(Duration.millis(1));
-        tt2.setNode(grSliderView);
-        tt2.setByX(-displacement);
-
-        SequentialTransition st = new SequentialTransition();
-        st.getChildren().addAll(tt1, tt2);
-        st.play();
-
-        //действия при завершении анимации перемещения слайдера
-        tt1.setOnFinished(event1 -> {
-            grSliderView.getChildren().remove(
-                    (displacement < 0)?
-                            0:
-                            SLIDER_NUMBER);
-
-            for (int i = 0; i < grSliderView.getChildren().size(); i++) {
-                grSliderView.getChildren().get(i).setLayoutX(grSliderView.getChildren().get(i).getLayoutX() + displacement);
+            if (displacement < 0) {
+                grSliderView.getChildren().add(miTemp);
+            } else {
+                grSliderView.getChildren().add(0, miTemp);
             }
-        });
+
+            grSliderView.layout();
+
+            if (displacement < 0) {
+                miTemp.setLayoutX((0.5 + SLIDER_NUMBER) * (SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER) -
+                        miTemp.getLayoutBounds().getWidth() / 2);
+            } else {
+                miTemp.setLayoutX(-(0.5 * (SUBSCENE_SLIDER_WIDTH / SLIDER_NUMBER) +
+                        miTemp.getLayoutBounds().getWidth() / 2));
+            }
+
+            miTemp.setLayoutY((SLIDER_HEIGHT - miTemp.getLayoutBounds().getHeight()) / 2);
+
+            TranslateTransition tt1 = new TranslateTransition();
+            tt1.setDuration(Duration.millis(150));
+            tt1.setNode(grSliderView);
+            tt1.setByX(displacement);
+
+            TranslateTransition tt2 = new TranslateTransition();
+            tt2.setDuration(Duration.millis(1));
+            tt2.setNode(grSliderView);
+            tt2.setByX(-displacement);
+
+            SequentialTransition st = new SequentialTransition();
+            st.getChildren().addAll(tt1, tt2);
+            st.play();
+
+            //действия при завершении анимации перемещения слайдера
+            tt1.setOnFinished(event1 -> {
+                grSliderView.getChildren().remove(
+                        (displacement < 0) ?
+                                0 :
+                                SLIDER_NUMBER);
+
+                for (int i = 0; i < grSliderView.getChildren().size(); i++) {
+                    grSliderView.getChildren().get(i).setLayoutX(grSliderView.getChildren().get(i).getLayoutX() + displacement);
+                }
+            });
+
+            setTimeWait();
+        }
     }
 }

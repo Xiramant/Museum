@@ -3,6 +3,7 @@ package table4K.portfolio;
 import general.ImagePane;
 import general.SectionKey;
 import javafx.geometry.VPos;
+import javafx.scene.input.InputEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -102,24 +103,21 @@ public class PersonalCardPane extends ImagePane {
 
         this.getChildren().addAll(photo, surname, name, patronymic, year);
 
-        this.setOnMouseClicked(event -> {
-            personalCardAction();
-        });
-
-        this.setOnTouchReleased(event -> {
-            if (isTimeWaitEnd()) {
-                personalCardAction();
-                setTimeWait();
-            }
-        });
+        this.setOnMouseClicked(event -> personalCardAction(event));
+        this.setOnTouchReleased(event -> personalCardAction(event));
     }
 
-    private void personalCardAction() {
-        PortfolioCasePane pcp = new PortfolioCasePane(fio, imageFiles, textFiles);
+    private void personalCardAction(final InputEvent event) {
 
-        changeRootBackground(RESOURCES_PATH + "table_4K_portfolio.jpg");
-        mainPane.getChildren().clear();
-        mainPane.getChildren().addAll(pcp, returnBack(SectionKey.PORTFOLIO), returnHome());
+        if (isTimeWaitEnd() && actionPermission(event)) {
+            PortfolioCasePane pcp = new PortfolioCasePane(fio, imageFiles, textFiles);
+
+            changeRootBackground(RESOURCES_PATH + "table_4K_portfolio.jpg");
+            mainPane.getChildren().clear();
+            mainPane.getChildren().addAll(pcp, returnBack(SectionKey.PORTFOLIO), returnHome());
+
+            setTimeWait();
+        }
     }
 
 }

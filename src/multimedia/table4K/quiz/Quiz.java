@@ -168,7 +168,6 @@ public class Quiz {
 
         questionNumberText.setText(questionNumber);
         questionNumberText.setFill(TEXT_COLOR);
-        questionNumberText.setLayoutX(TEXT_X_CENTER - questionNumberText.getLayoutBounds().getWidth() / 2);
         questionNumberText.setLayoutY(QUESTION_NUMBER_TEXT_Y);
 
         StringBuilder point = new StringBuilder();
@@ -206,7 +205,6 @@ public class Quiz {
 
         pointsReceivedText.setText(pointsReceived);
         pointsReceivedText.setFill(TEXT_COLOR);
-        pointsReceivedText.setLayoutX(TEXT_X_CENTER - pointsReceivedText.getLayoutBounds().getWidth() / 2);
         pointsReceivedText.setLayoutY(POINTS_RECEIVED_TEXT_Y);
 
         setFontSize();
@@ -242,6 +240,7 @@ public class Quiz {
             lineTextVerticalInterval *= multiplierCurrent;
 
             questionNumberText.setFont(textFont);
+            questionNumberText.setLayoutX(TEXT_X_CENTER - questionNumberText.getLayoutBounds().getWidth() / 2);
 
             questionText.setFont(textFont);
             questionText.setLayoutY(questionNumberText.getLayoutY() +
@@ -269,6 +268,7 @@ public class Quiz {
                                 answerThree.getPrefHeight());
 
             pointsReceivedText.setFont(textFont);
+            pointsReceivedText.setLayoutX(TEXT_X_CENTER - pointsReceivedText.getLayoutBounds().getWidth() / 2);
 
 
             multiplierCurrent *= MULTIPLIER;

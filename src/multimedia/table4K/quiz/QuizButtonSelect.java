@@ -1,10 +1,5 @@
 package table4K.quiz;
 
-import javafx.scene.text.Text;
-
-import java.io.File;
-
-import static table4K.Main4K.RESOURCES_PATH;
 
 public class QuizButtonSelect extends QuizButton {
 

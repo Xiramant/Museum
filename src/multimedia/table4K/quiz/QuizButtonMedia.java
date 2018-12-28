@@ -3,14 +3,13 @@ package table4K.quiz;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputEvent;
 
 import java.io.File;
 
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
-import static table4K.Main4K.RESOURCES_PATH;
-import static table4K.Main4K.DEBUGGING_RATIO;
-import static table4K.Main4K.mainPane;
+import static table4K.Main4K.*;
 
 public class QuizButtonMedia extends QuizButton {
 
@@ -70,31 +69,27 @@ public class QuizButtonMedia extends QuizButton {
             groupMedia.getChildren().addAll(blackBackground, ivMedia, tvScreen);
         }
 
-        this.setOnMouseClicked(event -> {
-            QuizButtonMediaAction();
-        });
-
-        this.setOnTouchReleased(event -> {
-            if (isTimeWaitEnd()) {
-                QuizButtonMediaAction();
-                setTimeWait();
-            }
-        });
+        this.setOnMouseClicked(event -> QuizButtonMediaAction(event));
+        this.setOnTouchReleased(event -> QuizButtonMediaAction(event));
     }
 
     //действия при нажатии на кнопку Медиа
-    private void QuizButtonMediaAction() {
+    private void QuizButtonMediaAction(final InputEvent event) {
+        if (isTimeWaitEnd() && actionPermission(event)) {
 
-        if (media.length() != 0) {
-            setOnPushInvert();
+            if (media.length() != 0) {
+                setOnPushInvert();
 
-            if (isOnPush()) {
-                groupMedia.setLayoutX(GROUP_X);
-                groupMedia.setLayoutY(GROUP_Y);
-                mainPane.getChildren().add(groupMedia);
-            } else {
-                mainPane.getChildren().remove(groupMedia);
+                if (isOnPush()) {
+                    groupMedia.setLayoutX(GROUP_X);
+                    groupMedia.setLayoutY(GROUP_Y);
+                    mainPane.getChildren().add(groupMedia);
+                } else {
+                    mainPane.getChildren().remove(groupMedia);
+                }
             }
+
+            setTimeWait();
         }
     }
 

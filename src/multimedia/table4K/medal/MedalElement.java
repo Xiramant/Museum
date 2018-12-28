@@ -4,6 +4,7 @@ import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -16,6 +17,7 @@ import static general.TextProcessing.readingFirstStokeFromFile;
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.DEBUGGING_RATIO;
+import static table4K.Main4K.actionPermission;
 import static table4K.medal.Medal.DESCRIPTION_HEIGHT;
 import static table4K.medal.Medal.DESCRIPTION_WIDTH;
 import static table4K.medal.Medal.descriptionPane;
@@ -90,19 +92,22 @@ public class MedalElement extends ImageView {
         this.setPreserveRatio(true);
         this.setStyle(MEDAL_SLIDER_IMAGE_SHADOW);
 
-        this.setOnMouseClicked(event -> {
-            medalImageAction(imageFiles, textFiles);
-        });
-
-        this.setOnTouchReleased(event -> {
-            if (isTimeWaitEnd()) {
-                medalImageAction(imageFiles, textFiles);
-                setTimeWait();
-            }
-        });
+        this.setOnMouseClicked(event -> medalImageAction(event, imageFiles, textFiles));
+        this.setOnTouchReleased(event -> medalImageAction(event, imageFiles, textFiles));
     }
 
-    static void medalImageAction(final ArrayList<File> imageFilesEnter, final ArrayList<File> textFilesEnter) {
+    private static void medalImageAction(final InputEvent event,
+                                 final ArrayList<File> imageFilesEnter,
+                                 final ArrayList<File> textFilesEnter) {
+
+        if (isTimeWaitEnd() && actionPermission(event)) {
+            medalImageActionGeneral(imageFilesEnter, textFilesEnter);
+            setTimeWait();
+        }
+    }
+
+    static void medalImageActionGeneral(final ArrayList<File> imageFilesEnter,
+                                 final ArrayList<File> textFilesEnter) {
 
         descriptionPane.getChildren().clear();
 

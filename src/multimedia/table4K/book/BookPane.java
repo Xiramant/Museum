@@ -1,6 +1,5 @@
 package table4K.book;
 
-import general.ImagePaneIteration;
 import general.ImageViewIteration;
 
 import java.io.File;

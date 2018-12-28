@@ -3,9 +3,9 @@ package table4K;
 import general.SectionKey;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.media.MediaPlayer;
-
 
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
@@ -27,15 +27,17 @@ public class BackHome extends Region {
 
         ImageView ivHome = getHomeImageView();
 
-        ivHome.setOnMouseClicked(event -> setMainScene());
-        ivHome.setOnTouchReleased(event -> {
-            if (isTimeWaitEnd()) {
-                setMainScene();
-                setTimeWait();
-            }
-        });
+        ivHome.setOnMouseClicked(event -> returnHomeAction(event));
+        ivHome.setOnTouchReleased(event -> returnHomeAction(event));
 
         return ivHome;
+    }
+
+    private static void returnHomeAction(final InputEvent event) {
+        if (isTimeWaitEnd() && actionPermission(event)) {
+            setMainScene();
+            setTimeWait();
+        }
     }
 
     //переход К разделам для раздела Фильмы
@@ -43,20 +45,18 @@ public class BackHome extends Region {
 
         ImageView ivHome = getHomeImageView();
 
-
-        ivHome.setOnMouseClicked(event -> {
-            mediaPlayer.stop();
-            setMainScene();
-        });
-        ivHome.setOnTouchReleased(event -> {
-            if (isTimeWaitEnd()) {
-                mediaPlayer.stop();
-                setMainScene();
-                setTimeWait();
-            }
-        });
+        ivHome.setOnMouseClicked(event -> returnHomeActionFromFilm(event, mediaPlayer));
+        ivHome.setOnTouchReleased(event -> returnHomeActionFromFilm(event, mediaPlayer));
 
         return ivHome;
+    }
+
+    private static void returnHomeActionFromFilm(final InputEvent event, final MediaPlayer mediaPlayer) {
+        if (isTimeWaitEnd() && actionPermission(event)) {
+            mediaPlayer.stop();
+            setMainScene();
+            setTimeWait();
+        }
     }
 
     //установка кнопки К разделам
@@ -77,19 +77,18 @@ public class BackHome extends Region {
 
         ImageView ivBack = getBackImageView();
 
-        ivBack.setOnMouseClicked(event -> {
-            mediaPlayer.stop();
-            setFilmScene();
-        });
-        ivBack.setOnTouchReleased(event -> {
-            if (isTimeWaitEnd()) {
-                mediaPlayer.stop();
-                setFilmScene();
-                setTimeWait();
-            }
-        });
+        ivBack.setOnMouseClicked(event -> returnBackActionFromFilm(event, mediaPlayer));
+        ivBack.setOnTouchReleased(event -> returnBackActionFromFilm(event, mediaPlayer));
 
         return ivBack;
+    }
+
+    private static void returnBackActionFromFilm(final InputEvent event, final MediaPlayer mediaPlayer) {
+        if (isTimeWaitEnd()) {
+            mediaPlayer.stop();
+            setFilmScene();
+            setTimeWait();
+        }
     }
 
     //возврат на предыдущую сцену
@@ -97,18 +96,19 @@ public class BackHome extends Region {
 
         ImageView ivBack = getBackImageView();
 
-        ivBack.setOnMouseClicked(event -> {
-            setScene(key);
-        });
-        ivBack.setOnTouchReleased(event -> {
-            if (isTimeWaitEnd()) {
-                setScene(key);
-                setTimeWait();
-            }
-        });
+        ivBack.setOnMouseClicked(event -> returnBackAction(event, key));
+        ivBack.setOnTouchReleased(event -> returnBackAction(event, key));
 
         return ivBack;
     }
+
+    private static void returnBackAction(final InputEvent event, final SectionKey key) {
+        if (isTimeWaitEnd() && actionPermission(event)) {
+            setScene(key);
+            setTimeWait();
+        }
+    }
+
 
     //установка кноки Назад
     private static ImageView getBackImageView() {
@@ -138,7 +138,6 @@ public class BackHome extends Region {
                 setMainScene();
                 break;
         }
-
     }
 
 }

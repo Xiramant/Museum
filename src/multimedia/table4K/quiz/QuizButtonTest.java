@@ -1,7 +1,10 @@
 package table4K.quiz;
 
+import javafx.scene.input.InputEvent;
+
 import static general.TouchWait.isTimeWaitEnd;
 import static general.TouchWait.setTimeWait;
+import static table4K.Main4K.actionPermission;
 import static table4K.quiz.Quiz.pointsReceivedText;
 import static table4K.quiz.Quiz.currentQuestion;
 import static table4K.quiz.Quiz.player;
@@ -26,37 +29,35 @@ public class QuizButtonTest extends QuizButton {
 
         group =  groupEnter;
 
-        this.setOnMouseClicked(event -> {
-            buttonTestAction();
-        });
-
-        this.setOnTouchReleased(event -> {
-            if (isTimeWaitEnd()) {
-                buttonTestAction();
-                setTimeWait();
-            }
-        });
+        this.setOnMouseClicked(event -> buttonTestAction(event));
+        this.setOnTouchReleased(event -> buttonTestAction(event));
     }
 
     //действия при нажатии на кнопку Тест
-    public void buttonTestAction() {
+    private void buttonTestAction(final InputEvent event) {
+        if (isTimeWaitEnd() && actionPermission(event)) {
+            buttonTestActionGeneral();
+            setTimeWait();
+        }
+    }
 
-        if (group.isOnPush()) {
-            if (!this.isOnPush()) {
-                super.setOnPush(true);
-                group.setFlagTestOn();
+    public void buttonTestActionGeneral() {
 
-                selectCorrectAnswer();
+        if (group.isOnPush() && !this.isOnPush()) {
 
-                player.incrementMaxPoints(currentQuestion.getPoints());
+            super.setOnPush(true);
+            group.setFlagTestOn();
 
-                if (group.getPushButton().getAnswer().equals(correctAnswer)) {
-                    player.incrementCorrectAnswer();
-                    player.incremenrReceivePoints(currentQuestion.getPoints());
-                }
+            selectCorrectAnswer();
 
-                setPointsReceivedText();
+            player.incrementMaxPoints(currentQuestion.getPoints());
+
+            if (group.getPushButton().getAnswer().equals(correctAnswer)) {
+                player.incrementCorrectAnswer();
+                player.incremenrReceivePoints(currentQuestion.getPoints());
             }
+
+            setPointsReceivedText();
         }
     }
 

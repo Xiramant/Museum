@@ -6,7 +6,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import static general.TouchWait.isTimeWaitEnd;
-import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.actionPermission;
 import static table4K.Main4K.isMinMove;
 

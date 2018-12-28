@@ -3,7 +3,6 @@ package table4K.map;
 import general.*;
 import javafx.geometry.VPos;
 import javafx.scene.input.InputEvent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -11,10 +10,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import static general.TextProcessing.readingFileIntoString;
-import static general.TouchWait.isTimeWaitEnd;
-import static general.TouchWait.setTimeWait;
 import static table4K.Main4K.*;
-import static table4K.Main4K.isMinMove;
 import static table4K.map.Map.*;
 
 public class MapPaneText extends ImagePaneIteration {

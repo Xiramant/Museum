@@ -4,6 +4,7 @@ import general.FileFormat;
 import general.SectionKey;
 import general.Slider;
 import javafx.scene.Node;
+import javafx.scene.input.InputEvent;
 import javafx.scene.layout.Pane;
 
 import java.io.File;
@@ -16,7 +17,7 @@ import static general.TouchWait.setTimeWait;
 import static table4K.BackHome.returnHome;
 import static table4K.Main4K.*;
 import static table4K.medal.MedalElement.MEDAL_SLIDER_IMAGE_HEIGHT_MAX;
-import static table4K.medal.MedalElement.medalImageAction;
+import static table4K.medal.MedalElement.medalImageActionGeneral;
 
 public class Medal {
 
@@ -34,6 +35,9 @@ public class Medal {
     //внешний лист - медаль/орден;
     //внутренний лист - тексты к данной медали/ордену.
     private static ArrayList<ArrayList<File>> medalTextFiles;
+
+    //панель выбора отображения орденов или медалей
+    private static Pane selectPane;
 
     //ширина слайдера для медалей/орденов
     private static final double MEDAL_SLIDER_WIDTH = 3250 / DEBUGGING_RATIO;
@@ -85,8 +89,7 @@ public class Medal {
         // в которых содержатся файлы для отображения на основной сцене
         ArrayList<File> fileDirs;
 
-        //панель выбора отображения орденов или медалей
-        Pane selectPane = new Pane();
+        selectPane = new Pane();
 
         //установка параметров при выборе подраздела Ордена или Медали
         if (medalType == ORDEN) {
@@ -126,29 +129,24 @@ public class Medal {
         sliderMedal.setLayoutY(MEDAL_SLIDER_Y);
 
         //показ Ордена Кутузова или Медали Нахимова при выборе секции
-        medalImageAction(medalImageFiles.get(4), medalTextFiles.get(4));
+        medalImageActionGeneral(medalImageFiles.get(4), medalTextFiles.get(4));
 
         mainPane.getChildren().addAll(selectPane, sliderMedal, descriptionPane, returnHome());
 
         //действия по выбору подраздела Ордена или Медали
-        selectPane.setOnMouseClicked(event -> {
+        selectPane.setOnMouseClicked(event -> medalAction(event));
+        selectPane.setOnTouchReleased(event -> medalAction(event));
+    }
+
+    private static void medalAction(final InputEvent event) {
+        if (isTimeWaitEnd() && actionPermission(event)) {
             if (selectPane.getLayoutY() == SELECT_ORDEN_Y) {
                 setMedalScene(ORDEN);
             } else {
                 setMedalScene(MEDAL);
             }
-        });
 
-        selectPane.setOnTouchReleased(event -> {
-            if (isTimeWaitEnd()) {
-                if (selectPane.getLayoutY() == SELECT_ORDEN_Y) {
-                    setMedalScene(ORDEN);
-                } else {
-                    setMedalScene(MEDAL);
-                }
-
-                setTimeWait();
-            }
-        });
+            setTimeWait();
+        }
     }
 }

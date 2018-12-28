@@ -1,7 +1,6 @@
 package table4K.mail;
 
 import general.FileFormat;
-import general.ImagePaneIteration;
 import general.ImageViewIteration;
 import general.SectionKey;
 import javafx.scene.Group;
