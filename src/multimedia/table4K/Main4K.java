@@ -36,8 +36,8 @@ public class Main4K extends Application{
     public static final double DEBUGGING_RATIO = 2;
 
     //включение/отключение реакции на события мыши и тача
-    public static final boolean MOUSE_PERMISSION = true;
-    public static final boolean TOUCH_PERMISSION = true;
+    private static final boolean MOUSE_PERMISSION = true;
+    private static final boolean TOUCH_PERMISSION = true;
 
     //размер минимального смещения, при котором считается,
     // что изображение целеноправленно перемещалось,
@@ -45,7 +45,7 @@ public class Main4K extends Application{
     private static final double MIN_MOVE = 10d;
 
     //путь к директории с файлами
-    public static final String RESOURCES_PATH = "C://museumResources/";
+    public static final String RESOURCES_PATH = getResourcesPath();
 
     //время задержки после тача
     public static final int TOUCH_TIMEOUT = 300;
@@ -108,11 +108,23 @@ public class Main4K extends Application{
     private static final double QUIZ_ICON_X = 1669 / DEBUGGING_RATIO;
     private static final double QUIZ_ICON_Y = 1697 / DEBUGGING_RATIO;
     private static final String QUIZ_SHADOW = "-fx-effect: dropshadow(gaussian, black, 15, 0.3, -2, 8);";
-    
+
+
+    private static String getResourcesPath() {
+        return (isWin())?
+                "C://museumResources/":
+                "/home/xiramant/museumResources/";
+    }
+
+    private static Boolean isWin() {
+        return System.getProperty("os.name").startsWith("Win");
+    }
+
 
     public static void main(String[] args) {
         launch(args);
     }
+
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -140,11 +152,13 @@ public class Main4K extends Application{
         setMainScene();
     }
 
+
     public static void changeRootBackground(final String imagePath) {
         root.setBackground(new Background(new BackgroundImage(
                 new Image("file:" + imagePath), NO_REPEAT, NO_REPEAT, DEFAULT,
                 new BackgroundSize(TABLE_WIDTH, TABLE_HEIGHT, false, false, false, false))));
     }
+
 
     public static void setMainScene() {
 
@@ -152,7 +166,7 @@ public class Main4K extends Application{
 
         mainPane.getChildren().clear();
 
-        Node map = new Icon(new MapIcon());
+        Node map = Icon.getMap();
 
         map.setOnMouseClicked(event -> actionDelay(event, MAP));
         map.setOnTouchReleased(event -> actionDelay(event, MAP));
@@ -230,7 +244,7 @@ public class Main4K extends Application{
     }
 
     //установка задержки при выборе раздела
-    public static void actionDelay(final InputEvent event, final SectionKey sectionKey) {
+    private static void actionDelay(final InputEvent event, final SectionKey sectionKey) {
 
         if (isTimeWaitEnd() && actionPermission(event)) {
 
