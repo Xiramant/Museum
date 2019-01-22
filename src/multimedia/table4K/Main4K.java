@@ -3,6 +3,7 @@ package table4K;
 import general.SectionKey;
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,6 +13,8 @@ import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import table4K.ui.icon.Icon;
+import table4K.ui.icon.MapIcon;
 
 import static general.SectionKey.*;
 import static general.TouchWait.isTimeWaitEnd;
@@ -55,14 +58,6 @@ public class Main4K extends Application{
     //Размеры интерактивного стола
     public static double TABLE_WIDTH = 4096 / DEBUGGING_RATIO;
     public static double TABLE_HEIGHT = 2160 / DEBUGGING_RATIO;
-
-    //Иконка раздела Карты
-    private static final String MAP_URL = "file:///" + RESOURCES_PATH + "icon/map_icon.png";
-    private static final double MAP_ICON_WIDTH = 1547 / DEBUGGING_RATIO;
-    private static final double MAP_ICON_HEIGHT = 972 / DEBUGGING_RATIO;
-    private static final double MAP_ICON_X = 0 / DEBUGGING_RATIO;
-    private static final double MAP_ICON_Y = 107 / DEBUGGING_RATIO;
-    private static final String MAP_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -4, 4);";
 
     //Иконка раздела Письма
     private static final String MAIL_URL = "file:///" + RESOURCES_PATH + "icon/mail_icon.png";
@@ -157,13 +152,7 @@ public class Main4K extends Application{
 
         mainPane.getChildren().clear();
 
-        //создание иконок для разделов
-        ImageView map = new ImageView(new Image(MAP_URL));
-        map.setPreserveRatio(true);
-        map.setFitWidth(MAP_ICON_WIDTH);
-        map.setLayoutX(MAP_ICON_X);
-        map.setLayoutY(MAP_ICON_Y);
-        map.setStyle(MAP_SHADOW);
+        Node map = new Icon(new MapIcon());
 
         map.setOnMouseClicked(event -> actionDelay(event, MAP));
         map.setOnTouchReleased(event -> actionDelay(event, MAP));
@@ -241,7 +230,7 @@ public class Main4K extends Application{
     }
 
     //установка задержки при выборе раздела
-    private static void actionDelay(final InputEvent event, final SectionKey sectionKey) {
+    public static void actionDelay(final InputEvent event, final SectionKey sectionKey) {
 
         if (isTimeWaitEnd() && actionPermission(event)) {
 
