@@ -4,9 +4,8 @@ import javafx.scene.input.InputEvent;
 
 import java.io.File;
 
-import static general.TouchWait.isTimeWaitEnd;
-import static general.TouchWait.setTimeWait;
-import static table4K.Main4K.actionPermission;
+import static general.TouchWait.eventDelayBegin;
+import static table4K.controller.ControllerParameters.isEventPermission;
 import static table4K.quiz.Quiz.*;
 
 public class QuizButtonNext extends QuizButton {
@@ -30,7 +29,7 @@ public class QuizButtonNext extends QuizButton {
 
     //действия при нажатии на кнопку Следующий
     private void quizButtonNextAction(final InputEvent event) {
-        if (isTimeWaitEnd() && actionPermission(event)) {
+        if (isEventPermission(event)) {
 
             if (test.getGroup().isOnPush()) {
 
@@ -52,7 +51,7 @@ public class QuizButtonNext extends QuizButton {
                     //задержка с длительным временем,
                     // чтобы игрок успел посмотреть результат,
                     // прежде чем выйти из него
-                    setTimeWait(RESULT_TIMEOUT);
+                    eventDelayBegin(RESULT_TIMEOUT);
                     return;
                 } else {
                     setQuestion();
@@ -60,7 +59,7 @@ public class QuizButtonNext extends QuizButton {
                 }
             }
 
-            setTimeWait();
+            eventDelayBegin();
         }
     }
 }

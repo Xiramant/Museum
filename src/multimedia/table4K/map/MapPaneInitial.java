@@ -8,14 +8,14 @@ import javafx.scene.input.InputEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import table4K.ui.MainView;
 
 import java.io.File;
 import java.util.ArrayList;
 
-import static general.TouchWait.isTimeWaitEnd;
-import static general.TouchWait.setTimeWait;
+import static general.TouchWait.eventDelayBegin;
 import static table4K.BackHome.*;
-import static table4K.Main4K.*;
+import static table4K.controller.ControllerParameters.isEventPermission;
 import static table4K.map.Map.*;
 
 public class MapPaneInitial extends ImagePane{
@@ -28,13 +28,13 @@ public class MapPaneInitial extends ImagePane{
 
     //максимальная ширина текстового блока
     // для начальной сцены
-    private static final double MAP_INITIAL_PANE_WIDTH_MAX = 530 / DEBUGGING_RATIO;
+    private static final double MAP_INITIAL_PANE_WIDTH_MAX = 530 / MainView.DEBUGGING_RATIO;
 
     //отступ текстового блока от верха
-    private static final double MAP_INITIAL_TEXT_TOP_PADDING = 350 / DEBUGGING_RATIO;
+    private static final double MAP_INITIAL_TEXT_TOP_PADDING = 350 / MainView.DEBUGGING_RATIO;
 
     //размер шрифта для текстового блока начальной сцены раздела Карты
-    private static final double MAP_INITIAL_TEXT_FONT = 50 / DEBUGGING_RATIO;
+    private static final double MAP_INITIAL_TEXT_FONT = 50 / MainView.DEBUGGING_RATIO;
 
     //шрифт текстового блока
     //!!! не делать static иначе размер шрифта не изменяется
@@ -73,7 +73,7 @@ public class MapPaneInitial extends ImagePane{
 
     private void action(final InputEvent event) {
 
-        if (isTimeWaitEnd() && actionPermission(event)) {
+        if (isEventPermission(event)) {
 
             MapPaneText text = new MapPaneText(mapTextFiles);
             MapPaneImage map = new MapPaneImage(mapImageFiles, text);
@@ -81,10 +81,10 @@ public class MapPaneInitial extends ImagePane{
             Group mapGroup = new Group();
             mapGroup.getChildren().addAll(map, text);
 
-            mainPane.getChildren().clear();
-            mainPane.getChildren().addAll(mapGroup, returnBack(SectionKey.MAP), returnHome());
+            MainView.rootPane.getChildren().clear();
+            MainView.rootPane.getChildren().addAll(mapGroup, returnBack(SectionKey.MAP), returnHome());
 
-            setTimeWait();
+            eventDelayBegin();
         }
     }
 }

@@ -4,6 +4,7 @@ import general.FileFormat;
 import general.ImageViewIteration;
 import general.SectionKey;
 import javafx.scene.Group;
+import table4K.ui.MainView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,39 +21,39 @@ public class Mail {
 
     private static final SectionKey MAIL_KEY = SectionKey.MAIL;
 
-    private static final double MAIL_WIDTH_MAX = 600 / DEBUGGING_RATIO;
+    private static final double MAIL_WIDTH_MAX = 600 / MainView.DEBUGGING_RATIO;
 
-    public static final double MAIL_WIDTH_SPACING_MIN = 100 / DEBUGGING_RATIO;
+    public static final double MAIL_WIDTH_SPACING_MIN = 100 / MainView.DEBUGGING_RATIO;
 
     //координаты начала и конца области для случайного расположения писем
-    private static final double MAIL_AREA_BEGIN_X = 2909 / DEBUGGING_RATIO;
-    private static final double MAIL_AREA_BEGIN_Y = 441 / DEBUGGING_RATIO;
-    private static final double MAIL_AREA_END_X = 3490 / DEBUGGING_RATIO;
-    private static final double MAIL_AREA_END_Y = 1128 / DEBUGGING_RATIO;
+    private static final double MAIL_AREA_BEGIN_X = 2909 / MainView.DEBUGGING_RATIO;
+    private static final double MAIL_AREA_BEGIN_Y = 441 / MainView.DEBUGGING_RATIO;
+    private static final double MAIL_AREA_END_X = 3490 / MainView.DEBUGGING_RATIO;
+    private static final double MAIL_AREA_END_Y = 1128 / MainView.DEBUGGING_RATIO;
 
     //координаты первоначального расположения 4-х писем
-    private static final double MAIL_FIRST_X = 993 / DEBUGGING_RATIO;
-    private static final double MAIL_FIRST_Y = 916 / DEBUGGING_RATIO;
-    private static final double MAIL_SECOND_X = 1670 / DEBUGGING_RATIO;
-    private static final double MAIL_SECOND_Y = 448 / DEBUGGING_RATIO;
-    private static final double MAIL_THIRD_X = 2374 / DEBUGGING_RATIO;
-    private static final double MAIL_THIRD_Y = 861 / DEBUGGING_RATIO;
-    private static final double MAIL_FORTH_X = 2000 / DEBUGGING_RATIO;
-    private static final double MAIL_FORTH_Y = 1550 / DEBUGGING_RATIO;
+    private static final double MAIL_FIRST_X = 993 / MainView.DEBUGGING_RATIO;
+    private static final double MAIL_FIRST_Y = 916 / MainView.DEBUGGING_RATIO;
+    private static final double MAIL_SECOND_X = 1670 / MainView.DEBUGGING_RATIO;
+    private static final double MAIL_SECOND_Y = 448 / MainView.DEBUGGING_RATIO;
+    private static final double MAIL_THIRD_X = 2374 / MainView.DEBUGGING_RATIO;
+    private static final double MAIL_THIRD_Y = 861 / MainView.DEBUGGING_RATIO;
+    private static final double MAIL_FORTH_X = 2000 / MainView.DEBUGGING_RATIO;
+    private static final double MAIL_FORTH_Y = 1550 / MainView.DEBUGGING_RATIO;
 
     //ограничения на расположение писем
-    static final double MAIL_LEFT = 900 / DEBUGGING_RATIO;
-    static final double MAIL_TOP = 370 / DEBUGGING_RATIO;
+    static final double MAIL_LEFT = 900 / MainView.DEBUGGING_RATIO;
+    static final double MAIL_TOP = 370 / MainView.DEBUGGING_RATIO;
     //переопределения размеров для MAIL_RIGHT и MAIL_BOTTOM не сделаны, т.к.
     // они определяются по значениям TABLE_WIDTH и TABLE_HEIGHT
     // которые уже уменьшены
-    static final double MAIL_RIGHT = TABLE_WIDTH;
-    static final double MAIL_BOTTOM = TABLE_HEIGHT;
+    static final double MAIL_RIGHT = MainView.TABLE_WIDTH;
+    static final double MAIL_BOTTOM = MainView.TABLE_HEIGHT;
 
     public static void setMailScene() {
 
-        changeRootBackground(RESOURCES_PATH + "table_4K_mail.jpg");
-        mainPane.getChildren().clear();
+        MainView.changeRootPaneBackground(RESOURCES_PATH + "table_4K_mail.jpg");
+        MainView.rootPane.getChildren().clear();
 
         //лист директорий, в которых содержатся файлы для отображения на основной сцене
         ArrayList<File> fileMailDirs = new ArrayList<>(getDirKey(MAIL_KEY));
@@ -107,6 +108,6 @@ public class Mail {
             mailGroup.getChildren().get(3).setLayoutY(MAIL_FORTH_Y);
         }
 
-        mainPane.getChildren().addAll(mailGroup, returnHome());
+        MainView.rootPane.getChildren().addAll(mailGroup, returnHome());
     }
 }

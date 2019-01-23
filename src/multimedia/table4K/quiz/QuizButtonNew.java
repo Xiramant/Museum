@@ -5,7 +5,7 @@ import javafx.scene.input.InputEvent;
 import java.io.File;
 
 import static general.TouchWait.*;
-import static table4K.Main4K.actionPermission;
+import static table4K.controller.ControllerParameters.isEventPermission;
 import static table4K.quiz.Quiz.setQuizScene;
 
 public class QuizButtonNew extends QuizButton {
@@ -19,9 +19,9 @@ public class QuizButtonNew extends QuizButton {
 
     //действия при нажатии на кнопку Новый
     private static void quizButtonNewAction(final InputEvent event) {
-        if (isTimeWaitEnd() && actionPermission(event)) {
+        if (isEventPermission(event)) {
             setQuizScene();
-            setTimeWait();
+            eventDelayBegin();
         }
     }
 }

@@ -1,8 +1,9 @@
 package table4K.ui.portfolio;
 
+import general.SectionKey;
 import table4K.ui.IDisplayIcon;
 
-import static table4K.Main4K.DEBUGGING_RATIO;
+import static table4K.ui.MainView.DEBUGGING_RATIO;
 import static table4K.Main4K.RESOURCES_PATH;
 
 public class PortfolioIcon implements IDisplayIcon {
@@ -12,6 +13,7 @@ public class PortfolioIcon implements IDisplayIcon {
     private static final double PORTFOLIO_ICON_X = 1899 / DEBUGGING_RATIO;
     private static final double PORTFOLIO_ICON_Y = 556 / DEBUGGING_RATIO;
     private static final String PORTFOLIO_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 5);";
+    private static final SectionKey PORTFOLIO_KEY = SectionKey.PORTFOLIO;
 
     public String getIconUrl() {
         return PORTFOLIO_URL;
@@ -31,6 +33,10 @@ public class PortfolioIcon implements IDisplayIcon {
 
     public String getIconStyle() {
         return PORTFOLIO_SHADOW;
+    }
+
+    public SectionKey getKey() {
+        return PORTFOLIO_KEY;
     }
 
 }

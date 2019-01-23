@@ -7,9 +7,9 @@ import javafx.scene.input.TouchEvent;
 import java.io.File;
 
 import static general.RestrictionCoordinates.getNotDetermined;
-import static general.TouchWait.isTimeWaitEnd;
-import static general.TouchWait.setTimeWait;
-import static table4K.Main4K.actionPermission;
+import static general.TouchWait.eventDelayBegin;
+import static table4K.controller.ControllerParameters.isEventPermission;
+
 
 public class ImagePaneMoved extends ImagePane{
 
@@ -114,7 +114,7 @@ public class ImagePaneMoved extends ImagePane{
     //Выполнение действий по событию Нажатие кнопки мыши или Нажатие тача
     private void pressedAction(final InputEvent event) {
 
-        if (isTimeWaitEnd() && actionPermission(event) && permissionMove) {
+        if (isEventPermission(event) && permissionMove) {
 
             this.toFront();
 
@@ -128,7 +128,7 @@ public class ImagePaneMoved extends ImagePane{
     //Выполнение действий по событию Перемещение мышью или Перемещение тачем
     private void movedAction(final InputEvent event, final String style) {
 
-        if (flagPressed && actionPermission(event) && permissionMove) {
+        if (flagPressed && isEventPermission(event) && permissionMove) {
 
             this.getRelocationCoordinates().setXDelta(getX(event) - this.getRelocationCoordinates().getXBegin());
             this.setTranslateX(this.getRelocationCoordinates().getXDelta());
@@ -142,7 +142,7 @@ public class ImagePaneMoved extends ImagePane{
 
     protected void releasedAction(final InputEvent event, final String style) {
 
-        if (isTimeWaitEnd() && flagPressed && actionPermission(event)) {
+        if (flagPressed && isEventPermission(event)) {
 
             if (permissionMove) {
                 this.setLayoutX(this.getLayoutX() + this.getTranslateX());
@@ -166,7 +166,7 @@ public class ImagePaneMoved extends ImagePane{
 
         flagPressed = false;
 
-        setTimeWait();
+        TouchWait.eventDelayBegin();
     }
 
     //получение положения X по событию мыши или тача

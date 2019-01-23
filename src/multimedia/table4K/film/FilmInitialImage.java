@@ -14,11 +14,10 @@ import javafx.scene.text.TextAlignment;
 import java.io.File;
 
 import static general.TextProcessing.readingFirstStokeFromFile;
-import static general.TouchWait.isTimeWaitEnd;
-import static general.TouchWait.setTimeWait;
+import static general.TouchWait.eventDelayBegin;
 import static table4K.Main4K.RESOURCES_PATH;
-import static table4K.Main4K.DEBUGGING_RATIO;
-import static table4K.Main4K.actionPermission;
+import static table4K.ui.MainView.DEBUGGING_RATIO;
+import static table4K.controller.ControllerParameters.isEventPermission;
 import static table4K.film.Film.obj;
 import static table4K.film.FilmShow.FilmShowSet;
 
@@ -72,9 +71,9 @@ public class FilmInitialImage extends ImagePane {
     }
 
     private void filmAction(final InputEvent event) {
-        if (isTimeWaitEnd() && actionPermission(event)) {
+        if (isEventPermission(event)) {
             FilmShowSet(videoPath, ratio);
-            setTimeWait();
+            eventDelayBegin();
         }
     }
 

@@ -6,19 +6,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.media.MediaPlayer;
+import table4K.ui.MainView;
 
-import static general.TouchWait.isTimeWaitEnd;
-import static general.TouchWait.setTimeWait;
+import static general.TouchWait.eventDelayBegin;
 import static table4K.Main4K.*;
+import static table4K.controller.ControllerParameters.isEventPermission;
 import static table4K.film.Film.setFilmScene;
 import static table4K.map.Map.setMapScene;
 import static table4K.portfolio.Portfolio.setPortfolioScene;
 
 public class BackHome extends Region {
 
-    private static final double BUTTON_HEIGHT_MAX = 100 / DEBUGGING_RATIO;
+    private static final double BUTTON_HEIGHT_MAX = 100 / MainView.DEBUGGING_RATIO;
 
-    private static final double BUTTON_INDENT = 20 / DEBUGGING_RATIO;
+    private static final double BUTTON_INDENT = 20 / MainView.DEBUGGING_RATIO;
 
     private static final String SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 2, 2);";
 
@@ -34,9 +35,9 @@ public class BackHome extends Region {
     }
 
     private static void returnHomeAction(final InputEvent event) {
-        if (isTimeWaitEnd() && actionPermission(event)) {
-            setMainScene();
-            setTimeWait();
+        if (isEventPermission(event)) {
+            MainView.setMainScene();
+            eventDelayBegin();
         }
     }
 
@@ -52,10 +53,10 @@ public class BackHome extends Region {
     }
 
     private static void returnHomeActionFromFilm(final InputEvent event, final MediaPlayer mediaPlayer) {
-        if (isTimeWaitEnd() && actionPermission(event)) {
+        if (isEventPermission(event)) {
             mediaPlayer.stop();
-            setMainScene();
-            setTimeWait();
+            MainView.setMainScene();
+            eventDelayBegin();
         }
     }
 
@@ -66,8 +67,8 @@ public class BackHome extends Region {
         ivHome.setFitHeight(BUTTON_HEIGHT_MAX);
         ivHome.setPreserveRatio(true);
         ivHome.setStyle(SHADOW);
-        ivHome.setLayoutX(TABLE_WIDTH - ivHome.getLayoutBounds().getWidth() - BUTTON_INDENT);
-        ivHome.setLayoutY(TABLE_HEIGHT - ivHome.getLayoutBounds().getHeight() - BUTTON_INDENT);
+        ivHome.setLayoutX(MainView.TABLE_WIDTH - ivHome.getLayoutBounds().getWidth() - BUTTON_INDENT);
+        ivHome.setLayoutY(MainView.TABLE_HEIGHT - ivHome.getLayoutBounds().getHeight() - BUTTON_INDENT);
 
         return ivHome;
     }
@@ -84,10 +85,10 @@ public class BackHome extends Region {
     }
 
     private static void returnBackActionFromFilm(final InputEvent event, final MediaPlayer mediaPlayer) {
-        if (isTimeWaitEnd()) {
+        if (isEventPermission(event)) {
             mediaPlayer.stop();
             setFilmScene();
-            setTimeWait();
+            eventDelayBegin();
         }
     }
 
@@ -103,9 +104,9 @@ public class BackHome extends Region {
     }
 
     private static void returnBackAction(final InputEvent event, final SectionKey key) {
-        if (isTimeWaitEnd() && actionPermission(event)) {
+        if (isEventPermission(event)) {
             setScene(key);
-            setTimeWait();
+            eventDelayBegin();
         }
     }
 
@@ -120,7 +121,7 @@ public class BackHome extends Region {
         ivBack.setPreserveRatio(true);
         ivBack.setStyle(SHADOW);
         ivBack.setLayoutX(ivHome.getLayoutX() - ivBack.getLayoutBounds().getWidth() - BUTTON_INDENT);
-        ivBack.setLayoutY(TABLE_HEIGHT - ivBack.getLayoutBounds().getHeight() - BUTTON_INDENT);
+        ivBack.setLayoutY(MainView.TABLE_HEIGHT - ivBack.getLayoutBounds().getHeight() - BUTTON_INDENT);
 
         return ivBack;
     }
@@ -135,7 +136,7 @@ public class BackHome extends Region {
                 setPortfolioScene();
                 break;
             default:
-                setMainScene();
+                MainView.setMainScene();
                 break;
         }
     }

@@ -2,9 +2,8 @@ package table4K.quiz;
 
 import javafx.scene.input.InputEvent;
 
-import static general.TouchWait.isTimeWaitEnd;
-import static general.TouchWait.setTimeWait;
-import static table4K.Main4K.actionPermission;
+import static general.TouchWait.eventDelayBegin;
+import static table4K.controller.ControllerParameters.isEventPermission;
 import static table4K.quiz.Quiz.pointsReceivedText;
 import static table4K.quiz.Quiz.currentQuestion;
 import static table4K.quiz.Quiz.player;
@@ -35,9 +34,9 @@ public class QuizButtonTest extends QuizButton {
 
     //действия при нажатии на кнопку Тест
     private void buttonTestAction(final InputEvent event) {
-        if (isTimeWaitEnd() && actionPermission(event)) {
+        if (isEventPermission(event)) {
             buttonTestActionGeneral();
-            setTimeWait();
+            eventDelayBegin();
         }
     }
 

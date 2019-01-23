@@ -1,5 +1,7 @@
 package table4K.ui;
 
+import general.SectionKey;
+
 public interface IDisplayIcon {
 
     String getIconUrl();
@@ -11,4 +13,6 @@ public interface IDisplayIcon {
     double getIconY();
 
     String getIconStyle();
+
+    SectionKey getKey();
 }

@@ -1,6 +1,8 @@
 package table4K.ui;
 
+import general.SectionKey;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import table4K.ui.book.BookIcon;
@@ -12,15 +14,39 @@ import table4K.ui.medal.MedalIcon;
 import table4K.ui.portfolio.PortfolioIcon;
 import table4K.ui.quiz.QuizIcon;
 
-public class Icon extends ImageView {
+public class Icon implements IIcon{
 
-    private Icon(IDisplayIcon IDisplayIcon) {
-        super(new Image(IDisplayIcon.getIconUrl()));
-        this.setPreserveRatio(true);
-        this.setFitWidth(IDisplayIcon.getIconWidth());
-        this.setLayoutX(IDisplayIcon.getIconX());
-        this.setLayoutY(IDisplayIcon.getIconY());
-        this.setStyle(IDisplayIcon.getIconStyle());
+    private Node image;
+
+    public Node getIconImage() {
+        return image;
+    }
+
+    private SectionKey key;
+
+    public SectionKey getKey() {
+        return key;
+    }
+
+    private Icon(final IDisplayIcon iconValue) {
+        this.image = getImageView(iconValue);
+        this.key =  iconValue.getKey();
+    }
+
+    private Icon(final IDisplayIcon iconValue1, final IDisplayIcon iconValue2) {
+        this.image = new Group(getImageView(iconValue1), getImageView(iconValue2));
+        this.key =  iconValue1.getKey();
+    }
+
+    private ImageView getImageView(final IDisplayIcon iconValue){
+        ImageView iv = new ImageView(new Image(iconValue.getIconUrl()));
+        iv.setPreserveRatio(true);
+        iv.setFitWidth(iconValue.getIconWidth());
+        iv.setLayoutX(iconValue.getIconX());
+        iv.setLayoutY(iconValue.getIconY());
+        iv.setStyle(iconValue.getIconStyle());
+
+        return iv;
     }
 
     public static Icon getMap() {
@@ -47,8 +73,8 @@ public class Icon extends ImageView {
         return new Icon(new QuizIcon());
     }
 
-    public static Group getFilm() {
-        return new Group(new Icon(new FilmIcon1()), new Icon(new FilmIcon2()));
+    public static Icon getFilm() {
+        return new Icon(new FilmIcon1(), new FilmIcon2());
     }
 
 }

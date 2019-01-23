@@ -8,57 +8,57 @@ import javafx.scene.input.InputEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import table4K.ui.MainView;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import static general.TextProcessing.*;
-import static general.TouchWait.isTimeWaitEnd;
-import static general.TouchWait.setTimeWait;
-import static table4K.Main4K.*;
+import static general.TouchWait.eventDelayBegin;
 import static table4K.Main4K.RESOURCES_PATH;
+import static table4K.controller.ControllerParameters.isEventPermission;
 
 public class PortfolioCasePane extends ImagePane{
 
     //Развернутая папка Личное дело
     //максимальная высота
-    private static final double PORTFOLIO_CASE_HEIGHT_MAX = 1300 / DEBUGGING_RATIO;
+    private static final double PORTFOLIO_CASE_HEIGHT_MAX = 1300 / MainView.DEBUGGING_RATIO;
     //отступ слева
-    static final double PORTFOLIO_CASE_X = 1500 / DEBUGGING_RATIO;
+    static final double PORTFOLIO_CASE_X = 1500 / MainView.DEBUGGING_RATIO;
     //отступ сверху
-    static final double PORTFOLIO_CASE_Y = 760 / DEBUGGING_RATIO;
+    static final double PORTFOLIO_CASE_Y = 760 / MainView.DEBUGGING_RATIO;
 
     //Текстовый блок ФИО на корешке папки Личное дело
     //шрифт
-    private static final Font FIO_FONT = new Font("Book Antiqua Bold Italic", 52 / DEBUGGING_RATIO);
+    private static final Font FIO_FONT = new Font("Book Antiqua Bold Italic", 52 / MainView.DEBUGGING_RATIO);
     //цвет
     private static final Color FIO_COLOR = Color.rgb(201, 136, 33);
     //отступ слева
-    private static final double FIO_X = 920 / DEBUGGING_RATIO;
+    private static final double FIO_X = 920 / MainView.DEBUGGING_RATIO;
     //отступ сверху
-    private static final double FIO_Y = 640 / DEBUGGING_RATIO;
+    private static final double FIO_Y = 640 / MainView.DEBUGGING_RATIO;
 
     //Фото для биографии
     //максимальная высота
-    private static final double BIOGRAPHY_PHOTO_HEIGHT_MAX = 272 / DEBUGGING_RATIO;
+    private static final double BIOGRAPHY_PHOTO_HEIGHT_MAX = 272 / MainView.DEBUGGING_RATIO;
     //отступ слева
-    private static final double BIOGRAPHY_PHOTO_X = 1021 / DEBUGGING_RATIO;
+    private static final double BIOGRAPHY_PHOTO_X = 1021 / MainView.DEBUGGING_RATIO;
     //отступ сверху
-    private static final double BIOGRAPHY_PHOTO_Y = 128 / DEBUGGING_RATIO;
+    private static final double BIOGRAPHY_PHOTO_Y = 128 / MainView.DEBUGGING_RATIO;
 
     //Текстовый блок биографии
     //ширина
-    private static final double BIOGRAPHY_TEXT_WIDTH = 620 / DEBUGGING_RATIO;
+    private static final double BIOGRAPHY_TEXT_WIDTH = 620 / MainView.DEBUGGING_RATIO;
     //высота
-    private static final double BIOGRAPHY_TEXT_HEIGHT = 765 / DEBUGGING_RATIO;
+    private static final double BIOGRAPHY_TEXT_HEIGHT = 765 / MainView.DEBUGGING_RATIO;
     //шрифт
-    private static final Font BIOGRAPHY_TEXT_FONT =  new Font("B52", 23 / DEBUGGING_RATIO);
+    private static final Font BIOGRAPHY_TEXT_FONT =  new Font("B52", 23 / MainView.DEBUGGING_RATIO);
     //межстрочный интервал
-    private static final double BIOGRAPHY_TEXT_LINE_SPACING = 23 / 2 / DEBUGGING_RATIO;
+    private static final double BIOGRAPHY_TEXT_LINE_SPACING = 23 / 2 / MainView.DEBUGGING_RATIO;
     //отступ слева
-    private static final double BIOGRAPHY_TEXT_X =  1021 / DEBUGGING_RATIO;
+    private static final double BIOGRAPHY_TEXT_X =  1021 / MainView.DEBUGGING_RATIO;
     //отступ сверху
-    private static final double BIOGRAPHY_TEXT_Y =  435 / DEBUGGING_RATIO;
+    private static final double BIOGRAPHY_TEXT_Y =  435 / MainView.DEBUGGING_RATIO;
 
     //лист стрингов для страниц при перелистывании текстового блока
     private ArrayListIndex<String> textBlockStrings;
@@ -163,9 +163,9 @@ public class PortfolioCasePane extends ImagePane{
     }
 
     private void pcpAction(final InputEvent event) {
-        if (isTimeWaitEnd() && actionPermission(event)) {
+        if (isEventPermission(event)) {
             temp.setText(textBlockStrings.getNextElement());
-            setTimeWait();
+            eventDelayBegin();
         }
     }
 }

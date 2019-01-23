@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import table4K.ui.MainView;
 
 import java.io.File;
 
@@ -15,19 +16,19 @@ import static table4K.Main4K.*;
 public class FilmShow {
 
     //ширина области просмотра фильма
-    private static final double FILM_VIEW_WIDTH = 2640 / DEBUGGING_RATIO;
+    private static final double FILM_VIEW_WIDTH = 2640 / MainView.DEBUGGING_RATIO;
 
     //высота области просмотра фильма
     private static double FILM_VIEW_HEIGHT;
 
     //отступ экрана слева
-    private static final double PLAYER_X = 1260 / DEBUGGING_RATIO;
+    private static final double PLAYER_X = 1260 / MainView.DEBUGGING_RATIO;
 
 
     public static void FilmShowSet(final String filmName, final double filmRatio) {
 
-        changeRootBackground(RESOURCES_PATH + "film/film_background.jpg");
-        mainPane.getChildren().clear();
+        MainView.changeRootPaneBackground(RESOURCES_PATH + "film/film_background.jpg");
+        MainView.rootPane.getChildren().clear();
 
         Media media = new Media(filmName);
         MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -47,10 +48,10 @@ public class FilmShow {
         vignette.setFitHeight(FILM_VIEW_HEIGHT);
 
         player.setLayoutX(PLAYER_X);
-        player.setLayoutY(TABLE_HEIGHT / 2 - FILM_VIEW_HEIGHT / 2);
+        player.setLayoutY(MainView.TABLE_HEIGHT / 2 - FILM_VIEW_HEIGHT / 2);
         player.getChildren().addAll(mediaView, vignette);
 
-        mainPane.getChildren().addAll(player, returnHome(mediaPlayer), returnBack(mediaPlayer));
+        MainView.rootPane.getChildren().addAll(player, returnHome(mediaPlayer), returnBack(mediaPlayer));
     }
 
 

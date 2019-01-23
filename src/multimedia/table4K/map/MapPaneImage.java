@@ -7,13 +7,14 @@ import javafx.scene.input.InputEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import table4K.ui.MainView;
 
 import java.io.File;
 import java.util.ArrayList;
 
-import static general.TouchWait.isTimeWaitEnd;
-import static general.TouchWait.setTimeWait;
+import static general.TouchWait.eventDelayBegin;
 import static table4K.Main4K.*;
+import static table4K.controller.ControllerParameters.isEventPermission;
 import static table4K.map.Map.*;
 import static table4K.map.MapPaneText.МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER;
 
@@ -33,25 +34,25 @@ public class MapPaneImage extends ImagePaneIteration {
     private static final File MAP_PAGE_BACKGROUND_FILE = new File(RESOURCES_PATH + "map/map_page_background.jpg");
 
     //максимальная ширина фона для количества страниц (карт)
-    private static final double MAP_PAGE_BACKGROUND_WIDTH_MAX = 140 / DEBUGGING_RATIO;
+    private static final double MAP_PAGE_BACKGROUND_WIDTH_MAX = 140 / MainView.DEBUGGING_RATIO;
 
     //максимальная высота фона для количества страниц (карт)
-    private static final double MAP_PAGE_BACKGROUND_HEIGHT_MAX = 30 / DEBUGGING_RATIO;
+    private static final double MAP_PAGE_BACKGROUND_HEIGHT_MAX = 30 / MainView.DEBUGGING_RATIO;
 
     //отступ слева для фона количества страниц (карт)
-    private static final double MAP_PAGE_BACKGROUND_X = 16 / DEBUGGING_RATIO;
+    private static final double MAP_PAGE_BACKGROUND_X = 16 / MainView.DEBUGGING_RATIO;
 
     //отступ сверху для фона количества страниц (карт)
-    private static final double MAP_PAGE_BACKGROUND_Y = 10 / DEBUGGING_RATIO;
+    private static final double MAP_PAGE_BACKGROUND_Y = 10 / MainView.DEBUGGING_RATIO;
 
     //отображение текста количества страниц
     private Text mapCountPageText = new Text();
 
     //отступ сверху для блока количество карт
-    private static final double MAP_PAGE_TOP_PADDING = 14 / DEBUGGING_RATIO;
+    private static final double MAP_PAGE_TOP_PADDING = 14 / MainView.DEBUGGING_RATIO;
 
     //отступ слева для блока количество карт
-    private static final double MAP_PAGE_LEFT_PADDING = 24 / DEBUGGING_RATIO;
+    private static final double MAP_PAGE_LEFT_PADDING = 24 / MainView.DEBUGGING_RATIO;
 
     //шрифт блока количество страниц
     private static final Font МAP_PANE_IMAGE_FONT_PAGE_NUMBER = new Font("Book Antiqua Bold Italic", МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER);
@@ -105,7 +106,7 @@ public class MapPaneImage extends ImagePaneIteration {
 
     private void releasedAction(final InputEvent event) {
 
-        if (isTimeWaitEnd() && actionPermission(event) && imageFiles.size() > 1) {
+        if (isEventPermission(event) && imageFiles.size() > 1) {
 
             setNextBackground();
             mpiScale();
@@ -114,7 +115,7 @@ public class MapPaneImage extends ImagePaneIteration {
             //смена текста в текстовой панели при смене карты
             mapText.setDisplayText(this.getCurrentBackgroundIndex());
 
-            setTimeWait();
+            eventDelayBegin();
         }
     }
 

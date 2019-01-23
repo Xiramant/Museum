@@ -1,8 +1,9 @@
 package table4K.ui.medal;
 
+import general.SectionKey;
 import table4K.ui.IDisplayIcon;
 
-import static table4K.Main4K.DEBUGGING_RATIO;
+import static table4K.ui.MainView.DEBUGGING_RATIO;
 import static table4K.Main4K.RESOURCES_PATH;
 
 public class MedalIcon implements IDisplayIcon {
@@ -12,6 +13,7 @@ public class MedalIcon implements IDisplayIcon {
     private static final double MEDAL_ICON_X = 66 / DEBUGGING_RATIO;
     private static final double MEDAL_ICON_Y = 1653 / DEBUGGING_RATIO;
     private static final String MEDAL_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -4, 4);";
+    private static final SectionKey MEDAL_KEY = SectionKey.MEDAL;
 
     public String getIconUrl() {
         return MEDAL_URL;
@@ -31,6 +33,10 @@ public class MedalIcon implements IDisplayIcon {
 
     public String getIconStyle() {
         return MEDAL_SHADOW;
+    }
+
+    public SectionKey getKey() {
+        return MEDAL_KEY;
     }
 
 }

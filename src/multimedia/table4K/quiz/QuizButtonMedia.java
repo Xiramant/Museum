@@ -4,12 +4,13 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
+import table4K.ui.MainView;
 
 import java.io.File;
 
-import static general.TouchWait.isTimeWaitEnd;
-import static general.TouchWait.setTimeWait;
+import static general.TouchWait.eventDelayBegin;
 import static table4K.Main4K.*;
+import static table4K.controller.ControllerParameters.isEventPermission;
 
 public class QuizButtonMedia extends QuizButton {
 
@@ -22,16 +23,16 @@ public class QuizButtonMedia extends QuizButton {
     private static final Image TV_SCREEN_IMAGE = new Image("file:" + RESOURCES_PATH + "quiz/quiz_tv_screen.png");
 
     //размеры экрана тв
-    private static final double TV_SCREEN_WIDTH = 2431 / DEBUGGING_RATIO;
-    private static final double TV_SCREEN_HEIGHT = 1386 / DEBUGGING_RATIO;
+    private static final double TV_SCREEN_WIDTH = 2431 / MainView.DEBUGGING_RATIO;
+    private static final double TV_SCREEN_HEIGHT = 1386 / MainView.DEBUGGING_RATIO;
 
     //максимальные размеры медиа (картинки)
-    private static final double MEDIA_WIDTH_MAX = 2100 / DEBUGGING_RATIO;
-    private static final double MEDIA_HEIGHT_MAX = 1196 / DEBUGGING_RATIO;
+    private static final double MEDIA_WIDTH_MAX = 2100 / MainView.DEBUGGING_RATIO;
+    private static final double MEDIA_HEIGHT_MAX = 1196 / MainView.DEBUGGING_RATIO;
 
     //расположение группы из фонов и медиа
-    private static final double GROUP_X = 401 / DEBUGGING_RATIO;
-    private static final double GROUP_Y = 218 / DEBUGGING_RATIO;
+    private static final double GROUP_X = 401 / MainView.DEBUGGING_RATIO;
+    private static final double GROUP_Y = 218 / MainView.DEBUGGING_RATIO;
 
 
     QuizButtonMedia(final File imageFile, final String mediaEnter) {
@@ -75,7 +76,7 @@ public class QuizButtonMedia extends QuizButton {
 
     //действия при нажатии на кнопку Медиа
     private void QuizButtonMediaAction(final InputEvent event) {
-        if (isTimeWaitEnd() && actionPermission(event)) {
+        if (isEventPermission(event)) {
 
             if (media.length() != 0) {
                 setOnPushInvert();
@@ -83,13 +84,13 @@ public class QuizButtonMedia extends QuizButton {
                 if (isOnPush()) {
                     groupMedia.setLayoutX(GROUP_X);
                     groupMedia.setLayoutY(GROUP_Y);
-                    mainPane.getChildren().add(groupMedia);
+                    MainView.rootPane.getChildren().add(groupMedia);
                 } else {
-                    mainPane.getChildren().remove(groupMedia);
+                    MainView.rootPane.getChildren().remove(groupMedia);
                 }
             }
 
-            setTimeWait();
+            eventDelayBegin();
         }
     }
 
@@ -98,7 +99,7 @@ public class QuizButtonMedia extends QuizButton {
 
         if (isOnPush()) {
             setOnPush(false);
-            mainPane.getChildren().remove(groupMedia);
+            MainView.rootPane.getChildren().remove(groupMedia);
         }
     }
 

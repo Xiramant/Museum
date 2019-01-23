@@ -5,35 +5,35 @@ import javafx.geometry.VPos;
 import javafx.scene.input.InputEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import table4K.ui.MainView;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import static general.TextProcessing.readingFileIntoString;
-import static table4K.Main4K.*;
 import static table4K.map.Map.*;
 
 public class MapPaneText extends ImagePaneIteration {
 
     //максимальная ширина панели текстового блока для раздела Карты
-    private static final double МAP_PANE_TEXT_WIDTH_MAX = 640 / DEBUGGING_RATIO;
+    private static final double МAP_PANE_TEXT_WIDTH_MAX = 640 / MainView.DEBUGGING_RATIO;
 
-    private static final double МAP_PANE_TEXT_BOTTOM_INSET = 100 / DEBUGGING_RATIO;
+    private static final double МAP_PANE_TEXT_BOTTOM_INSET = 100 / MainView.DEBUGGING_RATIO;
 
     //высота текстового блока
-    private static final double МAP_PANE_TEXT_HEIGHT_TEXT_BLOCK = 620 / DEBUGGING_RATIO;
+    private static final double МAP_PANE_TEXT_HEIGHT_TEXT_BLOCK = 620 / MainView.DEBUGGING_RATIO;
 
     //отступ сверху для текстового блока
-    private static final double МAP_PANE_TEXT_TOP_PADDING_TEXT_BLOCK = 160 / DEBUGGING_RATIO;
+    private static final double МAP_PANE_TEXT_TOP_PADDING_TEXT_BLOCK = 160 / MainView.DEBUGGING_RATIO;
 
     //отступ сверху для блока количество страниц
-    private static final double МAP_PANE_TEXT_TOP_PADDING_PAGE_NUMBER = 800 / DEBUGGING_RATIO;
+    private static final double МAP_PANE_TEXT_TOP_PADDING_PAGE_NUMBER = 800 / MainView.DEBUGGING_RATIO;
 
     //размер шрифта текстового блока
-    private static final double МAP_PANE_TEXT_FONT_SIZE_TEXT_BLOCK = 28 / DEBUGGING_RATIO;
+    private static final double МAP_PANE_TEXT_FONT_SIZE_TEXT_BLOCK = 28 / MainView.DEBUGGING_RATIO;
 
     //размер шрифта блока количество страниц
-    static final double МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER = 20 / DEBUGGING_RATIO;
+    static final double МAP_PANE_TEXT_FONT_SIZE_PAGE_NUMBER = 20 / MainView.DEBUGGING_RATIO;
 
     //шрифт текстового блока
     private final Font МAP_PANE_TEXT_FONT_TEXT_BLOCK = new Font("Book Antiqua Bold Italic", МAP_PANE_TEXT_FONT_SIZE_TEXT_BLOCK);
@@ -62,8 +62,8 @@ public class MapPaneText extends ImagePaneIteration {
 
         super(TEXT_BACKGROUND_FILE, МAP_PANE_TEXT_WIDTH_MAX, 0);
 
-        this.setLayoutX(TABLE_WIDTH - this.getPrefWidth());
-        this.setLayoutY(TABLE_HEIGHT - this.getPrefHeight() - МAP_PANE_TEXT_BOTTOM_INSET);
+        this.setLayoutX(MainView.TABLE_WIDTH - this.getPrefWidth());
+        this.setLayoutY(MainView.TABLE_HEIGHT - this.getPrefHeight() - МAP_PANE_TEXT_BOTTOM_INSET);
 
         for (File temp: textFiles) {
             mapTextString.add(readingFileIntoString(temp));

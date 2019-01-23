@@ -5,6 +5,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+import table4K.ui.MainView;
 
 import java.io.File;
 
@@ -18,8 +19,8 @@ public class ImagePane extends Pane {
     // и ограничениями на максимальный размер
     public ImagePane(final Image image, final double wMax, final double hMax) {
 
-        this.setMaxWidth((wMax == 0d)? TABLE_WIDTH: wMax);
-        this.setMaxHeight((hMax == 0d)? TABLE_HEIGHT: hMax);
+        this.setMaxWidth((wMax == 0d)? MainView.TABLE_WIDTH: wMax);
+        this.setMaxHeight((hMax == 0d)? MainView.TABLE_HEIGHT: hMax);
 
         setImageBackground(image);
     }

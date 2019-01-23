@@ -3,6 +3,7 @@ package table4K.map;
 import general.FileFormat;
 import general.OrderElements;
 import general.SectionKey;
+import table4K.ui.MainView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,14 +27,14 @@ public class Map {
     private static final SectionKey MAP_KEY = SectionKey.MAP;
 
     //минимальное расстояние по горизонтали между блоками изначальной сцены
-    private static final double MAP_INITIAL_PANE_MIN_WIDTH_SPACING = 100 / DEBUGGING_RATIO;
+    private static final double MAP_INITIAL_PANE_MIN_WIDTH_SPACING = 100 / MainView.DEBUGGING_RATIO;
 
     //координаты области в которой должны разместиться
     // первоначальные текстовые блоки для выбора сражения
-    static final double MAP_INITIAL_AREA_X_BEGIN = 800 / DEBUGGING_RATIO;
-    static final double MAP_INITIAL_AREA_Y_BEGIN = 350 / DEBUGGING_RATIO;
-    static final double MAP_INITIAL_AREA_X_END = 4000 / DEBUGGING_RATIO;
-    static final double MAP_INITIAL_AREA_Y_END = 2050 / DEBUGGING_RATIO;
+    static final double MAP_INITIAL_AREA_X_BEGIN = 800 / MainView.DEBUGGING_RATIO;
+    static final double MAP_INITIAL_AREA_Y_BEGIN = 350 / MainView.DEBUGGING_RATIO;
+    static final double MAP_INITIAL_AREA_X_END = 4000 / MainView.DEBUGGING_RATIO;
+    static final double MAP_INITIAL_AREA_Y_END = 2050 / MainView.DEBUGGING_RATIO;
 
     //Карты:
     //внешний лист - лист сражений;
@@ -48,8 +49,8 @@ public class Map {
 
     public static void setMapScene() {
 
-        changeRootBackground(RESOURCES_PATH + "table_4K_map.jpg");
-        mainPane.getChildren().clear();
+        MainView.changeRootPaneBackground(RESOURCES_PATH + "table_4K_map.jpg");
+        MainView.rootPane.getChildren().clear();
 
         //лист директорий, в которых содержатся файлы для отображения на основной сцене
         ArrayList<File> fileMapDirs = new ArrayList<>(getDirKey(MAP_KEY));
@@ -66,11 +67,11 @@ public class Map {
         //Инициализация первоначального состояния раздела Карты
         // с расположением списка сражений
         for (int i = 0; i < operationNameList.size(); i++) {
-            mainPane.getChildren().add(new MapPaneInitial(operationNameList.get(i),
+            MainView.rootPane.getChildren().add(new MapPaneInitial(operationNameList.get(i),
                                         mapImageFiles.get(i),
                                         mapTextFiles.get(i)));
         }
-        initialPositionElementsForArea(mainPane.getChildren(),
+        initialPositionElementsForArea(MainView.rootPane.getChildren(),
                 MAP_INITIAL_PANE_MIN_WIDTH_SPACING,
                 MAP_INITIAL_AREA_X_BEGIN,
                 MAP_INITIAL_AREA_Y_BEGIN,
@@ -78,7 +79,7 @@ public class Map {
                 MAP_INITIAL_AREA_Y_END,
                 OrderElements.STAGGERED);
 
-        mainPane.getChildren().add(returnHome());
+        MainView.rootPane.getChildren().add(returnHome());
     }
 
 }

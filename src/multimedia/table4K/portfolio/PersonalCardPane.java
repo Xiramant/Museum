@@ -6,16 +6,17 @@ import javafx.geometry.VPos;
 import javafx.scene.input.InputEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import table4K.ui.MainView;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import static general.TextProcessing.readingFirstStokeFromFileAndSplitIntoWord;
-import static general.TouchWait.isTimeWaitEnd;
-import static general.TouchWait.setTimeWait;
+import static general.TouchWait.eventDelayBegin;
 import static table4K.BackHome.returnBack;
 import static table4K.BackHome.returnHome;
 import static table4K.Main4K.*;
+import static table4K.controller.ControllerParameters.isEventPermission;
 
 public class PersonalCardPane extends ImagePane {
 
@@ -29,30 +30,30 @@ public class PersonalCardPane extends ImagePane {
     private String fio;
 
     //максимальная ширина личной карточки
-    private static final double PERSONAL_CARD_PANE_WIDTH_MAX = 450 / DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_WIDTH_MAX = 450 / MainView.DEBUGGING_RATIO;
 
     //максимальная высота личной карточки
-    public static final double PERSONAL_CARD_PANE_HEIGHT_MAX = 278 / DEBUGGING_RATIO;
+    public static final double PERSONAL_CARD_PANE_HEIGHT_MAX = 278 / MainView.DEBUGGING_RATIO;
 
     //максимальная ширина фото на личную карточку
-    private static final double PERSONAL_CARD_PANE_PHOTO_WIDTH_MAX = 128 / DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_PHOTO_WIDTH_MAX = 128 / MainView.DEBUGGING_RATIO;
 
     //отступы для фото для личной карточки
-    private static final double PERSONAL_CARD_PANE_PHOTO_X = 50 / DEBUGGING_RATIO;
-    private static final double PERSONAL_CARD_PANE_PHOTO_Y = 51 / DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_PHOTO_X = 50 / MainView.DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_PHOTO_Y = 51 / MainView.DEBUGGING_RATIO;
 
     //шрифт для текста в личной карточки
-    private static final Font PERSONAL_CARD_PANE_FONT = new Font("B52", 20 / DEBUGGING_RATIO);
+    private static final Font PERSONAL_CARD_PANE_FONT = new Font("B52", 20 / MainView.DEBUGGING_RATIO);
 
     //отступы для текста в личной карточке
-    private static final double PERSONAL_CARD_PANE_SURNAME_X = 270 / DEBUGGING_RATIO;
-    private static final double PERSONAL_CARD_PANE_SURNAME_Y = 106 / DEBUGGING_RATIO;
-    private static final double PERSONAL_CARD_PANE_NAME_X = 270 / DEBUGGING_RATIO;
-    private static final double PERSONAL_CARD_PANE_NAME_Y = 130 / DEBUGGING_RATIO;
-    private static final double PERSONAL_CARD_PANE_PATRONYMIC_X = 270 / DEBUGGING_RATIO;
-    private static final double PERSONAL_CARD_PANE_PATRONYMIC_Y = 152 / DEBUGGING_RATIO;
-    private static final double PERSONAL_CARD_PANE_YEAR_X = 291 / DEBUGGING_RATIO;
-    private static final double PERSONAL_CARD_PANE_YEAR_Y = 178 / DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_SURNAME_X = 270 / MainView.DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_SURNAME_Y = 106 / MainView.DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_NAME_X = 270 / MainView.DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_NAME_Y = 130 / MainView.DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_PATRONYMIC_X = 270 / MainView.DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_PATRONYMIC_Y = 152 / MainView.DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_YEAR_X = 291 / MainView.DEBUGGING_RATIO;
+    private static final double PERSONAL_CARD_PANE_YEAR_Y = 178 / MainView.DEBUGGING_RATIO;
 
     //тень
     private static final String PERSONAL_CARD_PANE_SHADOW_STILL = "-fx-effect: dropshadow(gaussian, black, 5, 0.3, -0.5, 1);";
@@ -109,14 +110,14 @@ public class PersonalCardPane extends ImagePane {
 
     private void personalCardAction(final InputEvent event) {
 
-        if (isTimeWaitEnd() && actionPermission(event)) {
+        if (isEventPermission(event)) {
             PortfolioCasePane pcp = new PortfolioCasePane(fio, imageFiles, textFiles);
 
-            changeRootBackground(RESOURCES_PATH + "table_4K_portfolio.jpg");
-            mainPane.getChildren().clear();
-            mainPane.getChildren().addAll(pcp, returnBack(SectionKey.PORTFOLIO), returnHome());
+            MainView.changeRootPaneBackground(RESOURCES_PATH + "table_4K_portfolio.jpg");
+            MainView.rootPane.getChildren().clear();
+            MainView.rootPane.getChildren().addAll(pcp, returnBack(SectionKey.PORTFOLIO), returnHome());
 
-            setTimeWait();
+            eventDelayBegin();
         }
     }
 

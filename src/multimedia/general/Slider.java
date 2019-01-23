@@ -12,10 +12,9 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 
-import static general.TouchWait.isTimeWaitEnd;
-import static general.TouchWait.setTimeWait;
+import static general.TouchWait.eventDelayBegin;
 import static table4K.Main4K.RESOURCES_PATH;
-import static table4K.Main4K.actionPermission;
+import static table4K.controller.ControllerParameters.isEventPermission;
 
 public class Slider extends Pane{
 
@@ -127,7 +126,7 @@ public class Slider extends Pane{
     // если отрицательный - значит Влево
     private void arrowClick(final InputEvent event, final Group grSliderView, final double displacement) {
 
-        if (isTimeWaitEnd() && actionPermission(event)) {
+        if (isEventPermission(event)) {
 
             int newSliderIndex = (displacement < 0) ? sliderIndex.getNextSliderIndex() : sliderIndex.gePrevSliderIndex();
 
@@ -177,7 +176,7 @@ public class Slider extends Pane{
                 }
             });
 
-            setTimeWait();
+            TouchWait.eventDelayBegin();
         }
     }
 }

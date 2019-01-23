@@ -7,6 +7,7 @@ import javafx.geometry.VPos;
 import javafx.scene.input.InputEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import table4K.ui.MainView;
 
 import java.io.File;
 
@@ -18,24 +19,24 @@ import static table4K.medal.Medal.DESCRIPTION_WIDTH;
 public class MedalDescriptionText extends ImagePaneIteration {
 
     //максимальная высота панели описания раздела Медали
-    private static final double MEDAL_DESCRIPTION_TEXT_PANE_HEIGHT_MAX = 904 / DEBUGGING_RATIO;
+    private static final double MEDAL_DESCRIPTION_TEXT_PANE_HEIGHT_MAX = 904 / MainView.DEBUGGING_RATIO;
 
     //ширина/высота текстового блока описания раздела Медали
-    private static final double MEDAL_DESCRIPTION_TEXT_BLOCK_WIDTH = 540 / DEBUGGING_RATIO;
-    private static final double MEDAL_DESCRIPTION_TEXT_BLOCK_HEIGHT = 770 / DEBUGGING_RATIO;
+    private static final double MEDAL_DESCRIPTION_TEXT_BLOCK_WIDTH = 540 / MainView.DEBUGGING_RATIO;
+    private static final double MEDAL_DESCRIPTION_TEXT_BLOCK_HEIGHT = 770 / MainView.DEBUGGING_RATIO;
 
     //положение текстового блока описания раздела Медали
-    private static final double MEDAL_DESCRIPTION_TEXT_X = 60 / DEBUGGING_RATIO;
-    private static final double MEDAL_DESCRIPTION_TEXT_Y = 60 / DEBUGGING_RATIO;
+    private static final double MEDAL_DESCRIPTION_TEXT_X = 60 / MainView.DEBUGGING_RATIO;
+    private static final double MEDAL_DESCRIPTION_TEXT_Y = 60 / MainView.DEBUGGING_RATIO;
 
     //отступ сверху для блока количество страниц
-    private static final double MEDAL_DESCRIPTION_PAGE_NUMBER_Y = 850 / DEBUGGING_RATIO;
+    private static final double MEDAL_DESCRIPTION_PAGE_NUMBER_Y = 850 / MainView.DEBUGGING_RATIO;
 
     //размер шрифта текстового блока
-    private static final double MEDAL_DESCRIPTION_TEXT_BLOCK_FONT_SIZE = 28 / DEBUGGING_RATIO;
+    private static final double MEDAL_DESCRIPTION_TEXT_BLOCK_FONT_SIZE = 28 / MainView.DEBUGGING_RATIO;
 
     //размер шрифта блока количество страниц
-    private static final double MEDAL_DESCRIPTION_PAGE_NUMBER_FONT_SIZE = 22 / DEBUGGING_RATIO;
+    private static final double MEDAL_DESCRIPTION_PAGE_NUMBER_FONT_SIZE = 22 / MainView.DEBUGGING_RATIO;
 
     //шрифт текстового блока
     private static final Font MEDAL_DESCRIPTION_TEXT_BLOCK_FONT = new Font("Book Antiqua Bold Italic", MEDAL_DESCRIPTION_TEXT_BLOCK_FONT_SIZE);

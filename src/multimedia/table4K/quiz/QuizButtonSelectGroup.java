@@ -3,9 +3,8 @@ package table4K.quiz;
 import javafx.scene.Group;
 import javafx.scene.input.InputEvent;
 
-import static general.TouchWait.isTimeWaitEnd;
-import static general.TouchWait.setTimeWait;
-import static table4K.Main4K.actionPermission;
+import static general.TouchWait.eventDelayBegin;
+import static table4K.controller.ControllerParameters.isEventPermission;
 
 
 public class QuizButtonSelectGroup extends Group {
@@ -43,7 +42,7 @@ public class QuizButtonSelectGroup extends Group {
     //задание реакции отдельной кнопки, входящей в группу, на действие
     private void buttonGroupAction(final InputEvent event, final QuizButtonSelect buttonCurrent) {
 
-        if (isTimeWaitEnd() && actionPermission(event) && !isFlagTest()) {
+        if (isEventPermission(event) && !isFlagTest()) {
 
             buttonCurrent.setOnPushInvert();
 
@@ -51,7 +50,7 @@ public class QuizButtonSelectGroup extends Group {
                 setNonPush(buttonCurrent);
             }
 
-            setTimeWait();
+            eventDelayBegin();
         }
     }
 

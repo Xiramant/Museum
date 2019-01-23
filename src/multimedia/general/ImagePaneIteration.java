@@ -5,9 +5,9 @@ import javafx.scene.input.InputEvent;
 import java.io.File;
 import java.util.ArrayList;
 
-import static general.TouchWait.isTimeWaitEnd;
-import static table4K.Main4K.actionPermission;
-import static table4K.Main4K.isMinMove;
+import static table4K.controller.ControllerParameters.isEventPermission;
+import static table4K.controller.ControllerParameters.isMinMove;
+
 
 public class ImagePaneIteration extends ImagePaneMoved {
 
@@ -85,7 +85,7 @@ public class ImagePaneIteration extends ImagePaneMoved {
     @Override
     protected void releasedAction(final InputEvent event, final String style) {
 
-        if (isTimeWaitEnd() && actionPermission(event)) {
+        if (isEventPermission(event)) {
 
             if (isMinMove(this.getRelocationCoordinates().getXDelta(),
                     this.getRelocationCoordinates().getYDelta())) {

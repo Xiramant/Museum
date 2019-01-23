@@ -1,8 +1,9 @@
 package table4K.ui.book;
 
+import general.SectionKey;
 import table4K.ui.IDisplayIcon;
 
-import static table4K.Main4K.DEBUGGING_RATIO;
+import static table4K.ui.MainView.DEBUGGING_RATIO;
 import static table4K.Main4K.RESOURCES_PATH;
 
 public class BookIcon implements IDisplayIcon {
@@ -12,6 +13,7 @@ public class BookIcon implements IDisplayIcon {
     private static final double BOOK_ICON_X = 3169 / DEBUGGING_RATIO;
     private static final double BOOK_ICON_Y = 1129 / DEBUGGING_RATIO;
     private static final String BOOK_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 8, 8);";
+    private static final SectionKey BOOK_KEY = SectionKey.BOOK;
 
     public String getIconUrl() {
         return BOOK_URL;
@@ -31,6 +33,10 @@ public class BookIcon implements IDisplayIcon {
 
     public String getIconStyle() {
         return BOOK_SHADOW;
+    }
+
+    public SectionKey getKey() {
+        return BOOK_KEY;
     }
 
 }
