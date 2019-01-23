@@ -1,6 +1,6 @@
-package table4K.ui.icon;
+package table4K.ui;
 
-interface IconConst {
+public interface IDisplayIcon {
 
     String getIconUrl();
 

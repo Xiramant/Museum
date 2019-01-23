@@ -1,8 +1,12 @@
-package table4K.ui.icon;
+package table4K.ui.map;
 
-import static table4K.Main4K.*;
+import table4K.ui.IDisplayIcon;
 
-public class MapIcon implements IconConst{
+import static table4K.Main4K.DEBUGGING_RATIO;
+import static table4K.Main4K.RESOURCES_PATH;
+
+public class MapIcon implements IDisplayIcon {
+
     private static final String MAP_URL = "file:///" + RESOURCES_PATH + "icon/map_icon.png";
     private static final double MAP_ICON_WIDTH = 1547 / DEBUGGING_RATIO;
     private static final double MAP_ICON_X = 0 / DEBUGGING_RATIO;

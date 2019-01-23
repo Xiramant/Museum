@@ -13,8 +13,7 @@ import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import table4K.ui.icon.Icon;
-import table4K.ui.icon.MapIcon;
+import table4K.ui.Icon;
 
 import static general.SectionKey.*;
 import static general.TouchWait.isTimeWaitEnd;
@@ -58,56 +57,6 @@ public class Main4K extends Application{
     //Размеры интерактивного стола
     public static double TABLE_WIDTH = 4096 / DEBUGGING_RATIO;
     public static double TABLE_HEIGHT = 2160 / DEBUGGING_RATIO;
-
-    //Иконка раздела Письма
-    private static final String MAIL_URL = "file:///" + RESOURCES_PATH + "icon/mail_icon.png";
-    private static final double MAIL_ICON_WIDTH = 579 / DEBUGGING_RATIO;
-    private static final double MAIL_ICON_HEIGHT = 693 / DEBUGGING_RATIO;
-    private static final double MAIL_ICON_X = 748 / DEBUGGING_RATIO;
-    private static final double MAIL_ICON_Y = 1242 / DEBUGGING_RATIO;
-    private static final String MAIL_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -4, 4);";
-
-    //Иконка раздела Личные дела
-    private static final String PORTFOLIO_URL = "file:///" + RESOURCES_PATH + "icon/portfolio_icon.png";
-    private static final double PORTFOLIO_ICON_WIDTH = 752 / DEBUGGING_RATIO;
-    private static final double PORTFOLIO_ICON_HEIGHT = 977 / DEBUGGING_RATIO;
-    private static final double PORTFOLIO_ICON_X = 1899 / DEBUGGING_RATIO;
-    private static final double PORTFOLIO_ICON_Y = 556 / DEBUGGING_RATIO;
-    private static final String PORTFOLIO_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 5);";
-
-    //Иконка раздела Медали
-    private static final String MEDAL_URL = "file:///" + RESOURCES_PATH + "icon/medal_icon.png";
-    private static final double MEDAL_ICON_WIDTH = 526 / DEBUGGING_RATIO;
-    private static final double MEDAL_ICON_HEIGHT = 424 / DEBUGGING_RATIO;
-    private static final double MEDAL_ICON_X = 66 / DEBUGGING_RATIO;
-    private static final double MEDAL_ICON_Y = 1653 / DEBUGGING_RATIO;
-    private static final String MEDAL_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, -4, 4);";
-
-    //Иконка раздела Книги
-    private static final String BOOK_URL = "file:///" + RESOURCES_PATH + "icon/book_icon.png";
-    private static final double BOOK_ICON_WIDTH = 672 / DEBUGGING_RATIO;
-    private static final double BOOK_ICON_HEIGHT = 895 / DEBUGGING_RATIO;
-    private static final double BOOK_ICON_X = 3169 / DEBUGGING_RATIO;
-    private static final double BOOK_ICON_Y = 1129 / DEBUGGING_RATIO;
-    private static final String BOOK_SHADOW = "-fx-effect: dropshadow(gaussian, black, 10, 0.3, 8, 8);";
-
-    //Иконка раздела Фильмы
-    private static final String FILM1_URL = "file:///" + RESOURCES_PATH + "icon/film1_icon.png";
-    private static final String FILM2_URL = "file:///" + RESOURCES_PATH + "icon/film2_icon.png";
-    private static final double FILM1_ICON_WIDTH = 584 / DEBUGGING_RATIO;
-    private static final double FILM2_ICON_WIDTH = 536 / DEBUGGING_RATIO;
-    private static final double FILM2_ICON_X = 178 / DEBUGGING_RATIO;
-    private static final double FILM2_ICON_Y = 223 / DEBUGGING_RATIO;
-    private static final double FILM_ICON_X = 3244 / DEBUGGING_RATIO;
-    private static final double FILM_ICON_Y = 146 / DEBUGGING_RATIO;
-    private static final String FILM_SHADOW = "-fx-effect: dropshadow(gaussian, black, 15, 0.3, 8, 8);";
-
-    //Иконка раздела Викторина
-    private static final String QUIZ_URL = "file:///" + RESOURCES_PATH + "icon/quiz_icon.png";
-    private static final double QUIZ_ICON_WIDTH = 617 / DEBUGGING_RATIO;
-    private static final double QUIZ_ICON_X = 1669 / DEBUGGING_RATIO;
-    private static final double QUIZ_ICON_Y = 1697 / DEBUGGING_RATIO;
-    private static final String QUIZ_SHADOW = "-fx-effect: dropshadow(gaussian, black, 15, 0.3, -2, 8);";
 
 
     private static String getResourcesPath() {
@@ -166,81 +115,36 @@ public class Main4K extends Application{
 
         mainPane.getChildren().clear();
 
-        Node map = Icon.getMap();
+        Node mapIcon = Icon.getMap();
+        mapIcon.setOnMouseClicked(event -> actionDelay(event, MAP));
+        mapIcon.setOnTouchReleased(event -> actionDelay(event, MAP));
 
-        map.setOnMouseClicked(event -> actionDelay(event, MAP));
-        map.setOnTouchReleased(event -> actionDelay(event, MAP));
+        Node mailIcon = Icon.getMail();
+        mailIcon.setOnMouseClicked(event -> actionDelay(event, MAIL));
+        mailIcon.setOnTouchReleased(event -> actionDelay(event, MAIL));
 
+        Node portfolioIcon = Icon.getPortfolio();
+        portfolioIcon.setOnMouseClicked(event -> actionDelay(event, PORTFOLIO));
+        portfolioIcon.setOnTouchReleased(event -> actionDelay(event, PORTFOLIO));
 
-        ImageView mail = new ImageView(new Image(MAIL_URL));
-        mail.setPreserveRatio(true);
-        mail.setFitWidth(MAIL_ICON_WIDTH);
-        mail.setLayoutX(MAIL_ICON_X);
-        mail.setLayoutY(MAIL_ICON_Y);
-        mail.setStyle(MAIL_SHADOW);
+        Node medalIcon = Icon.getMedal();
+        medalIcon.setOnMouseClicked(event -> actionDelay(event, MEDAL));
+        medalIcon.setOnTouchReleased(event -> actionDelay(event, MEDAL));
 
-        mail.setOnMouseClicked(event -> actionDelay(event, MAIL));
-        mail.setOnTouchReleased(event -> actionDelay(event, MAIL));
+        Node bookIcon = Icon.getBook();
+        bookIcon.setOnMouseClicked(event -> actionDelay(event, BOOK));
+        bookIcon.setOnTouchReleased(event -> actionDelay(event, BOOK));
 
-        ImageView portfolio = new ImageView(new Image(PORTFOLIO_URL));
-        portfolio.setPreserveRatio(true);
-        portfolio.setFitWidth(PORTFOLIO_ICON_WIDTH);
-        portfolio.setLayoutX(PORTFOLIO_ICON_X);
-        portfolio.setLayoutY(PORTFOLIO_ICON_Y);
-        portfolio.setStyle(PORTFOLIO_SHADOW);
+        Node quizIcon = Icon.getQuiz();
+        quizIcon.setOnMouseClicked(event -> actionDelay(event, QUIZ));
+        quizIcon.setOnTouchReleased(event -> actionDelay(event, QUIZ));
 
-        portfolio.setOnMouseClicked(event -> actionDelay(event, PORTFOLIO));
-        portfolio.setOnTouchReleased(event -> actionDelay(event, PORTFOLIO));
-
-        ImageView medal = new ImageView(new Image(MEDAL_URL));
-        medal.setPreserveRatio(true);
-        medal.setFitWidth(MEDAL_ICON_WIDTH);
-        medal.setLayoutX(MEDAL_ICON_X);
-        medal.setLayoutY(MEDAL_ICON_Y);
-        medal.setStyle(MEDAL_SHADOW);
-
-        medal.setOnMouseClicked(event -> actionDelay(event, MEDAL));
-        medal.setOnTouchReleased(event -> actionDelay(event, MEDAL));
-
-        ImageView book = new ImageView(new Image(BOOK_URL));
-        book.setPreserveRatio(true);
-        book.setFitWidth(BOOK_ICON_WIDTH);
-        book.setLayoutX(BOOK_ICON_X);
-        book.setLayoutY(BOOK_ICON_Y);
-        book.setStyle(BOOK_SHADOW);
-
-        book.setOnMouseClicked(event -> actionDelay(event, BOOK));
-        book.setOnTouchReleased(event -> actionDelay(event, BOOK));
-
-        ImageView film1 = new ImageView(new Image(FILM1_URL));
-        film1.setFitWidth(FILM1_ICON_WIDTH);
-        film1.setPreserveRatio(true);
-        film1.setStyle(FILM_SHADOW);
-        ImageView film2 = new ImageView(new Image(FILM2_URL));
-        film2.setFitWidth(FILM2_ICON_WIDTH);
-        film2.setPreserveRatio(true);
-        film2.setLayoutX(FILM2_ICON_X);
-        film2.setLayoutY(FILM2_ICON_Y);
-        film2.setStyle(FILM_SHADOW);
-        Group film = new Group(film1, film2);
-        film.setLayoutX(FILM_ICON_X);
-        film.setLayoutY(FILM_ICON_Y);
-
-        film.setOnMouseClicked(event -> actionDelay(event, FILM));
-        film.setOnTouchReleased(event -> actionDelay(event, FILM));
-
-        ImageView quiz = new ImageView(new Image(QUIZ_URL));
-        quiz.setPreserveRatio(true);
-        quiz.setFitWidth(QUIZ_ICON_WIDTH);
-        quiz.setLayoutX(QUIZ_ICON_X);
-        quiz.setLayoutY(QUIZ_ICON_Y);
-        quiz.setStyle(QUIZ_SHADOW);
-
-        quiz.setOnMouseClicked(event -> actionDelay(event, QUIZ));
-        quiz.setOnTouchReleased(event -> actionDelay(event, QUIZ));
+        Node filmIcon = Icon.getFilm();
+        filmIcon.setOnMouseClicked(event -> actionDelay(event, FILM));
+        filmIcon.setOnTouchReleased(event -> actionDelay(event, FILM));
 
 
-        mainPane.getChildren().addAll(map, mail, portfolio, medal, book, film, quiz);
+        mainPane.getChildren().addAll(mapIcon, mailIcon, portfolioIcon, medalIcon, bookIcon, quizIcon, filmIcon);
     }
 
     //установка задержки при выборе раздела
@@ -288,4 +192,5 @@ public class Main4K extends Application{
     public static boolean isMinMove(final double xDelta, final double yDelta) {
         return Math.abs(xDelta) + Math.abs(yDelta) > MIN_MOVE;
     }
+
 }
