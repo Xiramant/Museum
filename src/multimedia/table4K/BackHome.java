@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.media.MediaPlayer;
+import table4K.model.SectionSelection;
 import table4K.ui.MainView;
 
 import static general.TouchWait.eventDelayBegin;
@@ -36,7 +37,7 @@ public class BackHome extends Region {
 
     private static void returnHomeAction(final InputEvent event) {
         if (isEventPermission(event)) {
-            MainView.setMainScene();
+            SectionSelection.sectionSelectionInitialize();
             eventDelayBegin();
         }
     }
@@ -55,7 +56,7 @@ public class BackHome extends Region {
     private static void returnHomeActionFromFilm(final InputEvent event, final MediaPlayer mediaPlayer) {
         if (isEventPermission(event)) {
             mediaPlayer.stop();
-            MainView.setMainScene();
+            SectionSelection.sectionSelectionInitialize();
             eventDelayBegin();
         }
     }
@@ -136,7 +137,7 @@ public class BackHome extends Region {
                 setPortfolioScene();
                 break;
             default:
-                MainView.setMainScene();
+                SectionSelection.sectionSelectionInitialize();
                 break;
         }
     }

@@ -1,9 +1,10 @@
 package table4K;
 
 import javafx.application.Application;
-import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import table4K.ui.MainView;
+
+import static table4K.model.SectionSelection.sectionSelectionInitialize;
+import static table4K.ui.MainView.mainWindowInitialize;
 
 
 public class Main4K extends Application{
@@ -28,7 +29,8 @@ public class Main4K extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        MainView.mainWindowInitialize(primaryStage);
+        mainWindowInitialize(primaryStage);
+        sectionSelectionInitialize();
     }
 
 }
