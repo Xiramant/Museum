@@ -7,7 +7,7 @@ import javafx.scene.input.InputEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.media.MediaPlayer;
 import table4K.model.SectionSelection;
-import table4K.ui.MainView;
+import table4K.view.MainView;
 
 import static general.TouchWait.eventDelayBegin;
 import static table4K.Main4K.*;

@@ -12,7 +12,7 @@ import javafx.scene.text.Text;
 import java.io.File;
 
 import static table4K.Main4K.RESOURCES_PATH;
-import static table4K.ui.MainView.DEBUGGING_RATIO;
+import static table4K.view.MainView.DEBUGGING_RATIO;
 
 public class QuizButton extends ImagePane {
 

@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import static table4K.model.SectionSelection.sectionSelectionInitialize;
-import static table4K.ui.MainView.mainWindowInitialize;
+import static table4K.view.MainView.mainWindowInitialize;
 
 
 public class Main4K extends Application{

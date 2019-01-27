@@ -7,7 +7,7 @@ import javafx.scene.input.InputEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import table4K.ui.MainView;
+import table4K.view.MainView;
 
 import java.io.File;
 import java.util.ArrayList;

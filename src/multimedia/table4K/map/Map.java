@@ -3,7 +3,7 @@ package table4K.map;
 import general.FileFormat;
 import general.OrderElements;
 import general.SectionKey;
-import table4K.ui.MainView;
+import table4K.view.MainView;
 
 import java.io.File;
 import java.util.ArrayList;

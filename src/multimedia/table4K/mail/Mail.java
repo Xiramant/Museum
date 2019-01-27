@@ -4,7 +4,7 @@ import general.FileFormat;
 import general.ImageViewIteration;
 import general.SectionKey;
 import javafx.scene.Group;
-import table4K.ui.MainView;
+import table4K.view.MainView;
 
 import java.io.File;
 import java.util.ArrayList;

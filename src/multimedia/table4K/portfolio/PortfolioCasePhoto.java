@@ -5,9 +5,9 @@ import general.ImageViewMoved;
 import java.io.File;
 
 import static general.InitialLocation.randomInRange;
-import static table4K.ui.MainView.TABLE_HEIGHT;
-import static table4K.ui.MainView.TABLE_WIDTH;
-import static table4K.ui.MainView.DEBUGGING_RATIO;
+import static table4K.view.MainView.TABLE_HEIGHT;
+import static table4K.view.MainView.TABLE_WIDTH;
+import static table4K.view.MainView.DEBUGGING_RATIO;
 import static table4K.portfolio.PortfolioCasePane.PORTFOLIO_CASE_X;
 import static table4K.portfolio.PortfolioCasePane.PORTFOLIO_CASE_Y;
 

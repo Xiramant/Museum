@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import static general.TextProcessing.readingFirstStokeFromFile;
 import static general.TouchWait.eventDelayBegin;
-import static table4K.ui.MainView.DEBUGGING_RATIO;
+import static table4K.view.MainView.DEBUGGING_RATIO;
 import static table4K.controller.ControllerParameters.isEventPermission;
 import static table4K.medal.Medal.DESCRIPTION_HEIGHT;
 import static table4K.medal.Medal.DESCRIPTION_WIDTH;

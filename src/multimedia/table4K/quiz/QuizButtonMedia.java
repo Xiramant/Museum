@@ -4,7 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
-import table4K.ui.MainView;
+import table4K.view.MainView;
 
 import java.io.File;
 

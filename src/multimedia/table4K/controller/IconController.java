@@ -1,65 +1,88 @@
 package table4K.controller;
 
-import general.SectionKey;
+import javafx.scene.Node;
 import javafx.scene.input.InputEvent;
-import table4K.ui.IIcon;
+import table4K.controller.book.BookIconController;
+import table4K.controller.film.FilmIconController;
+import table4K.controller.mail.MailIconController;
+import table4K.controller.map.MapIconController;
+import table4K.controller.medal.MedalIconController;
+import table4K.controller.portfolio.PortfolioIconController;
+import table4K.controller.quiz.QuizIconController;
 
-import static general.SectionKey.ORDEN;
 import static general.TouchWait.eventDelayBegin;
-import static table4K.book.Book.setBookScene;
 import static table4K.controller.ControllerParameters.isEventPermission;
-import static table4K.film.Film.setFilmScene;
-import static table4K.mail.Mail.setMailScene;
-import static table4K.map.Map.setMapScene;
-import static table4K.medal.Medal.setMedalScene;
-import static table4K.portfolio.Portfolio.setPortfolioScene;
-import static table4K.quiz.Quiz.setQuizScene;
 
-public class IconController {
+public abstract class IconController {
 
-    private IIcon icon;
+    //метод перехода к разделу,
+    // который должен быть переопределен
+    // в подклассах, соответствующих разделам
+    abstract protected void sectionSelect();
 
-    public IconController(final IIcon iconArg) {
-        this.icon = iconArg;
-        action();
+    protected IconController(final Node iconArg) {
+        iconArg.setOnMouseClicked(event -> sectionSelectAfterPermission(event));
+        iconArg.setOnTouchReleased(event -> sectionSelectAfterPermission(event));
     }
 
-    public void action() {
-        icon.getIconImage().setOnMouseClicked(event -> sectionSelect(event, icon.getKey()));
-        icon.getIconImage().setOnTouchReleased(event -> sectionSelect(event, icon.getKey()));
-    }
-
-    //выбор раздела
-    public static void sectionSelect(final InputEvent event, final SectionKey sectionKey) {
-
+    private void sectionSelectAfterPermission(final InputEvent event) {
         if (isEventPermission(event)) {
-
-            switch (sectionKey) {
-                case MAP:
-                    setMapScene();
-                    break;
-                case MAIL:
-                    setMailScene();
-                    break;
-                case PORTFOLIO:
-                    setPortfolioScene();
-                    break;
-                case MEDAL:
-                    setMedalScene(ORDEN);
-                    break;
-                case BOOK:
-                    setBookScene();
-                    break;
-                case FILM:
-                    setFilmScene();
-                    break;
-                case QUIZ:
-                    setQuizScene();
-                    break;
-            }
-
+            sectionSelect();
             eventDelayBegin();
         }
     }
+
+    public static IconController getBookIconController(final Node iconArg) {
+        return new BookIconController(iconArg);
+    }
+
+    public static IconController getFilmIconController(final Node iconArg) {
+        return new FilmIconController(iconArg);
+    }
+
+    public static IconController getMailIconController(final Node iconArg) {
+        return new MailIconController(iconArg);
+    }
+
+    public static IconController getMapIconController(final Node iconArg) {
+        return new MapIconController(iconArg);
+    }
+
+    public static IconController getMedalIconController(final Node iconArg) {
+        return new MedalIconController(iconArg);
+    }
+
+    public static IconController getPortfolioIconController(final Node iconArg) {
+        return new PortfolioIconController(iconArg);
+    }
+
+    public static IconController getQuizIconController(final Node iconArg) {
+        return new QuizIconController(iconArg);
+    }
+
+
+    //            switch (sectionKey) {
+//                case MAP:
+//                    setMapScene();
+//                    break;
+//                case MAIL:
+//                    setMailScene();
+//                    break;
+//                case PORTFOLIO:
+//                    setPortfolioScene();
+//                    break;
+//                case MEDAL:
+//                    setMedalScene(ORDEN);
+//                    break;
+//                case BOOK:
+//                    setBookScene();
+//                    break;
+//                case FILM:
+//                    setFilmScene();
+//                    break;
+//                case QUIZ:
+//                    setQuizScene();
+//                    break;
+//            }
 
 }

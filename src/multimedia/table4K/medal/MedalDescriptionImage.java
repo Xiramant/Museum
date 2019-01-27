@@ -4,7 +4,7 @@ import general.ImageViewMoved;
 
 import java.io.File;
 
-import static table4K.ui.MainView.DEBUGGING_RATIO;
+import static table4K.view.MainView.DEBUGGING_RATIO;
 import static table4K.medal.Medal.DESCRIPTION_HEIGHT;
 import static table4K.medal.Medal.DESCRIPTION_WIDTH;
 import static table4K.medal.MedalElement.RATIO_MEDAL_OR_ORDEN;

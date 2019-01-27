@@ -4,11 +4,12 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import table4K.Main4K;
 import table4K.controller.IconController;
-import table4K.ui.IIcon;
-import table4K.ui.Icon;
 import java.util.ArrayList;
 
-import static table4K.ui.MainView.setRootPaneScene;
+import static table4K.controller.IconController.*;
+import static table4K.data.IconData.*;
+import static table4K.view.Icon.*;
+import static table4K.view.MainView.setRootPaneScene;
 
 
 //модель окна Выбор раздела
@@ -16,37 +17,39 @@ public class SectionSelection {
 
     public static void sectionSelectionInitialize() {
 
-        IIcon mapIcon = Icon.getMap();
-        IconController mapController = new IconController(mapIcon);
+        Node bookIcon = getBook();
+        IconController bookController = getBookIconController(bookIcon);
 
-        IIcon mailIcon = Icon.getMail();
-        IconController mailController = new IconController(mailIcon);
+        Node filmIcon = getFilm();
+        IconController filmController = getFilmIconController(filmIcon);
 
-        IIcon portfolioIcon = Icon.getPortfolio();
-        IconController portfolioController = new IconController(portfolioIcon);
+        Node mailIcon = getMail();
+        IconController mailController = getMailIconController(mailIcon);
 
-        IIcon medalIcon = Icon.getMedal();
-        IconController medalController = new IconController(medalIcon);
+        Node mapIcon = getMapIcon();
+        IconController mapIconController = getMapIconController(mapIcon);
 
-        IIcon bookIcon = Icon.getBook();
-        IconController bookController = new IconController(bookIcon);
+        Node medalIcon = getMedal();
+        IconController medalController = getMedalIconController(medalIcon);
 
-        IIcon quizIcon = Icon.getQuiz();
-        IconController quizController = new IconController(quizIcon);
+        Node portfolioIcon = getPortfolio();
+        IconController portfolioController = getPortfolioIconController(portfolioIcon);
 
-        IIcon filmIcon = Icon.getFilm();
-        IconController filmController = new IconController(filmIcon);
+        Node quizIcon = getQuiz();
+        IconController quizController = getQuizIconController(quizIcon);
+
 
         ArrayList<Node> graphicElements = new ArrayList<>();
-        graphicElements.add(mapIcon.getIconImage());
-        graphicElements.add(mailIcon.getIconImage());
-        graphicElements.add(portfolioIcon.getIconImage());
-        graphicElements.add(medalIcon.getIconImage());
-        graphicElements.add(bookIcon.getIconImage());
-        graphicElements.add(quizIcon.getIconImage());
-        graphicElements.add(filmIcon.getIconImage());
+        graphicElements.add(bookIcon);
+        graphicElements.add(filmIcon);
+        graphicElements.add(mailIcon);
+        graphicElements.add(mapIcon);
+        graphicElements.add(medalIcon);
+        graphicElements.add(portfolioIcon);
+        graphicElements.add(quizIcon);
 
         Image background = new Image("file:///" + Main4K.RESOURCES_PATH + "table_with_lamp.jpg");
+
 
         setRootPaneScene(background, graphicElements);
     }
