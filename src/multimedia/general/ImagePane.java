@@ -5,7 +5,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
-import table4K.ui.MainView;
+import table4K.view.MainView;
 
 import java.io.File;
 

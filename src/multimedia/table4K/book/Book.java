@@ -13,7 +13,7 @@ import static table4K.Main4K.*;
 public class Book {
 
     //путь к директории с файлами писем
-    private static final String BOOK_PATH = RESOURCES_PATH + "map/";
+    private static final String BOOK_PATH = RESOURCES_PATH + "book/";
 
     private static final double BOOK_WIDTH_MAX = 2419 / MainView.DEBUGGING_RATIO;
 

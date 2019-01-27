@@ -23,8 +23,8 @@ public class MainView {
     public static final double DEBUGGING_RATIO = 2;
 
     //Размеры интерактивного стола
-    public static double TABLE_HEIGHT = 2160 / DEBUGGING_RATIO;
-    public static double TABLE_WIDTH = 4096 / DEBUGGING_RATIO;
+    public static final double TABLE_HEIGHT = 2160 / DEBUGGING_RATIO;
+    public static final double TABLE_WIDTH = 4096 / DEBUGGING_RATIO;
 
     //Основная панель с содержимым
     public static Pane rootPane;
