@@ -2,12 +2,11 @@ package table4K.model;
 
 import javafx.scene.Node;
 import javafx.scene.image.Image;
-import table4K.Main4K;
 import table4K.controller.IconController;
 import java.util.ArrayList;
 
 import static table4K.controller.IconController.*;
-import static table4K.data.IconData.*;
+import static table4K.data.RootPaneBackgroundData.getSectionSelectionBackground;
 import static table4K.view.Icon.*;
 import static table4K.view.MainView.setRootPaneScene;
 
@@ -48,7 +47,7 @@ public class SectionSelection {
         graphicElements.add(portfolioIcon);
         graphicElements.add(quizIcon);
 
-        Image background = new Image("file:///" + Main4K.RESOURCES_PATH + "table_with_lamp.jpg");
+        Image background = getSectionSelectionBackground();
 
 
         setRootPaneScene(background, graphicElements);
