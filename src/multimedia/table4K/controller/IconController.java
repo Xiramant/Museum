@@ -13,7 +13,7 @@ import table4K.controller.quiz.QuizIconController;
 import static general.TouchWait.eventDelayBegin;
 import static table4K.controller.ControllerParameters.isEventPermission;
 
-public abstract class IconController {
+abstract public class IconController {
 
     //метод перехода к разделу,
     // который должен быть переопределен
@@ -59,30 +59,5 @@ public abstract class IconController {
     public static IconController getQuizIconController(final Node iconArg) {
         return new QuizIconController(iconArg);
     }
-
-
-    //            switch (sectionKey) {
-//                case MAP:
-//                    setMapScene();
-//                    break;
-//                case MAIL:
-//                    setMailScene();
-//                    break;
-//                case PORTFOLIO:
-//                    setPortfolioScene();
-//                    break;
-//                case MEDAL:
-//                    setMedalScene(ORDEN);
-//                    break;
-//                case BOOK:
-//                    setBookScene();
-//                    break;
-//                case FILM:
-//                    setFilmScene();
-//                    break;
-//                case QUIZ:
-//                    setQuizScene();
-//                    break;
-//            }
 
 }
