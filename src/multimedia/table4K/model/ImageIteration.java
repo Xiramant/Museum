@@ -32,7 +32,7 @@ abstract public class ImageIteration<E extends Node> {
         return _imagesIterator;
     }
 
-    protected E getImagePresentation() {
+    public E getImagePresentation() {
         return _imagePresentation;
     }
 
