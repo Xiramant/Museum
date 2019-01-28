@@ -18,7 +18,7 @@ public class RootPaneBackgroundData {
 
 
 
-    private static Image createImage(final String pathArg) {
+    static Image createImage(final String pathArg) {
         return new Image("file:///" + RESOURCES_PATH + pathArg);
     }
 }
