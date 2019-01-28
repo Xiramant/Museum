@@ -1,45 +1,40 @@
 package table4K.data;
 
 import javafx.scene.image.Image;
-import table4K.data.book.BookIconData;
-import table4K.data.film.FilmIcon1Data;
-import table4K.data.film.FilmIcon2Data;
-import table4K.data.mail.MailIconData;
-import table4K.data.map.MapIconData;
-import table4K.data.medal.MedalIconData;
-import table4K.data.portfolio.PortfolioIconData;
-import table4K.data.quiz.QuizIconData;
+
+import static table4K.Main4K.RESOURCES_PATH;
+
 
 public class IconData {
 
     public static Image getBookIconImage() {
-        return new BookIconData().getIconImage();
+        return new Image("file:///" + RESOURCES_PATH + "icon/book_icon.png");
     }
 
     public static Image getFilmIcon1Image() {
-        return new FilmIcon1Data().getIconImage();
+        return new Image("file:///" + RESOURCES_PATH + "icon/film1_icon.png");
     }
     public static Image getFilmIcon2Image() {
-        return new FilmIcon2Data().getIconImage();
+        return new Image("file:///" + RESOURCES_PATH + "icon/film2_icon.png");
     }
 
     public static Image getMailIconImage() {
-        return new MailIconData().getIconImage();
+        return new Image("file:///" + RESOURCES_PATH + "icon/mail_icon.png");
     }
 
     public static Image getMapIconImage() {
-        return new MapIconData().getIconImage();
+        return new Image("file:///" + RESOURCES_PATH + "icon/map_icon.png");
     }
 
     public static Image getMedalIconImage() {
-        return new MedalIconData().getIconImage();
+        return new Image("file:///" + RESOURCES_PATH + "icon/medal_icon.png");
     }
 
     public static Image getPortfolioIconImage() {
-        return new PortfolioIconData().getIconImage();
+        return new Image("file:///" + RESOURCES_PATH + "icon/portfolio_icon.png");
     }
 
     public static Image getQuizIconImage() {
-        return new QuizIconData().getIconImage();
+        return new Image("file:///" + RESOURCES_PATH + "icon/quiz_icon.png");
     }
 }
