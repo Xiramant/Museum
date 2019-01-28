@@ -1,4 +1,4 @@
-package table4K.model;
+package table4K.model.imagePresentation;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

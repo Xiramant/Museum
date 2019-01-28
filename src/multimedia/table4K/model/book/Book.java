@@ -1,6 +1,6 @@
 package table4K.model.book;
 
-import table4K.model.ImageViewIteration;
+import table4K.model.imagePresentation.ImageViewIteration;
 import javafx.scene.Node;
 import java.util.ArrayList;
 

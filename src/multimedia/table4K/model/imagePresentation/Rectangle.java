@@ -1,4 +1,4 @@
-package table4K.model;
+package table4K.model.imagePresentation;
 
 public class Rectangle {
 
