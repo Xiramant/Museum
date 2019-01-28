@@ -2,90 +2,41 @@ package table4K.model;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.InputEvent;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import static general.TouchWait.eventDelayBegin;
-import static table4K.controller.ControllerParameters.isEventPermission;
 
 
-//Класс для отображения следующего изображения
-// из списка переданных изображений
-// при клике/тапе на изображении.
-//Отображение зациклено:
-// при окончании списка следующим отображется первое изображение.
-public class ImageViewIteration extends ImageView {
 
-    private ArrayList<Image> _images;
-
-    private Iterator<Image> _imagesIterator;
-
-
+public class ImageViewIteration extends ImageIteration<ImageView> {
 
     public ImageViewIteration(final ArrayList<Image> imagesArg) {
-        assert (imagesArg != null);
-
-        this._images = imagesArg;
-        this._imagesIterator = _images.listIterator();
-        setNextImage();
-
-        setEvent();
+        super(imagesArg, new ImageView());
     }
 
 
 
-    private void setEvent() {
-        setMouseEvent();
-        setTouchEvent();
-    }
+    @Override
+    protected void setNextImage() {
 
-    private void setMouseEvent() {
-        this.setOnMouseReleased(this :: clickAction);
-    }
-
-    private void setTouchEvent() {
-        this.setOnTouchReleased(this :: clickAction);
-    }
-
-    private void clickAction(final InputEvent eventArg) {
-        assert (_images.size() != 0);
-
-        //если в списке только 1 картинка
-        // то пролистывать ее нет смысла
-        if (_images.size() == 1) return;
-
-        if (isEventPermission(eventArg)) {
-            setNextImage();
-            eventDelayBegin();
-        }
-    }
-
-    private void setNextImage() {
-        if (!_imagesIterator.hasNext()) {
-            _imagesIterator = _images.listIterator(0);
-        }
-
-        Rectangle oldDimensions = new Rectangle(this.getLayoutBounds().getWidth(),
-                                                this.getLayoutBounds().getHeight());
-        this.setImage(_imagesIterator.next());
+        Rectangle oldDimensions = new Rectangle(this.getImagePresentation().getLayoutBounds().getWidth(),
+                                                this.getImagePresentation().getLayoutBounds().getHeight());
+        this.getImagePresentation().setImage(this.getImagesIterator().next());
         saveCenterLocation(oldDimensions);
     }
 
     private void saveCenterLocation(final Rectangle oldDimensionsArg) {
-        assert (oldDimensionsArg == null);
+        assert (oldDimensionsArg != null);
 
         double xChange = getDimensionChange(oldDimensionsArg.getWidth(),
-                                            this.getLayoutBounds().getWidth());
+                                            this.getImagePresentation().getLayoutBounds().getWidth());
 
         double yChange = getDimensionChange(oldDimensionsArg.getHeight(),
-                                            this.getLayoutBounds().getHeight());
+                                            this.getImagePresentation().getLayoutBounds().getHeight());
 
         if (dimensionsNotChange(xChange, yChange)) return;
 
-        this.setLayoutX(this.getLayoutX() + xChange);
-        this.setLayoutY(this.getLayoutY() + yChange);
+        this.getImagePresentation().setLayoutX(this.getImagePresentation().getLayoutX() + xChange);
+        this.getImagePresentation().setLayoutY(this.getImagePresentation().getLayoutY() + yChange);
     }
 
     private double getDimensionChange(final double oldDimensionArg,
