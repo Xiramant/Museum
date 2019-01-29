@@ -4,9 +4,9 @@ import general.FileFormat;
 import javafx.scene.image.Image;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
+import static table4K.Main4K.RESOURCES_PATH;
 
 
 public class FileProcessing {
@@ -29,4 +29,10 @@ public class FileProcessing {
         return dirArg.listFiles((dirPath, fileName) -> fileName.contains(formatArg.getKeyWord() + "_"));
     }
 
+
+
+    //Получение изображение из части пути не включающего RESOURCES_PATH
+    static Image createImage(final String pathArg) {
+        return new Image(new File(RESOURCES_PATH + pathArg).toURI().toString());
+    }
 }
