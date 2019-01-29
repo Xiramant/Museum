@@ -1,5 +1,6 @@
 package table4K.model.imagePresentation;
 
+import javafx.geometry.Dimension2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -18,13 +19,13 @@ public class ImageViewIteration extends ImageIteration<ImageView> {
     @Override
     protected void setNextImage() {
 
-        Rectangle oldDimensions = new Rectangle(this.getImagePresentation().getLayoutBounds().getWidth(),
+        Dimension2D oldDimensions = new Dimension2D(this.getImagePresentation().getLayoutBounds().getWidth(),
                                                 this.getImagePresentation().getLayoutBounds().getHeight());
         this.getImagePresentation().setImage(this.getImagesIterator().next());
         saveCenterLocation(oldDimensions);
     }
 
-    private void saveCenterLocation(final Rectangle oldDimensionsArg) {
+    private void saveCenterLocation(final Dimension2D oldDimensionsArg) {
         assert (oldDimensionsArg != null);
 
         double xChange = getDimensionChange(oldDimensionsArg.getWidth(),
