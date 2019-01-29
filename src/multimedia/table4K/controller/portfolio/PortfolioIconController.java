@@ -12,7 +12,7 @@ public class PortfolioIconController extends IconController {
         super(portfolioIconArg);
     }
 
-    public void sectionSelect(){
+    public void selectSection(){
         setPortfolioScene();
     }
 

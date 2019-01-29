@@ -13,24 +13,28 @@ import table4K.controller.quiz.QuizIconController;
 import static general.TouchWait.eventDelayBegin;
 import static table4K.controller.ControllerParameters.isEventPermission;
 
+
+
 abstract public class IconController {
 
     //метод перехода к разделу,
     // который должен быть переопределен
     // в подклассах, соответствующих разделам
-    abstract protected void sectionSelect();
+    abstract protected void selectSection();
 
     protected IconController(final Node iconArg) {
-        iconArg.setOnMouseClicked(event -> sectionSelectAfterPermission(event));
-        iconArg.setOnTouchReleased(event -> sectionSelectAfterPermission(event));
+        iconArg.setOnMouseClicked(this::selectSectionAfterPermission);
+        iconArg.setOnTouchReleased(this::selectSectionAfterPermission);
     }
 
-    private void sectionSelectAfterPermission(final InputEvent event) {
+    private void selectSectionAfterPermission(final InputEvent event) {
         if (isEventPermission(event)) {
-            sectionSelect();
+            selectSection();
             eventDelayBegin();
         }
     }
+
+
 
     public static IconController getBookIconController(final Node iconArg) {
         return new BookIconController(iconArg);

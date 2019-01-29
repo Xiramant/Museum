@@ -12,7 +12,7 @@ public class FilmIconController extends IconController {
         super(filmIconArg);
     }
 
-    public void sectionSelect(){
+    public void selectSection(){
         setFilmScene();
     }
 
