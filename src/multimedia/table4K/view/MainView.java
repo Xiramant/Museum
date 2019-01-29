@@ -43,9 +43,9 @@ public class MainView {
 
     //установка параметров primaryStage
     private static void setPrimaryStage(final Stage primaryStage) {
-        primaryStage.initStyle(StageStyle.UNDECORATED);
         Scene scene = new Scene(rootPane);
         primaryStage.setScene(scene);
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
         primaryStage.setFullScreen(true);
     }
