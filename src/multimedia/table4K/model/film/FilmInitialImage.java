@@ -1,4 +1,4 @@
-package table4K.film;
+package table4K.model.film;
 
 import general.ImagePane;
 import javafx.geometry.VPos;
@@ -18,8 +18,8 @@ import static general.TouchWait.eventDelayBegin;
 import static table4K.Main4K.RESOURCES_PATH;
 import static table4K.view.MainView.DEBUGGING_RATIO;
 import static table4K.controller.ControllerParameters.isEventPermission;
-import static table4K.film.Film.obj;
-import static table4K.film.FilmShow.FilmShowSet;
+import static table4K.model.film.Film.obj;
+import static table4K.model.film.FilmShow.FilmShowSet;
 
 public class FilmInitialImage extends ImagePane {
 

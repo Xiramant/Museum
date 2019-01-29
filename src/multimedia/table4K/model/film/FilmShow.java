@@ -1,4 +1,4 @@
-package table4K.film;
+package table4K.model.film;
 
 import general.ImagePane;
 import javafx.scene.image.Image;

@@ -12,7 +12,7 @@ import table4K.view.MainView;
 import static general.TouchWait.eventDelayBegin;
 import static table4K.Main4K.*;
 import static table4K.controller.ControllerParameters.isEventPermission;
-import static table4K.film.Film.setFilmScene;
+import static table4K.model.film.Film.setFilmScene;
 import static table4K.map.Map.setMapScene;
 import static table4K.portfolio.Portfolio.setPortfolioScene;
 
