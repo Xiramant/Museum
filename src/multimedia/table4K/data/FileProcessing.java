@@ -17,13 +17,7 @@ public class FileProcessing {
         ArrayList<Image> images = new ArrayList<>();
         
         for (File imageFile: imageFiles) {
-            try {
-                images.add(new Image(imageFile.toURI().toURL().toString()));
-            }
-            catch (MalformedURLException e) {
-                System.out.println("Ошибка преобразования файла в путь");
-                e.printStackTrace();
-            }
+            images.add(new Image(imageFile.toURI().toString()));
         }
 
         return images;
