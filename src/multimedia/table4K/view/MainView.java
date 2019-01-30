@@ -27,9 +27,11 @@ public class MainView {
     public static final double TABLE_WIDTH = 4096 / DEBUGGING_RATIO;
 
     //Основная панель с содержимым
+    // !!!!! после перехода всех классов к использованию setMainScene
+    // сделать поле с доступом private
     public static Pane rootPane;
 
-    public static void mainWindowInitialize(final Stage primaryStage) {
+    public static void initializeMainWindow(final Stage primaryStage) {
         createRootPane();
         setPrimaryStage(primaryStage);
     }
@@ -50,27 +52,24 @@ public class MainView {
         primaryStage.setFullScreen(true);
     }
 
-    //отображение на корневой панели переданного списка графических элементов
-    public static void setRootPaneScene(final Image BackgroundArg, final ArrayList<Node> graphicElementsArg) {
-        changeRootPaneBackground(BackgroundArg);
+    //установка/изменение основной сцены
+    public static void setMainScene(final Image BackgroundArg, final ArrayList<Node> graphicElementsArg) {
+        setMainSceneBackground(BackgroundArg);
         rootPane.getChildren().clear();
         rootPane.getChildren().addAll(graphicElementsArg);
     }
 
-    //замена изображения подложки корневой панели на изображение,
-    // переданное в качестве аргумента
-    public static void changeRootPaneBackground(final String imagePath) {
-        rootPane.setBackground(new Background(new BackgroundImage(
-                new Image("file:" + imagePath), NO_REPEAT, NO_REPEAT, DEFAULT,
-                new BackgroundSize(TABLE_WIDTH, TABLE_HEIGHT, false, false, false, false))));
-    }
-
-    //замена изображения подложки корневой панели на изображение,
-    // переданное в качестве аргумента
-    public static void changeRootPaneBackground(final Image backgroundArg) {
+    //замена фона основной сцены
+    private static void setMainSceneBackground(final Image backgroundArg) {
         rootPane.setBackground(new Background(new BackgroundImage(
                 backgroundArg, NO_REPEAT, NO_REPEAT, DEFAULT,
                 new BackgroundSize(TABLE_WIDTH, TABLE_HEIGHT, false, false, false, false))));
+    }
+
+    //замена фона основной сцены
+    // !!!!! старый метод, который следует удалить после перехода всех обращающихся классов к новому методу
+    public static void setMainSceneBackground(final String imagePath) {
+        setMainSceneBackground(new Image("file:" + imagePath));
     }
 
 }

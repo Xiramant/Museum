@@ -113,7 +113,7 @@ public class PersonalCardPane extends ImagePane {
         if (isEventPermission(event)) {
             PortfolioCasePane pcp = new PortfolioCasePane(fio, imageFiles, textFiles);
 
-            MainView.changeRootPaneBackground(RESOURCES_PATH + "table_4K_portfolio.jpg");
+            MainView.setMainSceneBackground(RESOURCES_PATH + "table_4K_portfolio.jpg");
             MainView.rootPane.getChildren().clear();
             MainView.rootPane.getChildren().addAll(pcp, returnBack(SectionKey.PORTFOLIO), returnHome());
 

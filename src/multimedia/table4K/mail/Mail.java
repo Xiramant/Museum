@@ -52,7 +52,7 @@ public class Mail {
 
     public static void setMailScene() {
 
-        MainView.changeRootPaneBackground(RESOURCES_PATH + "table_4K_mail.jpg");
+        MainView.setMainSceneBackground(RESOURCES_PATH + "table_4K_mail.jpg");
         MainView.rootPane.getChildren().clear();
 
         //лист директорий, в которых содержатся файлы для отображения на основной сцене

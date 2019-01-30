@@ -50,7 +50,7 @@ public class Film {
 
 
     public static void setFilmScene() {
-        MainView.changeRootPaneBackground(RESOURCES_PATH + "table_4K_film_initial.jpg");
+        MainView.setMainSceneBackground(RESOURCES_PATH + "table_4K_film_initial.jpg");
         MainView.rootPane.getChildren().clear();
 
         ArrayList<File> fileDirs = new ArrayList<>(getDirKey(SectionKey.FILM, SectionKey.FILM.getKeyWord()));

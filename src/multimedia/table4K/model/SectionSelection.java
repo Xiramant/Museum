@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import static table4K.controller.IconController.*;
 import static table4K.data.RootPaneBackgroundData.getSectionSelectionBackground;
 import static table4K.view.Icon.*;
-import static table4K.view.MainView.setRootPaneScene;
+import static table4K.view.MainView.setMainScene;
 
 
 //модель окна Выбор раздела
 public class SectionSelection {
 
-    public static void sectionSelectionInitialize() {
+    public static void setSectionSelection() {
 
         Node bookIcon = getBook();
         IconController bookController = getBookIconController(bookIcon);
@@ -50,7 +50,7 @@ public class SectionSelection {
         Image background = getSectionSelectionBackground();
 
 
-        setRootPaneScene(background, graphicElements);
+        setMainScene(background, graphicElements);
     }
 
 }

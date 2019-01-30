@@ -94,7 +94,7 @@ public class Medal {
 
         //установка параметров при выборе подраздела Ордена или Медали
         if (medalType == ORDEN) {
-            MainView.changeRootPaneBackground(RESOURCES_PATH + "table_4K_orden.jpg");
+            MainView.setMainSceneBackground(RESOURCES_PATH + "table_4K_orden.jpg");
             fileDirs = new ArrayList<>(getDirKey(MEDAL_KEY, ORDEN_KEY.getKeyWord()));
             medalSliderNumber = 6;
             selectPane.setPrefWidth(SELECT_MEDAL_WIDTH);
@@ -102,7 +102,7 @@ public class Medal {
             selectPane.setLayoutX(SELECT_MEDAL_X);
             selectPane.setLayoutY(SELECT_MEDAL_Y);
         } else {
-            MainView.changeRootPaneBackground(RESOURCES_PATH + "table_4K_medal.jpg");
+            MainView.setMainSceneBackground(RESOURCES_PATH + "table_4K_medal.jpg");
             fileDirs = new ArrayList<>(getDirKey(MEDAL_KEY));
             medalSliderNumber = 8;
             selectPane.setPrefWidth(SELECT_ORDEN_WIDTH);

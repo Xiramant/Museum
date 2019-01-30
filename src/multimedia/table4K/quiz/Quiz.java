@@ -105,7 +105,7 @@ public class Quiz {
 
     public static void setQuizScene() {
 
-        MainView.changeRootPaneBackground(RESOURCES_PATH + "table_4K_quiz.jpg");
+        MainView.setMainSceneBackground(RESOURCES_PATH + "table_4K_quiz.jpg");
 
         //Текст викторины разбитый по строчкам
         ArrayList<String> quizText = readingFileIntoStringList(new File(RESOURCES_PATH + "quiz/quiz_text.txt"));

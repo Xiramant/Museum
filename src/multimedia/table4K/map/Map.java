@@ -49,7 +49,7 @@ public class Map {
 
     public static void setMapScene() {
 
-        MainView.changeRootPaneBackground(RESOURCES_PATH + "table_4K_map.jpg");
+        MainView.setMainSceneBackground(RESOURCES_PATH + "table_4K_map.jpg");
         MainView.rootPane.getChildren().clear();
 
         //лист директорий, в которых содержатся файлы для отображения на основной сцене

@@ -43,7 +43,7 @@ public class Portfolio {
 
     public static void setPortfolioScene() {
 
-        MainView.changeRootPaneBackground(RESOURCES_PATH + "table_4K_portfolio_initial.jpg");
+        MainView.setMainSceneBackground(RESOURCES_PATH + "table_4K_portfolio_initial.jpg");
         MainView.rootPane.getChildren().clear();
 
         //лист директорий героев Советского Союза,

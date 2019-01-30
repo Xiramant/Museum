@@ -37,7 +37,7 @@ public class BackHome extends Region {
 
     private static void returnHomeAction(final InputEvent event) {
         if (isEventPermission(event)) {
-            SectionSelection.sectionSelectionInitialize();
+            SectionSelection.setSectionSelection();
             eventDelayBegin();
         }
     }
@@ -56,7 +56,7 @@ public class BackHome extends Region {
     private static void returnHomeActionFromFilm(final InputEvent event, final MediaPlayer mediaPlayer) {
         if (isEventPermission(event)) {
             mediaPlayer.stop();
-            SectionSelection.sectionSelectionInitialize();
+            SectionSelection.setSectionSelection();
             eventDelayBegin();
         }
     }
@@ -137,7 +137,7 @@ public class BackHome extends Region {
                 setPortfolioScene();
                 break;
             default:
-                SectionSelection.sectionSelectionInitialize();
+                SectionSelection.setSectionSelection();
                 break;
         }
     }

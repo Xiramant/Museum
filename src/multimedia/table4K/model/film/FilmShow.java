@@ -27,7 +27,7 @@ public class FilmShow {
 
     public static void FilmShowSet(final String filmName, final double filmRatio) {
 
-        MainView.changeRootPaneBackground(RESOURCES_PATH + "film/film_background.jpg");
+        MainView.setMainSceneBackground(RESOURCES_PATH + "film/film_background.jpg");
         MainView.rootPane.getChildren().clear();
 
         Media media = new Media(filmName);
