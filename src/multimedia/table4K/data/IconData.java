@@ -12,11 +12,11 @@ public class IconData {
         return createImage("icon/book_icon.png");
     }
 
-    public static Image getFilmIcon1Image() {
-        return createImage("icon/film1_icon.png");
+    public static Image getVideoIcon1Image() {
+        return createImage("icon/video_icon_1.png");
     }
-    public static Image getFilmIcon2Image() {
-        return createImage("icon/film2_icon.png");
+    public static Image getVideoIcon2Image() {
+        return createImage("icon/video_icon_2.png");
     }
 
     public static Image getMailIconImage() {
