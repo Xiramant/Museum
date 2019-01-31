@@ -1,4 +1,4 @@
-package table4K.model.film;
+package table4K.model.video;
 
 import general.ImagePane;
 import javafx.geometry.VPos;
@@ -18,8 +18,8 @@ import static general.TouchWait.eventDelayBegin;
 import static table4K.Main4K.RESOURCES_PATH;
 import static table4K.view.MainView.DEBUGGING_RATIO;
 import static table4K.controller.ControllerParameters.isEventPermission;
-import static table4K.model.film.Film.obj;
-import static table4K.model.film.FilmShow.FilmShowSet;
+
+
 
 public class FilmInitialImage extends ImagePane {
 
@@ -39,7 +39,7 @@ public class FilmInitialImage extends ImagePane {
 
 
     FilmInitialImage(final File videoFileEnter, final File textFileEnter) {
-        super(new File(RESOURCES_PATH + "film/box_with_name.png"), FILM_BOX_WIDTH, 0);
+        super(new File(RESOURCES_PATH + "video/box_with_name.png"), FILM_BOX_WIDTH, 0);
 
         videoPath = videoFileEnter.toURI().toString();
 
@@ -55,24 +55,22 @@ public class FilmInitialImage extends ImagePane {
 
         this.getChildren().add(filmName);
 
-        Media media = new Media(videoPath);
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setOnReady(() -> {
-            ratio = (double) mediaPlayer.getMedia().getWidth() / (double) mediaPlayer.getMedia().getHeight();
-            synchronized(obj) {
-                obj.notify();
-            }
-        });
+//        Media media = new Media(videoPath);
+//        MediaPlayer mediaPlayer = new MediaPlayer(media);
+//        mediaPlayer.setOnReady(() -> {
+//            ratio = (double) mediaPlayer.getMedia().getWidth() / (double) mediaPlayer.getMedia().getHeight();
+//            synchronized(obj) {
+//                obj.notify();
+//            }
+//        });
 
-
-        this.setOnMouseClicked(event -> filmAction(event));
-
-        this.setOnTouchReleased(event -> filmAction(event));
+        this.setOnMouseClicked(this::filmAction);
+        this.setOnTouchReleased(this::filmAction);
     }
 
     private void filmAction(final InputEvent event) {
         if (isEventPermission(event)) {
-            FilmShowSet(videoPath, ratio);
+//            showVideo(videoPath, ratio);
             eventDelayBegin();
         }
     }

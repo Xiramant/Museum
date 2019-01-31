@@ -3,7 +3,7 @@ package table4K.controller.video;
 import javafx.scene.Node;
 import table4K.controller.IconController;
 
-import static table4K.model.film.VideoList.setVideoScene;
+import static table4K.model.video.VideoList.setVideoScene;
 
 
 public class VideoIconController extends IconController {
