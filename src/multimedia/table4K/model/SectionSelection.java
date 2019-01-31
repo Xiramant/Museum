@@ -16,31 +16,31 @@ public class SectionSelection {
 
     public static void setSectionSelection() {
 
-        Node bookIcon = getBook();
+        Node bookIcon = getBookIcon();
         IconController bookController = getBookIconController(bookIcon);
 
-        Node filmIcon = getFilm();
-        IconController filmController = getFilmIconController(filmIcon);
+        Node videoIcon = getVideoIcon();
+        IconController videoController = getVideoIconController(videoIcon);
 
-        Node mailIcon = getMail();
+        Node mailIcon = getMailIcon();
         IconController mailController = getMailIconController(mailIcon);
 
         Node mapIcon = getMapIcon();
         IconController mapIconController = getMapIconController(mapIcon);
 
-        Node medalIcon = getMedal();
+        Node medalIcon = getMedalIcon();
         IconController medalController = getMedalIconController(medalIcon);
 
-        Node portfolioIcon = getPortfolio();
+        Node portfolioIcon = getPortfolioIcon();
         IconController portfolioController = getPortfolioIconController(portfolioIcon);
 
-        Node quizIcon = getQuiz();
+        Node quizIcon = getQuizIcon();
         IconController quizController = getQuizIconController(quizIcon);
 
 
         ArrayList<Node> graphicElements = new ArrayList<>();
         graphicElements.add(bookIcon);
-        graphicElements.add(filmIcon);
+        graphicElements.add(videoIcon);
         graphicElements.add(mailIcon);
         graphicElements.add(mapIcon);
         graphicElements.add(medalIcon);

@@ -3,7 +3,7 @@ package table4K.controller;
 import javafx.scene.Node;
 import javafx.scene.input.InputEvent;
 import table4K.controller.book.BookIconController;
-import table4K.controller.film.FilmIconController;
+import table4K.controller.video.VideoIconController;
 import table4K.controller.mail.MailIconController;
 import table4K.controller.map.MapIconController;
 import table4K.controller.medal.MedalIconController;
@@ -40,8 +40,8 @@ abstract public class IconController {
         return new BookIconController(iconArg);
     }
 
-    public static IconController getFilmIconController(final Node iconArg) {
-        return new FilmIconController(iconArg);
+    public static IconController getVideoIconController(final Node iconArg) {
+        return new VideoIconController(iconArg);
     }
 
     public static IconController getMailIconController(final Node iconArg) {
