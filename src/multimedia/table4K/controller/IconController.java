@@ -1,7 +1,6 @@
 package table4K.controller;
 
 import javafx.scene.Node;
-import javafx.scene.input.InputEvent;
 import table4K.controller.book.BookIconController;
 import table4K.controller.video.VideoIconController;
 import table4K.controller.mail.MailIconController;
@@ -10,29 +9,15 @@ import table4K.controller.medal.MedalIconController;
 import table4K.controller.portfolio.PortfolioIconController;
 import table4K.controller.quiz.QuizIconController;
 
-import static general.TouchWait.eventDelayBegin;
-import static table4K.controller.ControllerParameters.isEventPermission;
 
 
-
-abstract public class IconController {
-
-    //метод перехода к разделу,
-    // который должен быть переопределен
-    // в подклассах, соответствующих разделам
-    abstract protected void selectSection();
+abstract public class IconController extends Table4KController{
 
     protected IconController(final Node iconArg) {
-        iconArg.setOnMouseClicked(this::selectSectionAfterPermission);
-        iconArg.setOnTouchReleased(this::selectSectionAfterPermission);
+        super(iconArg);
     }
 
-    private void selectSectionAfterPermission(final InputEvent event) {
-        if (isEventPermission(event)) {
-            selectSection();
-            eventDelayBegin();
-        }
-    }
+    abstract protected void selectSection();
 
 
 
