@@ -12,7 +12,7 @@ public class MapIconController extends IconController {
         super(mapIconArg);
     }
 
-    public void selectSection(){
+    public void action(){
         setMapScene();
     }
 

@@ -12,7 +12,7 @@ public class BookIconController extends IconController {
         super(bookIconArg);
     }
 
-    public void selectSection(){
+    public void action(){
         setBookScene();
     }
 

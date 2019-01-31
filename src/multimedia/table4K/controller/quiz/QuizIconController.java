@@ -12,7 +12,7 @@ public class QuizIconController extends IconController {
         super(quizIconArg);
     }
 
-    public void selectSection(){
+    public void action(){
         setQuizScene();
     }
 

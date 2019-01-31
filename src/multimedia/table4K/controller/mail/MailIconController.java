@@ -12,7 +12,7 @@ public class MailIconController extends IconController {
         super(mailIconArg);
     }
 
-    public void selectSection(){
+    public void action(){
         setMailScene();
     }
 

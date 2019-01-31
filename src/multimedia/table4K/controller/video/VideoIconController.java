@@ -12,7 +12,7 @@ public class VideoIconController extends IconController {
         super(videoIconArg);
     }
 
-    public void selectSection(){
+    public void action(){
         setVideoScene();
     }
 

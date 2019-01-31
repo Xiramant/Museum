@@ -17,7 +17,7 @@ abstract public class IconController extends Table4KController{
         super(iconArg);
     }
 
-    abstract protected void selectSection();
+    abstract protected void action();
 
 
 

@@ -13,7 +13,7 @@ abstract public class Table4KController {
     //метод перехода к разделу,
     // который должен быть переопределен
     // в подклассах, соответствующих разделам
-    abstract protected void selectSection();
+    abstract protected void action();
 
     protected Table4KController(final Node nodeArg) {
         nodeArg.setOnMouseClicked(this::actionAfterPermission);
@@ -22,7 +22,7 @@ abstract public class Table4KController {
 
     private void actionAfterPermission(final InputEvent event) {
         if (isEventPermission(event)) {
-            selectSection();
+            action();
             eventDelayBegin();
         }
     }

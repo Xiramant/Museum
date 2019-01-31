@@ -13,7 +13,7 @@ public class MedalIconController extends IconController {
         super(medalIconArg);
     }
 
-    public void selectSection(){
+    public void action(){
         setMedalScene(ORDEN);
     }
 
