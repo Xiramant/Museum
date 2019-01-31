@@ -41,4 +41,8 @@ public class VideoData {
         return createImage(VIDEO_BOX_PATH);
     }
 
+    public static Image getVideoListBackground() {
+        return createImage(RESOURCES_PATH + "table_4K_film_initial.jpg");
+    }
+
 }

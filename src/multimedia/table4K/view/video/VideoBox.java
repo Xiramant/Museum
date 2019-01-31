@@ -9,13 +9,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import table4K.model.Dimension;
 
 import static table4K.data.video.VideoData.getVideoBoxImage;
 import static table4K.view.MainView.DEBUGGING_RATIO;
 
 
 
-public class VideoBox extends Group {
+public class VideoBox extends Group implements Dimension {
 
     private static final Image VIDEO_BOX_ICON = getVideoBoxImage();
     private static final double VIDEO_BOX_WIDTH = 600 / DEBUGGING_RATIO;
@@ -53,5 +54,25 @@ public class VideoBox extends Group {
         out.setX(VIDEO_NAME_X - out.getLayoutBounds().getWidth() / 2);
         out.setY(VIDEO_NAME_Y);
         return out;
+    }
+
+    @Override
+    public double getWidth() {
+        return this.getLayoutBounds().getWidth() * this.getScaleX();
+    }
+
+    @Override
+    public double getHeight() {
+        return this.getLayoutBounds().getHeight() * this.getScaleY();
+    }
+
+    @Override
+    public void setX(final double xArg) {
+        this.setLayoutX(xArg);
+    }
+
+    @Override
+    public void setY(final double yArg) {
+        this.setLayoutY(yArg);
     }
 }
