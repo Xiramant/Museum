@@ -13,34 +13,55 @@ import static table4K.view.MainView.setMainScene;
 import static table4K.view.video.VideoListView.setVideoListLocation;
 
 
+
 public class VideoList {
 
     public static void setVideoScene() {
 
-        ArrayList<VideoContent> videoContents = getVideoContentList();
+        ArrayList<VideoContent> videoContentList = getVideoContentList();
 
-        ArrayList<VideoTape> videos = new ArrayList<>();
-        for (VideoContent content: videoContents) {
-            videos.add(new VideoTape(content));
+        ArrayList<VideoTape> videoList = getVideoTapeList(videoContentList);
+
+        setVideoListControllers(videoList);
+
+        setVideoListLocation(videoList);
+
+        setVideoListScene(videoList);
+
+    }
+
+    private static ArrayList<VideoTape> getVideoTapeList(final ArrayList<VideoContent> videoContentListArg) {
+        ArrayList<VideoTape> outList = new ArrayList<>();
+
+        for (VideoContent content: videoContentListArg) {
+            outList.add(new VideoTape(content));
         }
 
-        for (VideoTape video: videos) {
+        return outList;
+    }
+
+    private static void setVideoListControllers(final ArrayList<VideoTape> videoTapeListArg) {
+        for (VideoTape video: videoTapeListArg) {
             new VideoListController(video);
         }
+    }
 
-        setVideoListLocation(videos);
+    private static void setVideoListScene(final ArrayList<VideoTape> videoTapeListArg) {
+        ArrayList<Node> sceneGraphicElementList = new ArrayList<>();
+        sceneGraphicElementList.add(getVideoListBoxes(videoTapeListArg));
+        sceneGraphicElementList.add(returnHome());
 
-        Group videoBoxes = new Group();
-        for (VideoTape video: videos) {
-            videoBoxes.getChildren().add(video.getBox());
+        setMainScene(getVideoListBackground(), sceneGraphicElementList);
+    }
+
+    private static Node getVideoListBoxes(final ArrayList<VideoTape> videoTapeListArg) {
+        Group outList = new Group();
+        
+        for (VideoTape video: videoTapeListArg) {
+            outList.getChildren().add(video.getBox());
         }
 
-        ArrayList<Node> graphicElements = new ArrayList<>();
-        graphicElements.add(videoBoxes);
-        graphicElements.add(returnHome());
-
-        setMainScene(getVideoListBackground(), graphicElements);
-
+        return outList;
     }
 
 }
