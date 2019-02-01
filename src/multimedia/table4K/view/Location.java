@@ -26,7 +26,7 @@ public class Location {
                 orderElementsArg);
     }
 
-    //Метод первоначального расположения одинаковых панелей в шахматном порядке в заданной области
+    //Метод первоначального расположения одинаковых графических элементов в шахматном порядке в заданной области
     //Если элементов в ряду меньше максимального количества,
     // то они располагаются по центру области с интервалом
     // равным интервалу для максимального количества элементов
@@ -38,7 +38,7 @@ public class Location {
                                             final double areaYEnd,
                                             final OrderElements orderElements) {
 
-        //размеры элемента (панели)
+        //Размеры элемента.
         double elementWidth = elements.get(0).getWidth();
         double elementHeight = elements.get(0).getHeight();
 
@@ -46,7 +46,6 @@ public class Location {
         double areaWidth = areaXEnd - areaXBegin;
         double areaHeight = areaYEnd - areaYBegin;
 
-        //Определение максимального количества элементов в первой строке
         int maxElementsInFirstRow = getMaxElementsInFirstRow(areaWidth, elementWidth, minHorizontalInterval);
 
         //Группа элементов распределенная по рядам
@@ -54,9 +53,9 @@ public class Location {
         //Внешний список - список рядов
         //Внутренний список - элементы в ряду
         ArrayList<ArrayList<Dimension>> groupElements = setOrderArrangementElements(elements,
-                minHorizontalInterval,
-                areaWidth,
-                orderElements);
+                                                                                    minHorizontalInterval,
+                                                                                    areaWidth,
+                                                                                    orderElements);
 
         //интервал между элементами в первой строке
         double firstRowInterval = (groupElements.get(0).size() > 1)?
@@ -94,15 +93,20 @@ public class Location {
 
 
 
-    //Определение максимального количества элементов в первой строке
+    //Для корректного определения максимального количества элементов в первом ряду
+    // к ширине области в числителе необходимо добавить размер минимального горизонтального интервала.
+    // Без этого, например, если у нас задано:
+    // ширина области = 260 пикселей,
+    // 2 объекта по 100 пикселей,
+    // минимальный интервал = 50 пикселей.
+    //При вычислении 260 / (100 + 50) = 1.73,
+    // т.е. в заданной области может поместиться только 1 объект,
+    // хотя это и не так: 100 + 50 + 100 = 250 < 260.
+    //Это получается из-за лишнего интервала в знаменателе для последнего объекта.
+    //Поэтому для корректного вычисления количества объектов
+    // в числителе прибавляется 1 минимальный горизонтальный интервал.
     private static int getMaxElementsInFirstRow(final double areaWidth, final double elementWidth, final double minHorizontalInterval) {
-
-        int maxElementsInFirstRow = (int) (areaWidth / (elementWidth + minHorizontalInterval));
-        maxElementsInFirstRow =
-                (((maxElementsInFirstRow + 1) * elementWidth + elementWidth * minHorizontalInterval) > areaWidth)?
-                        maxElementsInFirstRow: maxElementsInFirstRow + 1;
-
-        return maxElementsInFirstRow;
+        return (int) ((areaWidth + minHorizontalInterval) / (elementWidth + minHorizontalInterval));
     }
 
 
