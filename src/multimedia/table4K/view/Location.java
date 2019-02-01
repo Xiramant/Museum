@@ -1,6 +1,7 @@
 package table4K.view;
 
 import general.OrderElements;
+import table4K.model.Area;
 import table4K.model.Dimension;
 
 import java.util.ArrayList;
@@ -8,20 +9,34 @@ import java.util.List;
 
 import static general.OrderElements.STAGGERED;
 import static general.OrderElements.TABLED;
+import static table4K.view.MainView.TABLE_HEIGHT;
 
 public class Location {
+
+    public static double setElementsLocation(final List<Dimension> elementsArg,
+                                             final double minHorizontalIntervalArg,
+                                             final Area areaRestrictionArg,
+                                             final OrderElements orderElementsArg) {
+        return setElementsLocation(elementsArg,
+                minHorizontalIntervalArg,
+                areaRestrictionArg.getXBegin(),
+                areaRestrictionArg.getXEnd(),
+                areaRestrictionArg.getYBegin(),
+                areaRestrictionArg.getYEnd(),
+                orderElementsArg);
+    }
 
     //Метод первоначального расположения одинаковых панелей в шахматном порядке в заданной области
     //Если элементов в ряду меньше максимального количества,
     // то они располагаются по центру области с интервалом
     // равным интервалу для максимального количества элементов
-    public static void setElementsLocation(final List<Dimension> elements,
-                                                      final double minHorizontalInterval,
-                                                      final double areaXBegin,
-                                                      final double areaYBegin,
-                                                      final double areaXEnd,
-                                                      final double areaYEnd,
-                                                      final OrderElements orderElements) {
+    public static double setElementsLocation(final List<Dimension> elements,
+                                            final double minHorizontalInterval,
+                                            final double areaXBegin,
+                                            final double areaXEnd,
+                                            final double areaYBegin,
+                                            final double areaYEnd,
+                                            final OrderElements orderElements) {
 
         //размеры элемента (панели)
         double elementWidth = elements.get(0).getWidth();
@@ -73,7 +88,11 @@ public class Location {
             //установка вертикальных координат
             setElementsY(groupElements.get(i), topInset);
         }
+
+        return (Math.abs(verticalInterval) < 0.1) ? TABLE_HEIGHT : verticalInterval;
     }
+
+
 
     //Определение максимального количества элементов в первой строке
     private static int getMaxElementsInFirstRow(final double areaWidth, final double elementWidth, final double minHorizontalInterval) {
