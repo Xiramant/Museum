@@ -4,7 +4,7 @@ import javafx.scene.media.Media;
 import table4K.controller.Table4KController;
 import table4K.model.video.VideoTape;
 
-import static table4K.model.video.VideoPlayer.showVideo;
+import static table4K.model.video.VideoPlayer.playVideo;
 
 
 
@@ -23,7 +23,7 @@ public class VideoListController extends Table4KController {
 
     @Override
     protected void action() {
-        showVideo(videoMedia);
+        playVideo(videoMedia);
     }
 
 }
