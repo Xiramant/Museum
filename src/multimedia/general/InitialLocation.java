@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static general.OrderElements.*;
+import static general.GroupingOrder.*;
 
 public class InitialLocation {
 
@@ -22,7 +22,7 @@ public class InitialLocation {
                                                       final double areaYBegin,
                                                       final double areaXEnd,
                                                       final double areaYEnd,
-                                                      final OrderElements orderElements) {
+                                                      final GroupingOrder groupingOrder) {
 
         //размеры элемента (панели)
         double elementWidth = ((Pane)elements.get(0)).getPrefWidth();
@@ -42,7 +42,7 @@ public class InitialLocation {
         ArrayList<ArrayList<Pane>> groupElements = setOrderArrangementElements(elements,
                                                                                minHorizontalInterval,
                                                                                areaWidth,
-                                                                               orderElements);
+                groupingOrder);
 
         //интервал между элементами в первой строке
         double firstRowInterval = (groupElements.get(0).size() > 1)?
@@ -98,7 +98,7 @@ public class InitialLocation {
     private static ArrayList<ArrayList<Pane>> setOrderArrangementElements(final List<Node> elements,
                                                                           final double minHorizontalInterval,
                                                                           final double areaWidth,
-                                                                          final OrderElements orderElements) {
+                                                                          final GroupingOrder groupingOrder) {
 
         //ширина элемента (панели)
         double elementWidth = ((Pane)elements.get(0)).getPrefWidth();
@@ -131,11 +131,11 @@ public class InitialLocation {
         //расположение элементов в groupElements
         for (int i = 0; i < elements.size(); i++) {
 
-            if (orderElements == STAGGERED) {
+            if (groupingOrder == STAGGERED) {
                 maxElementsInRow = (rowNumber % 2 == 0) ? maxElementsInFirstRow : maxElementsInFirstRow - 1;
             }
 
-            if (orderElements == TABLED) {
+            if (groupingOrder == TABLED) {
                 maxElementsInRow = maxElementsInFirstRow;
             }
 

@@ -1,8 +1,8 @@
 package table4K.view.video;
 
 
-import general.OrderElements;
-import table4K.model.Area;
+import general.GroupingOrder;
+import table4K.model.AreaLocation;
 import table4K.model.Dimension;
 import table4K.model.video.VideoTape;
 
@@ -15,43 +15,36 @@ import static table4K.view.MainView.*;
 
 public class VideoListView {
 
+    //отступы от края стола до области размещения элементов
+    private static final double LEFT_PADDING = 1000 / DEBUGGING_RATIO;
+    private static final double TOP_PADDING = 500 / DEBUGGING_RATIO;
+    private static final double RIGHT_PADDING = 250 / DEBUGGING_RATIO;
+    private static final double BOTTOM_PADDING = 250 / DEBUGGING_RATIO;
+
     //минимальные интервалы между элементами
     private static final double HORIZONTAL_SPACING_MIN = 100 / DEBUGGING_RATIO;
     private static final double VERTICAL_SPACING_MIN = 50 / DEBUGGING_RATIO;
 
     //область, в которой располагаются коробки с фильмами
-    private static final Area VIDEO_LIST_AREA_RESTRICTION = new Area(1000 / DEBUGGING_RATIO,
-                                                                                            TABLE_WIDTH - (250 / DEBUGGING_RATIO),
-                                                                                            500 / DEBUGGING_RATIO,
-                                                                                            TABLE_HEIGHT - (250 / DEBUGGING_RATIO));
-
-    private static final double SCALE_FACTOR_INITIAL = 1;
-    private static final double SCALE_FACTOR_DECREASE = 0.9;
+    private static final AreaLocation VIDEO_LIST_AREA_RESTRICTION = new AreaLocation(LEFT_PADDING,
+                                                                                    TOP_PADDING,
+                                                                        TABLE_WIDTH - LEFT_PADDING - RIGHT_PADDING,
+                                                                        TABLE_HEIGHT - TOP_PADDING - BOTTOM_PADDING,
+                                                                                    HORIZONTAL_SPACING_MIN,
+                                                                                    VERTICAL_SPACING_MIN);
 
 
 
     public static void setVideoListLocation(final ArrayList<VideoTape> videosArg) {
 
-        ArrayList<Dimension> videoBoxListDimension = setVideoBoxListDimension(videosArg);
+        ArrayList<Dimension> videoBoxListDimension = getVideoBoxListDimension(videosArg);
 
-        double scaleFactor = SCALE_FACTOR_INITIAL;
-        double verticalInterval;
-
-        do {
-            setVideoBoxScale(videosArg, scaleFactor);
-
-            verticalInterval = setElementsLocation(videoBoxListDimension,
-                                                    HORIZONTAL_SPACING_MIN,
-                                                    VIDEO_LIST_AREA_RESTRICTION,
-                                                    OrderElements.STAGGERED);
-
-            scaleFactor *= SCALE_FACTOR_DECREASE;
-
-        } while (verticalInterval < VERTICAL_SPACING_MIN);
-
+        setElementsLocation(videoBoxListDimension,
+                            VIDEO_LIST_AREA_RESTRICTION,
+                            GroupingOrder.STAGGERED);
     }
 
-    private static ArrayList<Dimension> setVideoBoxListDimension(final ArrayList<VideoTape> videosArg) {
+    private static ArrayList<Dimension> getVideoBoxListDimension(final ArrayList<VideoTape> videosArg) {
         ArrayList<Dimension> out = new ArrayList<>();
 
         for (VideoTape video: videosArg) {
@@ -59,13 +52,6 @@ public class VideoListView {
         }
 
         return out;
-    }
-
-    private static void setVideoBoxScale(final ArrayList<VideoTape> videosArg, final double scaleFactorArg) {
-        for (VideoTape video: videosArg) {
-            video.getBox().setScaleX(scaleFactorArg);
-            video.getBox().setScaleY(scaleFactorArg);
-        }
     }
 
 }

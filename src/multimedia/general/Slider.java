@@ -43,7 +43,7 @@ public class Slider extends Pane{
     // отображаемого в слайдере при пролистывании
     private SliderIndex sliderIndex;
 
-    private ArrayList<Node> sliderElements = new ArrayList<>();
+    private ArrayList<Node> sliderElements;
 
     public Slider(final double sliderWidthEnter,
                   final double sliderHeightEnter,
@@ -67,7 +67,7 @@ public class Slider extends Pane{
         }
 
         //необходимо для получения правильного размера высоты элементов grSliderView
-        // без данной конструкции getLayoutBounds().getHeight() выдаст 0
+        // без данной конструкции getLayoutBounds().getHeightWithScaling() выдаст 0
         grSliderView.layout();
 
         //задание положения элементов на сабсцене

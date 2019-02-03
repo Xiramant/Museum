@@ -57,12 +57,12 @@ public class VideoBox extends Group implements Dimension {
     }
 
     @Override
-    public double getWidth() {
+    public double getWidthWithScaling() {
         return this.getLayoutBounds().getWidth() * this.getScaleX();
     }
 
     @Override
-    public double getHeight() {
+    public double getHeightWithScaling() {
         return this.getLayoutBounds().getHeight() * this.getScaleY();
     }
 
@@ -74,5 +74,11 @@ public class VideoBox extends Group implements Dimension {
     @Override
     public void setY(final double yArg) {
         this.setLayoutY(yArg);
+    }
+
+    @Override
+    public void setScaling(final double scaleArg) {
+        this.setScaleX(scaleArg);
+        this.setScaleY(scaleArg);
     }
 }

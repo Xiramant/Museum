@@ -1,7 +1,7 @@
 package table4K.portfolio;
 
 import general.FileFormat;
-import general.OrderElements;
+import general.GroupingOrder;
 import general.SectionKey;
 import table4K.view.MainView;
 
@@ -65,7 +65,7 @@ public class Portfolio {
                 PORTFOLIO_PCP_AREA_Y_BEGIN,
                 PORTFOLIO_PCP_AREA_X_END,
                 PORTFOLIO_PCP_AREA_Y_END,
-                OrderElements.TABLED);
+                GroupingOrder.TABLED);
 
         MainView.rootPane.getChildren().add(returnHome());
     }

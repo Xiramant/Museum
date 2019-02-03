@@ -1,7 +1,7 @@
 package table4K.map;
 
 import general.FileFormat;
-import general.OrderElements;
+import general.GroupingOrder;
 import general.SectionKey;
 import table4K.view.MainView;
 
@@ -60,8 +60,8 @@ public class Map {
 
         //Список названий сражений
         ArrayList<String> operationNameList = new ArrayList<>();
-        for (int i = 0; i < mapTextFiles.size(); i++) {
-            operationNameList.add(readingFirstStokeFromFile(mapTextFiles.get(i).get(0)));
+        for (ArrayList<File> mapTextFile : mapTextFiles) {
+            operationNameList.add(readingFirstStokeFromFile(mapTextFile.get(0)));
         }
 
         //Инициализация первоначального состояния раздела Карты
@@ -77,7 +77,7 @@ public class Map {
                 MAP_INITIAL_AREA_Y_BEGIN,
                 MAP_INITIAL_AREA_X_END,
                 MAP_INITIAL_AREA_Y_END,
-                OrderElements.STAGGERED);
+                GroupingOrder.STAGGERED);
 
         MainView.rootPane.getChildren().add(returnHome());
     }

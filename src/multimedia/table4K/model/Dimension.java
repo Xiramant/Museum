@@ -4,12 +4,14 @@ package table4K.model;
 
 public interface Dimension {
 
-    double getWidth();
+    double getWidthWithScaling();
 
-    double getHeight();
+    double getHeightWithScaling();
 
     void setX(final double xArg);
 
     void setY(final double yArg);
+
+    void setScaling(final double scaleArg);
 
 }

@@ -1,6 +1,6 @@
 package general;
 
-public enum OrderElements {
+public enum GroupingOrder {
 
     STAGGERED, TABLED
 }
