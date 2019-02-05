@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.media.MediaView;
 
 import java.util.ArrayList;
@@ -67,6 +68,17 @@ public class VideoPlayerView {
         out.setLayoutX(PLAYER_X);
         out.setLayoutY(TABLE_HEIGHT / 2 - getVideoViewHeight() / 2);
         out.getChildren().addAll(getMediaView(), getVignette());
+
+        out.setOnMouseClicked(event -> {
+            Status status = mediaPlayer.getStatus();
+            if (status == Status.PAUSED
+                || status == Status.STOPPED) {
+                mediaPlayer.play();
+            }
+            if (status == Status.PLAYING) {
+                mediaPlayer.pause();
+            }
+        });
 
         return out;
     }

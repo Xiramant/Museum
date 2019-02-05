@@ -17,9 +17,9 @@ public class Book {
     public static void setBookScene() {
         ImageViewIteration book = new ImageViewIteration(getBookPages());
 
-        setBookView(book.getImagePresentation());
+        setBookView(book.getImageRepresentation());
 
-        setBookIntoRootPaneScene(book.getImagePresentation());
+        setBookIntoRootPaneScene(book.getImageRepresentation());
     }
 
     private static void setBookIntoRootPaneScene(final Node bookPagesArg) {

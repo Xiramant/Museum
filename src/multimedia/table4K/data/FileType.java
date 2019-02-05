@@ -6,7 +6,7 @@ import java.util.List;
 
 public enum FileType {
 
-    IMAGE (".bmp", ".gif", ".jpeg", ".jpg", "png"),
+    IMAGE (".bmp", ".gif", ".jpeg", ".jpg", ".png"),
     TEXT (".text"),
     VIDEO(".mp4", ".flv", ".fxm");
 
