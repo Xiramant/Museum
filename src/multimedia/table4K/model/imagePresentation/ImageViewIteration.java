@@ -19,9 +19,9 @@ public class ImageViewIteration extends ImageIteration<ImageView> {
     @Override
     protected void setNextImage() {
 
-        Dimension2D oldDimensions = new Dimension2D(this.getImagePresentation().getLayoutBounds().getWidth(),
-                                                this.getImagePresentation().getLayoutBounds().getHeight());
-        this.getImagePresentation().setImage(this.getImagesIterator().next());
+        Dimension2D oldDimensions = new Dimension2D(this.getImageRepresentation().getLayoutBounds().getWidth(),
+                                                this.getImageRepresentation().getLayoutBounds().getHeight());
+        this.getImageRepresentation().setImage(this.getImagesIterator().next());
         saveCenterLocation(oldDimensions);
     }
 
@@ -29,15 +29,15 @@ public class ImageViewIteration extends ImageIteration<ImageView> {
         assert (oldDimensionsArg != null);
 
         double xChange = getDimensionChange(oldDimensionsArg.getWidth(),
-                                            this.getImagePresentation().getLayoutBounds().getWidth());
+                                            this.getImageRepresentation().getLayoutBounds().getWidth());
 
         double yChange = getDimensionChange(oldDimensionsArg.getHeight(),
-                                            this.getImagePresentation().getLayoutBounds().getHeight());
+                                            this.getImageRepresentation().getLayoutBounds().getHeight());
 
         if (dimensionsNotChange(xChange, yChange)) return;
 
-        this.getImagePresentation().setLayoutX(this.getImagePresentation().getLayoutX() + xChange);
-        this.getImagePresentation().setLayoutY(this.getImagePresentation().getLayoutY() + yChange);
+        this.getImageRepresentation().setLayoutX(this.getImageRepresentation().getLayoutX() + xChange);
+        this.getImageRepresentation().setLayoutY(this.getImageRepresentation().getLayoutY() + yChange);
     }
 
     private double getDimensionChange(final double oldDimensionArg,
