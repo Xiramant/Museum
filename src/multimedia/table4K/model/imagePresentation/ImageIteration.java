@@ -24,7 +24,7 @@ abstract public class ImageIteration<E extends Node> {
 
     private Iterator<Image> _imagesIterator;
 
-    private E _imagePresentation;
+    private E _imageRepresentation;
 
 
 
@@ -32,8 +32,8 @@ abstract public class ImageIteration<E extends Node> {
         return _imagesIterator;
     }
 
-    public E getImagePresentation() {
-        return _imagePresentation;
+    public E getImageRepresentation() {
+        return _imageRepresentation;
     }
 
 
@@ -43,7 +43,7 @@ abstract public class ImageIteration<E extends Node> {
 
         this._images = imagesArg;
         this._imagesIterator = _images.listIterator();
-        _imagePresentation = imagePresentationArg;
+        _imageRepresentation = imagePresentationArg;
         setNextImage();
 
         setEvent();
@@ -57,14 +57,14 @@ abstract public class ImageIteration<E extends Node> {
     }
 
     private void setMouseEvent() {
-        _imagePresentation.setOnMouseReleased(this :: clickAction);
+        _imageRepresentation.setOnMouseReleased(this :: clickAction);
     }
 
     private void setTouchEvent() {
-        _imagePresentation.setOnTouchReleased(this :: clickAction);
+        _imageRepresentation.setOnTouchReleased(this :: clickAction);
     }
 
-    private void clickAction(final InputEvent eventArg) {
+    protected void clickAction(final InputEvent eventArg) {
         assert (_images.size() != 0);
 
         if (_images.size() == 1) return;
