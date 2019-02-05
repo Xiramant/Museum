@@ -14,10 +14,6 @@ public class Restriction {
 
 
 
-    public static double getNotDetermined() {
-        return NOT_DETERMINED;
-    }
-
     double getXBegin() {
         return xBegin;
     }
