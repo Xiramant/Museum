@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class ImageViewIterationWithMove extends ImageIterationWithMove<ImageView> {
 
-    public ImageViewIterationWithMove(final ArrayList<Image> imagesArg) {
-        super(new ImageViewIteration(imagesArg));
+    public ImageViewIterationWithMove(final ArrayList<Image> imagesArg, final Restriction restrictionAreaArg) {
+        super(new ImageViewIteration(imagesArg), restrictionAreaArg);
     }
 
 }
