@@ -7,6 +7,7 @@ import javafx.scene.input.TouchEvent;
 
 import static general.TouchWait.eventDelayBegin;
 import static table4K.controller.ControllerParameters.isEventPermission;
+import static table4K.model.imagePresentation.Restriction.determined;
 
 abstract public class ImageIterationWithMove<E extends Node> {
 
@@ -181,44 +182,48 @@ abstract public class ImageIterationWithMove<E extends Node> {
 
     private void movedToRestrictionArea() {
 
-//        if (determined(RESTRICTION_AREA.getLeft()) && leftBorderBeyond()) {
-//            imageIteration.getImageRepresentation().setLayoutX(RESTRICTION_AREA.getLeft());
-//        }
-//
-//        if (determined(RESTRICTION_AREA.getTop()) && topBorderBeyond()) {
-//            imageIteration.getImageRepresentation().setLayoutY(RESTRICTION_AREA.getTop());
-//        }
-//
-//        if (determined(RESTRICTION_AREA.getRight()) && rightBorderBeyond()) {
-//            imageIteration.getImageRepresentation().setLayoutX(RESTRICTION_AREA.getRight()
-//                                                            - imageIteration.getImageRepresentation().getLayoutBounds().getWidth());
-//        }
-//
-//        if (determined(RESTRICTION_AREA.getBottom()) && bottomBorderBeyond()) {
-//            imageIteration.getImageRepresentation().setLayoutY(RESTRICTION_AREA.getBottom()
-//                                                            - imageIteration.getImageRepresentation().getLayoutBounds().getHeight());
-//        }
+        if (RESTRICTION_AREA == null) {
+            return;
+        }
+
+        if (determined(RESTRICTION_AREA.getXBegin()) && leftBorderBeyond()) {
+            imageIteration.getImageRepresentation().setLayoutX(RESTRICTION_AREA.getXBegin());
+        }
+
+        if (determined(RESTRICTION_AREA.getYBegin()) && topBorderBeyond()) {
+            imageIteration.getImageRepresentation().setLayoutY(RESTRICTION_AREA.getYBegin());
+        }
+
+        if (determined(RESTRICTION_AREA.getXEnd()) && rightBorderBeyond()) {
+            imageIteration.getImageRepresentation().setLayoutX(RESTRICTION_AREA.getXEnd()
+                                                                - imageIteration.getImageRepresentation().getLayoutBounds().getWidth());
+        }
+
+        if (determined(RESTRICTION_AREA.getYEnd()) && bottomBorderBeyond()) {
+            imageIteration.getImageRepresentation().setLayoutY(RESTRICTION_AREA.getYEnd()
+                                                                - imageIteration.getImageRepresentation().getLayoutBounds().getHeight());
+        }
 
     }
 
     private boolean leftBorderBeyond() {
-        return  imageIteration.getImageRepresentation().getLayoutX() < RESTRICTION_AREA.getLeft();
+        return  imageIteration.getImageRepresentation().getLayoutX() < RESTRICTION_AREA.getXBegin();
     }
 
     private boolean topBorderBeyond() {
-        return  imageIteration.getImageRepresentation().getLayoutY() < RESTRICTION_AREA.getTop();
+        return  imageIteration.getImageRepresentation().getLayoutY() < RESTRICTION_AREA.getYBegin();
     }
 
     private boolean rightBorderBeyond() {
         return  imageIteration.getImageRepresentation().getLayoutX()
                 + imageIteration.getImageRepresentation().getLayoutBounds().getWidth()
-                < RESTRICTION_AREA.getRight();
+                > RESTRICTION_AREA.getXEnd();
     }
 
     private boolean bottomBorderBeyond() {
         return  imageIteration.getImageRepresentation().getLayoutY()
                 + imageIteration.getImageRepresentation().getLayoutBounds().getHeight()
-                < RESTRICTION_AREA.getBottom();
+                > RESTRICTION_AREA.getYEnd();
     }
 
 }
