@@ -2,6 +2,8 @@ package table4K.view.video;
 
 
 import general.GroupingOrder;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import table4K.model.AreaLocation;
 import table4K.model.Dimension;
 import table4K.model.video.VideoTape;
@@ -9,6 +11,8 @@ import table4K.model.video.VideoTape;
 
 import java.util.ArrayList;
 
+import static table4K.BackHome.returnHome;
+import static table4K.data.video.VideoData.getVideoListBackground;
 import static table4K.view.Location.setElementsLocation;
 import static table4K.view.MainView.*;
 
@@ -35,13 +39,17 @@ public class VideoListView {
 
 
 
-    public static void setVideoListLocation(final ArrayList<VideoTape> videosArg) {
+    public static void setVideoListView(final ArrayList<VideoTape> videosArg) {
+        setVideoBoxLocation(videosArg);
+        setVideoListScene(videosArg);
+    }
 
+    private static void setVideoBoxLocation(final ArrayList<VideoTape> videosArg) {
         ArrayList<Dimension> videoBoxListDimension = getVideoBoxListDimension(videosArg);
 
         setElementsLocation(videoBoxListDimension,
-                            VIDEO_LIST_AREA_RESTRICTION,
-                            GroupingOrder.STAGGERED);
+                VIDEO_LIST_AREA_RESTRICTION,
+                GroupingOrder.STAGGERED);
     }
 
     private static ArrayList<Dimension> getVideoBoxListDimension(final ArrayList<VideoTape> videosArg) {
@@ -54,4 +62,21 @@ public class VideoListView {
         return out;
     }
 
+    private static void setVideoListScene(final ArrayList<VideoTape> videoTapeListArg) {
+        ArrayList<Node> sceneGraphicElementList = new ArrayList<>();
+        sceneGraphicElementList.add(getVideoListBoxes(videoTapeListArg));
+        sceneGraphicElementList.add(returnHome());
+
+        setMainScene(getVideoListBackground(), sceneGraphicElementList);
+    }
+
+    private static Node getVideoListBoxes(final ArrayList<VideoTape> videoTapeListArg) {
+        Group outList = new Group();
+
+        for (VideoTape video: videoTapeListArg) {
+            outList.getChildren().add(video.getBox());
+        }
+
+        return outList;
+    }
 }

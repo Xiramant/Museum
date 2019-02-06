@@ -1,16 +1,11 @@
 package table4K.model.video;
 
-import javafx.scene.Group;
-import javafx.scene.Node;
 import table4K.controller.video.VideoListController;
 
 import java.util.ArrayList;
 
-import static table4K.BackHome.returnHome;
 import static table4K.data.video.VideoData.getVideoContentList;
-import static table4K.data.video.VideoData.getVideoListBackground;
-import static table4K.view.MainView.setMainScene;
-import static table4K.view.video.VideoListView.setVideoListLocation;
+import static table4K.view.video.VideoListView.setVideoListView;
 
 
 
@@ -24,10 +19,7 @@ public class VideoList {
 
         setVideoListControllers(videoList);
 
-        setVideoListLocation(videoList);
-
-        setVideoListScene(videoList);
-
+        setVideoListView(videoList);
     }
 
     private static ArrayList<VideoTape> getVideoTapeList(final ArrayList<VideoContent> videoContentListArg) {
@@ -44,24 +36,6 @@ public class VideoList {
         for (VideoTape video: videoTapeListArg) {
             new VideoListController(video);
         }
-    }
-
-    private static void setVideoListScene(final ArrayList<VideoTape> videoTapeListArg) {
-        ArrayList<Node> sceneGraphicElementList = new ArrayList<>();
-        sceneGraphicElementList.add(getVideoListBoxes(videoTapeListArg));
-        sceneGraphicElementList.add(returnHome());
-
-        setMainScene(getVideoListBackground(), sceneGraphicElementList);
-    }
-
-    private static Node getVideoListBoxes(final ArrayList<VideoTape> videoTapeListArg) {
-        Group outList = new Group();
-        
-        for (VideoTape video: videoTapeListArg) {
-            outList.getChildren().add(video.getBox());
-        }
-
-        return outList;
     }
 
 }
