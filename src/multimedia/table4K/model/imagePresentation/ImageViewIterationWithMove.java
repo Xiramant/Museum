@@ -1,14 +1,30 @@
 package table4K.model.imagePresentation;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.util.ArrayList;
+
 
 public class ImageViewIterationWithMove extends ImageIterationWithMove<ImageView> {
 
-    public ImageViewIterationWithMove(final ArrayList<Image> imagesArg, final Restriction restrictionAreaArg) {
-        super(new ImageViewIteration(imagesArg), restrictionAreaArg);
+    public static class Builder extends ImageIterationWithMove.Builder<ImageView, Builder> {
+
+        public Builder(final ImageIteration<ImageView> imageIterationArg) {
+            super(imageIterationArg);
+        }
+
+        @Override
+        public ImageViewIterationWithMove build() {
+            return new ImageViewIterationWithMove(this);
+        }
+
+        @Override
+        protected Builder self() {
+            return this;
+        }
+    }
+
+    public ImageViewIterationWithMove(final Builder builderArg) {
+        super(builderArg);
     }
 
 }

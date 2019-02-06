@@ -9,19 +9,21 @@ import static general.TouchWait.eventDelayBegin;
 import static table4K.controller.ControllerParameters.isEventPermission;
 import static table4K.model.imagePresentation.Restriction.determined;
 
-abstract public class ImageIterationWithMove<E extends Node> {
+public abstract class ImageIterationWithMove<E extends Node> {
 
+    //константы
     private static final double MIN_MOVED_DISTANCE = 10d;
 
-    private final Restriction RESTRICTION_AREA;
+    //обязательные поля
+    private final ImageIteration<E> imageIteration;
 
-    private ImageIteration<E> imageIteration;
+    //необязательные поля
+    private final Restriction restrictionArea;
+    private final String styleDefault;
+    private final String styleMove;
 
+    //вспомогательные поля
     private Relocation relocation = new Relocation();
-
-    private String styleDefault = "";
-
-    private String styleMove = "";
 
 
 
@@ -31,15 +33,48 @@ abstract public class ImageIterationWithMove<E extends Node> {
 
 
 
-    protected ImageIterationWithMove(final ImageIteration<E> imageIterationArg,
-                                     final Restriction restrictionAreaArg) {
-        imageIteration = imageIterationArg;
-        RESTRICTION_AREA = restrictionAreaArg;
-        setEvent();
+    abstract static class Builder<E extends Node, T extends Builder<E, T>> {
+        //обязательные поля
+        private ImageIteration<E> imageIteration;
+
+        //необязательные поля
+        private Restriction restrictionArea = null;
+        private String styleDefault = "";
+        private String styleMove = "";
+
+
+
+        public Builder(final ImageIteration<E> imageIterationArg) {
+            imageIteration = imageIterationArg;
+        }
+
+        public T restrictionArea(final Restriction val) {
+            restrictionArea = val;
+            return self();
+        }
+
+        public T styleDefault(final String val) {
+            styleDefault = val;
+            return self();
+        }
+
+        public T styleMove(final String val) {
+            styleMove = val;
+            return self();
+        }
+
+        abstract ImageIterationWithMove build();
+
+        abstract protected T self();
     }
 
-    protected ImageIterationWithMove(final ImageIteration<E> imageIterationArg) {
-        this(imageIterationArg, null);
+    ImageIterationWithMove(final Builder builderArg) {
+        imageIteration = builderArg.imageIteration;
+        restrictionArea = builderArg.restrictionArea;
+        styleDefault = builderArg.styleDefault;
+        styleMove = builderArg.styleMove;
+
+        setEvent();
     }
 
 
@@ -182,48 +217,48 @@ abstract public class ImageIterationWithMove<E extends Node> {
 
     private void movedToRestrictionArea() {
 
-        if (RESTRICTION_AREA == null) {
+        if (restrictionArea == null) {
             return;
         }
 
-        if (determined(RESTRICTION_AREA.getXBegin()) && leftBorderBeyond()) {
-            imageIteration.getImageRepresentation().setLayoutX(RESTRICTION_AREA.getXBegin());
+        if (determined(restrictionArea.getXBegin()) && leftBorderBeyond()) {
+            imageIteration.getImageRepresentation().setLayoutX(restrictionArea.getXBegin());
         }
 
-        if (determined(RESTRICTION_AREA.getYBegin()) && topBorderBeyond()) {
-            imageIteration.getImageRepresentation().setLayoutY(RESTRICTION_AREA.getYBegin());
+        if (determined(restrictionArea.getYBegin()) && topBorderBeyond()) {
+            imageIteration.getImageRepresentation().setLayoutY(restrictionArea.getYBegin());
         }
 
-        if (determined(RESTRICTION_AREA.getXEnd()) && rightBorderBeyond()) {
-            imageIteration.getImageRepresentation().setLayoutX(RESTRICTION_AREA.getXEnd()
+        if (determined(restrictionArea.getXEnd()) && rightBorderBeyond()) {
+            imageIteration.getImageRepresentation().setLayoutX(restrictionArea.getXEnd()
                                                                 - imageIteration.getImageRepresentation().getLayoutBounds().getWidth());
         }
 
-        if (determined(RESTRICTION_AREA.getYEnd()) && bottomBorderBeyond()) {
-            imageIteration.getImageRepresentation().setLayoutY(RESTRICTION_AREA.getYEnd()
+        if (determined(restrictionArea.getYEnd()) && bottomBorderBeyond()) {
+            imageIteration.getImageRepresentation().setLayoutY(restrictionArea.getYEnd()
                                                                 - imageIteration.getImageRepresentation().getLayoutBounds().getHeight());
         }
 
     }
 
     private boolean leftBorderBeyond() {
-        return  imageIteration.getImageRepresentation().getLayoutX() < RESTRICTION_AREA.getXBegin();
+        return  imageIteration.getImageRepresentation().getLayoutX() < restrictionArea.getXBegin();
     }
 
     private boolean topBorderBeyond() {
-        return  imageIteration.getImageRepresentation().getLayoutY() < RESTRICTION_AREA.getYBegin();
+        return  imageIteration.getImageRepresentation().getLayoutY() < restrictionArea.getYBegin();
     }
 
     private boolean rightBorderBeyond() {
         return  imageIteration.getImageRepresentation().getLayoutX()
                 + imageIteration.getImageRepresentation().getLayoutBounds().getWidth()
-                > RESTRICTION_AREA.getXEnd();
+                > restrictionArea.getXEnd();
     }
 
     private boolean bottomBorderBeyond() {
         return  imageIteration.getImageRepresentation().getLayoutY()
                 + imageIteration.getImageRepresentation().getLayoutBounds().getHeight()
-                > RESTRICTION_AREA.getYEnd();
+                > restrictionArea.getYEnd();
     }
 
 }
