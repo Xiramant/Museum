@@ -23,7 +23,7 @@ public class ImageViewIterationWithMove extends ImageIterationWithMove<ImageView
         }
     }
 
-    public ImageViewIterationWithMove(final Builder builderArg) {
+    private ImageViewIterationWithMove(final Builder builderArg) {
         super(builderArg);
     }
 

@@ -44,7 +44,7 @@ public abstract class ImageIterationWithMove<E extends Node> {
 
 
 
-        public Builder(final ImageIteration<E> imageIterationArg) {
+        Builder(final ImageIteration<E> imageIterationArg) {
             imageIteration = imageIterationArg;
         }
 
@@ -68,12 +68,13 @@ public abstract class ImageIterationWithMove<E extends Node> {
         abstract protected T self();
     }
 
-    ImageIterationWithMove(final Builder builderArg) {
+    ImageIterationWithMove(final Builder<E, ?> builderArg) {
         imageIteration = builderArg.imageIteration;
         restrictionArea = builderArg.restrictionArea;
         styleDefault = builderArg.styleDefault;
         styleMove = builderArg.styleMove;
 
+        this.imageIteration.getImageRepresentation().setStyle(styleDefault);
         setEvent();
     }
 
