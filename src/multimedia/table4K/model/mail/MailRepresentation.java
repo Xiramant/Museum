@@ -1,49 +1,26 @@
 package table4K.model.mail;
 
 import javafx.scene.image.Image;
-import table4K.model.imagePresentation.ImageViewIteration;
-import table4K.model.imagePresentation.ImageViewIterationWithMove;
-import table4K.model.imagePresentation.Restriction;
-
 import java.util.ArrayList;
 
-import static table4K.view.MainView.*;
+import table4K.model.imagePresentation.ImageViewIteration;
+import table4K.model.imagePresentation.ImageViewIterationWithMove;
+
+import static table4K.view.mail.MailRepresentationView.*;
 
 
-public class MailRepresentation extends ImageViewIterationWithMove {
+public class MailRepresentation {
 
-    private static final double MAIL_WIDTH_MAX = 600 / DEBUGGING_RATIO;
+    public static ImageViewIterationWithMove getMail(final ArrayList<Image> imageFilesEnterArg) {
+        ImageViewIterationWithMove mail = new ImageViewIterationWithMove.Builder(new ImageViewIteration(imageFilesEnterArg))
+                                                                        .restrictionArea(getMailRestriction())
+                                                                        .styleDefault(getMailShadowDefault())
+                                                                        .styleMove(getMailShadowMove())
+                                                                        .build();
 
-    //ограничения на расположение писем
-    private static final double MAIL_RESTRICTION_X_BEGIN = 900 / DEBUGGING_RATIO;
-    private static final double MAIL_RESTRICTION_Y_BEGIN = 370 / DEBUGGING_RATIO;
-    //DEBUGGING_RATIO для MAIL_RESTRICTION_X_END и MAIL_RESTRICTION_Y_END не используется, т.к.
-    // TABLE_WIDTH и TABLE_HEIGHT уже определены с помощью DEBUGGING_RATIO
-    private static final double MAIL_RESTRICTION_X_END = TABLE_WIDTH;
-    private static final double MAIL_RESTRICTION_Y_END = TABLE_HEIGHT;
+        setMailView(mail.getImageIteration().getImageRepresentation());
 
-
-    public MailRepresentation(final ArrayList<Image> imageFilesEnter) {
-        super(new ImageViewIterationWithMove.Builder(new ImageViewIteration(imageFilesEnter)));
-
-//        ImageViewIterationWithMove q = new ImageViewIterationWithMove.Builder(new ImageViewIteration(imageFilesEnter))
-//                .restrictionArea(getMailRestriction())
-//                .styleDefault("")
-//                .styleMove("")
-//                .build();
-
-
-        this.getImageIteration().getImageRepresentation().setFitWidth(MAIL_WIDTH_MAX);
-        this.getImageIteration().getImageRepresentation().setPreserveRatio(true);
-    }
-
-    private static Restriction getMailRestriction() {
-        return new Restriction.Builder()
-                                        .xBegin(MAIL_RESTRICTION_X_BEGIN)
-                                        .yBegin(MAIL_RESTRICTION_Y_BEGIN)
-                                        .xEnd(MAIL_RESTRICTION_X_END)
-                                        .yEnd(MAIL_RESTRICTION_Y_END)
-                                        .build();
+        return mail;
     }
 
 }
