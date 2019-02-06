@@ -1,6 +1,7 @@
 package table4K.model.mail;
 
 import javafx.scene.image.Image;
+import table4K.model.imagePresentation.ImageViewIteration;
 import table4K.model.imagePresentation.ImageViewIterationWithMove;
 import table4K.model.imagePresentation.Restriction;
 
@@ -23,7 +24,14 @@ public class MailRepresentation extends ImageViewIterationWithMove {
 
 
     public MailRepresentation(final ArrayList<Image> imageFilesEnter) {
-        super(imageFilesEnter, getMailRestriction());
+        super(new ImageViewIterationWithMove.Builder(new ImageViewIteration(imageFilesEnter)));
+
+//        ImageViewIterationWithMove q = new ImageViewIterationWithMove.Builder(new ImageViewIteration(imageFilesEnter))
+//                .restrictionArea(getMailRestriction())
+//                .styleDefault("")
+//                .styleMove("")
+//                .build();
+
 
         this.getImageIteration().getImageRepresentation().setFitWidth(MAIL_WIDTH_MAX);
         this.getImageIteration().getImageRepresentation().setPreserveRatio(true);
