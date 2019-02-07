@@ -1,12 +1,15 @@
 package table4K.view;
 
 import general.GroupingOrder;
+import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import table4K.model.AreaLocation;
 import table4K.model.Dimension;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
 import static general.GroupingOrder.STAGGERED;
 import static general.GroupingOrder.TABLED;
@@ -386,4 +389,21 @@ public class Location {
             element.setY( y );
         }
     }
+
+
+
+    public static <T extends Node> void setRandomLocationInArea(final Collection<T> elementsArg,
+                                                                final Rectangle areaArg) {
+
+        for (T element : elementsArg) {
+            element.setLayoutX(randomInInterval(areaArg.getX(), areaArg.getWidth()));
+            element.setLayoutY(randomInInterval(areaArg.getY(), areaArg.getHeight()));
+        }
+    }
+
+    private static double randomInInterval(final double beginCoordinateArg, final double spacingArg) {
+        int randomInSpacing = new Random().nextInt((int)spacingArg);
+        return beginCoordinateArg + randomInSpacing;
+    }
+
 }
