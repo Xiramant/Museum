@@ -1,20 +1,15 @@
 package table4K.model.mail;
 
 
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import table4K.model.imagePresentation.ImageViewIterationWithMove;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import static table4K.BackHome.returnHome;
-import static table4K.Main4K.RESOURCES_PATH;
-import static table4K.data.RootPaneBackgroundData.getBookBackground;
-import static table4K.data.mail.MailData.getMailList;
+import static table4K.data.mail.MailData.getMailImagesList;
 import static table4K.model.mail.MailRepresentation.getMail;
-import static table4K.view.MainView.setMainScene;
+import static table4K.view.mail.MailListView.setMailListView;
 
 public class MailList {
 
@@ -22,29 +17,20 @@ public class MailList {
 
         //Внешний ArrayList - отдельное письмо,
         // внутренний ArrayList - страницы письма
-        ArrayList<ArrayList<Image>> mailImagesList = getMailList();
+        ArrayList<ArrayList<Image>> mailImagesList = getMailImagesList();
 
-        ArrayList<ImageViewIterationWithMove> mailList = new ArrayList<>();
-        for (ArrayList<Image> mailPages : mailImagesList) {
-            mailList.add(getMail(mailPages));
-        }
+        ArrayList<ImageViewIterationWithMove> mailList = getMailList(mailImagesList);
 
-        ArrayList<Node> mailRepresentationList = new ArrayList<>();
-        for (ImageViewIterationWithMove mail : mailList) {
-            mailRepresentationList.add(mail.getImageIteration().getImageRepresentation());
-        }
+        setMailListView(mailList);
 
-        for (Node mailGraphic : mailRepresentationList) {
-            mailGraphic.setLayoutX(500);
-            mailGraphic.setLayoutY(500);
-        }
-
-        Group mailRepresentationGroup = new Group(mailRepresentationList);
-
-        ArrayList<Node> graphicElements = new ArrayList<>();
-        graphicElements.add(mailRepresentationGroup);
-        graphicElements.add(returnHome());
-
-        setMainScene(new Image((new File(RESOURCES_PATH + "table_4K_mail.jpg")).toURI().toString()), graphicElements);
     }
+
+    private static ArrayList<ImageViewIterationWithMove> getMailList(final ArrayList<ArrayList<Image>> mailImagesListArg) {
+        ArrayList<ImageViewIterationWithMove> out = new ArrayList<>();
+        for (ArrayList<Image> mailPages : mailImagesListArg) {
+            out.add(getMail(mailPages));
+        }
+        return out;
+    }
+
 }

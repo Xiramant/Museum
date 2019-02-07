@@ -17,7 +17,7 @@ public class ImageViewIteration extends ImageIteration<ImageView> {
 
 
     @Override
-    protected void setNextImage() {
+    public void setNextImage() {
 
         Dimension2D oldDimensions = new Dimension2D(this.getImageRepresentation().getLayoutBounds().getWidth(),
                                                 this.getImageRepresentation().getLayoutBounds().getHeight());

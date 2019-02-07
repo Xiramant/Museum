@@ -83,6 +83,6 @@ abstract public class ImageIteration<E extends Node> {
         setNextImage();
     }
 
-    abstract protected void setNextImage();
+    abstract public void setNextImage();
 
 }

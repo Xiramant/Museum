@@ -19,7 +19,7 @@ public class MailData {
 
 
 
-    public static ArrayList<ArrayList<Image>> getMailList() {
+    public static ArrayList<ArrayList<Image>> getMailImagesList() {
         File[] mailDirList = getFilesWithCertainName(new File(MAIL_PATH), DIR_KEY_WORD);
         ArrayList<ArrayList<Image>> out = new ArrayList<>();
 
@@ -27,5 +27,9 @@ public class MailData {
             out.add(new ArrayList<>(getImages(mailDir)));
         }
         return out;
+    }
+
+    public static Image getMailListBackground() {
+        return createImage(RESOURCES_PATH + "table_4K_mail.jpg");
     }
 }
